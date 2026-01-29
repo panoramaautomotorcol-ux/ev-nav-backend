@@ -1,0 +1,2983 @@
+[
+  {
+    "id": "ocm:462174",
+    "name": "EDS La Glorieta No 2 - ERCO",
+    "address": "Carrera 24 A # 1BN - 04, EDS La Glorieta No 2, Buga, Valle",
+    "lat": 3.8949639742142095,
+    "lon": -76.31192809466732,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-10-18T18:44:00Z",
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 30,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 30,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 40,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:462173",
+    "name": "EDS Cootracaime - ERCO",
+    "address": "Cra. 7 #14 - 02, EDS Cootracaime, Cajamarca, Tolima",
+    "lat": 4.440320439119487,
+    "lon": -75.4314694668394,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-10-18T18:39:00Z",
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 30,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 30,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 40,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:462172",
+    "name": "ERCO - Outlet de Moda",
+    "address": "Cl. 16 #55-129, CC Outlet de Moda - Piso 4, Medellin, Antioquia",
+    "lat": 6.21940442514798,
+    "lon": -75.8333169046327,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-10-18T18:14:00Z",
+    "power_kw": 20,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 20,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 20,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:461670",
+    "name": "Hotel Campestre Lagos De Venecia ",
+    "address": "Calle 37 Via Guacas, Santa Rosa De Cabal , Risaralda ",
+    "lat": 4.8895915099793115,
+    "lon": -75.62269716386982,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-10-03T05:14:00Z",
+    "power_kw": 3.5,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 3.5,
+        "current": null,
+        "quantity": 2
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:461173",
+    "name": "Wattia - Alfahar 01 & 02",
+    "address": "Calle 45 #31-210, Hotel Alfahar, El Carmen de Viboral, Antioquia",
+    "lat": 6.094869578467694,
+    "lon": -75.34144513840914,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-09-18T17:24:00Z",
+    "power_kw": 22,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 22,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 22,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:460431",
+    "name": "Celsia el Papayo",
+    "address": "Avenida Mirolindo, Ibague, Tolima",
+    "lat": 4.428470693345304,
+    "lon": -75.20554445930472,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-08-25T07:53:00Z",
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": null,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": null,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": null,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:459392",
+    "name": "Hotel Parador del Gitano",
+    "address": "W722+45 Puerto Triunfo, Antioquia, cerca a Doradal, Doradal, Antioquia",
+    "lat": 5.900095521996292,
+    "lon": -74.74961633451426,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-07-20T16:24:00Z",
+    "power_kw": 7.2,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.2,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.2,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:459390",
+    "name": "Hotel Parador Del Gitano",
+    "address": "Autopista Medellin - Bogota Kilometro 164, Doradal, Antioquia",
+    "lat": 5.900135605924717,
+    "lon": -74.74966237622493,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-10-10T12:29:00Z",
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:313651",
+    "name": "Metrokia Av 68",
+    "address": "Av. 68 #68b – 91, Bogotá D.C, Bogotá D.C",
+    "lat": 4.6770953385149365,
+    "lon": -74.08684386543138,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-06-15T16:04:00Z",
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:312387",
+    "name": "Wattia La Perla 1",
+    "address": "Calle 30 #33-02, Parqueadero La Perla, El Carmen de Viboral, Antioquia",
+    "lat": 6.08205405564307,
+    "lon": -75.33676305597572,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-09-15T17:22:00Z",
+    "power_kw": 7.4,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.4,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.4,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:312386",
+    "name": "Wattia El Carmen de Viboral",
+    "address": "Calle 31 #33-02, Parqueadero La Perla, El Carmen de Viboral, Antioquia",
+    "lat": 6.081722065589219,
+    "lon": -75.33674934135138,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-05-12T00:24:00Z",
+    "power_kw": 7.4,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.4,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.4,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:311397",
+    "name": "Terpel Voltex Doilgas",
+    "address": "38 Sincelejo, Sincelejo, Sucre",
+    "lat": 9.2801081,
+    "lon": -75.4028338,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:311396",
+    "name": "Terpel Voltex Autopista Norte",
+    "address": "Carrera 64aa, Medellin, Antioquia",
+    "lat": 6.308877,
+    "lon": -75.55963,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 43,
+        "current": null,
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CHADEMO",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:311395",
+    "name": "Terpel Voltex El Encierro",
+    "address": "Av. El Poblado #50, Medellin, Antioquia",
+    "lat": 6.22418,
+    "lon": -75.5689926,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+    
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 2,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS2",
+        "level": 2,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 2,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:311394",
+    "name": "Tambo El Privelegio",
+    "address": "Pereira - Santa Rosa, Santa Rosa de Cabal, Risaralda",
+    "lat": 4.855643840296935,
+    "lon": -75.6367373339466,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 43,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:311393",
+    "name": "Tambo La Manuela",
+    "address": "Manizales - La Felisa, Manizales, Caldas",
+    "lat": 5.050252474877482,
+    "lon": -75.5661243441757,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-29T03:54:00Z",
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 43,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:307731",
+    "name": "Terpel Fátima (voltex) ",
+    "address": "Buenavista-La Apartada, Buenavista, Córdoba",
+    "lat": 8.135576,
+    "lon": -75.4123433,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:307727",
+    "name": "Exito Popayan",
+    "address": "Exito Panamericana Popayan, Popayan, cauca",
+    "lat": 2.452085988396007,
+    "lon": -76.60721416692468,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-01-23T07:44:00Z",
+    "power_kw": 7.5,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.5,
+        "current": null,
+        "quantity": 2
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:307349",
+    "name": "Palermo Imagen",
+    "address": "Cr 40 16d 115, Pasto, Nariño",
+    "lat": 1.223735657616814,
+    "lon": -77.28622467661734,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-10-30T23:19:00Z",
+    "power_kw": 22,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.5,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.5,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 22,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 11,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:307118",
+    "name": "Terpel voltex Rio Cordoba",
+    "address": "Km 19 Via Cienaga - Rio Córdoba ",
+    "lat": 11.02710412908742,
+    "lon": -74.20626409403536,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CHADEMO",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 43,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:306414",
+    "name": "Terpel voltex Dagota",
+    "address": "Troncal del Magdalena Medio, Santander",
+    "lat": 7.128651919190091,
+    "lon": -73.56930586219872,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-12-08T01:49:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 43,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CHADEMO",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:304762",
+    "name": "Terpel Voltex Acqua Power center",
+    "address": "Cl. 60 #8-37, Ibague, Tolima",
+    "lat": 4.440042362574644,
+    "lon": -75.20446453497242,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-10-14T08:09:00Z",
+
+    "min_price_kwh_cop": 1450,
+    "max_price_kwh_cop": 1450,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1450
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1450
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:303071",
+    "name": "Ecoestación de carga CHEC CDA de Caldas",
+    "address": "Av. Kevin Ángel #Calle 63-77, Manizales, Caldas",
+    "lat": 5.059503,
+    "lon": -75.4835871,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-09-02T01:44:00Z",
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 43,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:302435",
+    "name": "Terpel Voltex - La Juana",
+    "address": "Carrera 7 155-99, Bogota, Bogota",
+    "lat": 4.731205955050456,
+    "lon": -74.02425753084276,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T20:39:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+    
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 2,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:302434",
+    "name": "Terpel voltex - Maloka",
+    "address": "Carrera 68d 24a-51, Bogota, Bogota",
+    "lat": 4.6558004750090305,
+    "lon": -74.10878246106455,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T20:29:00Z",
+
+    "min_price_kwh_cop": 1550,
+    "max_price_kwh_cop": 1550,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1550
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1550
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:005",
+    "name": "voltex - Compensar av 68",
+    "address": "Carrera 68, Bogota, Bogota",
+    "lat": 4.659652,
+    "lon": -74.099989,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T21:29:00Z",
+
+    "min_price_kwh_cop": 1450,
+    "max_price_kwh_cop": 1450,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:302433",
+    "name": "Plaza Claro - Autogermana",
+    "address": "Carrera 68a 24b-10, Bogota, Bogota",
+    "lat": 4.65129631531498,
+    "lon": -74.10694996215102,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T20:19:00Z",
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7,
+        "current": null,
+        "quantity": 2
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:302432",
+    "name": "Cafam Floresta",
+    "address": "Avenida Carrera 68 90-88, Bogota, Bogota",
+    "lat": 4.686058944751707,
+    "lon": -74.07427574048074,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T20:14:00Z",
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7,
+        "current": null,
+        "quantity": 2
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:302430",
+    "name": "Centro Comercial Plaza Central - Oasis Group",
+    "address": "Carrea 65 11-50, Bogota, bogota",
+    "lat": 4.631018290076099,
+    "lon": -74.11606927329859,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T20:04:00Z",
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7,
+        "current": null,
+        "quantity": 2
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7,
+        "current": null,
+        "quantity": 2
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:302196",
+    "name": "EnelX Chico",
+    "address": "Calle 97 # 10-02, Bogota, Bogota",
+    "lat": 4.679642789043612,
+    "lon": -74.04402131699447,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-02T13:24:00Z",
+
+    "min_price_kwh_cop": 1690,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": 75,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 180,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:302195",
+    "name": "EnelX Alhambra",
+    "address": "calle 114A # 45-98, Bogota, Bogota",
+    "lat": 4.69868500264613,
+    "lon": -74.05756176707376,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-02T13:19:00Z",
+
+    "min_price_kwh_cop": 1690,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": 75,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 180,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:302194",
+    "name": "EnelX Modelia",
+    "address": "Carrera 75 # 23F – 27, Bogota, Bogota",
+    "lat": 4.665191988771497,
+    "lon": -74.12040119614575,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-02T13:09:00Z",
+
+    "min_price_kwh_cop": 1690,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 180,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:302193",
+    "name": "EnelX Nicolas de Federman",
+    "address": "Calle 58A Bis # 37-28, Bogota, Bogota",
+    "lat": 4.649496027676207,
+    "lon": -74.0813691849429,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-02T13:34:00Z",
+
+    "min_price_kwh_cop": 1690,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": 75,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 180,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:001",
+    "name": "EnelX Terminal de transporte salitre",
+    "address": "diagonal 23 # 69a-02, Bogotá, D.C.",
+    "lat": 4.652674,
+    "lon": -74.113175,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T23:30:00Z",
+
+    "min_price_kwh_cop": 1690,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": 180,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 180,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:002",
+    "name": "EnelX San Andresito",
+    "address": "calle 9 # 37-44, Bogotá, D.C.",
+    "lat": 4.615011,
+    "lon": -74.101762,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1690,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 180,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:003",
+    "name": "EnelX BMW Unicentro",
+    "address": "carrera 15 # 124-30, Bogotá, D.C.",
+    "lat": 4.702611,
+    "lon": -74.042157,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1690,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      },
+      {
+        "type": "CCS2",
+        "level": 2,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:299728",
+    "name": "Terpel Voltex El Diamante",
+    "address": "Ruta del Sol III, Cesar",
+    "lat": 9.892261730234145,
+    "lon": -73.833662371592,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 3,
+        "power_kw": 43,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CHADEMO",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:299727",
+    "name": "Terpel Voltex Pie Del Cerro",
+    "address": "Marginal de San Lázaro, Cartagena, Bolívar",
+    "lat": 10.4215388,
+    "lon": -75.5410856,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 35,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS2",
+        "level": 2,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:299726",
+    "name": "Terpel Voltex Pie Del Cerro",
+    "address": "Marginal de San Lázaro, Bolívar",
+    "lat": 10.421819864829445,
+    "lon": -75.54152499868354,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-06-24T05:39:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 35,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS2",
+        "level": 2,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:299482",
+    "name": "terpel Voltex Spineli",
+    "address": "Autopista Norte, Boyacá",
+    "lat": 5.490720250768675,
+    "lon": -73.40241418537593,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-06-24T05:39:00Z",
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:299481",
+    "name": "Terpel Voltex Spineli",
+    "address": "Autopista Bogota tunja, Boyacá",
+    "lat": 5.490786184784639,
+    "lon": -73.40245897103232,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-06-24T05:39:00Z",
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 40,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 11,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:279620",
+    "name": "Terpel Voltex Las Palmas",
+    "address": "Vía a la Costa Aguachica - San Martin, Altoque Aguachica, Aguachica, Cesar",
+    "lat": 8.253006097715598,
+    "lon": -73.60432656225044,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-06-04T08:21:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CHADEMO",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "TIPO 2",
+        "level": 3,
+        "power_kw": 43,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:279054",
+    "name": "Terpel Voltex Piedecuesta",
+    "address": "Troncal Central, Piedecuesta, Santander",
+    "lat": 6.9981054830682865,
+    "lon": -73.05243148119649,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-10-18T01:57:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 43,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:279053",
+    "name": "Terpel Voltex Santana",
+    "address": "Troncal Central, Santana, Boyacá",
+    "lat": 6.052565719352415,
+    "lon": -73.48572118719176,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-10-11T18:59:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 43,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CHADEMO",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:274707",
+    "name": "Terpel Voltex Cogua",
+    "address": "Vía Boqueron - Zipaquira, Cogua",
+    "lat": 5.0689859866250515,
+    "lon": -73.94386301653878,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-10-11T18:59:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+    
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 43,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS1",
+        "level": 2,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CHADEMO",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:270967",
+    "name": "Celsia Mercacentro No. 10 - Ibagué",
+    "address": "Carrera 20 Sur, Comuna 9 - Picaleña, Tolima",
+    "lat": 4.416269748703968,
+    "lon": -75.17586858828716,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-07-13T02:30:00Z",
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 22,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:270965",
+    "name": "Terpel Voltex Báscula",
+    "address": "Autopista Medellin - Siberia - La Punta",
+    "lat": 4.788924921305153,
+    "lon": -74.1954917641221,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-10-19T09:44:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+    
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "TIPO 2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:270964",
+    "name": "terpel Voltex La Metro Dual",
+    "address": "40, Calarcá, Quindío",
+    "lat": 4.506436908500504,
+    "lon": -75.65559248883166,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-07-13T02:30:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 80,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:270963",
+    "name": "terpel Voltex Recreo",
+    "address": "25, San Pedro, Valle del Cauca",
+    "lat": 4.010682688251194,
+    "lon": -76.22342061525472,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-07-13T02:30:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 80,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:270958",
+    "name": "terpel voltex Melgar",
+    "address": "40, Melgar, Tolima",
+    "lat": 4.252635502503381,
+    "lon": -74.60971766399854,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-07-13T02:30:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:265435",
+    "name": "Carrera 6",
+    "address": "Carrera 6, Comuna Quimbaya, Perímetro Urbano Armenia, Armenia",
+    "lat": 4.540656045398791,
+    "lon": -75.66065470495812,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-06-08T03:24:00Z",
+    "power_kw": 22,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.4,
+        "current": null,
+        "quantity": 2
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 22,
+        "current": null,
+        "quantity": 2
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 2.3,
+        "current": null,
+        "quantity": 2
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:260277",
+    "name": "Centro de control Autopista Pacifico 2, Jericó, Antioquia, Colombia",
+    "address": "Via La Pintada Puente Iglesias, La Pintada,  Antioquia",
+    "lat": 5.77128271225385,
+    "lon": -75.64737579760799,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+    "power_kw": 150,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 150,
+        "current": null,
+        "quantity": 2
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 150,
+        "current": null,
+        "quantity": 2
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 150,
+        "current": null,
+        "quantity": 2
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:235365",
+    "name": "Terpel Voltex Chusacá",
+    "address": "HQ25+4PJ, Soacha, Cundinamarca, Soacha, Cundinamarca",
+    "lat": 4.550269786013047,
+    "lon": -74.2408280092514,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-07-10T09:02:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CHADEMO",
+        "level": 2,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:212747",
+    "name": "Terpel Voltex Montecristo",
+    "address": "Ruta del Sol, Estación terpel al paso Montecristo, Puerto salgar",
+    "lat": 5.576320324833546,
+    "lon": -74.62293423220058,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 170
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:004",
+    "name": "Terpel Voltex Las Vegas",
+    "address": "Carrera 51 # 58d-17 sur, Bogota",
+    "lat": 4.580714,
+    "lon": -74.154717,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 2,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 2,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS2",
+        "level": 2,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:006",
+    "name": "Terpel Voltex Cruz Roja",
+    "address": "Carrera 67 # 67d-11, Bogota",
+    "lat": 4.673847,
+    "lon": -74.088447,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 45,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 45,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 45,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:007",
+    "name": "Terpel Voltex Av Boyaca",
+    "address": "avenida Boyaca # 77a-11, Bogota",
+    "lat": 4.693757,
+    "lon": -74.091463,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+    
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:008",
+    "name": "voltex Compensar Suba",
+    "address": "calle 139, Bogota",
+    "lat": 4.693757,
+    "lon": -74.091463,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1450,
+    "max_price_kwh_cop": 1450,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:009",
+    "name": "voltex Compensar calle 222",
+    "address": "calle 222, Bogota",
+    "lat": 4.798700,
+    "lon": -74.030960,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1450,
+    "max_price_kwh_cop": 1450,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 145
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:010",
+    "name": "Terpel Voltex centro chia",
+    "address": "centro comercial centro chia, chia",
+    "lat": 4.864993,
+    "lon": -74.036560,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1450,
+    "max_price_kwh_cop": 1450,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1450
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1450
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:011",
+    "name": "Terpel Voltex la mesa",
+    "address": "via principal Bogota la mesa, chia",
+    "lat": 4.634880,
+    "lon": -74.450065,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:012",
+    "name": "voltex Compensar Cajica",
+    "address": "Cajica Zipaquira, cajica",
+    "lat": 4.956981,
+    "lon": -74.010286,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1450,
+    "max_price_kwh_cop": 1450,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:013",
+    "name": "Voltex Compensar Lagomar",
+    "address": "hotel lagomar, Girardot",
+    "lat": 4.322945,
+    "lon": -74.767392,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1450,
+    "max_price_kwh_cop": 1450,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:014",
+    "name": "Terpel voltex Unicentro Villavicencio",
+    "address": "centro comercial unicentro, Villavicencio",
+    "lat": 4.141673,
+    "lon": -73.634093,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1550,
+    "max_price_kwh_cop": 1950,
+    
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1550
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1550
+      },
+      {
+        "type": "GBT",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1550
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1950
+      },
+      {
+        "type": "CCS2",
+        "level": 2,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1950
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:015",
+    "name": "Terpel voltex la paz",
+    "address": "puerto Parra",
+    "lat": 6.649492,
+    "lon": -73.948455,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+    
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:016",
+    "name": "Terpel voltex Garota",
+    "address": "Autopista Medellin-Bogota Guarne",
+    "lat": 6.302433,
+    "lon": -75.456951,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:017",
+    "name": "Terpel voltex Popalito",
+    "address": "km7 via Barbosa-pradera popalito, antioquia",
+    "lat": 6.470518,
+    "lon": -75.287960,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 3,
+        "power_kw": 43,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CHADEMO",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:018",
+    "name": "Terpel voltex Vallemio",
+    "address": "calle 15 # 27-33, Yumbo",
+    "lat": 3.523787,
+    "lon": -76.497669,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:019",
+    "name": "Terpel voltex Paso Ancho",
+    "address": "calle 13, Cali",
+    "lat": 3.385814,
+    "lon": -76.538326,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:020",
+    "name": "Terpel voltex Cañasgordas",
+    "address": "calle 18, Cali",
+    "lat": 3.352912,
+    "lon": -76.530559,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 80,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 80,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 80,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:021",
+    "name": "voltex Compensar calle 94",
+    "address": "calle 94, Bogota",
+    "lat": 4.681590,
+    "lon": -74.057641,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1450,
+    "max_price_kwh_cop": 1450,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:022",
+    "name": "Terpel voltex El sol",
+    "address": "autopista norte, Bogota",
+    "lat": 4.819348,
+    "lon": -74.034596,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 6,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 6,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 6,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:023",
+    "name": "Voltex Compensar Lagosol",
+    "address": "hotel lagosol, Girardot",
+    "lat": 4.224132,
+    "lon": -74.697354,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1450,
+    "max_price_kwh_cop": 1450,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1450
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:024",
+    "name": "terpel voltex Montecarmelo",
+    "address": "km 10 via Barranquilla- Puerto colombia",
+    "lat": 11.010173010585163,
+    "lon": -74.91094941224696,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:212401",
+    "name": "Ecoestacion EPM McDonalds Vegas",
+    "address": "Calle 30 Sur #45a150, Envigado, Antioquia",
+    "lat": 6.179054420171781,
+    "lon": -75.58769929685127,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-01-23T10:32:00Z",
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 50,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 43,
+        "current": null,
+        "quantity": 1
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 43,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:170808",
+    "name": "Trans. 65",
+    "address": "Trans. 65, Ciudad Bolivar, Bogota",
+    "lat": 4.585466915137829,
+    "lon": -74.15555337855574,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-02-19T09:33:00Z",
+    "power_kw": 5.5,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 5.5,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:132440",
+    "name": "Autogermana Calle 127",
+    "address": "Calle 127B # 7-15, Bogota, D.C.",
+    "lat": 4.70449512479946,
+    "lon": -74.0289687347675,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2019-09-29T16:47:00Z",
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": null,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:96408",
+    "name": "Celsia Universidad EAFIT",
+    "address": "50, Carrera 49, Medellín, Antioquia",
+    "lat": 6.1997185,
+    "lon": -75.5790046,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2017-12-23T18:32:00Z",
+    "power_kw": 7.2,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.2,
+        "current": null,
+        "quantity": 3
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:96407",
+    "name": "Centro Comercial del Este",
+    "address": "Carrera 25, Los Naranjos, Medellín, Antioquia",
+    "lat": 6.198745445674483,
+    "lon": -75.55655537553254,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-10-18T18:34:00Z",
+    "power_kw": 7.4,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.2,
+        "current": null,
+        "quantity": 2
+      },
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.4,
+        "current": null,
+        "quantity": 2
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:96391",
+    "name": "Oviedo Celsia",
+    "address": "Centro comercial Oviedo, Medellín, Antioquia ",
+    "lat": 6.1987835241959,
+    "lon": -75.5745935153709,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2017-12-23T17:55:00Z",
+    "power_kw": 7.2,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": 7.2,
+        "current": null,
+        "quantity": 2
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:75631",
+    "name": "Universidad de los Andes - Edificio Santo Domingo",
+    "address": "Calle 21 1 - 20, Bogotá, D.C.",
+    "lat": 4.60470772658111,
+    "lon": -74.0658704958272,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2019-09-30T15:26:00Z",
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": null,
+        "current": null,
+        "quantity": 1
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "ocm:75628",
+    "name": "Estación de carga Bolera Salitre",
+    "address": "Avenida Calle 63 # 68-99, Bogotá, D.C.",
+    "lat": 4.66748727428248,
+    "lon": -74.096927199928,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2023-07-08T17:25:00Z",
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "Desconocido",
+        "level": null,
+        "power_kw": null,
+        "current": null,
+        "quantity": 13
+      }
+    ],
+    "provider": "ocm"
+  }
+]

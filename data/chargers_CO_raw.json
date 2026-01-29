@@ -1,0 +1,3492 @@
+[
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-10-18T18:44:00Z",
+    "ID": 462174,
+    "UUID": "1C4CC7DD-C996-4EBC-9B7A-4DB981BCC626",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 5,
+    "UsageCost": "1700",
+    "AddressInfo": {
+      "ID": 462563,
+      "Title": "EDS La Glorieta No 2 - ERCO",
+      "AddressLine1": "Carrera 24 A # 1BN - 04",
+      "AddressLine2": "EDS La Glorieta No 2",
+      "Town": "Buga",
+      "StateOrProvince": "Valle",
+      "Postcode": "763042",
+      "CountryID": 53,
+      "Latitude": 3.8949639742142095,
+      "Longitude": -76.31192809466732,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 777392,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 777393,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 777394,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 3,
+    "GeneralComments": "ERCO",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-10-18T18:44:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-10-15T18:43:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-10-18T18:39:00Z",
+    "ID": 462173,
+    "UUID": "E537C8A2-2F8D-42D8-858A-1DEC748C1511",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 5,
+    "UsageCost": "1700",
+    "AddressInfo": {
+      "ID": 462562,
+      "Title": "EDS Cootracaime - ERCO",
+      "AddressLine1": "Cra. 7 #14 - 02",
+      "AddressLine2": "EDS Cootracaime",
+      "Town": "Cajamarca",
+      "StateOrProvince": "Tolima",
+      "Postcode": "732501",
+      "CountryID": 53,
+      "Latitude": 4.440320439119487,
+      "Longitude": -75.4314694668394,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 777389,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 777390,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 777391,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 3,
+    "GeneralComments": "ERCO",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-10-18T18:39:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-10-15T18:38:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-10-18T18:14:00Z",
+    "ID": 462172,
+    "UUID": "3DE6D70A-48F5-4DE8-B514-1A9A717231D8",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 5,
+    "UsageCost": "1700",
+    "AddressInfo": {
+      "ID": 462561,
+      "Title": "ERCO - Outlet de Moda",
+      "AddressLine1": "Cl. 16 #55-129",
+      "AddressLine2": "CC Outlet de Moda - Piso 4",
+      "Town": "Medellin",
+      "StateOrProvince": "Antioquia",
+      "Postcode": "050024",
+      "CountryID": 53,
+      "Latitude": 6.21940442514798,
+      "Longitude": -75.8333169046327,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 777387,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 20,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 777388,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 20,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "GeneralComments": "ERCO",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-10-18T18:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-10-15T18:11:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-10-03T05:14:00Z",
+    "ID": 461670,
+    "UUID": "63B0EFA9-C758-48F8-B815-BF74B38A38E4",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 1,
+    "UsageCost": "25000",
+    "AddressInfo": {
+      "ID": 462059,
+      "Title": "Hotel Campestre Lagos De Venecia ",
+      "AddressLine1": "Calle 37 Via Guacas",
+      "Town": "Santa Rosa De Cabal ",
+      "StateOrProvince": "Risaralda ",
+      "Postcode": "661020",
+      "CountryID": 53,
+      "Latitude": 4.8895915099793115,
+      "Longitude": -75.62269716386982,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 776639,
+        "ConnectionTypeID": 15,
+        "Reference": "Carga con costo, personal del café con información y cobro",
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 16,
+        "Voltage": 220,
+        "PowerKW": 3.5,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-10-03T05:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-09-29T18:15:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-09-18T17:24:00Z",
+    "ID": 461173,
+    "UUID": "DEB7F488-7433-45E9-B239-93E920257699",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 6,
+    "UsageCost": "1633",
+    "AddressInfo": {
+      "ID": 461562,
+      "Title": "Wattia - Alfahar 01 & 02",
+      "AddressLine1": "Calle 45 #31-210",
+      "AddressLine2": "Hotel Alfahar",
+      "Town": "El Carmen de Viboral",
+      "StateOrProvince": "Antioquia",
+      "Postcode": "054030",
+      "CountryID": 53,
+      "Latitude": 6.094869578467694,
+      "Longitude": -75.34144513840914,
+      "ContactTelephone1": "+573009128033",
+      "AccessComments": "En parqueadero del hotel Alfahar (Tipo1 y Tipo2)",
+      "RelatedURL": "https://alfaharhotel.com",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 775860,
+        "ConnectionTypeID": 32,
+        "Reference": "Habilitado desde recepción del Hotel",
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 220,
+        "PowerKW": 22,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 775861,
+        "ConnectionTypeID": 33,
+        "Reference": "Habilitado desde recepción del Hotel",
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 220,
+        "PowerKW": 22,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "GeneralComments": "Para huéspedes, comensales, usuarios de zona húmeda, café o visitantes.",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-09-18T17:24:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-09-15T17:21:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-08-25T07:53:00Z",
+    "ID": 460431,
+    "UUID": "4579C294-54C5-423C-B5DC-7505BA431020",
+    "DataProviderID": 1,
+    "OperatorID": 3304,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 460820,
+      "Title": "Celsia el Papayo",
+      "AddressLine1": "Avenida Mirolindo",
+      "Town": "Ibague",
+      "StateOrProvince": "Tolima",
+      "CountryID": 53,
+      "Latitude": 4.428470693345304,
+      "Longitude": -75.20554445930472,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 774644,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "Quantity": 1
+      },
+      {
+        "ID": 774645,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "Quantity": 1
+      },
+      {
+        "ID": 774646,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 3,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-08-25T07:53:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-08-18T03:36:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-07-20T16:24:00Z",
+    "ID": 459392,
+    "UUID": "9EC3566A-2130-44CA-8D5F-33FF6D67F265",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 5,
+    "UsageCost": "$2000/kwh",
+    "AddressInfo": {
+      "ID": 459781,
+      "Title": "Hotel Parador del Gitano",
+      "AddressLine1": "W722+45 Puerto Triunfo, Antioquia",
+      "AddressLine2": "cerca a Doradal",
+      "Town": "Doradal",
+      "StateOrProvince": "Antioquia",
+      "CountryID": 53,
+      "Latitude": 5.900095521996292,
+      "Longitude": -74.74961633451426,
+      "ContactTelephone1": "3164487169",
+      "AccessComments": "solicitar acceso en recepcion del hotel",
+      "RelatedURL": "https://www.paradordelgitano.com/",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 772493,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 220,
+        "PowerKW": 7.2,
+        "CurrentTypeID": 10,
+        "Quantity": 1,
+        "Comments": "Solicitar servicio en recepcion"
+      },
+      {
+        "ID": 772494,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 220,
+        "PowerKW": 7.2,
+        "CurrentTypeID": 10,
+        "Quantity": 1,
+        "Comments": "solicitar servicio en recepcion"
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-07-20T16:24:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-07-09T18:16:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-10-10T12:29:00Z",
+    "ID": 459390,
+    "UUID": "02B7635D-FF1D-48F1-A718-819DAC1096F0",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 5,
+    "UsageCost": "10:00am a 2:30pm $1500/KW resto del dia $2000/KW",
+    "AddressInfo": {
+      "ID": 459779,
+      "Title": "Hotel Parador Del Gitano",
+      "AddressLine1": "Autopista Medellin - Bogota Kilometro 164",
+      "Town": "Doradal",
+      "StateOrProvince": "Antioquia",
+      "CountryID": 53,
+      "Latitude": 5.900135605924717,
+      "Longitude": -74.74966237622493,
+      "ContactTelephone1": "3164487169",
+      "AccessComments": "Solicitar el servicio en Recepcion",
+      "RelatedURL": "https://www.paradordelgitano.com/",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 772489,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 220,
+        "PowerKW": 7,
+        "CurrentTypeID": 10,
+        "Quantity": 1,
+        "Comments": "Solicitar el servicio en recepcion del Hotel"
+      },
+      {
+        "ID": 772490,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 220,
+        "PowerKW": 7,
+        "CurrentTypeID": 10,
+        "Quantity": 1,
+        "Comments": "Solicitar servicio en recepcion"
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-10-10T12:29:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-07-09T17:59:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-06-15T16:04:00Z",
+    "ID": 313651,
+    "UUID": "3D155BA1-6F15-4DDF-ABC3-6E417B14D3AF",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 1,
+    "UsageCost": "No pago",
+    "AddressInfo": {
+      "ID": 314040,
+      "Title": "Metrokia Av 68",
+      "AddressLine1": "Av. 68 #68b – 91",
+      "Town": "Bogotá D.C",
+      "StateOrProvince": "Bogotá D.C",
+      "CountryID": 53,
+      "Latitude": 4.6770953385149365,
+      "Longitude": -74.08684386543138,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 604062,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1,
+        "Comments": "Cargador rápido para vehículo eléctrico en zona de clientes de Metrokia avenida 68"
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-06-15T16:04:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-06-12T16:00:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-09-15T17:22:00Z",
+    "ID": 312387,
+    "UUID": "40F085CE-4B75-4B4D-A262-296278643B13",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 5,
+    "UsageCost": "1600",
+    "AddressInfo": {
+      "ID": 312776,
+      "Title": "Wattia La Perla 1",
+      "AddressLine1": "Calle 30 #33-02",
+      "AddressLine2": "Parqueadero La Perla",
+      "Town": "El Carmen de Viboral",
+      "StateOrProvince": "Antioquia",
+      "Postcode": "054030",
+      "CountryID": 53,
+      "Latitude": 6.08205405564307,
+      "Longitude": -75.33676305597572,
+      "ContactTelephone1": "3176472748",
+      "AccessComments": "Cargador dentro del parqueadero",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 601908,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 34,
+        "Voltage": 240,
+        "PowerKW": 7.4,
+        "CurrentTypeID": 10,
+        "Quantity": 1,
+        "Comments": "Tiene opcion Tipo1 y Tipo2"
+      },
+      {
+        "ID": 601909,
+        "ConnectionTypeID": 25,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 240,
+        "PowerKW": 7.4,
+        "CurrentTypeID": 10,
+        "Quantity": 1,
+        "Comments": "Tiene opcion Tipo1 y Tipo2"
+      }
+    ],
+    "NumberOfPoints": 1,
+    "GeneralComments": "Tiene Opción Tipo 1 y Tipo 2",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-09-15T17:22:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-05-09T01:20:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-05-12T00:24:00Z",
+    "ID": 312386,
+    "UUID": "DFC603FD-3860-4539-B9E7-445158593D50",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 5,
+    "UsageCost": "1600",
+    "AddressInfo": {
+      "ID": 312775,
+      "Title": "Wattia El Carmen de Viboral",
+      "AddressLine1": "Calle 31 #33-02",
+      "AddressLine2": "Parqueadero La Perla",
+      "Town": "El Carmen de Viboral",
+      "StateOrProvince": "Antioquia",
+      "Postcode": "054030",
+      "CountryID": 53,
+      "Latitude": 6.081722065589219,
+      "Longitude": -75.33674934135138,
+      "ContactTelephone1": "3176472748",
+      "AccessComments": "Estación de carga dentro del parqueadero La Perla",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 601906,
+        "ConnectionTypeID": 1,
+        "Reference": "Tienen opción de Tipo1 y Tipo2",
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 240,
+        "PowerKW": 7.4,
+        "CurrentTypeID": 10,
+        "Quantity": 1,
+        "Comments": ""
+      },
+      {
+        "ID": 601907,
+        "ConnectionTypeID": 25,
+        "Reference": "Tienen opción Tipo1 y Tipo2",
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 240,
+        "PowerKW": 7.4,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "GeneralComments": "Tienen opción Tipo1 & Tipo2",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-05-12T00:24:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-05-09T00:21:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 311397,
+    "UUID": "ADB8BC75-E7E1-40B1-9CD1-DF523839A9C5",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1800/kWh",
+    "AddressInfo": {
+      "ID": 311786,
+      "Title": "Terpel Voltex Doilgas",
+      "AddressLine1": "38 Sincelejo",
+      "Town": "Sincelejo",
+      "StateOrProvince": "Sucre",
+      "CountryID": 53,
+      "Latitude": 9.2801081,
+      "Longitude": -75.4028338,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 600045,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 600046,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 600047,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-03-26T04:34:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 311396,
+    "UUID": "4C12FC56-56F7-45B1-A7C8-AAFF38001CDE",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1650/kWh",
+    "AddressInfo": {
+      "ID": 311785,
+      "Title": "Terpel Voltex Autopista Norte",
+      "AddressLine1": "Carrera 64aa",
+      "Town": "Medellin",
+      "StateOrProvince": "Antioquia",
+      "CountryID": 53,
+      "Latitude": 6.308877,
+      "Longitude": -75.55963,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 600042,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 600043,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 600044,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 3,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-03-26T04:25:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 311395,
+    "UUID": "9363817C-89AE-486E-A1D0-ABC54E29476C",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "1650/kWh",
+    "AddressInfo": {
+      "ID": 311784,
+      "Title": "Terpel Voltex El Encierro",
+      "AddressLine1": "Av. El Poblado #50",
+      "Town": "Medellin",
+      "StateOrProvince": "Antioquia",
+      "CountryID": 53,
+      "Latitude": 6.22418,
+      "Longitude": -75.5689926,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 600039,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 7.4,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      },
+      {
+        "ID": 600040,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 600041,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 3,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-03-26T04:20:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 311394,
+    "UUID": "F410E0DA-39F7-4C89-BF6E-847FC0E2DA1A",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 1,
+    "AddressInfo": {
+      "ID": 311783,
+      "Title": "Tambo El Privelegio",
+      "AddressLine1": "Pereira - Santa Rosa",
+      "Town": "Santa Rosa de Cabal",
+      "StateOrProvince": "Risaralda",
+      "CountryID": 53,
+      "Latitude": 4.855643840296935,
+      "Longitude": -75.6367373339466,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 600036,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 600037,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 600038,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-03-26T03:54:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-29T03:54:00Z",
+    "ID": 311393,
+    "UUID": "1A042B06-1B2F-4646-BFEC-05A9B129FFEE",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 1,
+    "AddressInfo": {
+      "ID": 311782,
+      "Title": "Tambo La Manuela",
+      "AddressLine1": "Manizales - La Felisa",
+      "Town": "Manizales",
+      "StateOrProvince": "Caldas",
+      "CountryID": 53,
+      "Latitude": 5.050252474877482,
+      "Longitude": -75.5661243441757,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 600033,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 600034,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 600035,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-29T03:54:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-03-26T03:49:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-29T03:34:00Z",
+    "ID": 311258,
+    "UUID": "36F5495F-8157-4D5B-91FC-2A22D38DA4B2",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "Application",
+    "AddressInfo": {
+      "ID": 311647,
+      "Title": "Compensar",
+      "AddressLine1": "Av Carrera 68 49-47",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.659586063680138,
+      "Longitude": -74.0997265630029,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 599786,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 50,
+        "Voltage": 220,
+        "PowerKW": 11,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 2,
+    "GeneralComments": "Terpel Voltex",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-29T03:34:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-03-17T12:29:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 307731,
+    "UUID": "FE2C99CA-E7EC-47C0-9645-A06AA42F2ABB",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 308120,
+      "Title": "EDS Terpel Fátima (voltex) ",
+      "AddressLine1": "Buenavista-La Apartada",
+      "AddressLine2": "Buenavista",
+      "Town": "Córdoba",
+      "CountryID": 53,
+      "Latitude": 8.135576,
+      "Longitude": -75.4123433,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 587032,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 587033,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 587034,
+        "ConnectionTypeID": 25,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 11,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "GeneralComments": "App terpel voltex",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-01-08T03:52:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-01-23T07:44:00Z",
+    "ID": 307727,
+    "UUID": "4A20B06B-27B3-441F-9D8F-DA56C73B3ED2",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 1,
+    "UsageCost": "0",
+    "AddressInfo": {
+      "ID": 308116,
+      "Title": "Exito Popayan",
+      "AddressLine1": "Exito Panamericana Popayan",
+      "Town": "Popayan",
+      "StateOrProvince": "cauca",
+      "CountryID": 53,
+      "Latitude": 2.452085988396007,
+      "Longitude": -76.60721416692468,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 587014,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 220,
+        "PowerKW": 7.5,
+        "CurrentTypeID": 10,
+        "Quantity": 2,
+        "Comments": "free"
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-01-23T07:44:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2025-01-07T11:50:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-10-30T23:19:00Z",
+    "ID": 307349,
+    "UUID": "2AA95F3E-227C-4A61-B37F-36C3CBB5172E",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 5,
+    "UsageCost": "15000/hora",
+    "AddressInfo": {
+      "ID": 307738,
+      "Title": "Palermo Imagen",
+      "AddressLine1": "Cr 40 16d 115",
+      "Town": "Pasto",
+      "StateOrProvince": "Nariño",
+      "Postcode": "530002",
+      "CountryID": 53,
+      "Latitude": 1.223735657616814,
+      "Longitude": -77.28622467661734,
+      "ContactTelephone1": "3006628799",
+      "AccessComments": "Requiere autorización para parqueo",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 586330,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 220,
+        "PowerKW": 7.5,
+        "CurrentTypeID": 10,
+        "Quantity": 1,
+        "Comments": "biphasic 220V"
+      },
+      {
+        "ID": 778029,
+        "ConnectionTypeID": 16,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 220,
+        "PowerKW": 7.5,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      },
+      {
+        "ID": 778030,
+        "ConnectionTypeID": 17,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 400,
+        "PowerKW": 22,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 778031,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 16,
+        "Voltage": 400,
+        "PowerKW": 11,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-10-30T23:19:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-12-22T12:22:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 307118,
+    "UUID": "1B898A78-A14E-4344-B519-78DFCCEF66D9",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "1800/kWh",
+    "AddressInfo": {
+      "ID": 307507,
+      "Title": "EDS voltex Rio Cordoba",
+      "AddressLine1": "Km 19 Via Cienaga - Rio Córdoba ",
+      "CountryID": 53,
+      "Latitude": 11.02710412908742,
+      "Longitude": -74.20626409403536,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 585968,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 585969,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 600146,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-12-17T01:24:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-12-08T01:49:00Z",
+    "ID": 306414,
+    "UUID": "9DFBE26E-1DD9-4DAD-ADE7-62ED81215F5B",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "1450",
+    "AddressInfo": {
+      "ID": 306803,
+      "Title": "EDS Terpel Dagota",
+      "AddressLine1": "Troncal del Magdalena Medio",
+      "StateOrProvince": "Santander",
+      "CountryID": 53,
+      "Latitude": 7.128651919190091,
+      "Longitude": -73.56930586219872,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 582603,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 582604,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 582605,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-12-08T01:49:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-11-22T22:08:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-12-08T01:49:00Z",
+    "ID": 306413,
+    "UUID": "B60939C7-C1F3-4C77-B509-18EE5A8BE169",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "1450",
+    "AddressInfo": {
+      "ID": 306802,
+      "Title": "Terpel Popalito",
+      "AddressLine1": "Transversal Tribuga - Arauca",
+      "StateOrProvince": "Antioquia",
+      "CountryID": 53,
+      "Latitude": 6.469867361160098,
+      "Longitude": -75.28798238592006,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 582600,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 582601,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 582602,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-12-08T01:49:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-11-22T22:02:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-10-14T08:09:00Z",
+    "ID": 304762,
+    "UUID": "CB42F4D3-1FAD-4D1B-BAEE-70B55848D610",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "1350 COP",
+    "AddressInfo": {
+      "ID": 305151,
+      "Title": "Terpel Voltex Acqua Power center",
+      "AddressLine1": "Cl. 60 #8-37",
+      "Town": "Ibague",
+      "StateOrProvince": "Tolima",
+      "CountryID": 53,
+      "Latitude": 4.440042362574644,
+      "Longitude": -75.20446453497242,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 576930,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 7,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      },
+      {
+        "ID": 576931,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 7,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 4,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-10-14T08:09:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-09-30T16:13:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-09-02T01:44:00Z",
+    "ID": 303071,
+    "UUID": "59F76BE6-1086-4D10-96CC-C5EB78E11A0D",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 1,
+    "UsageCost": "Free",
+    "AddressInfo": {
+      "ID": 303458,
+      "Title": "Ecoestación de carga CHEC CDA de Caldas",
+      "AddressLine1": "Av. Kevin Ángel #Calle 63-77",
+      "Town": "Manizales",
+      "StateOrProvince": "Caldas",
+      "CountryID": 53,
+      "Latitude": 5.059503,
+      "Longitude": -75.4835871,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 569816,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 569817,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 569818,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-09-02T01:44:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-08-16T13:36:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-08T20:54:00Z",
+    "ID": 302436,
+    "UUID": "C279DA4B-C874-434F-B3FA-7E988D80DB0A",
+    "DataProviderID": 1,
+    "OperatorID": 80,
+    "UsageTypeID": 1,
+    "UsageCost": "0",
+    "AddressInfo": {
+      "ID": 302823,
+      "Title": "Compensar - CBI Carrera 60",
+      "AddressLine1": "Carrera 60 66b-05",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.668512825058173,
+      "Longitude": -74.08432287829316,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 567611,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 7,
+        "Quantity": 1
+      },
+      {
+        "ID": 567612,
+        "ConnectionTypeID": 25,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 7,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-08T20:54:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-08-05T20:53:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-08T20:39:00Z",
+    "ID": 302435,
+    "UUID": "C44F9745-9A28-4361-83AC-1912BE07BD50",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "1550",
+    "AddressInfo": {
+      "ID": 302822,
+      "Title": "Terpel Voltex - La Juana",
+      "AddressLine1": "Carrera 7 155-99",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.731205955050456,
+      "Longitude": -74.02425753084276,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 567608,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 43,
+        "Quantity": 1
+      },
+      {
+        "ID": 567609,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 567610,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 40,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-08T20:39:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-08-05T20:37:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-08T20:29:00Z",
+    "ID": 302434,
+    "UUID": "B9DAE404-94A6-4588-84FD-16861C817127",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 302821,
+      "Title": "Terpel voltex - Maloca",
+      "AddressLine1": "Carrera 68d 24a-51",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.6558004750090305,
+      "Longitude": -74.10878246106455,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 567607,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Voltage": 220,
+        "PowerKW": 11,
+        "CurrentTypeID": 10,
+        "Quantity": 4
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-08T20:29:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-08-05T20:28:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-08T20:19:00Z",
+    "ID": 302433,
+    "UUID": "7A47AB15-8A65-40FB-965E-391C1AFBDE61",
+    "DataProviderID": 1,
+    "OperatorID": 80,
+    "UsageTypeID": 1,
+    "UsageCost": "Free",
+    "AddressInfo": {
+      "ID": 302820,
+      "Title": "Plaza Claro - Autogermana",
+      "AddressLine1": "Carrera 68a 24b-10",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.65129631531498,
+      "Longitude": -74.10694996215102,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 567606,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Voltage": 220,
+        "PowerKW": 7,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-08T20:19:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-08-05T20:17:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-08T20:14:00Z",
+    "ID": 302432,
+    "UUID": "DBA3B31A-9448-49B3-9143-3DA07A1D3D75",
+    "DataProviderID": 1,
+    "OperatorID": 80,
+    "UsageTypeID": 1,
+    "UsageCost": "Free",
+    "AddressInfo": {
+      "ID": 302819,
+      "Title": "Cafam Floresta",
+      "AddressLine1": "Avenida Carrera 68 90-88",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.686058944751707,
+      "Longitude": -74.07427574048074,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 567605,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Voltage": 220,
+        "PowerKW": 7,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-08T20:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-08-05T20:11:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-08T20:04:00Z",
+    "ID": 302430,
+    "UUID": "D3D795A9-B7CA-4333-B366-CCD768B8237F",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 302817,
+      "Title": "Centro Comercial Plaza Central - Oasis Group",
+      "AddressLine1": "Carrea 65 11-50",
+      "Town": "Bogota",
+      "StateOrProvince": "bogota",
+      "CountryID": 53,
+      "Latitude": 4.631018290076099,
+      "Longitude": -74.11606927329859,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 567602,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Voltage": 220,
+        "PowerKW": 7,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      },
+      {
+        "ID": 567603,
+        "ConnectionTypeID": 25,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Voltage": 220,
+        "PowerKW": 7,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-08T20:04:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-08-05T20:02:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-02T13:24:00Z",
+    "ID": 302196,
+    "UUID": "A2F4491E-BC8E-48DD-8FA6-E10E926B64DC",
+    "DataProviderID": 1,
+    "OperatorID": 80,
+    "UsageTypeID": 4,
+    "UsageCost": "App",
+    "AddressInfo": {
+      "ID": 302583,
+      "Title": "EnelX Chico",
+      "AddressLine1": "Calle 97 # 10-02",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.679642789043612,
+      "Longitude": -74.04402131699447,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 566301,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 2
+      },
+      {
+        "ID": 566302,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 75,
+        "CurrentTypeID": 30,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 4,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-02T13:24:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-07-30T13:22:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-02T13:19:00Z",
+    "ID": 302195,
+    "UUID": "4FFBE9E3-A56B-49E6-B04D-ED674942169F",
+    "DataProviderID": 1,
+    "OperatorID": 80,
+    "UsageTypeID": 4,
+    "UsageCost": "App",
+    "AddressInfo": {
+      "ID": 302582,
+      "Title": "EnelX Alhambra",
+      "AddressLine1": "calle 114A # 45-98",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.69868500264613,
+      "Longitude": -74.05756176707376,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 566298,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 566299,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 566300,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 75,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 3,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-02T13:19:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-07-30T13:18:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-02T13:09:00Z",
+    "ID": 302194,
+    "UUID": "2432FEE7-0601-4BEC-A9DF-B4BFE529872A",
+    "DataProviderID": 1,
+    "OperatorID": 80,
+    "UsageTypeID": 4,
+    "UsageCost": "App",
+    "AddressInfo": {
+      "ID": 302581,
+      "Title": "EnelX Modelia",
+      "AddressLine1": "Carrera 75 # 23F – 27",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.665191988771497,
+      "Longitude": -74.12040119614575,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 566296,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Amps": 135,
+        "Voltage": 220,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 4
+      },
+      {
+        "ID": 566297,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Amps": 135,
+        "Voltage": 220,
+        "PowerKW": 29.7,
+        "CurrentTypeID": 30,
+        "Quantity": 4
+      }
+    ],
+    "NumberOfPoints": 4,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-02T13:09:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-07-30T13:07:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-08-02T13:34:00Z",
+    "ID": 302193,
+    "UUID": "8409E817-DCE8-4363-8731-0EC49464C315",
+    "DataProviderID": 1,
+    "OperatorID": 80,
+    "UsageTypeID": 1,
+    "UsageCost": "App",
+    "AddressInfo": {
+      "ID": 302580,
+      "Title": "EnelX Nicolas de Federman",
+      "AddressLine1": "Calle 58A Bis # 37-28",
+      "Town": "Bogota",
+      "StateOrProvince": "Bogota",
+      "CountryID": 53,
+      "Latitude": 4.649496027676207,
+      "Longitude": -74.0813691849429,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 566293,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Amps": 136,
+        "Voltage": 220,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 6
+      },
+      {
+        "ID": 566294,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Amps": 136,
+        "Voltage": 220,
+        "PowerKW": 30,
+        "CurrentTypeID": 30,
+        "Quantity": 6
+      },
+      {
+        "ID": 566295,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Voltage": 220,
+        "PowerKW": 75,
+        "Quantity": 6
+      }
+    ],
+    "NumberOfPoints": 6,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-08-02T13:34:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-07-30T13:02:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-09-11T10:34:00Z",
+    "ID": 299780,
+    "UUID": "64DA8E11-184A-4116-ADAB-FD8BDC6F3378",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1800KWh",
+    "AddressInfo": {
+      "ID": 300167,
+      "Title": "Vía al Mar",
+      "AddressLine1": "Vía al Mar",
+      "Town": "Puerto Colombia",
+      "StateOrProvince": "Puerto Colombia",
+      "Postcode": "081007",
+      "CountryID": 53,
+      "Latitude": 11.010302017504529,
+      "Longitude": -74.91092127013707,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 552878,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 552879,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 552880,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 40,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-09-11T10:34:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-06-05T01:19:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 299728,
+    "UUID": "D5078080-479E-4A8B-8233-44C4F5BA8055",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 300115,
+      "Title": "EDS Terpel Voltex El Diamante",
+      "AddressLine1": "Ruta del Sol III",
+      "StateOrProvince": "Cesar",
+      "Postcode": "201020",
+      "CountryID": 53,
+      "Latitude": 9.892261730234145,
+      "Longitude": -73.833662371592,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 552773,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 585570,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 585571,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-06-04T01:37:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 299727,
+    "UUID": "4694D490-B0A3-43ED-9DE3-42B5C4E6BD9F",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "1800/kWh",
+    "AddressInfo": {
+      "ID": 300114,
+      "Title": "EDS Terpel Voltex Pie Del Cerro",
+      "AddressLine1": "Marginal de San Lázaro",
+      "Town": "Cartagena",
+      "StateOrProvince": "Bolívar",
+      "Postcode": "130001",
+      "CountryID": 53,
+      "Latitude": 10.4215388,
+      "Longitude": -75.5410856,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 552771,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 60,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 552772,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 11,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      },
+      {
+        "ID": 600145,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 60,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 3,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-06-04T01:33:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-06-24T05:39:00Z",
+    "ID": 299726,
+    "UUID": "ABAEE955-F96F-43C2-8A93-705B3CCBA5A1",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1450/kWh",
+    "AddressInfo": {
+      "ID": 300113,
+      "Title": "EDS Terpel Voltex Pie Del Cerro",
+      "AddressLine1": "Marginal de San Lázaro",
+      "StateOrProvince": "Bolívar",
+      "Postcode": "130001",
+      "CountryID": 53,
+      "Latitude": 10.421819864829445,
+      "Longitude": -75.54152499868354,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 552768,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 552769,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 43,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      },
+      {
+        "ID": 552770,
+        "ConnectionTypeID": 0,
+        "StatusTypeID": 50,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-06-24T05:39:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-06-04T01:31:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-06-24T05:39:00Z",
+    "ID": 299482,
+    "UUID": "85268137-92CC-412C-A60B-7AA39B294AB0",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 299869,
+      "Title": "Voltex Spineli",
+      "AddressLine1": "Autopista Norte",
+      "StateOrProvince": "Boyacá",
+      "CountryID": 53,
+      "Latitude": 5.490720250768675,
+      "Longitude": -73.40241418537593,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 551913,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 551914,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 16,
+        "Voltage": 400,
+        "PowerKW": 11,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-06-24T05:39:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-05-28T22:08:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-06-24T05:39:00Z",
+    "ID": 299481,
+    "UUID": "5F7F7BDB-00B5-4616-A761-5B866945A6AD",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 299868,
+      "Title": "Terpel Voltex Spineli",
+      "AddressLine1": "Autopista Norte",
+      "StateOrProvince": "Boyacá",
+      "CountryID": 53,
+      "Latitude": 5.490786184784639,
+      "Longitude": -73.40245897103232,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 551911,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 40,
+        "Quantity": 1
+      },
+      {
+        "ID": 551912,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 11,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-06-24T05:39:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2024-05-28T22:04:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2024-06-04T08:21:00Z",
+    "ID": 279620,
+    "UUID": "C7308943-41BE-4A39-B092-601D3F05A292",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1450/kWh",
+    "AddressInfo": {
+      "ID": 280007,
+      "Title": "EDS Terpel Voltex Las Palmas",
+      "AddressLine1": "Vía a la Costa Aguachica - San Martin",
+      "AddressLine2": "Altoque Aguachica",
+      "Town": "Aguachica",
+      "StateOrProvince": "Cesar",
+      "Postcode": "205010",
+      "CountryID": 53,
+      "Latitude": 8.253006097715598,
+      "Longitude": -73.60432656225044,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 486086,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 486087,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 486088,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 43,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2024-06-04T08:21:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-11-04T02:15:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-10-18T01:57:00Z",
+    "ID": 279054,
+    "UUID": "B212658D-18A0-432B-A671-E3520C5FB658",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "1450",
+    "AddressInfo": {
+      "ID": 279441,
+      "Title": "EDS Terpel Voltex Piedecuesta",
+      "AddressLine1": "Troncal Central",
+      "Town": "Piedecuesta",
+      "StateOrProvince": "Santander",
+      "Postcode": "681011",
+      "CountryID": 53,
+      "Latitude": 6.9981054830682865,
+      "Longitude": -73.05243148119649,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 483355,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 483356,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 483357,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-10-18T01:57:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-10-09T22:39:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-10-11T18:59:00Z",
+    "ID": 279053,
+    "UUID": "91B4477D-FF16-4D20-90BB-C72F1E7A74DD",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "1450",
+    "AddressInfo": {
+      "ID": 279440,
+      "Title": "EDS Terpel Voltex Santana",
+      "AddressLine1": "Troncal Central",
+      "Town": "Santana",
+      "StateOrProvince": "Boyacá",
+      "Postcode": "154440",
+      "CountryID": 53,
+      "Latitude": 6.052565719352415,
+      "Longitude": -73.48572118719176,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 483352,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 483353,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 483354,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-10-11T18:59:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-10-09T22:29:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-10-11T18:59:00Z",
+    "ID": 274707,
+    "UUID": "AD62C15C-E52E-46CB-94B3-AF9942BB2604",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 1,
+    "UsageCost": "1450/kWh",
+    "AddressInfo": {
+      "ID": 275091,
+      "Title": "EDS Terpel Voltex Cogua",
+      "AddressLine1": "Vía Boqueron - Zipaquira",
+      "Town": "Cogua",
+      "CountryID": 53,
+      "Latitude": 5.0689859866250515,
+      "Longitude": -73.94386301653878,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 476604,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 476605,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 476606,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Amps": 63,
+        "Voltage": 400,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-10-11T18:59:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-09-23T03:12:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-10-14T03:44:00Z",
+    "ID": 273212,
+    "UUID": "A297F703-CD66-4E21-8EB8-73DD6AEF8CED",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 1,
+    "UsageCost": "$1650/kWh",
+    "AddressInfo": {
+      "ID": 273596,
+      "Title": "Autopista Medellín-Bogotá",
+      "AddressLine1": "Autopista Medellín-Bogotá",
+      "Town": "Guarne",
+      "StateOrProvince": "Antioquia",
+      "CountryID": 53,
+      "Latitude": 6.302044284556288,
+      "Longitude": -75.45673774023987,
+      "AccessComments": "Requiere validación y pago por aplicación Voltex",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 471033,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 471034,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 471035,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 63,
+        "Voltage": 400,
+        "PowerKW": 11,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-10-14T03:44:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-07-29T00:17:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-07-13T02:30:00Z",
+    "ID": 270967,
+    "UUID": "9EB19068-AF97-4941-8622-93D25F20BD76",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 271351,
+      "Title": "Celsia Mercacentro No. 10 - Ibagué",
+      "AddressLine1": "Carrera 20 Sur",
+      "AddressLine2": "Comuna 9 - Picaleña",
+      "StateOrProvince": "Tolima",
+      "Postcode": "730006",
+      "CountryID": 53,
+      "Latitude": 4.416269748703968,
+      "Longitude": -75.17586858828716,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 461232,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461233,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461234,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 400,
+        "PowerKW": 22,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-07-13T02:30:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-07-08T02:33:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-07-13T02:30:00Z",
+    "ID": 270966,
+    "UUID": "86059E04-89FA-46DE-83DB-106C1921C39D",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1450/kWh",
+    "AddressInfo": {
+      "ID": 271350,
+      "Title": "Voltex La Mesa",
+      "AddressLine1": "Calle 4",
+      "Town": "La Mesa",
+      "Postcode": "262511",
+      "CountryID": 53,
+      "Latitude": 4.634392938596932,
+      "Longitude": -74.44998009565336,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 461229,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 461230,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461231,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "GeneralComments": "Se requiere la app Voltex",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-07-13T02:30:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-07-08T01:50:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-10-19T09:44:00Z",
+    "ID": 270965,
+    "UUID": "485E9BD7-FF54-4D7E-A149-A9DAD5DD0542",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1450/kWh",
+    "AddressInfo": {
+      "ID": 271349,
+      "Title": "EDS Terpel Voltex Báscula",
+      "AddressLine1": "Autopista Medellin - Siberia - La Punta",
+      "Postcode": "250017",
+      "CountryID": 53,
+      "Latitude": 4.788924921305153,
+      "Longitude": -74.1954917641221,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 461226,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461227,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461228,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 43,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "GeneralComments": "Requiere app Voltex",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-10-19T09:44:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-07-08T01:41:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-07-13T02:30:00Z",
+    "ID": 270964,
+    "UUID": "ABF37A6A-C86C-4A77-83B7-83C84A144577",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1450/kWh",
+    "AddressInfo": {
+      "ID": 271348,
+      "Title": "Voltex La Metro Dual",
+      "AddressLine1": "40",
+      "Town": "Calarcá",
+      "StateOrProvince": "Quindío",
+      "Postcode": "632001",
+      "CountryID": 53,
+      "Latitude": 4.506436908500504,
+      "Longitude": -75.65559248883166,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 461223,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461224,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461225,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 43,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "GeneralComments": "Se requiere la app Voltex",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-07-13T02:30:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-07-08T01:38:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-07-13T02:30:00Z",
+    "ID": 270963,
+    "UUID": "85D6C736-12A2-48DE-855F-5386012B9E12",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1450/kWh",
+    "AddressInfo": {
+      "ID": 271347,
+      "Title": "Voltex Recreo",
+      "AddressLine1": "25",
+      "Town": "San Pedro",
+      "StateOrProvince": "Valle del Cauca",
+      "CountryID": 53,
+      "Latitude": 4.010682688251194,
+      "Longitude": -76.22342061525472,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 461220,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461221,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461222,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 43,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-07-13T02:30:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-07-08T01:35:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-07-13T02:30:00Z",
+    "ID": 270958,
+    "UUID": "0879ADCE-17D5-4088-BBF1-A9E41282EED0",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 1,
+    "UsageCost": "0",
+    "AddressInfo": {
+      "ID": 271342,
+      "Title": "Altoque Melgar",
+      "AddressLine1": "40",
+      "Town": "Melgar",
+      "StateOrProvince": "Tolima",
+      "Postcode": "734001",
+      "CountryID": 53,
+      "Latitude": 4.252635502503381,
+      "Longitude": -74.60971766399854,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 461208,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461209,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 461210,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Amps": 63,
+        "Voltage": 400,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "GeneralComments": "Por ahora es gratis, después seguramente se requiera la app Voltex",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-07-13T02:30:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-07-08T01:01:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-06-08T03:24:00Z",
+    "ID": 265435,
+    "UUID": "73EE5E3A-48BA-49F7-B64E-4777805EE583",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 6,
+    "AddressInfo": {
+      "ID": 265819,
+      "Title": "Carrera 6",
+      "AddressLine1": "Carrera 6",
+      "AddressLine2": "Comuna Quimbaya",
+      "Town": "Perímetro Urbano Armenia",
+      "StateOrProvince": "Armenia",
+      "Postcode": "630004",
+      "CountryID": 53,
+      "Latitude": 4.540656045398791,
+      "Longitude": -75.66065470495812,
+      "AccessComments": "The charge points are in the parking garage of the mall.",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 451511,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 240,
+        "PowerKW": 7.4,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      },
+      {
+        "ID": 451512,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 400,
+        "PowerKW": 22,
+        "CurrentTypeID": 20,
+        "Quantity": 2
+      },
+      {
+        "ID": 451513,
+        "ConnectionTypeID": 28,
+        "StatusTypeID": 50,
+        "LevelID": 1,
+        "Amps": 10,
+        "Voltage": 230,
+        "PowerKW": 2.3,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-06-08T03:24:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-05-10T19:27:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 260277,
+    "UUID": "B2FB8CDB-E394-4141-A55A-19C0BEC2912D",
+    "DataProviderID": 1,
+    "OperatorID": 3304,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 260661,
+      "Title": "Centro de control Autopista Pacifico 2, Jericó, Antioquia, Colombia",
+      "AddressLine1": "Via La Pintada Puente Iglesias",
+      "Town": "La Pintada",
+      "StateOrProvince": " Antioquia",
+      "CountryID": 53,
+      "Latitude": 5.77128271225385,
+      "Longitude": -75.64737579760799,
+      "RelatedURL": "https://www.celsia.com/es/soluciones-para-hogares-y-unidades-residenciales/revoluciona-tu-vida-con-movilidad-electrica/",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 437775,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Voltage": 220,
+        "PowerKW": 150,
+        "CurrentTypeID": 30,
+        "Quantity": 2
+      },
+      {
+        "ID": 437786,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 150,
+        "CurrentTypeID": 30,
+        "Quantity": 2
+      },
+      {
+        "ID": 437787,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 150,
+        "CurrentTypeID": 30,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 100,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-04-18T22:45:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-07-10T09:02:00Z",
+    "ID": 235365,
+    "UUID": "A6141A7F-99F4-4E1A-9699-F41E03A404AC",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 1,
+    "UsageCost": "COP $1500 KWh",
+    "AddressInfo": {
+      "ID": 235749,
+      "Title": "Terpel Voltex Chusacá",
+      "AddressLine1": "HQ25+4PJ, Soacha, Cundinamarca",
+      "Town": "Soacha",
+      "StateOrProvince": "Cundinamarca",
+      "Postcode": "250057",
+      "CountryID": 53,
+      "Latitude": 4.550269786013047,
+      "Longitude": -74.2408280092514,
+      "ContactTelephone1": "018000518555",
+      "RelatedURL": "https://www.terpel.com/nueva-movilidad-y-energias/terpel-voltex",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 388219,
+        "ConnectionTypeID": 1036,
+        "Reference": "Voltex Terpel Colombia",
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 43,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 388220,
+        "ConnectionTypeID": 32,
+        "Reference": "Voltex Terpel Colombia",
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 388221,
+        "ConnectionTypeID": 2,
+        "Reference": "Voltex Terpel Colombia",
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-07-10T09:02:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-02-18T17:59:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2025-03-31T03:14:00Z",
+    "ID": 212747,
+    "UUID": "E497C34B-BA80-4BE1-9EF2-CD95FFD7BAE3",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "UsageCost": "$1700/kWh",
+    "AddressInfo": {
+      "ID": 213127,
+      "Title": "Terpel Voltex Montecristo",
+      "AddressLine1": "Ruta del Sol",
+      "AddressLine2": "Estación terpel al paso Montecristo",
+      "Town": "Puerto salgar",
+      "CountryID": 53,
+      "Latitude": 5.576320324833546,
+      "Longitude": -74.62293423220058,
+      "ContactTelephone1": "3105849381",
+      "AccessComments": "",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 354259,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 11,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      },
+      {
+        "ID": 354260,
+        "ConnectionTypeID": 1040,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 354261,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 40,
+        "CurrentTypeID": 30,
+        "Quantity": 1,
+        "Comments": ""
+      }
+    ],
+    "NumberOfPoints": 3,
+    "GeneralComments": "",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-03-31T03:14:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-01-23T05:20:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-08-01T05:49:00Z",
+    "ID": 212746,
+    "UUID": "A9ECE795-071C-4CBE-B7EA-200B6FBEF2AA",
+    "DataProviderID": 1,
+    "OperatorID": 3705,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 213126,
+      "Title": "En manteniemiento - Terpel Voltex EDS Montecristo",
+      "AddressLine1": "Sector II ruta del sol, Puerto Salgar",
+      "AddressLine2": "Cundinamarca",
+      "Town": "Puerto Salgar",
+      "CountryID": 53,
+      "Latitude": 5.576397351062042,
+      "Longitude": -74.62291080520549,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 354256,
+        "ConnectionTypeID": 32,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1,
+        "Comments": "CCS (Type 1)"
+      },
+      {
+        "ID": 354257,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 354258,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 43,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 100,
+    "DateLastStatusUpdate": "2023-08-01T05:49:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-01-22T23:46:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-01-23T10:32:00Z",
+    "ID": 212401,
+    "UUID": "0E5EFF3D-615A-40C3-B5B7-20F62C7A95BA",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 4,
+    "AddressInfo": {
+      "ID": 212781,
+      "Title": "Ecoestacion EPM McDonalds Vegas",
+      "AddressLine1": "Calle 30 Sur #45a150",
+      "Town": "Envigado",
+      "StateOrProvince": "Antioquia",
+      "Postcode": "055422",
+      "CountryID": 53,
+      "Latitude": 6.179054420171781,
+      "Longitude": -75.58769929685127,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 353578,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 353580,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Amps": 63,
+        "Voltage": 400,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 354262,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "PowerKW": 43,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 1,
+    "GeneralComments": "To use it is required to have a card linked to your electricity bill",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-01-23T10:32:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-01-16T06:49:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-02-19T09:33:00Z",
+    "ID": 170808,
+    "UUID": "F98DB43D-DFDD-42A6-8766-B86C5C6A7EB2",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 2,
+    "AddressInfo": {
+      "ID": 171167,
+      "Title": "Trans. 65",
+      "AddressLine1": "Trans. 65",
+      "Town": "Ciudad Bolivar",
+      "StateOrProvince": "Bogota",
+      "Postcode": "111921",
+      "CountryID": 53,
+      "Latitude": 4.585466915137829,
+      "Longitude": -74.15555337855574,
+      "AccessComments": "Home Charger for Private Usage",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 260972,
+        "ConnectionTypeID": 25,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 208,
+        "PowerKW": 5.5,
+        "CurrentTypeID": 10,
+        "Quantity": 1,
+        "Comments": "Home charger with Three Phase connector + Type 2 connector from charger"
+      }
+    ],
+    "NumberOfPoints": 1,
+    "GeneralComments": "Home Charger for Private Usage",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-02-19T09:33:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2020-12-09T15:25:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2019-09-29T16:47:00Z",
+    "ID": 132440,
+    "UUID": "2BDD0B4F-0DB0-47E0-B6D3-9052B7188CF9",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 6,
+    "UsageCost": "Free",
+    "AddressInfo": {
+      "ID": 132786,
+      "Title": "Autogermana Calle 127",
+      "AddressLine1": "Calle 127B # 7-15",
+      "Town": "Bogota",
+      "StateOrProvince": "D.C.",
+      "Postcode": "11001",
+      "CountryID": 53,
+      "Latitude": 4.70449512479946,
+      "Longitude": -74.0289687347675,
+      "AccessComments": "Lunes a Viernes de 9:00 a 19:00\r\nSábado de 10:00 a 18:00\r\nDomingos 11:00 a 15:00",
+      "RelatedURL": "https://autogermana.com.co",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 185430,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2019-09-29T16:47:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2019-09-29T16:11:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2017-12-23T18:32:00Z",
+    "ID": 96408,
+    "UUID": "BC0E74B1-9895-4B2D-8D23-D1E1B628786F",
+    "DataProviderID": 1,
+    "OperatorID": 3304,
+    "UsageTypeID": 1,
+    "UsageCost": "0",
+    "AddressInfo": {
+      "ID": 96754,
+      "Title": "Celsia Universidad EAFIT",
+      "AddressLine1": "50, Carrera 49",
+      "Town": "Medellín",
+      "StateOrProvince": "Antioquia",
+      "Postcode": "0500",
+      "CountryID": 53,
+      "Latitude": 6.1997185,
+      "Longitude": -75.5790046,
+      "RelatedURL": "http://www.celsia.com",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 136625,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 230,
+        "PowerKW": 7.2,
+        "CurrentTypeID": 10,
+        "Quantity": 3
+      }
+    ],
+    "NumberOfPoints": 3,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2017-12-23T18:32:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2017-12-23T18:31:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2025-10-18T18:34:00Z",
+    "ID": 96407,
+    "UUID": "36EBE65C-60B9-43E6-935A-A2F6A6275066",
+    "DataProviderID": 1,
+    "OperatorID": 3304,
+    "UsageTypeID": 5,
+    "UsageCost": "1300",
+    "AddressInfo": {
+      "ID": 96753,
+      "Title": "Centro Comercial del Este",
+      "AddressLine1": "Carrera 25",
+      "AddressLine2": "Los Naranjos",
+      "Town": "Medellín",
+      "StateOrProvince": "Antioquia",
+      "Postcode": "050021",
+      "CountryID": 53,
+      "Latitude": 6.198745445674483,
+      "Longitude": -75.55655537553254,
+      "RelatedURL": "",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 136624,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 230,
+        "PowerKW": 7.2,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      },
+      {
+        "ID": 777575,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 240,
+        "PowerKW": 7.4,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 4,
+    "GeneralComments": "ERCO",
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2025-10-18T18:34:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2017-12-23T18:21:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2017-12-23T17:55:00Z",
+    "ID": 96391,
+    "UUID": "22630B4C-AF6B-4446-BB9F-D5114A587FFB",
+    "DataProviderID": 1,
+    "OperatorID": 3304,
+    "UsageTypeID": 1,
+    "UsageCost": "0",
+    "AddressInfo": {
+      "ID": 96737,
+      "Title": "Oviedo Celsia",
+      "AddressLine1": "Centro comercial Oviedo",
+      "Town": "Medellín",
+      "StateOrProvince": "Antioquia ",
+      "CountryID": 53,
+      "Latitude": 6.1987835241959,
+      "Longitude": -75.5745935153709,
+      "RelatedURL": "http://www.celsia.com",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 136623,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Amps": 32,
+        "Voltage": 230,
+        "PowerKW": 7.2,
+        "CurrentTypeID": 10,
+        "Quantity": 2
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2017-12-23T17:55:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2017-12-22T22:01:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-07-10T09:11:00Z",
+    "ID": 85062,
+    "UUID": "FA8FD179-6A13-41A4-89E1-27FE08EC283B",
+    "DataProviderID": 1,
+    "OperatorID": 80,
+    "UsageTypeID": 1,
+    "UsageCost": "Free",
+    "AddressInfo": {
+      "ID": 85408,
+      "Title": "Centro comercial Unicentro Bogotá ",
+      "AddressLine1": "Carrera 15 # 124-30",
+      "AddressLine2": "Usaquén",
+      "Town": "Bogotá",
+      "StateOrProvince": "D.C.",
+      "Postcode": "11011",
+      "CountryID": 53,
+      "Latitude": 4.70267024331226,
+      "Longitude": -74.0422101953578,
+      "ContactTelephone1": "(1) 6422853",
+      "AccessComments": "24 horas abierto",
+      "RelatedURL": "http://www.codensamovilidadelectrica.com/",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 120817,
+        "ConnectionTypeID": 2,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 120818,
+        "ConnectionTypeID": 1036,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Amps": 63,
+        "Voltage": 400,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "Quantity": 1
+      },
+      {
+        "ID": 120819,
+        "ConnectionTypeID": 33,
+        "StatusTypeID": 50,
+        "LevelID": 3,
+        "Amps": 125,
+        "Voltage": 400,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "Quantity": 1
+      },
+      {
+        "ID": 120820,
+        "ConnectionTypeID": 1,
+        "StatusTypeID": 0,
+        "LevelID": 2,
+        "CurrentTypeID": 10,
+        "Quantity": 1
+      }
+    ],
+    "NumberOfPoints": 2,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-07-10T09:11:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2017-03-24T16:01:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2019-09-30T15:26:00Z",
+    "ID": 75631,
+    "UUID": "D7CC36F5-0495-46F1-89A2-8AF016D4BE82",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 6,
+    "UsageCost": "Free",
+    "AddressInfo": {
+      "ID": 75977,
+      "Title": "Universidad de los Andes - Edificio Santo Domingo",
+      "AddressLine1": "Calle 21 1 - 20",
+      "Town": "Bogotá",
+      "StateOrProvince": "D.C.",
+      "Postcode": "11001",
+      "CountryID": 53,
+      "Latitude": 4.60470772658111,
+      "Longitude": -74.0658704958272,
+      "ContactTelephone1": "+57 1 3394949",
+      "RelatedURL": "https://movilidad.uniandes.edu.co/index.php/en-carro-ext/107-carroselectricos",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 109051,
+        "ConnectionTypeID": 15,
+        "StatusTypeID": 0
+      }
+    ],
+    "NumberOfPoints": 11,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2019-09-30T15:26:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2016-12-17T14:45:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "IsRecentlyVerified": false,
+    "DateLastVerified": "2023-07-08T17:25:00Z",
+    "ID": 75628,
+    "UUID": "56F5D875-20B0-4509-9E03-64DDC89AF137",
+    "DataProviderID": 1,
+    "OperatorID": 1,
+    "UsageTypeID": 4,
+    "UsageCost": "Free",
+    "AddressInfo": {
+      "ID": 75974,
+      "Title": "Estación de carga Bolera Salitre",
+      "AddressLine1": "Avenida Calle 63 # 68-99",
+      "Town": "Bogotá",
+      "StateOrProvince": "D.C.",
+      "Postcode": "1100501",
+      "CountryID": 53,
+      "Latitude": 4.66748727428248,
+      "Longitude": -74.096927199928,
+      "RelatedURL": "http://www.bogota.gov.co/content/nueva-estaci%C3%B3n-para-la-carga-de-taxis-el%C3%A9ctricos-en-el-salitre",
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 109048,
+        "ConnectionTypeID": 25,
+        "StatusTypeID": 50,
+        "LevelID": 2,
+        "Voltage": 400,
+        "CurrentTypeID": 20,
+        "Quantity": 13
+      }
+    ],
+    "NumberOfPoints": 13,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-07-08T17:25:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2016-12-17T14:45:00Z",
+    "SubmissionStatusTypeID": 200
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1768617241323",
+    "nombre": "villa emilia",
+    "direccion": "Carrera 81D, Chucua de la Vaca, UPZs de Bogotá",
+    "latitud": 4.6260542,
+    "longitud": -74.166198,
+    "tipo_corriente": "AC",
+    "potencia_kw": 7,
+    "cantidad_conectores": 1,
+    "tipo_conector": "Tipo 2",
+    "notas": "",
+    "fecha_reporte": "2026-01-16T21:34:00.428072",
+    "estado": "pendiente",
+    "fecha_revision": null
+  }
+]
