@@ -2805,7 +2805,11 @@ process.on('unhandledRejection', e => console.error('UNHANDLED', e));
 // ======== START LISTEN ========
 (async () => {
   try {
-    PORT = await pickPort();
+    // En Render, process.env.PORT ya está configurado, no necesitamos pickPort()
+    // Solo usamos pickPort() si estamos en desarrollo local sin PORT definido
+    if (!process.env.PORT) {
+      PORT = await pickPort();
+    }
     httpServer.listen(PORT, '0.0.0.0', () => {
       const ifaces = Object.values(os.networkInterfaces()).flat().filter(Boolean);
       const wifi = ifaces.find(i => i.family === 'IPv4' && !i.internal);
