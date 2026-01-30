@@ -2083,15 +2083,23 @@ app.get('/route', async (req, res) => {
     const queryString = new URLSearchParams(params).toString();
     const fullUrl = `${url}?${queryString}${viaString}`;
     
-    console.log('[ROUTE] 🌐 URL completa:', fullUrl.substring(0, 200) + '...');
+    console.log('[ROUTE] 🌐 URL completa:', fullUrl);
     
-    const r = await axios.get(fullUrl, { timeout: 12000 });
+    try {
+      const r = await axios.get(fullUrl, { timeout: 12000 });
+      
+      if (debug) return res.json(r.data);
 
-    if (debug) return res.json(r.data);
-
-    const route = r.data?.routes?.[0];
-    const sections = route?.sections || [];
-    if (sections.length === 0) return res.status(502).json({ error: 'NoRoute', detail: 'HERE no devolvió secciones' });
+      const route = r.data?.routes?.[0];
+      const sections = route?.sections || [];
+      if (sections.length === 0) return res.status(502).json({ error: 'NoRoute', detail: 'HERE no devolvió secciones' });
+    } catch (error) {
+      console.error('[ROUTE] ❌ Error de HERE API:', error.response?.status, error.response?.data);
+      return res.status(error.response?.status || 500).json({ 
+        error: 'HEREError', 
+        detail: error.response?.data || error.message 
+      });
+    }
 
     // 🔥 CRÍTICO: Procesar TODAS las secciones (no solo la primera)
     // Cuando hay waypoints, HERE devuelve una sección por cada tramo
