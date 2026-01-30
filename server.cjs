@@ -2058,10 +2058,17 @@ app.get('/route', async (req, res) => {
 
     const url = 'https://router.hereapi.com/v8/routes';
     const params = {
-      transportMode: 'car', routingMode: 'fast',
-      origin, destination,
+      transportMode: 'car', 
+      routingMode: 'fast',
+      origin, 
+      destination,
       return: 'summary,polyline,actions,instructions',
-      lang, apiKey: HERE_API_KEY
+      lang, 
+      apiKey: HERE_API_KEY,
+      
+      // 🚦 TRÁFICO EN TIEMPO REAL
+      departureTime: 'now',
+      'span[traffic]': 'enabled'
     };
     
     // 🆕 Agregar waypoints si existen
@@ -2503,6 +2510,10 @@ app.get('/ev-route', async (req, res) => {
       return: 'summary,polyline,actions,instructions,turnByTurnActions',
       lang,
       apiKey: HERE_API_KEY,
+      
+      // 🚦 TRÁFICO EN TIEMPO REAL
+      departureTime: 'now', // Usar tráfico actual
+      'span[traffic]': 'enabled', // Habilitar datos de tráfico
       
       // ⚡ Parámetros EV
       'ev[makeReachable]': 'true',
