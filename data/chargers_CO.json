@@ -951,28 +951,34 @@
   {
     "id": "ocm:302430",
     "name": "Centro Comercial Plaza Central - Oasis Group",
-    "address": "Carrea 65 11-50, Bogota, bogota",
+    "address": "centro comercial Plaza Central, Bogota, bogota",
     "lat": 4.631018290076099,
     "lon": -74.11606927329859,
     "network": null,
     "status": "Unknown",
     "is_operational": true,
     "last_updated": "2024-08-08T20:04:00Z",
-    "power_kw": 7,
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+
+    "power_kw": 7.4,
     "connectors": [
       {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7,
-        "current": null,
-        "quantity": 2
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 3,
+        "price_kwh_cop": 1400
       },
       {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7,
-        "current": null,
-        "quantity": 2
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 3,
+        "price_kwh_cop": 1400
       }
     ],
     "provider": "ocm"
@@ -2784,6 +2790,76 @@
     "provider": "ocm"
   },
   {
+    "id": "manual:025",
+    "name": "DIELCO Centro comercial Titan Plaza",
+    "address": "DIELCO Centro Comercial Titan Plaza",
+    "lat": 4.695406366510852,
+    "lon": -74.08660088771049,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1700, 
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1400
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 22,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:026",
+    "name": "DIELCO Rumbos autopista norte",
+    "address": "DIELCO Rumbos autopista norte",
+    "lat": 4.695406366510852,
+    "lon": -74.08660088771049,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 19,
+        "current": "dc",
+        "quantity": 2,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
     "id": "ocm:212401",
     "name": "Ecoestacion EPM McDonalds Vegas",
     "address": "Calle 30 Sur #45a150, Envigado, Antioquia",
@@ -2813,28 +2889,6 @@
         "type": "Desconocido",
         "level": null,
         "power_kw": 43,
-        "current": null,
-        "quantity": 1
-      }
-    ],
-    "provider": "ocm"
-  },
-  {
-    "id": "ocm:170808",
-    "name": "Trans. 65",
-    "address": "Trans. 65, Ciudad Bolivar, Bogota",
-    "lat": 4.585466915137829,
-    "lon": -74.15555337855574,
-    "network": null,
-    "status": "Unknown",
-    "is_operational": true,
-    "last_updated": "2023-02-19T09:33:00Z",
-    "power_kw": 5.5,
-    "connectors": [
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 5.5,
         "current": null,
         "quantity": 1
       }

@@ -2798,6 +2798,160 @@ app.get('/api/calibration-stats', (req, res) => {
   }
 });
 
+// ==================== SISTEMA DE REPORTES DE TRÁFICO ====================
+
+// Base de datos en memoria para reportes (en producción: usar MongoDB/PostgreSQL)
+const trafficReports = [];
+
+// Endpoint para reportar incidentes
+app.post('/api/traffic-report', (req, res) => {
+  try {
+    const { type, lat, lon, description, severity } = req.body;
+    
+    // Validar datos
+    if (!type || !lat || !lon) {
+      return res.status(400).json({ 
+        error: 'Faltan datos requeridos', 
+        required: ['type', 'lat', 'lon'] 
+      });
+    }
+    
+    // Crear reporte
+    const report = {
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      type, // 'accident', 'police', 'construction', 'hazard', 'traffic'
+      lat: parseFloat(lat),
+      lon: parseFloat(lon),
+      description: description || '',
+      severity: severity || 'medium', // 'low', 'medium', 'high'
+      votes: 1, // Sistema de votación
+      timestamp: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(), // Expira en 2 horas
+    };
+    
+    trafficReports.push(report);
+    
+    console.log('\n========================================');
+    console.log('[TRAFFIC-REPORT] 🚨 NUEVO REPORTE');
+    console.log('========================================');
+    console.log(`📍 Tipo: ${type}`);
+    console.log(`📌 Ubicación: ${lat}, ${lon}`);
+    console.log(`⚠️  Severidad: ${severity}`);
+    console.log(`💬 Descripción: ${description || 'N/A'}`);
+    console.log(`📊 Total reportes: ${trafficReports.length}`);
+    console.log('========================================\n');
+    
+    res.json({
+      success: true,
+      message: '¡Gracias por tu reporte!',
+      report_id: report.id,
+      total_reports: trafficReports.length
+    });
+    
+  } catch (error) {
+    console.error('[TRAFFIC-REPORT] ❌ Error:', error);
+    res.status(500).json({ 
+      error: 'Error al guardar reporte',
+      detail: error.message 
+    });
+  }
+});
+
+// Endpoint para consultar reportes cercanos
+app.get('/api/traffic-reports-nearby', (req, res) => {
+  try {
+    const { lat, lon, radius } = req.query;
+    
+    if (!lat || !lon) {
+      return res.status(400).json({ error: 'Faltan parámetros: lat, lon' });
+    }
+    
+    const centerLat = parseFloat(lat);
+    const centerLon = parseFloat(lon);
+    const radiusKm = parseFloat(radius) || 10; // 10 km por defecto
+    const now = new Date();
+    
+    // Filtrar reportes: cercanos y no expirados
+    const nearbyReports = trafficReports.filter(report => {
+      // Verificar si expiró
+      if (new Date(report.expiresAt) < now) {
+        return false;
+      }
+      
+      // Calcular distancia
+      const distance = haversineDistance(centerLat, centerLon, report.lat, report.lon);
+      return distance <= radiusKm;
+    });
+    
+    // Ordenar por severidad y tiempo
+    const sorted = nearbyReports.sort((a, b) => {
+      const severityOrder = { high: 3, medium: 2, low: 1 };
+      const severityDiff = (severityOrder[b.severity] || 0) - (severityOrder[a.severity] || 0);
+      if (severityDiff !== 0) return severityDiff;
+      return new Date(b.timestamp) - new Date(a.timestamp);
+    });
+    
+    res.json({
+      success: true,
+      count: sorted.length,
+      radius_km: radiusKm,
+      reports: sorted
+    });
+    
+  } catch (error) {
+    console.error('[TRAFFIC-REPORTS-NEARBY] ❌ Error:', error);
+    res.status(500).json({ error: 'Error al consultar reportes' });
+  }
+});
+
+// Endpoint para votar en un reporte (validar si sigue activo)
+app.post('/api/traffic-report-vote', (req, res) => {
+  try {
+    const { report_id, vote } = req.body; // vote: 1 (confirmar) o -1 (ya no existe)
+    
+    const report = trafficReports.find(r => r.id === report_id);
+    if (!report) {
+      return res.status(404).json({ error: 'Reporte no encontrado' });
+    }
+    
+    report.votes += vote;
+    
+    // Si tiene muchos votos negativos, eliminar
+    if (report.votes <= -3) {
+      const index = trafficReports.indexOf(report);
+      trafficReports.splice(index, 1);
+      console.log(`[TRAFFIC-REPORT] 🗑️  Reporte ${report_id} eliminado por votos negativos`);
+    }
+    
+    res.json({
+      success: true,
+      votes: report.votes
+    });
+    
+  } catch (error) {
+    console.error('[TRAFFIC-REPORT-VOTE] ❌ Error:', error);
+    res.status(500).json({ error: 'Error al votar' });
+  }
+});
+
+// Limpiar reportes expirados cada hora
+setInterval(() => {
+  const now = new Date();
+  const before = trafficReports.length;
+  
+  // Filtrar reportes no expirados
+  for (let i = trafficReports.length - 1; i >= 0; i--) {
+    if (new Date(trafficReports[i].expiresAt) < now) {
+      trafficReports.splice(i, 1);
+    }
+  }
+  
+  const after = trafficReports.length;
+  if (before !== after) {
+    console.log(`[TRAFFIC-REPORTS] 🗑️  Limpiados ${before - after} reportes expirados. Quedan: ${after}`);
+  }
+}, 60 * 60 * 1000); // Cada hora
+
 // ===== errores globales =====
 process.on('uncaughtException', e => console.error('UNCAUGHT', e));
 process.on('unhandledRejection', e => console.error('UNHANDLED', e));
@@ -2805,11 +2959,7 @@ process.on('unhandledRejection', e => console.error('UNHANDLED', e));
 // ======== START LISTEN ========
 (async () => {
   try {
-    // En Render, process.env.PORT ya está configurado, no necesitamos pickPort()
-    // Solo usamos pickPort() si estamos en desarrollo local sin PORT definido
-    if (!process.env.PORT) {
-      PORT = await pickPort();
-    }
+    PORT = await pickPort();
     httpServer.listen(PORT, '0.0.0.0', () => {
       const ifaces = Object.values(os.networkInterfaces()).flat().filter(Boolean);
       const wifi = ifaces.find(i => i.family === 'IPv4' && !i.internal);
