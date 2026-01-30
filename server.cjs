@@ -2064,10 +2064,7 @@ app.get('/route', async (req, res) => {
       destination,
       return: 'summary,polyline,actions,instructions',
       lang, 
-      apiKey: HERE_API_KEY,
-      
-      // 🚦 TRÁFICO EN TIEMPO REAL
-      departureTime: 'now'
+      apiKey: HERE_API_KEY
     };
     
     // 🆕 Agregar waypoints si existen
@@ -2517,9 +2514,6 @@ app.get('/ev-route', async (req, res) => {
       return: 'summary,polyline,actions,instructions,turnByTurnActions',
       lang,
       apiKey: HERE_API_KEY,
-      
-      // 🚦 TRÁFICO EN TIEMPO REAL
-      departureTime: 'now',
       
       // ⚡ Parámetros EV
       'ev[makeReachable]': 'true',
