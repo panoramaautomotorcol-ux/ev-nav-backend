@@ -1547,6 +1547,12 @@ const inflight     = new Map(); // key -> Promise
  *   - radius: Radio en km (default: 10)
  */
 app.get('/traffic-flow', async (req, res) => {
+  // TEMPORALMENTE DESHABILITADO - Traffic API da 401
+  // Retornar datos vacíos para que la app no crashee
+  console.log('[TRAFFIC-FLOW] ⚠️  Temporalmente deshabilitado - retornando datos vacíos');
+  return res.json({ segments: [] });
+  
+  /* CÓDIGO ORIGINAL COMENTADO TEMPORALMENTE
   try {
     const lat = parseFloat(req.query.lat);
     const lng = parseFloat(req.query.lng);
@@ -1698,6 +1704,7 @@ app.get('/traffic-flow', async (req, res) => {
       detail: error.message 
     });
   }
+  */ // FIN CÓDIGO COMENTADO TEMPORALMENTE
 });
 
 /**
@@ -2082,14 +2089,9 @@ app.get('/route', async (req, res) => {
     
     console.log('[ROUTE] 🌐 URL completa:', fullUrl);
     
+    let r;
     try {
-      const r = await axios.get(fullUrl, { timeout: 12000 });
-      
-      if (debug) return res.json(r.data);
-
-      const route = r.data?.routes?.[0];
-      const sections = route?.sections || [];
-      if (sections.length === 0) return res.status(502).json({ error: 'NoRoute', detail: 'HERE no devolvió secciones' });
+      r = await axios.get(fullUrl, { timeout: 12000 });
     } catch (error) {
       console.error('[ROUTE] ❌ Error de HERE API:', error.response?.status, error.response?.data);
       return res.status(error.response?.status || 500).json({ 
@@ -2097,6 +2099,12 @@ app.get('/route', async (req, res) => {
         detail: error.response?.data || error.message 
       });
     }
+    
+    if (debug) return res.json(r.data);
+
+    const route = r.data?.routes?.[0];
+    const sections = route?.sections || [];
+    if (sections.length === 0) return res.status(502).json({ error: 'NoRoute', detail: 'HERE no devolvió secciones' });
 
     // 🔥 CRÍTICO: Procesar TODAS las secciones (no solo la primera)
     // Cuando hay waypoints, HERE devuelve una sección por cada tramo
