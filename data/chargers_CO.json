@@ -2845,7 +2845,7 @@
         "level": 1,
         "power_kw": 19,
         "current": "dc",
-        "quantity": 2,
+        "quantity": 1,
         "price_kwh_cop": 1700
       },
       {
@@ -2853,7 +2853,7 @@
         "level": 2,
         "power_kw": 7.4,
         "current": "AC",
-        "quantity": 2,
+        "quantity": 1,
         "price_kwh_cop": 1400
       }
     ],
