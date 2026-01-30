@@ -2067,8 +2067,7 @@ app.get('/route', async (req, res) => {
       apiKey: HERE_API_KEY,
       
       // 🚦 TRÁFICO EN TIEMPO REAL
-      departureTime: 'now',
-      'span[traffic]': 'enabled'
+      departureTime: 'now'
     };
     
     // 🆕 Agregar waypoints si existen
@@ -2512,8 +2511,7 @@ app.get('/ev-route', async (req, res) => {
       apiKey: HERE_API_KEY,
       
       // 🚦 TRÁFICO EN TIEMPO REAL
-      departureTime: 'now', // Usar tráfico actual
-      'span[traffic]': 'enabled', // Habilitar datos de tráfico
+      departureTime: 'now',
       
       // ⚡ Parámetros EV
       'ev[makeReachable]': 'true',
