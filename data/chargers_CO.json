@@ -2828,8 +2828,8 @@
     "id": "manual:026",
     "name": "DIELCO Rumbos autopista norte",
     "address": "DIELCO Rumbos autopista norte",
-    "lat": 4.695406366510852,
-    "lon": -74.08660088771049,
+    "lat": 4.854253337096196,
+    "lon": -74.02913357530022,
     "network": null,
     "status": "Unknown",
     "is_operational": true,
@@ -2854,6 +2854,216 @@
         "power_kw": 7.4,
         "current": "AC",
         "quantity": 2,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:027",
+    "name": "DIELCO EDIFICIO Paralelo 108",
+    "address": "DIELCO EDIFICIO Paralelo 108",
+    "lat": 4.854253337096196,
+    "lon": -74.02913357530022,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 19,
+        "current": "DC",
+        "quantity": 3,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:028",
+    "name": "DIELCO CENTRO SUBA ",
+    "address": "DIELCO CENTRO COMERCIAL CENTRO SUBA",
+    "lat": 4.737422671733881,
+    "lon": -74.0855844505615,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:029",
+    "name": "DIELCO CENTRO COMERCIAL ATLANTIS",
+    "address": "DIELCO CENTRO COMERCIAL ATLANTIS",
+    "lat": 4.666244857484045,
+    "lon": -74.05585561311067,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:030",
+    "name": "DIELCO CENTRO COMERCIAL BULEVAR Niza",
+    "address": "DIELCO CENTRO COMERCIAL BULEVAR Niza",
+    "lat": 4.712416504552323,
+    "lon": -74.07147437208967,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1400
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:031",
+    "name": "DIELCO CITY U",
+    "address": "DIELCO CITY U Parqueadero Zona 1",
+    "lat": 4.603439443482216,
+    "lon": -74.06704007398989,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 24,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 24,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:032",
+    "name": "DIELCO CENTRO COMERCIAL GRAN ESTACION",
+    "address": "DIELCO CENTRO COMERCIAL GRAN ESTACION",
+    "lat": 4.646669009826411,
+    "lon": -74.10322615340907,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 24,
+        "current": "DC",
+        "quantity": 3,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 24,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
         "price_kwh_cop": 1400
       }
     ],
