@@ -2971,6 +2971,50 @@ setInterval(() => {
   }
 }, 60 * 60 * 1000); // Cada hora
 
+
+// ============================================================================
+// ENDPOINTS PARA LA APP (sin /api prefix)
+// ============================================================================
+app.post('/traffic-reports', (req, res) => {
+  try {
+    const { type, latitude, longitude, description, timestamp } = req.body;
+    
+    if (!type || latitude == null || longitude == null) {
+      return res.status(400).json({ error: 'Faltan campos requeridos' });
+    }
+    
+    const report = {
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      type,
+      lat: parseFloat(latitude),
+      lon: parseFloat(longitude),
+      description: description || '',
+      severity: type.includes('Heavy') ? 'high' : 'medium',
+      votes: 1,
+      timestamp: timestamp || new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
+    };
+    
+    trafficReports.push(report);
+    console.log(`[TRAFFIC-REPORTS] ✅ Nuevo: ${type} en ${latitude},${longitude} (Total: ${trafficReports.length})`);
+    
+    res.status(201).json({ success: true, report });
+  } catch (error) {
+    console.error('[TRAFFIC-REPORTS] ❌', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/traffic-reports', (req, res) => {
+  try {
+    const now = new Date();
+    let activeReports = trafficReports.filter(r => new Date(r.expiresAt) > now);
+    res.json({ success: true, reports: activeReports, total: activeReports.length });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // ===== errores globales =====
 process.on('uncaughtException', e => console.error('UNCAUGHT', e));
 process.on('unhandledRejection', e => console.error('UNHANDLED', e));
