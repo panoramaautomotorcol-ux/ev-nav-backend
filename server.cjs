@@ -3010,6 +3010,12 @@ app.get('/traffic-reports', (req, res) => {
     const now = new Date();
     let activeReports = trafficReports.filter(r => new Date(r.expiresAt) > now);
     res.json({ success: true, reports: activeReports, total: activeReports.length });
+    
+    // Ordenar por timestamp DESC (más recientes primero)
+    activeReports.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    
+    // Limitar a 100 reportes
+    activeReports = activeReports.slice(0, 100);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -3070,3 +3076,30 @@ app.post("/admin/clear-elevation-cache", (req, res) => {
   res.json({ cleared: size, message: "Cache limpiado exitosamente" });
 });
 
+
+// 🆕 ENDPOINT DELETE - Limpiar reportes corruptos
+app.delete('/traffic-reports', (req, res) => {
+  try {
+    const { invalidOnly } = req.query;
+    
+    if (invalidOnly === 'true') {
+      const before = trafficReports.length;
+      for (let i = trafficReports.length - 1; i >= 0; i--) {
+        if (trafficReports[i].lat == null || trafficReports[i].lon == null) {
+          trafficReports.splice(i, 1);
+        }
+      }
+      const deleted = before - trafficReports.length;
+      console.log(`[DELETE] 🗑️  Eliminados ${deleted} reportes sin coordenadas`);
+      return res.json({ success: true, deleted, remaining: trafficReports.length });
+    } else {
+      const deleted = trafficReports.length;
+      trafficReports.length = 0;
+      console.log(`[DELETE] 🗑️  Eliminados TODOS (${deleted})`);
+      return res.json({ success: true, deleted });
+    }
+  } catch (error) {
+    console.error('[DELETE] ❌', error);
+    res.status(500).json({ error: error.message });
+  }
+});
