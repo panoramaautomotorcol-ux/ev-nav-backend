@@ -2820,7 +2820,7 @@ app.get('/api/calibration-stats', (req, res) => {
 // ==================== SISTEMA DE REPORTES DE TRÁFICO ====================
 
 // Base de datos en memoria para reportes (en producción: usar MongoDB/PostgreSQL)
-const trafficReports = [];
+let trafficReports = [];
 
 // Endpoint para reportar incidentes
 app.post('/api/traffic-report', (req, res) => {
@@ -3029,6 +3029,8 @@ process.on('unhandledRejection', e => console.error('UNHANDLED', e));
 (async () => {
   try {
     PORT = await pickPort();
+    trafficReports = trafficReports.filter(r => r.lat != null && r.lon != null);
+console.log(`[STARTUP] 🗑️ Reportes sin coordenadas eliminados. Quedan: ${trafficReports.length}`);
     httpServer.listen(PORT, '0.0.0.0', () => {
       const ifaces = Object.values(os.networkInterfaces()).flat().filter(Boolean);
       const wifi = ifaces.find(i => i.family === 'IPv4' && !i.internal);
