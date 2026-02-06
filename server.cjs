@@ -2069,7 +2069,7 @@ app.get('/route', async (req, res) => {
       routingMode: 'fast',
       origin, 
       destination,
-      return: 'summary,polyline,actions,instructions',
+      return: 'summary,polyline,actions,turnByTurnActions,instructions',
       lang, 
       apiKey: HERE_API_KEY
     };
@@ -2185,6 +2185,12 @@ app.get('/route', async (req, res) => {
     }
     
     console.log(`[ROUTE] 📋 Steps generados: ${steps.length}`);
+    // 🆕 DEBUG: Mostrar todas las instrucciones
+    if (steps.length > 0 && steps.length <= 30) {
+      steps.forEach((step, idx) => {
+        console.log(`[ROUTE]   ${idx + 1}. ${step.text} @ ${step.offset}m`);
+      });
+    }
     if (steps.length > 0) {
       console.log(`[ROUTE] 📍 Primera instrucción: ${steps[0].text}`);
       console.log(`[ROUTE] 📍 Última instrucción: ${steps[steps.length - 1].text}`);
