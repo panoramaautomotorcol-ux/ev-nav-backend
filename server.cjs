@@ -2590,6 +2590,8 @@ app.get('/route', async (req, res) => {
       points: pointsArray,    // 🔧 FIX: Compatibilidad con Flutter (espera 'points')
       distance_km: distanceKm,
       duration_sec: routeData.durationSeconds,
+      duration_min: routeData.durationSeconds / 60,  // 🔧 FIX: Compatibilidad con Flutter
+      durationSeconds: routeData.durationSeconds,    // 🔧 FIX: Compatibilidad adicional
       steps: routeData.steps,
       elevation: elevationData,
       consumption_percent: totalConsumptionPercent,
