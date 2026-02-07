@@ -269,6 +269,242 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
+// ===== DENSIFICACIÓN DE RUTA (FIX 15) =====
+// Interpolar puntos entre dos coordenadas
+function interpolatePoints(p1, p2, numPoints = 3) {
+  const result = [];
+  for (let i = 1; i <= numPoints; i++) {
+    const ratio = i / (numPoints + 1);
+    result.push({
+      lat: +(p1.lat + (p2.lat - p1.lat) * ratio).toFixed(6),
+      lon: +(p1.lon + (p2.lon - p1.lon) * ratio).toFixed(6)
+    });
+  }
+  return result;
+}
+
+// Densificar ruta agregando puntos intermedios
+function densifyRoute(points, targetPointsPerKm = 20) {
+  if (points.length < 2) return points;
+  const densified = [points[0]];
+  for (let i = 0; i < points.length - 1; i++) {
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const R = 6371000;
+    const dLat = (p2.lat - p1.lat) * Math.PI / 180;
+    const dLon = (p2.lon - p1.lon) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(p1.lat * Math.PI / 180) * Math.cos(p2.lat * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const distMeters = R * c;
+    const distKm = distMeters / 1000;
+    const numToAdd = Math.floor(distKm * targetPointsPerKm);
+    if (numToAdd > 0 && numToAdd < 50) {
+      const interpolated = interpolatePoints(p1, p2, numToAdd);
+      densified.push(...interpolated);
+    }
+    densified.push(p2);
+  }
+  return densified;
+}
+// ==================== GOOGLE MAPS INTEGRATION ====================
+
+const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY || '';
+
+/**
+ * Decodificar polyline de Google (formato diferente a HERE)
+ */
+function decodeGooglePolyline(encoded) {
+  const poly = [];
+  let index = 0, len = encoded.length;
+  let lat = 0, lng = 0;
+
+  while (index < len) {
+    let b, shift = 0, result = 0;
+    do {
+      b = encoded.charCodeAt(index++) - 63;
+      result |= (b & 0x1f) << shift;
+      shift += 5;
+    } while (b >= 0x20);
+    const dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
+    lat += dlat;
+
+    shift = 0;
+    result = 0;
+    do {
+      b = encoded.charCodeAt(index++) - 63;
+      result |= (b & 0x1f) << shift;
+      shift += 5;
+    } while (b >= 0x20);
+    const dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
+    lng += dlng;
+
+    poly.push({
+      lat: (lat / 1e5),
+      lon: (lng / 1e5)
+    });
+  }
+  return poly;
+}
+
+/**
+ * Calcular ruta usando Google Maps Directions API
+ */
+async function calculateRouteGoogle(origin, destination, waypoints = null, vehicleId = 'generic') {
+  if (!GOOGLE_MAPS_API_KEY) {
+    throw new Error('GOOGLE_MAPS_API_KEY no configurada');
+  }
+
+  console.log('[GOOGLE] 🗺️  Calculando ruta con Google Maps');
+  console.log('[GOOGLE]   Origen:', origin);
+  console.log('[GOOGLE]   Destino:', destination);
+  console.log('[GOOGLE]   Waypoints:', waypoints || 'ninguno');
+
+  const params = {
+    origin: origin,
+    destination: destination,
+    departure_time: 'now',  // Tráfico en tiempo real
+    traffic_model: 'best_guess',
+    alternatives: false,
+    language: 'es',
+    units: 'metric',
+    key: GOOGLE_MAPS_API_KEY
+  };
+
+  // Agregar waypoints si existen
+  if (waypoints) {
+    const waypointsList = waypoints.split('|');
+    params.waypoints = waypointsList.join('|');
+    console.log('[GOOGLE] 📍 Waypoints agregados:', waypointsList.length);
+  }
+
+  let response;
+  try {
+    response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
+      params,
+      timeout: 15000
+    });
+  } catch (error) {
+    console.error('[GOOGLE] ❌ Error llamando a Google Maps:', error.message);
+    throw error;
+  }
+
+  const data = response.data;
+
+  if (data.status !== 'OK') {
+    console.error('[GOOGLE] ❌ Google Maps error:', data.status, data.error_message);
+    throw new Error(`Google Maps error: ${data.status}`);
+  }
+
+  const route = data.routes[0];
+  const leg = route.legs[0];
+
+  console.log('[GOOGLE] ✅ Ruta recibida de Google Maps');
+
+  // Decodificar polyline
+  const polylineEncoded = route.overview_polyline.points;
+  let points = decodeGooglePolyline(polylineEncoded);
+
+  console.log('[GOOGLE] 📊 Puntos originales:', points.length);
+
+  // Densificar ruta (20 puntos por km)
+  points = densifyRoute(points, 20);
+  console.log('[GOOGLE] 🔢 Puntos densificados:', points.length);
+
+  // Procesar steps (instrucciones)
+  const steps = [];
+  let currentOffset = 0;
+
+  for (const step of leg.steps) {
+    // Limpiar HTML de las instrucciones
+    const cleanText = step.html_instructions
+      .replace(/<[^>]*>/g, '')  // Quitar tags HTML
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .trim();
+
+    if (cleanText) {
+      steps.push({
+        text: cleanText,
+        offset: currentOffset,
+        length_m: step.distance.value
+      });
+    }
+
+    currentOffset += step.distance.value;
+  }
+
+  console.log('[GOOGLE] 📋 Steps generados:', steps.length);
+  if (steps.length > 0) {
+    console.log('[GOOGLE] 📍 Primera instrucción:', steps[0].text);
+    console.log('[GOOGLE] 📍 Última instrucción:', steps[steps.length - 1].text);
+  }
+
+  // Duración con tráfico (si está disponible)
+  const durationSeconds = leg.duration_in_traffic 
+    ? leg.duration_in_traffic.value 
+    : leg.duration.value;
+
+  const distanceMeters = leg.distance.value;
+
+  console.log('[GOOGLE] 📊 Distancia:', (distanceMeters / 1000).toFixed(1), 'km');
+  console.log('[GOOGLE] ⏱️  Duración con tráfico:', Math.round(durationSeconds / 60), 'min');
+
+  return {
+    points,
+    steps,
+    distanceMeters,
+    durationSeconds,
+    provider: 'google'
+  };
+}
+
+/**
+ * Sistema de caché de rutas
+ */
+const routeCache = new Map();
+const ROUTE_CACHE_TTL = 15 * 60 * 1000; // 15 minutos
+
+function getCacheKey(origin, destination, waypoints) {
+  return `${origin}_${destination}_${waypoints || 'direct'}`;
+}
+
+function getCachedRoute(origin, destination, waypoints) {
+  const key = getCacheKey(origin, destination, waypoints);
+  const cached = routeCache.get(key);
+  
+  if (cached && Date.now() - cached.timestamp < ROUTE_CACHE_TTL) {
+    console.log('[CACHE] ⚡ Cache HIT:', key);
+    return cached.data;
+  }
+  
+  return null;
+}
+
+function setCachedRoute(origin, destination, waypoints, data) {
+  const key = getCacheKey(origin, destination, waypoints);
+  routeCache.set(key, {
+    data,
+    timestamp: Date.now()
+  });
+  console.log('[CACHE] 💾 Ruta guardada en caché:', key);
+}
+
+// Limpiar caché cada hora
+setInterval(() => {
+  const now = Date.now();
+  let cleaned = 0;
+  for (const [key, value] of routeCache.entries()) {
+    if (now - value.timestamp > ROUTE_CACHE_TTL) {
+      routeCache.delete(key);
+      cleaned++;
+    }
+  }
+  if (cleaned > 0) {
+    console.log(`[CACHE] 🧹 Limpiados ${cleaned} rutas expiradas`);
+  }
+}, 60 * 60 * 1000);
+
+
 
 
 // ==================== ENV ====================
@@ -276,6 +512,8 @@ let PORT = Number(process.env.PORT || 3000);
 const HERE_API_KEY     = process.env.HERE_API_KEY     || '';
 const MAPTILER_KEY     = process.env.MAPTILER_KEY     || '';
 const MAPBOX_TOKEN     = process.env.MAPBOX_TOKEN     || '';
+const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY || '';
+console.log('[ENV] GOOGLE_MAPS_API_KEY len =', (GOOGLE_MAPS_API_KEY || '').length);
 const TRAFFIC_TTL_MS   = Number(process.env.TRAFFIC_TTL_MS || 60_000);
 const OCM_API_KEY      = process.env.OCM_API_KEY      || '';
 const EV_COUNTRY_CODE  = process.env.EV_COUNTRY_CODE  || 'CO';
@@ -2043,282 +2281,337 @@ function calculateElevationImpact(elevations) {
   };
 }
 
+// ==================== ENDPOINT /route CON GOOGLE MAPS + HERE FALLBACK ====================
 app.get('/route', async (req, res) => {
   try {
-    const origin      = String(req.query.from || req.query.origin || '');
-    const destination = String(req.query.to   || req.query.destination || '');
-    const waypoints   = req.query.waypoints ? String(req.query.waypoints) : null;
-    const lang        = String(req.query.lang || 'es-ES');
-    const debug       = req.query.debug != null;
+    const origin = String(req.query.from || req.query.origin || '');
+    const destination = String(req.query.to || req.query.destination || '');
+    const waypoints = req.query.waypoints ? String(req.query.waypoints) : null;
+    const vehicleId = String(req.query.vehicle_id || 'generic');
+    const lang = String(req.query.lang || 'es-ES');
+    const debug = req.query.debug != null;
+    const provider = String(req.query.provider || 'auto'); // 'google', 'here', 'auto'
 
     console.log('[ROUTE] 🚗 Calculando ruta:');
     console.log('[ROUTE]   Origen:', origin);
     console.log('[ROUTE]   Destino:', destination);
     console.log('[ROUTE]   Waypoints:', waypoints || 'ninguno');
+    console.log('[ROUTE]   Provider:', provider);
 
     if (!origin || !destination) {
-      return res.status(400).json({ error: 'BadRequest', detail: 'origin/from y destination/to son requeridos (lat,lon)' });
-    }
-    if (!HERE_API_KEY) {
-      return res.status(500).json({ error: 'route_failed', detail: 'HERE_API_KEY faltante' });
-    }
-
-    const url = 'https://router.hereapi.com/v8/routes';
-    const params = {
-      transportMode: 'car', 
-      routingMode: 'fast',
-      origin, 
-      destination,
-      return: 'summary,polyline,actions,turnByTurnActions,instructions',
-      lang, 
-      apiKey: HERE_API_KEY
-    };
-    
-    // 🆕 Agregar waypoints si existen
-    let viaString = '';
-    if (waypoints) {
-      const waypointsList = waypoints.split('|');
-      // HERE v8: múltiples parámetros via en la URL
-      viaString = waypointsList.map(wp => `&via=${wp}!passThrough=true`).join('');
-      console.log('[ROUTE] 📍 Waypoints agregados:', waypointsList.length);
-    }
-    
-    // Construir URL manualmente para manejar múltiples 'via'
-    const queryString = new URLSearchParams(params).toString();
-    const fullUrl = `${url}?${queryString}${viaString}`;
-    
-    console.log('[ROUTE] 🌐 URL completa:', fullUrl);
-    
-    let r;
-    try {
-      r = await axios.get(fullUrl, { timeout: 12000 });
-    } catch (error) {
-      console.error('[ROUTE] ❌ Error de HERE API:', error.response?.status, error.response?.data);
-      return res.status(error.response?.status || 500).json({ 
-        error: 'HEREError', 
-        detail: error.response?.data || error.message 
+      return res.status(400).json({ 
+        error: 'BadRequest', 
+        detail: 'origin/from y destination/to son requeridos (lat,lon)' 
       });
     }
-    
-    if (debug) return res.json(r.data);
 
-    const route = r.data?.routes?.[0];
-    const sections = route?.sections || [];
-    if (sections.length === 0) return res.status(502).json({ error: 'NoRoute', detail: 'HERE no devolvió secciones' });
-
-    // 🔥 CRÍTICO: Procesar TODAS las secciones (no solo la primera)
-    // Cuando hay waypoints, HERE devuelve una sección por cada tramo
-    let allPoints = [];
-    let totalDistanceMeters = 0;
-    let totalDurationSeconds = 0;
-    
-    for (let i = 0; i < sections.length; i++) {
-      const section = sections[i];
-      const rawPolyline = typeof section.polyline === 'string' ? section.polyline : null;
-      
-      if (rawPolyline) {
-        try {
-          const sectionPoints = decodeFlexToPoints(rawPolyline);
-          // Evitar duplicar el último punto de la sección anterior
-          if (allPoints.length > 0 && sectionPoints.length > 0) {
-            sectionPoints.shift(); // Quitar el primer punto (es el mismo que el último de la anterior)
-          }
-          allPoints = allPoints.concat(sectionPoints);
-        } catch(e) {
-          console.log('[ROUTE] ⚠️ Error decodificando polyline de sección', i);
-        }
-      }
-      
-      const summary = section.summary || {};
-      totalDistanceMeters += Number(summary.length) || 0;
-      totalDurationSeconds += Number(summary.duration) || 0;
+    // Verificar caché
+    const cached = getCachedRoute(origin, destination, waypoints);
+    if (cached) {
+      console.log('[ROUTE] ⚡ Usando ruta cacheada');
+      return res.json(cached);
     }
-    
-    const points = allPoints;
-    const distanceMeters = totalDistanceMeters;
-    const durationSeconds = totalDurationSeconds;
-    
-    // ===== PROCESAR INSTRUCCIONES TURN-BY-TURN =====
-    const steps = [];
-    let currentOffset = 0; // Distancia acumulada en metros
-    
-    for (let i = 0; i < sections.length; i++) {
-      const section = sections[i];
-      const sectionActions = section.actions || [];
-      
-      for (const action of sectionActions) {
-        const instruction = action.instruction || '';
-        const direction = action.direction || '';
-        const actionType = action.action || '';
-        const lengthMeters = Number(action.length) || 0;
-        
-        // Saltar acciones sin texto útil
-        if (!instruction && actionType === 'continue') continue;
-        
-        // Construir texto de la instrucción
-        let text = instruction || '';
-        
-        // Si no hay instrucción pero hay acción, usar la acción
-        if (!text && actionType) {
-          const actionMap = {
-            'depart': 'Inicia el viaje',
-            'arrive': 'Llegaste a tu destino',
-            'turn': direction ? `Gira a la ${direction}` : 'Gira',
-            'fork': `Toma la ${direction === 'left' ? 'izquierda' : 'derecha'}`,
-            'merge': 'Incorpórate',
-            'roundabout': 'Toma la rotonda',
-            'continue': 'Continúa'
-          };
-          text = actionMap[actionType] || actionType;
+
+    let routeData = null;
+    let usedProvider = null;
+
+    // Estrategia: Google primero, HERE como fallback
+    if (provider === 'auto' || provider === 'google') {
+      if (GOOGLE_MAPS_API_KEY) {
+        try {
+          routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId);
+          usedProvider = 'google';
+          console.log('[ROUTE] ✅ Usando Google Maps');
+        } catch (error) {
+          console.error('[ROUTE] ⚠️ Google Maps falló:', error.message);
+          if (provider === 'google') {
+            return res.status(500).json({ 
+              error: 'google_failed', 
+              detail: error.message 
+            });
+          }
+          // Continuar a HERE si provider='auto'
         }
-        
-        if (text) {
-          steps.push({
-            text: text,
-            offset: Math.round(currentOffset),
-            length_m: Math.round(lengthMeters)
+      } else {
+        console.log('[ROUTE] ⚠️ GOOGLE_MAPS_API_KEY no configurada');
+      }
+    }
+
+    // Fallback a HERE si Google falló o no está disponible
+    if (!routeData && (provider === 'auto' || provider === 'here')) {
+      if (!HERE_API_KEY) {
+        return res.status(500).json({ 
+          error: 'no_provider', 
+          detail: 'Ni Google Maps ni HERE API están configurados' 
+        });
+      }
+
+      console.log('[ROUTE] 🔄 Usando HERE como fallback');
+      
+      try {
+        const url = 'https://router.hereapi.com/v8/routes';
+        const params = {
+          transportMode: 'car',
+          routingMode: 'fast',
+          origin,
+          destination,
+          return: 'summary,polyline,actions,turnByTurnActions,instructions',
+          spans: 'length',
+          lang,
+          apiKey: HERE_API_KEY
+        };
+
+        let viaString = '';
+        if (waypoints) {
+          const waypointsList = waypoints.split('|');
+          viaString = waypointsList.map(wp => `&via=${wp}!passThrough=true`).join('');
+          console.log('[ROUTE] 📍 Waypoints agregados:', waypointsList.length);
+        }
+
+        const queryString = new URLSearchParams(params).toString();
+        const fullUrl = `${url}?${queryString}${viaString}`;
+
+        const r = await axios.get(fullUrl, { timeout: 12000 });
+        const route = r.data?.routes?.[0];
+        const sections = route?.sections || [];
+
+        if (sections.length === 0) {
+          return res.status(502).json({ 
+            error: 'NoRoute', 
+            detail: 'HERE no devolvió secciones' 
           });
         }
-        
-        currentOffset += lengthMeters;
+
+        // Procesar polyline
+        let allPoints = [];
+        let totalDistanceMeters = 0;
+        let totalDurationSeconds = 0;
+
+        for (let i = 0; i < sections.length; i++) {
+          const section = sections[i];
+          const rawPolyline = typeof section.polyline === 'string' ? section.polyline : null;
+
+          if (rawPolyline) {
+            try {
+              const sectionPoints = decodeFlexToPoints(rawPolyline);
+              if (allPoints.length > 0 && sectionPoints.length > 0) {
+                sectionPoints.shift();
+              }
+              allPoints = allPoints.concat(sectionPoints);
+            } catch (e) {
+              console.log('[ROUTE] ⚠️ Error decodificando polyline de sección', i);
+            }
+          }
+
+          const summary = section.summary || {};
+          totalDistanceMeters += Number(summary.length) || 0;
+          totalDurationSeconds += Number(summary.duration) || 0;
+        }
+
+        // Densificar
+        const points = densifyRoute(allPoints, 20);
+        console.log('[ROUTE] 🔢 Puntos originales:', allPoints.length, '→ Densificados:', points.length);
+
+        // Procesar steps
+        const steps = [];
+        let currentOffset = 0;
+
+        for (let i = 0; i < sections.length; i++) {
+          const section = sections[i];
+          const sectionActions = section.actions || [];
+
+          for (const action of sectionActions) {
+            const instruction = action.instruction || '';
+            const lengthMeters = Number(action.length) || 0;
+
+            if (!instruction && action.action === 'continue') continue;
+
+            let text = instruction || '';
+            if (!text && action.action) {
+              const actionMap = {
+                'depart': 'Inicia el viaje',
+                'arrive': 'Llegaste a tu destino',
+                'turn': action.direction ? `Gira a la ${action.direction}` : 'Gira',
+                'fork': `Toma la ${action.direction === 'left' ? 'izquierda' : 'derecha'}`,
+                'merge': 'Incorpórate',
+                'roundabout': 'Toma la rotonda',
+                'continue': 'Continúa'
+              };
+              text = actionMap[action.action] || action.action;
+            }
+
+            if (text) {
+              steps.push({
+                text: text,
+                offset: Math.round(currentOffset),
+                length_m: Math.round(lengthMeters)
+              });
+            }
+
+            currentOffset += lengthMeters;
+          }
+        }
+
+        console.log('[ROUTE] 📋 Steps generados:', steps.length);
+
+        routeData = {
+          points,
+          steps,
+          distanceMeters: totalDistanceMeters,
+          durationSeconds: totalDurationSeconds,
+          provider: 'here'
+        };
+        usedProvider = 'here';
+
+      } catch (error) {
+        console.error('[ROUTE] ❌ HERE también falló:', error.message);
+        return res.status(500).json({ 
+          error: 'all_providers_failed', 
+          detail: 'Google y HERE fallaron' 
+        });
       }
     }
-    
-    console.log(`[ROUTE] 📋 Steps generados: ${steps.length}`);
-    // 🆕 DEBUG: Mostrar todas las instrucciones
-    if (steps.length > 0 && steps.length <= 30) {
-      steps.forEach((step, idx) => {
-        console.log(`[ROUTE]   ${idx + 1}. ${step.text} @ ${step.offset}m`);
+
+    if (!routeData) {
+      return res.status(500).json({ 
+        error: 'no_route', 
+        detail: 'No se pudo calcular la ruta' 
       });
     }
-    if (steps.length > 0) {
-      console.log(`[ROUTE] 📍 Primera instrucción: ${steps[0].text}`);
-      console.log(`[ROUTE] 📍 Última instrucción: ${steps[steps.length - 1].text}`);
-    }
-    
-    // ===== FIN INSTRUCCIONES =====
 
-    
-    console.log('[ROUTE] 📊 Procesadas', sections.length, 'secciones,', points.length, 'puntos totales');
-    
-    // OBTENER PERFIL DE ELEVACIÓN
+    // Obtener perfil de elevación (Mapbox)
     let elevationData = null;
     
-    if (points.length > 0 && MAPBOX_TOKEN) {
+    if (routeData.points.length > 0 && MAPBOX_TOKEN) {
       try {
-        const vehicleId = String(req.query.vehicle_id || 'generic');
         const cacheKey = `${origin}_${destination}_${vehicleId}`;
         const cached = elevationCache.get(cacheKey);
-        
+
         if (cached && (Date.now() - cached.timestamp) < ELEVATION_CACHE_TTL) {
           console.log(`[ELEVATION] ⚡ Cache HIT: ${origin} → ${destination}`);
           elevationData = cached.data;
         } else {
           console.log(`[ELEVATION] 🏔️  Obteniendo perfil: ${origin} → ${destination}`);
           const startTime = Date.now();
+
+          const coordinates = routeData.points.map(p => [p.lng || p.lon, p.lat]);
           
-          // Convertir points a formato [lng, lat]
-          // Los puntos pueden tener 'lng' o 'lon'
-          const coordinates = points.map(p => [p.lng || p.lon, p.lat]);
-          
-          console.log(`[ELEVATION] 🔍 Primer punto original:`, points[0]);
-          console.log(`[ELEVATION] 🔍 Primer punto convertido:`, coordinates[0]);
-          
-          const elevations = await getElevationProfile(coordinates);
-          
-          if (elevations && elevations.length > 0) {
-            const impact = calculateElevationImpact(elevations);
-            
-            // Calcular consumo dinámico según velocidad + vehículo
-            const avgSpeedKmh = Math.min(100, (distanceMeters / durationSeconds) * 3.6);
-            
-            // Obtener perfil del vehículo
-            const vehicleId = String(req.query.vehicle_id || 'generic');
-            const vehicleProfile = getVehicleProfile(vehicleId);
-            
-            // Consumo base del vehículo
-            let consumptionRate = vehicleProfile.consumptionRate;
-            
-            // Ajuste por velocidad (±10%)
-            let speedFactor = 1.0;
-            if (avgSpeedKmh < 50) {
-              speedFactor = 0.9;  // -10% en ciudad (más eficiente)
-            } else if (avgSpeedKmh > 80) {
-              speedFactor = 1.1;  // +10% en autopista (menos eficiente)
-            }
-            
-            consumptionRate = consumptionRate * speedFactor;
-            
-            console.log(`[VEHICLE] 🚗 ID: ${vehicleId}, Batería: ${vehicleProfile.batteryKwh} kWh, Consumo base: ${vehicleProfile.consumptionRate.toFixed(3)}%/km, Ajustado: ${consumptionRate.toFixed(3)}%/km (vel: ${avgSpeedKmh} km/h)`);
-            
-            const baseConsumption = (distanceMeters / 1000) * consumptionRate;
-            const totalConsumption = baseConsumption + impact.batteryImpact;
-            
-            elevationData = {
-              profile: elevations,
-              totalClimb: impact.totalClimb,
-              totalDescent: impact.totalDescent,
-              batteryImpact: impact.batteryImpact,
-              startElevation: elevations[0],
-              endElevation: elevations[elevations.length - 1],
-              avgSpeed: Math.round(avgSpeedKmh),
-              consumptionRate: consumptionRate,
-              estimatedConsumption: totalConsumption
-            };
-            
-            // Guardar en caché
-            elevationCache.set(cacheKey, {
-              data: elevationData,
-              timestamp: Date.now()
-            });
-            
-            const elapsed = Date.now() - startTime;
-            console.log(`[ELEVATION] ✅ Perfil obtenido en ${elapsed}ms`);
-            console.log(`[ELEVATION] 📈 Subida: ${impact.totalClimb}m, Bajada: ${impact.totalDescent}m, Impacto: ${impact.batteryImpact}%`);
-            console.log(`[VELOCITY] 🚗 Velocidad: ${Math.round(avgSpeedKmh)} km/h, Consumo ajustado: ${consumptionRate.toFixed(3)}%/km, Total: ${totalConsumption.toFixed(2)}%`);
+          // Samplear puntos (máximo 300 para Mapbox)
+          let sampledCoords = coordinates;
+          if (coordinates.length > 300) {
+            const step = Math.ceil(coordinates.length / 300);
+            sampledCoords = coordinates.filter((_, i) => i % step === 0);
+            console.log(`[ELEVATION] 🎯 Sampleo: ${sampledCoords.length} puntos de ${coordinates.length}`);
           }
+
+          const chunks = [];
+          for (let i = 0; i < sampledCoords.length; i += 100) {
+            chunks.push(sampledCoords.slice(i, i + 100));
+          }
+
+          const allElevations = [];
+          for (const chunk of chunks) {
+            const coordsStr = chunk.map(c => c.join(',')).join(';');
+            const elevUrl = `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordsStr}.json?layers=contour&limit=50&access_token=${MAPBOX_TOKEN}`;
+            const elevResponse = await axios.get(elevUrl, { timeout: 10000 });
+            
+            // Procesar elevaciones de Mapbox
+            for (let i = 0; i < chunk.length; i++) {
+              const features = elevResponse.data.features.filter(f => 
+                f.geometry.coordinates[0] === chunk[i][0] && 
+                f.geometry.coordinates[1] === chunk[i][1]
+              );
+              const elevation = features.length > 0 && features[0].properties?.ele 
+                ? features[0].properties.ele 
+                : 0;
+              allElevations.push(elevation);
+            }
+          }
+
+          const totalElevGain = allElevations.reduce((sum, e, i) => {
+            if (i === 0) return 0;
+            const diff = e - allElevations[i - 1];
+            return diff > 0 ? sum + diff : sum;
+          }, 0);
+
+          const totalElevLoss = allElevations.reduce((sum, e, i) => {
+            if (i === 0) return 0;
+            const diff = e - allElevations[i - 1];
+            return diff < 0 ? sum + Math.abs(diff) : sum;
+          }, 0);
+
+          elevationData = {
+            elevations: allElevations,
+            gain_m: Math.round(totalElevGain),
+            loss_m: Math.round(totalElevLoss)
+          };
+
+          elevationCache.set(cacheKey, {
+            data: elevationData,
+            timestamp: Date.now()
+          });
+
+          console.log(`[ELEVATION] ✅ Perfil obtenido en ${Date.now() - startTime}ms`);
         }
       } catch (error) {
         console.error('[ELEVATION] ❌ Error:', error.message);
-        // Continuar sin elevación si falla
       }
     }
+
+    // Calcular consumo estimado
+    const profile = VEHICLE_PROFILES[vehicleId] || VEHICLE_PROFILES['generic'];
+    const batteryKwh = profile.batteryKwh || 60;
+    const baseConsumptionRate = profile.consumptionRate || 0.28;
     
+    const distanceKm = routeData.distanceMeters / 1000;
+    const avgSpeedKmh = (distanceKm / (routeData.durationSeconds / 3600));
     
-    // Log de resultado
-    console.log('[ROUTE] ✅ Ruta calculada:');
-    console.log('[ROUTE]   Distancia:', (distanceMeters / 1000).toFixed(1), 'km');
-    console.log('[ROUTE]   Duración:', (durationSeconds / 60).toFixed(0), 'min');
-    console.log('[ROUTE]   Puntos:', points.length);
-    if (waypoints) {
-      console.log('[ROUTE]   ✓ Pasó por', waypoints.split('|').length, 'waypoints');
+    let adjustedConsumption = baseConsumptionRate;
+    if (avgSpeedKmh < 30) adjustedConsumption *= 1.1;
+    else if (avgSpeedKmh > 80) adjustedConsumption *= 1.15;
+    
+    let elevationImpact = 0;
+    if (elevationData) {
+      elevationImpact = (elevationData.gain_m * 0.02 - elevationData.loss_m * 0.01) / 1000;
     }
     
-    res.json({
-      provider: 'here',
-      distanceMeters,
-      durationSeconds,
-      hasPolyline: points.length > 0,
-      points,
+    const totalConsumptionPercent = (distanceKm * adjustedConsumption) + elevationImpact;
+
+    console.log('[ROUTE] ✅ Ruta calculada con', usedProvider.toUpperCase());
+    console.log('[ROUTE]   Distancia:', distanceKm.toFixed(1), 'km');
+    console.log('[ROUTE]   Duración:', Math.round(routeData.durationSeconds / 60), 'min');
+    console.log('[ROUTE]   Puntos:', routeData.points.length);
+    console.log('[ROUTE]   Steps:', routeData.steps.length);
+    console.log('[ROUTE]   Consumo:', totalConsumptionPercent.toFixed(1), '%');
+
+    const response = {
+      polyline: routeData.points.map(p => ({ lat: p.lat, lon: p.lon })),
+      distance_km: distanceKm,
+      duration_sec: routeData.durationSeconds,
+      steps: routeData.steps,
       elevation: elevationData,
-      steps: steps  // 🆕 Instrucciones turn-by-turn
+      consumption_percent: totalConsumptionPercent,
+      provider: usedProvider,
+      vehicle: {
+        id: vehicleId,
+        battery_kwh: batteryKwh,
+        consumption_rate: adjustedConsumption
+      }
+    };
+
+    // Guardar en caché
+    setCachedRoute(origin, destination, waypoints, response);
+
+    return res.json(response);
+
+  } catch (error) {
+    console.error('[ROUTE] ❌ Error general:', error);
+    return res.status(500).json({ 
+      error: 'route_failed', 
+      detail: error.message 
     });
-  } catch (err) {
-    const status = Number(err?.response?.status) || 500;
-    const body   = err?.response?.data || String(err?.message || err);
-    res.status(status).json({ error: 'route_failed', detail: body });
   }
 });
-
-// ==================== PEAJES EN RUTA ====================
-/**
- * Detecta peajes en una ruta calculada
- * Query params:
- *   - from: origen "lat,lon"
- *   - to: destino "lat,lon"  
- *   - waypoints: (opcional) "lat1,lon1|lat2,lon2|..."
- * Retorna: Lista de peajes en la ruta con costos
- */
 app.get('/tolls-in-route', async (req, res) => {
   try {
     const origin = String(req.query.from || '');
