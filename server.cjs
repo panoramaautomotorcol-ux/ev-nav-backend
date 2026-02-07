@@ -512,6 +512,7 @@ let PORT = Number(process.env.PORT || 3000);
 const HERE_API_KEY     = process.env.HERE_API_KEY     || '';
 const MAPTILER_KEY     = process.env.MAPTILER_KEY     || '';
 const MAPBOX_TOKEN     = process.env.MAPBOX_TOKEN     || '';
+const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY || '';
 console.log('[ENV] GOOGLE_MAPS_API_KEY len =', (GOOGLE_MAPS_API_KEY || '').length);
 const TRAFFIC_TTL_MS   = Number(process.env.TRAFFIC_TTL_MS || 60_000);
 const OCM_API_KEY      = process.env.OCM_API_KEY      || '';
@@ -2583,8 +2584,11 @@ app.get('/route', async (req, res) => {
     console.log('[ROUTE]   Steps:', routeData.steps.length);
     console.log('[ROUTE]   Consumo:', totalConsumptionPercent.toFixed(1), '%');
 
+    const pointsArray = routeData.points.map(p => ({ lat: p.lat, lon: p.lon }));
+    
     const response = {
-      polyline: routeData.points.map(p => ({ lat: p.lat, lon: p.lon })),
+      polyline: pointsArray,  // Nombre nuevo
+      points: pointsArray,    // 🔧 FIX: Compatibilidad con Flutter (espera 'points')
       distance_km: distanceKm,
       duration_sec: routeData.durationSeconds,
       steps: routeData.steps,
