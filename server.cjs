@@ -284,7 +284,7 @@ function interpolatePoints(p1, p2, numPoints = 3) {
 }
 
 // Densificar ruta agregando puntos intermedios
-function densifyRoute(points, targetPointsPerKm = 20) {
+function densifyRoute(points, targetPointsPerKm = 40) {
   if (points.length < 2) return points;
   const densified = [points[0]];
   for (let i = 0; i < points.length - 1; i++) {
@@ -407,7 +407,7 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
   console.log('[GOOGLE] 📊 Puntos originales:', points.length);
 
   // Densificar ruta (20 puntos por km)
-  points = densifyRoute(points, 20);
+  points = densifyRoute(points, 40);
   console.log('[GOOGLE] 🔢 Puntos densificados:', points.length);
 
   // Procesar steps (instrucciones)
@@ -2408,7 +2408,7 @@ app.get('/route', async (req, res) => {
         }
 
         // Densificar
-        const points = densifyRoute(allPoints, 20);
+        const points = densifyRoute(allPoints, 40);
         console.log('[ROUTE] 🔢 Puntos originales:', allPoints.length, '→ Densificados:', points.length);
 
         // Procesar steps
