@@ -2568,86 +2568,108 @@ app.get('/route', async (req, res) => {
       });
     }
 
-    // Obtener perfil de elevación (Mapbox)
+    // Obtener perfil de elevación (Google Elevation API)
     let elevationData = null;
     
-    if (routeData.points.length > 0 && MAPBOX_TOKEN) {
+    if (routeData.points.length > 0 && GOOGLE_MAPS_API_KEY) {
       try {
-        const cacheKey = `${origin}_${destination}_${vehicleId}`;
+        const cacheKey = `elev_${origin}_${destination}_${vehicleId}`;
         const cached = elevationCache.get(cacheKey);
 
         if (cached && (Date.now() - cached.timestamp) < ELEVATION_CACHE_TTL) {
           console.log(`[ELEVATION] ⚡ Cache HIT: ${origin} → ${destination}`);
           elevationData = cached.data;
         } else {
-          console.log(`[ELEVATION] 🏔️  Obteniendo perfil: ${origin} → ${destination}`);
+          console.log(`[ELEVATION] 🏔️  Obteniendo perfil con Google: ${origin} → ${destination}`);
           const startTime = Date.now();
 
-          const coordinates = routeData.points.map(p => [p.lng || p.lon, p.lat]);
+          const coordinates = routeData.points.map(p => ({ lat: p.lat, lon: p.lng || p.lon }));
           
-          // Samplear puntos (máximo 300 para Mapbox)
+          // Samplear puntos (máximo 512 para Google Elevation, usar ~200 para eficiencia)
           let sampledCoords = coordinates;
-          if (coordinates.length > 300) {
-            const step = Math.ceil(coordinates.length / 300);
+          if (coordinates.length > 200) {
+            const step = Math.ceil(coordinates.length / 200);
             sampledCoords = coordinates.filter((_, i) => i % step === 0);
+            // Siempre incluir el último punto
+            if (sampledCoords[sampledCoords.length - 1] !== coordinates[coordinates.length - 1]) {
+              sampledCoords.push(coordinates[coordinates.length - 1]);
+            }
             console.log(`[ELEVATION] 🎯 Sampleo: ${sampledCoords.length} puntos de ${coordinates.length}`);
           }
 
+          // Google Elevation acepta hasta 512 puntos por request
+          // Dividir en chunks de 200 para estar seguro con el largo de URL
           const chunks = [];
-          for (let i = 0; i < sampledCoords.length; i += 100) {
-            chunks.push(sampledCoords.slice(i, i + 100));
+          for (let i = 0; i < sampledCoords.length; i += 200) {
+            chunks.push(sampledCoords.slice(i, i + 200));
           }
 
           const allElevations = [];
           for (const chunk of chunks) {
-            const coordsStr = chunk.map(c => c.join(',')).join(';');
-            const elevUrl = `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${coordsStr}.json?layers=contour&limit=50&access_token=${MAPBOX_TOKEN}`;
-            const elevResponse = await axios.get(elevUrl, { timeout: 10000 });
+            const locations = chunk.map(c => `${c.lat},${c.lon}`).join('|');
+            const elevUrl = `https://maps.googleapis.com/maps/api/elevation/json`;
+            const elevResponse = await axios.get(elevUrl, { 
+              params: {
+                locations: locations,
+                key: GOOGLE_MAPS_API_KEY
+              },
+              timeout: 15000 
+            });
             
-            // Procesar elevaciones de Mapbox
-            for (let i = 0; i < chunk.length; i++) {
-              const features = elevResponse.data.features.filter(f => 
-                f.geometry.coordinates[0] === chunk[i][0] && 
-                f.geometry.coordinates[1] === chunk[i][1]
-              );
-              const elevation = features.length > 0 && features[0].properties?.ele 
-                ? features[0].properties.ele 
-                : 0;
-              allElevations.push(elevation);
+            if (elevResponse.data.status === 'OK' && Array.isArray(elevResponse.data.results)) {
+              for (const result of elevResponse.data.results) {
+                allElevations.push(result.elevation || 0);
+              }
+            } else {
+              console.error('[ELEVATION] ❌ Google Elevation API error:', elevResponse.data.status);
+              break;
             }
           }
 
-          const totalElevGain = allElevations.reduce((sum, e, i) => {
-            if (i === 0) return 0;
-            const diff = e - allElevations[i - 1];
-            return diff > 0 ? sum + diff : sum;
-          }, 0);
+          if (allElevations.length > 1) {
+            const startElev = allElevations[0];
+            const endElev = allElevations[allElevations.length - 1];
 
-          const totalElevLoss = allElevations.reduce((sum, e, i) => {
-            if (i === 0) return 0;
-            const diff = e - allElevations[i - 1];
-            return diff < 0 ? sum + Math.abs(diff) : sum;
-          }, 0);
+            const totalElevGain = allElevations.reduce((sum, e, i) => {
+              if (i === 0) return 0;
+              const diff = e - allElevations[i - 1];
+              return diff > 0 ? sum + diff : sum;
+            }, 0);
 
-          elevationData = {
-            elevations: allElevations,
-            gain_m: Math.round(totalElevGain),
-            loss_m: Math.round(totalElevLoss)
-          };
+            const totalElevLoss = allElevations.reduce((sum, e, i) => {
+              if (i === 0) return 0;
+              const diff = e - allElevations[i - 1];
+              return diff < 0 ? sum + Math.abs(diff) : sum;
+            }, 0);
 
-          elevationCache.set(cacheKey, {
-            data: elevationData,
-            timestamp: Date.now()
-          });
+            elevationData = {
+              elevations: allElevations,
+              start_elevation: Math.round(startElev),
+              end_elevation: Math.round(endElev),
+              gain_m: Math.round(totalElevGain),
+              loss_m: Math.round(totalElevLoss),
+              net_change: Math.round(endElev - startElev)
+            };
 
-          console.log(`[ELEVATION] ✅ Perfil obtenido en ${Date.now() - startTime}ms`);
+            elevationCache.set(cacheKey, {
+              data: elevationData,
+              timestamp: Date.now()
+            });
+
+            console.log(`[ELEVATION] ✅ Perfil obtenido en ${Date.now() - startTime}ms`);
+            console.log(`[ELEVATION]   Inicio: ${startElev.toFixed(0)}m → Fin: ${endElev.toFixed(0)}m`);
+            console.log(`[ELEVATION]   Ascenso: +${totalElevGain.toFixed(0)}m, Descenso: -${totalElevLoss.toFixed(0)}m`);
+            console.log(`[ELEVATION]   Cambio neto: ${(endElev - startElev).toFixed(0)}m`);
+          }
         }
       } catch (error) {
         console.error('[ELEVATION] ❌ Error:', error.message);
       }
+    } else {
+      console.log('[ELEVATION] ⚠️ Sin GOOGLE_MAPS_API_KEY - sin cálculo de elevación');
     }
 
-    // Calcular consumo estimado
+    // Calcular consumo estimado con altimetría real
     const profile = VEHICLE_PROFILES[vehicleId] || VEHICLE_PROFILES['generic'];
     const batteryKwh = profile.batteryKwh || 60;
     const baseConsumptionRate = profile.consumptionRate || 0.28;
@@ -2659,12 +2681,59 @@ app.get('/route', async (req, res) => {
     if (avgSpeedKmh < 30) adjustedConsumption *= 1.1;
     else if (avgSpeedKmh > 80) adjustedConsumption *= 1.15;
     
-    let elevationImpact = 0;
-    if (elevationData) {
-      elevationImpact = (elevationData.gain_m * 0.02 - elevationData.loss_m * 0.01) / 1000;
+    let totalConsumptionPercent;
+    
+    if (elevationData && elevationData.gain_m > 0 || elevationData && elevationData.loss_m > 0) {
+      // 🏔️ CÁLCULO CON ALTIMETRÍA REAL
+      // Basado en datos reales de conducción en Colombia:
+      // - Subida: ~0.29%/km (mayor consumo por gravedad)
+      // - Bajada: ~0.15%/km (regeneración recupera energía)
+      // - Plano: consumo base del vehículo
+      
+      const gainM = elevationData.gain_m || 0;
+      const lossM = elevationData.loss_m || 0;
+      const netChange = elevationData.net_change || (elevationData.end_elevation - elevationData.start_elevation) || 0;
+      
+      // Calcular distancia proporcional de subida vs bajada
+      // Ratio basado en metros de cambio vs distancia total
+      const totalVertical = gainM + lossM;
+      
+      if (totalVertical > 50) { // Solo si hay cambio de elevación significativo (>50m)
+        // Estimar km de subida y bajada proporcionalmente
+        const uphillRatio = gainM / totalVertical;
+        const downhillRatio = lossM / totalVertical;
+        
+        // Consumo diferenciado por tramo
+        const uphillConsumption = 0.29;   // %/km subiendo (dato real MG4 Colombia)
+        const downhillConsumption = 0.15; // %/km bajando (con regeneración)
+        
+        // Consumo ponderado
+        const weightedConsumption = (uphillRatio * uphillConsumption) + (downhillRatio * downhillConsumption);
+        
+        totalConsumptionPercent = distanceKm * weightedConsumption;
+        
+        console.log(`[CONSUMPTION] 🏔️ Cálculo con altimetría:`);
+        console.log(`[CONSUMPTION]   Ascenso: +${gainM}m (${(uphillRatio*100).toFixed(0)}% del trayecto)`);
+        console.log(`[CONSUMPTION]   Descenso: -${lossM}m (${(downhillRatio*100).toFixed(0)}% del trayecto)`);
+        console.log(`[CONSUMPTION]   Cambio neto: ${netChange}m`);
+        console.log(`[CONSUMPTION]   Consumo ponderado: ${weightedConsumption.toFixed(4)} %/km`);
+        console.log(`[CONSUMPTION]   Consumo total: ${totalConsumptionPercent.toFixed(1)}%`);
+        console.log(`[CONSUMPTION]   vs plano: ${(distanceKm * adjustedConsumption).toFixed(1)}%`);
+      } else {
+        // Cambio de elevación insignificante, usar cálculo plano
+        totalConsumptionPercent = distanceKm * adjustedConsumption;
+        console.log(`[CONSUMPTION] ➡️ Ruta plana (${totalVertical}m cambio), consumo: ${totalConsumptionPercent.toFixed(1)}%`);
+      }
+    } else {
+      // Sin datos de elevación, usar cálculo plano
+      totalConsumptionPercent = distanceKm * adjustedConsumption;
+      console.log(`[CONSUMPTION] ⚠️ Sin altimetría, consumo plano: ${totalConsumptionPercent.toFixed(1)}%`);
     }
     
-    const totalConsumptionPercent = (distanceKm * adjustedConsumption) + elevationImpact;
+    // 🔧 FIX: Agregar estimatedConsumption dentro de elevationData para que el frontend lo lea
+    if (elevationData) {
+      elevationData.estimatedConsumption = totalConsumptionPercent;
+    }
 
     console.log('[ROUTE] ✅ Ruta calculada con', usedProvider.toUpperCase());
     console.log('[ROUTE]   Distancia:', distanceKm.toFixed(1), 'km');
