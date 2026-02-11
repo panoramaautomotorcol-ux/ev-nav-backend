@@ -1535,11 +1535,11 @@ app.get('/places', async (req, res) => {
     if (!rawQ) {
       return res.json({
         items: [
-          { name: 'Centro Comercial Unicentro', lat: 4.6704, lon: -74.0565, address: 'Calle 127 #15A-24, Bogotá' },
+          { name: 'Centro Comercial Unicentro', lat: 4.7009, lon: -74.0431, address: 'Carrera 15 #124-30, Bogotá' },
           { name: 'Aeropuerto El Dorado', lat: 4.7016, lon: -74.1469, address: 'Av. El Dorado #103-8, Bogotá' },
-          { name: 'Centro Andino', lat: 4.6649, lon: -74.0542, address: 'Carrera 11 #82-71, Bogotá' },
+          { name: 'Centro Andino', lat: 4.6668, lon: -74.0530, address: 'Carrera 11 #82-71, Bogotá' },
           { name: 'Parque de la 93', lat: 4.6762, lon: -74.0485, address: 'Calle 93A, Bogotá' },
-          { name: 'Usaquén', lat: 4.7026, lon: -74.0309, address: 'Localidad de Usaquén' },
+          { name: 'Usaquén', lat: 4.6948, lon: -74.0311, address: 'Localidad de Usaquén' },
           { name: 'Salitre Plaza', lat: 4.6541, lon: -74.1036, address: 'Carrera 68C #24B-60, Bogotá' },
           { name: 'Centro Comercial Titán Plaza', lat: 4.6956, lon: -74.0871, address: 'Calle 80 #69A-50, Bogotá' },
         ],
