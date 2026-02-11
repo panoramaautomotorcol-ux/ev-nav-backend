@@ -362,8 +362,8 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
   const params = {
     origin: origin,
     destination: destination,
-    departure_time: 'now',  // Tráfico en tiempo real
-    traffic_model: 'best_guess',
+    departure_time: 'now',  // ✅ Tráfico en tiempo real
+    traffic_model: 'best_guess', // ✅ Mejor predicción
     alternatives: false,
     language: 'es',
     units: 'metric',
@@ -400,17 +400,19 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
 
   console.log('[GOOGLE] ✅ Ruta recibida de Google Maps');
 
-  // Decodificar polyline
+  // Decodificar polyline completa
   const polylineEncoded = route.overview_polyline.points;
   let points = decodeGooglePolyline(polylineEncoded);
 
   console.log('[GOOGLE] 📊 Puntos originales:', points.length);
 
-  // Densificar ruta (20 puntos por km)
+  // Densificar ruta (40 metros entre puntos)
   points = densifyRoute(points, 40);
   console.log('[GOOGLE] 🔢 Puntos densificados:', points.length);
 
-  // Procesar steps (instrucciones)
+  // ============================================================
+  // 🆕 NUEVO: Procesar steps con tráfico
+  // ============================================================
   const steps = [];
   let currentOffset = 0;
 
@@ -420,26 +422,67 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
       .replace(/<[^>]*>/g, '')  // Quitar tags HTML
       .replace(/&nbsp;/g, ' ')
       .replace(/&amp;/g, '&')
+      .replace(/&#39;/g, "'")
       .trim();
 
-    if (cleanText) {
-      steps.push({
-        text: cleanText,
-        offset: currentOffset,
-        length_m: step.distance.value
-      });
+    if (!cleanText) continue;
+
+    // ✅ NUEVO: Extraer datos de tráfico
+    const distanceMeters = step.distance.value;
+    const durationSeconds = step.duration.value; // Sin tráfico
+    const durationTrafficSeconds = step.duration_in_traffic?.value || durationSeconds; // ✅ CON tráfico
+
+    // Calcular velocidad real (con tráfico)
+    const distanceKm = distanceMeters / 1000;
+    const durationHours = durationTrafficSeconds / 3600;
+    const speedKmh = durationHours > 0 ? distanceKm / durationHours : 0;
+
+    // Determinar nivel de tráfico según velocidad
+    let trafficLevel = 'free';
+    if (speedKmh < 10) {
+      trafficLevel = 'heavy';      // 🔴 Rojo - Congestionado
+    } else if (speedKmh < 20) {
+      trafficLevel = 'moderate';   // 🟠 Naranja - Moderado
+    } else if (speedKmh < 40) {
+      trafficLevel = 'slow';       // 🟡 Amarillo - Lento
     }
 
-    currentOffset += step.distance.value;
+    // Encontrar índices en la polyline densificada
+    const startLat = step.start_location.lat;
+    const startLng = step.start_location.lng;
+    const endLat = step.end_location.lat;
+    const endLng = step.end_location.lng;
+
+    const fromIdx = findClosestPointIndex(points, startLat, startLng);
+    const toIdx = findClosestPointIndex(points, endLat, endLng);
+
+    steps.push({
+      text: cleanText,
+      offset: currentOffset,
+      length_m: distanceMeters,
+      
+      // ✅ NUEVOS CAMPOS DE TRÁFICO
+      distance: distanceMeters,           // metros
+      duration: durationSeconds,          // segundos SIN tráfico
+      duration_traffic: durationTrafficSeconds, // ✅ segundos CON tráfico
+      speed_kmh: Math.round(speedKmh),    // ✅ velocidad real
+      traffic_level: trafficLevel,        // ✅ free, slow, moderate, heavy
+      fromIdx: fromIdx,                   // ✅ índice inicio en polyline
+      toIdx: toIdx                        // ✅ índice fin en polyline
+    });
+
+    currentOffset += distanceMeters;
   }
 
   console.log('[GOOGLE] 📋 Steps generados:', steps.length);
+  console.log('[GOOGLE] 🚦 Tráfico por step:', steps.map(s => s.traffic_level).join(', '));
+  
   if (steps.length > 0) {
     console.log('[GOOGLE] 📍 Primera instrucción:', steps[0].text);
     console.log('[GOOGLE] 📍 Última instrucción:', steps[steps.length - 1].text);
   }
 
-  // Duración con tráfico (si está disponible)
+  // Duración total con tráfico
   const durationSeconds = leg.duration_in_traffic 
     ? leg.duration_in_traffic.value 
     : leg.duration.value;
@@ -448,15 +491,62 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
 
   console.log('[GOOGLE] 📊 Distancia:', (distanceMeters / 1000).toFixed(1), 'km');
   console.log('[GOOGLE] ⏱️  Duración con tráfico:', Math.round(durationSeconds / 60), 'min');
+  
+  // ✅ NUEVO: Log de resumen de tráfico
+  const hasTrafficData = !!leg.duration_in_traffic;
+  const delayMinutes = hasTrafficData 
+    ? (leg.duration_in_traffic.value - leg.duration.value) / 60 
+    : 0;
+  
+  console.log('[GOOGLE] 🚦 Datos de tráfico:', hasTrafficData ? 'SÍ' : 'NO');
+  if (hasTrafficData) {
+    console.log('[GOOGLE] ⏳ Retraso por tráfico:', delayMinutes.toFixed(1), 'min');
+  }
 
   return {
     points,
-    steps,
+    steps,  // ✅ Ahora incluye datos de tráfico por step
     distanceMeters,
     durationSeconds,
-    provider: 'google'
+    provider: 'google',
+    
+    // ✅ NUEVO: Metadata de tráfico
+    traffic_summary: {
+      has_traffic_data: hasTrafficData,
+      free_flow_duration_min: leg.duration.value / 60,
+      traffic_duration_min: durationSeconds / 60,
+      delay_minutes: delayMinutes
+    }
   };
 }
+
+// ============================================================
+// 🆕 NUEVA FUNCIÓN HELPER: Encontrar punto más cercano
+// ============================================================
+function findClosestPointIndex(points, targetLat, targetLng) {
+  let minDist = Infinity;
+  let closestIdx = 0;
+  
+  for (let i = 0; i < points.length; i++) {
+    const point = points[i];
+    const lat = point.lat;
+    const lon = point.lon || point.lng;
+    
+    // Distancia simple (Pitágoras - suficiente para distancias cortas)
+    const dist = Math.sqrt(
+      Math.pow(lat - targetLat, 2) + 
+      Math.pow(lon - targetLng, 2)
+    );
+    
+    if (dist < minDist) {
+      minDist = dist;
+      closestIdx = i;
+    }
+  }
+  
+  return closestIdx;
+}
+
 
 /**
  * Sistema de caché de rutas
