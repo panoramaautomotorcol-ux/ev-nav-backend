@@ -79,7 +79,7 @@ const VEHICLE_PROFILES = {
   'mg_cyberster_77': { batteryKwh: 77.0, consumptionRate: 0.23 },
   'mg_s5_49': { batteryKwh: 49.0, consumptionRate: 0.29 },
   'mg_zs_51': { batteryKwh: 51.0, consumptionRate: 0.31 },
-  'mg_4_49': { batteryKwh: 49.0, consumptionRate: 0.3 },
+  'mg_4_49': { batteryKwh: 49.0, consumptionRate: 0.3, weightKg: 1655 },
   'bmw_i7_105': { batteryKwh: 105.7, consumptionRate: 0.18 },
   'bmw_i5_81': { batteryKwh: 81.2, consumptionRate: 0.2 },
   'bmw_i4_80': { batteryKwh: 80.7, consumptionRate: 0.17 },
@@ -2683,49 +2683,66 @@ app.get('/route', async (req, res) => {
     
     let totalConsumptionPercent;
     
-    if (elevationData && elevationData.gain_m > 0 || elevationData && elevationData.loss_m > 0) {
-      // 🏔️ CÁLCULO CON ALTIMETRÍA REAL
-      // Basado en datos reales de conducción en Colombia:
-      // - Subida: ~0.29%/km (mayor consumo por gravedad)
-      // - Bajada: ~0.15%/km (regeneración recupera energía)
-      // - Plano: consumo base del vehículo
-      
+    if (elevationData && (elevationData.gain_m > 0 || elevationData.loss_m > 0)) {
+      // 🏔️ CÁLCULO CON FÍSICA REAL DE ALTIMETRÍA
       const gainM = elevationData.gain_m || 0;
       const lossM = elevationData.loss_m || 0;
-      const netChange = elevationData.net_change || (elevationData.end_elevation - elevationData.start_elevation) || 0;
-      
-      // Calcular distancia proporcional de subida vs bajada
-      // Ratio basado en metros de cambio vs distancia total
+      const netChange = elevationData.net_change || 0;
       const totalVertical = gainM + lossM;
       
-      if (totalVertical > 50) { // Solo si hay cambio de elevación significativo (>50m)
-        // Estimar km de subida y bajada proporcionalmente
-        const uphillRatio = gainM / totalVertical;
-        const downhillRatio = lossM / totalVertical;
+      if (totalVertical > 50) {
+        // ====== MODELO FÍSICO BASADO EN ENERGÍA ======
+        const vehicleWeightKg = profile.weightKg || 1700; // Peso estimado si no está definido
+        const gravity = 9.81;
         
-        // Consumo diferenciado por tramo
-        const uphillConsumption = 0.29;   // %/km subiendo (dato real MG4 Colombia)
-        const downhillConsumption = 0.15; // %/km bajando (con regeneración)
+        // 1. DETECTAR TIPO DE VIAJE
+        const isDownhillTrip = lossM > (gainM * 1.5); // Bajada neta significativa
         
-        // Consumo ponderado
-        const weightedConsumption = (uphillRatio * uphillConsumption) + (downhillRatio * downhillConsumption);
+        // 2. ENERGÍA POR RODAMIENTO (Consumo base en plano)
+        // consumptionRate está en %/km, convertir a Wh/km: (rate/100) * batteryKwh * 1000
+        const consumptionWhPerKm = (baseConsumptionRate / 100) * batteryKwh * 1000;
         
-        totalConsumptionPercent = distanceKm * weightedConsumption;
+        // Si es bajada neta, el motor empuja menos incluso en tramos planos
+        const rollingFactor = isDownhillTrip ? 0.80 : 1.0;
+        const energyFlatWh = distanceKm * consumptionWhPerKm * rollingFactor;
         
-        console.log(`[CONSUMPTION] 🏔️ Cálculo con altimetría:`);
-        console.log(`[CONSUMPTION]   Ascenso: +${gainM}m (${(uphillRatio*100).toFixed(0)}% del trayecto)`);
-        console.log(`[CONSUMPTION]   Descenso: -${lossM}m (${(downhillRatio*100).toFixed(0)}% del trayecto)`);
-        console.log(`[CONSUMPTION]   Cambio neto: ${netChange}m`);
-        console.log(`[CONSUMPTION]   Consumo ponderado: ${weightedConsumption.toFixed(4)} %/km`);
-        console.log(`[CONSUMPTION]   Consumo total: ${totalConsumptionPercent.toFixed(1)}%`);
+        // 3. ENERGÍA PARA SUBIR (eficiencia motor 90%)
+        let energyToClimbWh = (vehicleWeightKg * gravity * gainM) / 3600 / 0.90;
+        
+        // 4. ENERGÍA RECUPERADA AL BAJAR (regeneración 85% - EVs modernos)
+        const regenEfficiency = 0.85;
+        const energyRegenWh = (vehicleWeightKg * gravity * lossM) / 3600 * regenEfficiency;
+        
+        // 5. EFECTO MONTAÑA RUSA: Si es bajada neta, las subidas intermedias
+        // usan impulso de la bajada anterior → cobrar solo 70% de subida
+        if (isDownhillTrip) {
+          energyToClimbWh *= 0.70;
+        }
+        
+        // 6. ENERGÍA TOTAL
+        let totalEnergyWh = energyFlatWh + energyToClimbWh - energyRegenWh;
+        
+        // 7. MÍNIMO FÍSICO: luces, AC, pantalla, etc. (~20 Wh/km)
+        const minEnergyWh = distanceKm * 20;
+        if (totalEnergyWh < minEnergyWh) totalEnergyWh = minEnergyWh;
+        
+        // 8. CONVERTIR A % DE BATERÍA
+        totalConsumptionPercent = (totalEnergyWh / 1000) / batteryKwh * 100;
+        
+        console.log(`[CONSUMPTION] 🏔️ Cálculo FÍSICO con altimetría:`);
+        console.log(`[CONSUMPTION]   Tipo: ${isDownhillTrip ? 'BAJADA NETA' : 'MIXTO/SUBIDA'}`);
+        console.log(`[CONSUMPTION]   Ascenso: +${gainM}m | Descenso: -${lossM}m | Neto: ${netChange}m`);
+        console.log(`[CONSUMPTION]   Energía plano: ${(energyFlatWh/1000).toFixed(1)} kWh`);
+        console.log(`[CONSUMPTION]   Energía subida: +${(energyToClimbWh/1000).toFixed(1)} kWh ${isDownhillTrip ? '(reducida 30% montaña rusa)' : ''}`);
+        console.log(`[CONSUMPTION]   Regeneración: -${(energyRegenWh/1000).toFixed(1)} kWh (85% eficiencia)`);
+        console.log(`[CONSUMPTION]   Energía total: ${(totalEnergyWh/1000).toFixed(1)} kWh`);
+        console.log(`[CONSUMPTION]   Consumo: ${totalConsumptionPercent.toFixed(1)}% (batería ${batteryKwh} kWh)`);
         console.log(`[CONSUMPTION]   vs plano: ${(distanceKm * adjustedConsumption).toFixed(1)}%`);
       } else {
-        // Cambio de elevación insignificante, usar cálculo plano
         totalConsumptionPercent = distanceKm * adjustedConsumption;
         console.log(`[CONSUMPTION] ➡️ Ruta plana (${totalVertical}m cambio), consumo: ${totalConsumptionPercent.toFixed(1)}%`);
       }
     } else {
-      // Sin datos de elevación, usar cálculo plano
       totalConsumptionPercent = distanceKm * adjustedConsumption;
       console.log(`[CONSUMPTION] ⚠️ Sin altimetría, consumo plano: ${totalConsumptionPercent.toFixed(1)}%`);
     }
