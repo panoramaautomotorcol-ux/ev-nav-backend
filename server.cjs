@@ -2702,24 +2702,18 @@ app.get('/route', async (req, res) => {
         // consumptionRate está en %/km, convertir a Wh/km: (rate/100) * batteryKwh * 1000
         const consumptionWhPerKm = (baseConsumptionRate / 100) * batteryKwh * 1000;
         
-        // Si es bajada neta, el motor empuja menos incluso en tramos planos
-        const rollingFactor = isDownhillTrip ? 0.80 : 1.0;
+        // Si es bajada neta, menos fricción (calibrado con datos reales Bog→Gir)
+        const rollingFactor = isDownhillTrip ? 0.90 : 1.0;
         const energyFlatWh = distanceKm * consumptionWhPerKm * rollingFactor;
         
-        // 3. ENERGÍA PARA SUBIR (eficiencia motor 90%)
-        let energyToClimbWh = (vehicleWeightKg * gravity * gainM) / 3600 / 0.90;
+        // 3. ENERGÍA PARA SUBIR (eficiencia motor 82% - calibrado con Gir→Bog real: 57% en 116km)
+        let energyToClimbWh = (vehicleWeightKg * gravity * gainM) / 3600 / 0.82;
         
-        // 4. ENERGÍA RECUPERADA AL BAJAR (regeneración 85% - EVs modernos)
-        const regenEfficiency = 0.85;
+        // 4. ENERGÍA RECUPERADA AL BAJAR (regeneración 92% - calibrado con Bog→Gir real: 5% en 119km)
+        const regenEfficiency = 0.92;
         const energyRegenWh = (vehicleWeightKg * gravity * lossM) / 3600 * regenEfficiency;
         
-        // 5. EFECTO MONTAÑA RUSA: Si es bajada neta, las subidas intermedias
-        // usan impulso de la bajada anterior → cobrar solo 70% de subida
-        if (isDownhillTrip) {
-          energyToClimbWh *= 0.70;
-        }
-        
-        // 6. ENERGÍA TOTAL
+        // 5. ENERGÍA TOTAL (sin efecto montaña rusa - calibración real lo cubre)
         let totalEnergyWh = energyFlatWh + energyToClimbWh - energyRegenWh;
         
         // 7. MÍNIMO FÍSICO: luces, AC, pantalla, etc. (~20 Wh/km)
@@ -2734,7 +2728,7 @@ app.get('/route', async (req, res) => {
         console.log(`[CONSUMPTION]   Ascenso: +${gainM}m | Descenso: -${lossM}m | Neto: ${netChange}m`);
         console.log(`[CONSUMPTION]   Energía plano: ${(energyFlatWh/1000).toFixed(1)} kWh`);
         console.log(`[CONSUMPTION]   Energía subida: +${(energyToClimbWh/1000).toFixed(1)} kWh ${isDownhillTrip ? '(reducida 30% montaña rusa)' : ''}`);
-        console.log(`[CONSUMPTION]   Regeneración: -${(energyRegenWh/1000).toFixed(1)} kWh (85% eficiencia)`);
+        console.log(`[CONSUMPTION]   Regeneración: -${(energyRegenWh/1000).toFixed(1)} kWh (92% eficiencia)`);
         console.log(`[CONSUMPTION]   Energía total: ${(totalEnergyWh/1000).toFixed(1)} kWh`);
         console.log(`[CONSUMPTION]   Consumo: ${totalConsumptionPercent.toFixed(1)}% (batería ${batteryKwh} kWh)`);
         console.log(`[CONSUMPTION]   vs plano: ${(distanceKm * adjustedConsumption).toFixed(1)}%`);
