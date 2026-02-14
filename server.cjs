@@ -400,9 +400,43 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
 
   console.log('[GOOGLE] ✅ Ruta recibida de Google Maps');
 
-  // Decodificar polyline completa
-  const polylineEncoded = route.overview_polyline.points;
-  let points = decodeGooglePolyline(polylineEncoded);
+  // Decodificar polyline DETALLADA desde cada step (no overview que simplifica y cruza casas)
+  let points = [];
+  
+  // Intentar construir polyline desde steps individuales (más detallada)
+  let usedStepPolylines = false;
+  if (leg.steps && leg.steps.length > 0) {
+    for (const step of leg.steps) {
+      if (step.polyline && step.polyline.points) {
+        const stepPoints = decodeGooglePolyline(step.polyline.points);
+        if (stepPoints.length > 0) {
+          // Evitar duplicar el punto de unión entre steps
+          if (points.length > 0 && stepPoints.length > 0) {
+            const lastPt = points[points.length - 1];
+            const firstPt = stepPoints[0];
+            if (Math.abs(lastPt.lat - firstPt.lat) < 0.00001 && 
+                Math.abs(lastPt.lon - firstPt.lon) < 0.00001) {
+              points.push(...stepPoints.slice(1));
+            } else {
+              points.push(...stepPoints);
+            }
+          } else {
+            points.push(...stepPoints);
+          }
+        }
+      }
+    }
+    usedStepPolylines = points.length > 10;
+  }
+  
+  // Fallback: usar overview_polyline si no se pudieron extraer de los steps
+  if (!usedStepPolylines) {
+    const polylineEncoded = route.overview_polyline.points;
+    points = decodeGooglePolyline(polylineEncoded);
+    console.log('[GOOGLE] ⚠️ Usando overview_polyline (fallback)');
+  } else {
+    console.log('[GOOGLE] ✅ Polyline construida desde steps (detallada)');
+  }
 
   console.log('[GOOGLE] 📊 Puntos originales:', points.length);
 
