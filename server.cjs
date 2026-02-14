@@ -2731,13 +2731,20 @@ app.get('/route', async (req, res) => {
         
         // 1. DETECTAR TIPO DE VIAJE
         const isDownhillTrip = lossM > (gainM * 1.5); // Bajada neta significativa
+        const isExtremeDownhill = lossM > (gainM * 2.5); // Bajada extrema (ej: Bogotá→Girardot, -2300m)
         
         // 2. ENERGÍA POR RODAMIENTO (Consumo base en plano)
-        // consumptionRate está en %/km, convertir a Wh/km: (rate/100) * batteryKwh * 1000
         const consumptionWhPerKm = (baseConsumptionRate / 100) * batteryKwh * 1000;
         
-        // Si es bajada neta, menos fricción (calibrado con datos reales Bog→Gir)
-        const rollingFactor = isDownhillTrip ? 0.90 : 1.0;
+        // Rolling factor calibrado con datos reales:
+        // - Bogotá→Girardot (bajada extrema -2300m): 5-12% real según velocidad
+        // - RF 0.75 = ~10% estimado (promedio entre conducción eficiente y rápida)
+        let rollingFactor = 1.0;
+        if (isExtremeDownhill) {
+          rollingFactor = 0.75; // Bajada extrema: gravedad hace gran parte del trabajo
+        } else if (isDownhillTrip) {
+          rollingFactor = 0.85; // Bajada moderada
+        }
         const energyFlatWh = distanceKm * consumptionWhPerKm * rollingFactor;
         
         // 3. ENERGÍA PARA SUBIR (eficiencia motor 82% - calibrado con Gir→Bog real: 57% en 116km)
