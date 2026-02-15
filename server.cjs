@@ -2411,6 +2411,7 @@ app.get('/route', async (req, res) => {
     const destination = String(req.query.to || req.query.destination || '');
     const waypoints = req.query.waypoints ? String(req.query.waypoints) : null;
     const vehicleId = String(req.query.vehicle_id || 'generic');
+    const passengers = parseInt(req.query.passengers) || 1; // 🆕 Número de pasajeros (1-5)
     const lang = String(req.query.lang || 'es-ES');
     const debug = req.query.debug != null;
     const provider = String(req.query.provider || 'auto'); // 'google', 'here', 'auto'
@@ -2726,24 +2727,36 @@ app.get('/route', async (req, res) => {
       
       if (totalVertical > 50) {
         // ====== MODELO FÍSICO BASADO EN ENERGÍA ======
-        const vehicleWeightKg = profile.weightKg || 1700; // Peso estimado si no está definido
+        const vehicleBaseWeightKg = profile.weightKg || 1700;
+        // 🆕 Sumar peso de pasajeros (75kg promedio por persona)
+        const passengerWeightKg = passengers * 75;
+        const vehicleWeightKg = vehicleBaseWeightKg + passengerWeightKg;
         const gravity = 9.81;
+        
+        console.log(`[CONSUMPTION]   Peso: ${vehicleBaseWeightKg}kg + ${passengers} pasajeros (${passengerWeightKg}kg) = ${vehicleWeightKg}kg`);
         
         // 1. DETECTAR TIPO DE VIAJE
         const isDownhillTrip = lossM > (gainM * 1.5); // Bajada neta significativa
         const isExtremeDownhill = lossM > (gainM * 2.5); // Bajada extrema (ej: Bogotá→Girardot, -2300m)
+        const isUphillTrip = gainM > (lossM * 1.5); // Subida neta significativa
+        const isExtremeUphill = gainM > (lossM * 2.5); // Subida extrema (ej: Girardot→Bogotá, +2300m)
         
         // 2. ENERGÍA POR RODAMIENTO (Consumo base en plano)
         const consumptionWhPerKm = (baseConsumptionRate / 100) * batteryKwh * 1000;
         
-        // Rolling factor calibrado con datos reales:
-        // - Bogotá→Girardot (bajada extrema -2300m): 5-12% real según velocidad
-        // - RF 0.75 = ~10% estimado (promedio entre conducción eficiente y rápida)
+        // Rolling factor calibrado con datos reales MG4:
+        // BAJADA: Bogotá→Girardot (5-12% real) → RF 0.75
+        // SUBIDA: Girardot→Bogotá (57% real con 5 pax) → RF 0.70
+        // En subida extrema el carro va lento (40-50km/h) → menos consumo plano
         let rollingFactor = 1.0;
         if (isExtremeDownhill) {
           rollingFactor = 0.75; // Bajada extrema: gravedad hace gran parte del trabajo
+        } else if (isExtremeUphill) {
+          rollingFactor = 0.70; // Subida extrema: velocidad baja reduce consumo plano
         } else if (isDownhillTrip) {
           rollingFactor = 0.85; // Bajada moderada
+        } else if (isUphillTrip) {
+          rollingFactor = 0.80; // Subida moderada
         }
         const energyFlatWh = distanceKm * consumptionWhPerKm * rollingFactor;
         
