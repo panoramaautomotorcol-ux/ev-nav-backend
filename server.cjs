@@ -2608,7 +2608,7 @@ app.get('/route', async (req, res) => {
     
     if (routeData.points.length > 0 && GOOGLE_MAPS_API_KEY) {
       try {
-        const cacheKey = `elev_${origin}_${destination}_${vehicleId}`;
+        const cacheKey = `elev_${origin}_${destination}_${waypoints || 'direct'}_${vehicleId}`;
         const cached = elevationCache.get(cacheKey);
 
         if (cached && (Date.now() - cached.timestamp) < ELEVATION_CACHE_TTL) {
@@ -2619,6 +2619,7 @@ app.get('/route', async (req, res) => {
           const startTime = Date.now();
 
           const coordinates = routeData.points.map(p => ({ lat: p.lat, lon: p.lng || p.lon }));
+          console.log('[ELEVATION] 📐 Puntos totales de ruta para elevación:', coordinates.length, 'Primer punto:', JSON.stringify(coordinates[0]), 'Último:', JSON.stringify(coordinates[coordinates.length-1]));
           
           // Samplear puntos (máximo 512 para Google Elevation, usar ~200 para eficiencia)
           let sampledCoords = coordinates;
@@ -2747,18 +2748,27 @@ app.get('/route', async (req, res) => {
         // Rolling factor calibrado con datos reales MG4:
         // BAJADA: Bogotá→Girardot (5-12% real) → RF 0.75
         // SUBIDA: Girardot→Bogotá (57% real con 5 pax) → RF 0.70
-        // En subida extrema el carro va lento (40-50km/h) → menos consumo plano
+        // MIXTO MONTAÑA: velocidad promedio baja (50-60km/h) → menos consumo aerodinámico
+        const isMountainMixed = totalVertical > 2000 && !isExtremeDownhill && !isExtremeUphill;
+        
         let rollingFactor = 1.0;
         if (isExtremeDownhill) {
-          rollingFactor = 0.75; // Bajada extrema: gravedad hace gran parte del trabajo
+          rollingFactor = 0.75;
         } else if (isExtremeUphill) {
-          rollingFactor = 0.70; // Subida extrema: velocidad baja reduce consumo plano
+          rollingFactor = 0.70;
         } else if (isDownhillTrip) {
-          rollingFactor = 0.85; // Bajada moderada
+          rollingFactor = 0.85;
         } else if (isUphillTrip) {
-          rollingFactor = 0.80; // Subida moderada
+          rollingFactor = 0.80;
+        } else if (isMountainMixed) {
+          rollingFactor = 0.80; // Montaña mixta: velocidad promedio baja
         }
-        const energyFlatWh = distanceKm * consumptionWhPerKm * rollingFactor;
+        
+        // 🆕 Factor de peso en consumo plano (más peso = más resistencia rodadura)
+        // Referencia: peso base del vehículo. Cada 100kg extra = +3% consumo plano
+        const weightFactor = 1.0 + ((vehicleWeightKg - vehicleBaseWeightKg) / 100) * 0.03;
+        
+        const energyFlatWh = distanceKm * consumptionWhPerKm * rollingFactor * weightFactor;
         
         // 3. ENERGÍA PARA SUBIR (eficiencia motor 82% - calibrado con Gir→Bog real: 57% en 116km)
         let energyToClimbWh = (vehicleWeightKg * gravity * gainM) / 3600 / 0.82;
