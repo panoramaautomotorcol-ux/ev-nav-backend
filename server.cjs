@@ -2494,10 +2494,12 @@ app.get('/route', async (req, res) => {
 
         const queryString = new URLSearchParams(params).toString();
         const fullUrl = `${url}?${queryString}${viaString}`;
+        console.log('[ROUTE] 🔗 HERE URL (sin apiKey):', fullUrl.replace(HERE_API_KEY, '***'));
 
         const r = await axios.get(fullUrl, { timeout: 12000 });
         const route = r.data?.routes?.[0];
         const sections = route?.sections || [];
+        console.log('[ROUTE] 📦 HERE secciones:', sections.length, 'distancias:', sections.map(s => (s.summary?.length/1000).toFixed(1) + 'km'));
 
         if (sections.length === 0) {
           return res.status(502).json({ 
