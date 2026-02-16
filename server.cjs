@@ -2488,18 +2488,33 @@ app.get('/route', async (req, res) => {
         let viaString = '';
         if (waypoints) {
           const waypointsList = waypoints.split('|');
-          viaString = waypointsList.map(wp => `&via=${wp}!passThrough=true`).join('');
+          // HERE v8: usar via sin passThrough para forzar que la ruta PASE por cada punto
+          // passThrough=true puede causar que HERE ignore waypoints lejanos
+          viaString = waypointsList.map(wp => {
+            const trimmed = wp.trim();
+            return `&via=${trimmed}`;
+          }).join('');
           console.log('[ROUTE] 📍 Waypoints agregados:', waypointsList.length);
+          console.log('[ROUTE] 📍 Waypoints coords:', waypointsList.map(wp => wp.trim()));
         }
 
         const queryString = new URLSearchParams(params).toString();
         const fullUrl = `${url}?${queryString}${viaString}`;
         console.log('[ROUTE] 🔗 HERE URL (sin apiKey):', fullUrl.replace(HERE_API_KEY, '***'));
 
-        const r = await axios.get(fullUrl, { timeout: 12000 });
+        const r = await axios.get(fullUrl, { timeout: 30000 });
         const route = r.data?.routes?.[0];
         const sections = route?.sections || [];
-        console.log('[ROUTE] 📦 HERE secciones:', sections.length, 'distancias:', sections.map(s => (s.summary?.length/1000).toFixed(1) + 'km'));
+        const sectionDistances = sections.map(s => (s.summary?.length/1000).toFixed(1) + 'km');
+        const sectionTotal = sections.reduce((sum, s) => sum + (s.summary?.length || 0), 0);
+        console.log('[ROUTE] 📦 HERE secciones:', sections.length, 'distancias:', sectionDistances, 'total:', (sectionTotal/1000).toFixed(1) + 'km');
+        
+        // Log de departure/arrival de cada sección para debug
+        sections.forEach((s, i) => {
+          const dep = s.departure?.place?.location || {};
+          const arr = s.arrival?.place?.location || {};
+          console.log(`[ROUTE]   Sección ${i}: ${dep.lat?.toFixed(3)},${dep.lng?.toFixed(3)} → ${arr.lat?.toFixed(3)},${arr.lng?.toFixed(3)} = ${((s.summary?.length||0)/1000).toFixed(1)}km`);
+        });
 
         if (sections.length === 0) {
           return res.status(502).json({ 
@@ -2818,6 +2833,7 @@ app.get('/route', async (req, res) => {
     console.log('[ROUTE]   Puntos:', routeData.points.length);
     console.log('[ROUTE]   Steps:', routeData.steps.length);
     console.log('[ROUTE]   Consumo:', totalConsumptionPercent.toFixed(1), '%');
+    console.log('[ROUTE]   Waypoints:', waypoints ? 'SÍ' : 'NO');
 
     const pointsArray = routeData.points.map(p => ({ lat: p.lat, lon: p.lon }));
     
@@ -2832,6 +2848,7 @@ app.get('/route', async (req, res) => {
       elevation: elevationData,
       consumption_percent: totalConsumptionPercent,
       provider: usedProvider,
+      waypoints_applied: !!waypoints,  // 🆕 Flag para que el frontend sepa
       vehicle: {
         id: vehicleId,
         battery_kwh: batteryKwh,
@@ -2885,7 +2902,7 @@ app.get('/tolls-in-route', async (req, res) => {
     let viaString = '';
     if (waypoints) {
       const waypointsList = waypoints.split('|');
-      viaString = waypointsList.map(wp => `&via=${wp}!passThrough=true`).join('');
+      viaString = waypointsList.map(wp => `&via=${wp.trim()}`).join('');
     }
 
     const queryString = new URLSearchParams(params).toString();
