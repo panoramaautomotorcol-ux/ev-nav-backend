@@ -2299,8 +2299,6 @@ async function getElevationProfile(coordinates) {
   
   const sampledPoints = sampleRoutePoints(coordinates, 5000);
   console.log(`[ELEVATION] 📊 Puntos sampleados: ${sampledPoints.length} de ${coordinates.length}`);
-  console.log(`[ELEVATION] 🔍 Formato del primer punto:`, sampledPoints[0]);
-  console.log(`[ELEVATION] 🔍 Tipo:`, typeof sampledPoints[0], Array.isArray(sampledPoints[0]) ? 'array' : 'object');
   
   if (sampledPoints.length < 2) {
     console.log('[ELEVATION] ⚠️  Muy pocos puntos para calcular elevación');
@@ -2308,6 +2306,12 @@ async function getElevationProfile(coordinates) {
   }
   
   const elevations = [];
+  // 🔧 FIX: Guardar las coordenadas lat/lon de cada punto sampleado
+  const sampledCoords = sampledPoints.map(point => {
+    const lat = point.lat || point[1];
+    const lng = point.lng || point.lon || point[0];
+    return { lat, lon: lng };
+  });
   
   // Usar Open Elevation API (gratis, sin límites, sin API key)
   const batchSize = 100; // Máximo por request
@@ -2316,22 +2320,13 @@ async function getElevationProfile(coordinates) {
     const batch = sampledPoints.slice(i, i + batchSize);
     
     try {
-      // Formato para Open Elevation: [{latitude, longitude}, ...]
-      // Las coordenadas vienen como objetos {lat, lng} no como arrays [lng, lat]
       const locations = batch.map(point => {
-        // Extraer lat y lng del punto (puede ser objeto o array)
         const lat = point.lat || point[1];
         const lng = point.lng || point.lon || point[0];
-        
-        return {
-          latitude: lat,
-          longitude: lng
-        };
+        return { latitude: lat, longitude: lng };
       });
       
       console.log(`[ELEVATION] 🌐 Llamando API con ${locations.length} puntos...`);
-      console.log(`[ELEVATION] 📋 Primer punto:`, JSON.stringify(locations[0]));
-      console.log(`[ELEVATION] 📋 Último punto:`, JSON.stringify(locations[locations.length - 1]));
       
       const response = await axios.post(
         'https://api.open-elevation.com/api/v1/lookup',
@@ -2351,22 +2346,17 @@ async function getElevationProfile(coordinates) {
       
     } catch (error) {
       console.error('[ELEVATION] ❌ Error obteniendo batch:', error.message);
-      if (error.response) {
-        console.error('[ELEVATION] 📋 Status:', error.response.status);
-        console.error('[ELEVATION] 📋 Data:', JSON.stringify(error.response.data));
-      }
-      // Rellenar con 0s si falla
       elevations.push(...new Array(batch.length).fill(0));
     }
     
-    // Pequeña pausa entre batches para no saturar la API
     if (i + batchSize < sampledPoints.length) {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
   }
   
   console.log(`[ELEVATION] 📊 Total elevaciones obtenidas: ${elevations.length}`);
-  return elevations;
+  // 🔧 FIX: Devolver objeto con elevaciones Y coordenadas
+  return { elevations, coords: sampledCoords };
 }
 
 // Calcular impacto de elevación en el consumo
@@ -2639,15 +2629,29 @@ app.get('/route', async (req, res) => {
           console.log('[ELEVATION] 📐 Puntos totales de ruta para elevación:', coordinates.length, 'Primer punto:', JSON.stringify(coordinates[0]), 'Último:', JSON.stringify(coordinates[coordinates.length-1]));
           
           // Samplear puntos (máximo 512 para Google Elevation, usar ~200 para eficiencia)
+          // Samplear puntos por DISTANCIA (no por índice) para gráfica proporcional
           let sampledCoords = coordinates;
           if (coordinates.length > 200) {
-            const step = Math.ceil(coordinates.length / 200);
-            sampledCoords = coordinates.filter((_, i) => i % step === 0);
-            // Siempre incluir el último punto
-            if (sampledCoords[sampledCoords.length - 1] !== coordinates[coordinates.length - 1]) {
-              sampledCoords.push(coordinates[coordinates.length - 1]);
+            // Calcular distancia acumulada
+            const cumulDist = [0];
+            for (let i = 1; i < coordinates.length; i++) {
+              const d = haversineDistance(coordinates[i-1].lat, coordinates[i-1].lon, coordinates[i].lat, coordinates[i].lon) * 1000;
+              cumulDist.push(cumulDist[i-1] + d);
             }
-            console.log(`[ELEVATION] 🎯 Sampleo: ${sampledCoords.length} puntos de ${coordinates.length}`);
+            const totalDist = cumulDist[cumulDist.length - 1];
+            const interval = totalDist / 199; // 200 puntos
+            
+            sampledCoords = [coordinates[0]];
+            let nextTarget = interval;
+            let j = 1;
+            for (let s = 1; s < 199; s++) {
+              while (j < coordinates.length - 1 && cumulDist[j] < nextTarget) j++;
+              sampledCoords.push(coordinates[j]);
+              nextTarget += interval;
+            }
+            sampledCoords.push(coordinates[coordinates.length - 1]);
+            
+            console.log(`[ELEVATION] 🎯 Sampleo por distancia: ${sampledCoords.length} puntos de ${coordinates.length} (cada ${(interval/1000).toFixed(1)}km)`);
           }
 
           // Google Elevation acepta hasta 512 puntos por request
@@ -2697,6 +2701,7 @@ app.get('/route', async (req, res) => {
 
             elevationData = {
               elevations: allElevations,
+              coords: sampledCoords.slice(0, allElevations.length), // 🔧 FIX: Incluir lat/lon de cada punto
               start_elevation: Math.round(startElev),
               end_elevation: Math.round(endElev),
               gain_m: Math.round(totalElevGain),
