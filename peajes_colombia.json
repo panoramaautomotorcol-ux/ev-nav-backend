@@ -6,7 +6,7 @@
       "lat": 6.29319200000003,
       "lon": -75.651083,
       "via": "Puente Aurrá - Medellín",
-      "tarifa_cat1": 20600,
+      "tarifa_cat1": 27300,
       "ubicacion": "Oriente Occidente Km 39+600 Occidente Oriente Km 44+800 -  vía Santa Fe de Antioquia Medellín"
     },
     {
@@ -15,7 +15,7 @@
       "lat": 4.99906200000004,
       "lon": -75.858871,
       "via": "La Virginia - Remolinos",
-      "tarifa_cat1": 14600,
+      "tarifa_cat1": 17600,
       "ubicacion": "Vía Y de Cerritos  - Cauyá PR2507 Km 24"
     },
     {
@@ -24,7 +24,7 @@
       "lat": 6.64532600000007,
       "lon": -73.952462,
       "via": "Río Ermitaño - La Lizama",
-      "tarifa_cat1": 13500,
+      "tarifa_cat1": 16300,
       "ubicacion": "Vía Rio Ermitaño La Lizama Km 84"
     },
     {
@@ -33,7 +33,7 @@
       "lat": 5.29067700000007,
       "lon": -73.5835039999999,
       "via": "Chocontá - Tunja",
-      "tarifa_cat1": 10300,
+      "tarifa_cat1": 12400,
       "ubicacion": "Vía Bogotá Tunja KM 82+200 -  Jurisdicción Villa Pinzón (Cundinamarca)"
     },
     {
@@ -42,7 +42,7 @@
       "lat": 2.14288500000004,
       "lon": -75.700684,
       "via": "Planeta Rica - La Ye",
-      "tarifa_cat1": 10700,
+      "tarifa_cat1": 12800,
       "ubicacion": "Vía Planeta Rica - Sincelejo Km 26 + 300"
     },
     {
@@ -60,7 +60,7 @@
       "lat": 4.50760900000006,
       "lon": -74.991661,
       "via": "La Victoria - Cartago - Cerritos",
-      "tarifa_cat1": 13700,
+      "tarifa_cat1": 15700,
       "ubicacion": "Vía Andalucía – Y de Cerritos PR2506 Km 86"
     },
     {
@@ -69,7 +69,7 @@
       "lat": 6.04694900000004,
       "lon": -75.6598739999999,
       "via": "El Santuario - Cruce Ruta 45 (Caño Alegre)",
-      "tarifa_cat1": 10500,
+      "tarifa_cat1": 20600,
       "ubicacion": "KM 03+100 RUTA 6005 Via Santuario - Puerto Triunfo"
     },
     {
@@ -78,7 +78,7 @@
       "lat": 4.83000300000003,
       "lon": -74.033081,
       "via": "Bogotá-La Caro-Tunja",
-      "tarifa_cat1": 11100,
+      "tarifa_cat1": 15200,
       "ubicacion": "Sector Bogotá (calle 236)-Briceño"
     },
     {
@@ -87,7 +87,7 @@
       "lat": 5.79502465700006,
       "lon": -73.477619939,
       "via": "Barbosa - Tunja",
-      "tarifa_cat1": 12200,
+      "tarifa_cat1": 12800,
       "ubicacion": "Barbosa - Tunja"
     },
     {
@@ -95,9 +95,9 @@
       "nombre": "ARMERO",
       "lat": 4.95835200000005,
       "lon": -74.9144259999999,
-      "via": "San Gil - Bucaramanga",
-      "tarifa_cat1": 13700,
-      "ubicacion": "Vía San Gil - Bucaramanga Km 53+730 Jurisdicción Municipio de Piedecuesta"
+      "via": "armero - Libano",
+      "tarifa_cat1": 16500,
+      "ubicacion": "Vía armero - Libano"
     },
     {
       "id": "3803",
@@ -105,17 +105,8 @@
       "lat": 10.546992,
       "lon": -75.365173,
       "via": "Los Llanos - Tarazá",
-      "tarifa_cat1": 11200,
+      "tarifa_cat1": 12600,
       "ubicacion": "KM 03+450 RUTA 2511 -  vía Medellin - La Costa"
-    },
-    {
-      "id": "3882",
-      "nombre": "BAZURTO  (MANGA)",
-      "lat": 10.4067850500001,
-      "lon": -75.526546588,
-      "via": "Puente Nacional - San Gil",
-      "tarifa_cat1": 2300,
-      "ubicacion": "Vía Puente Nacional – San Gil Km 62+950"
     },
     {
       "id": "3927",
@@ -123,7 +114,7 @@
       "lat": 3.97204071900006,
       "lon": -76.2533831599999,
       "via": "Aguaclara - Río de Oro",
-      "tarifa_cat1": 8200,
+      "tarifa_cat1": 13500,
       "ubicacion": "Km 14 Vía Aguasclaras – Ocaña"
     },
     {
@@ -132,7 +123,7 @@
       "lat": 5.20310293600005,
       "lon": -74.6846173499999,
       "via": "Honda - Villeta",
-      "tarifa_cat1": 13000,
+      "tarifa_cat1": 13700,
       "ubicacion": "Villeta - Puerto Salgar"
     },
     {
@@ -141,7 +132,7 @@
       "lat": 4.45259900000002,
       "lon": -74.0733949999999,
       "via": "San Roque - La Paz",
-      "tarifa_cat1": 16500,
+      "tarifa_cat1": 20800,
       "ubicacion": "Tramo que cubre:Vía Rincón Hondo - Agustín Codazzi"
     },
     {
@@ -150,7 +141,7 @@
       "lat": 4.45458400000007,
       "lon": -74.05033,
       "via": "Río Negro - San Alberto",
-      "tarifa_cat1": 16500,
+      "tarifa_cat1": 20800,
       "ubicacion": "Vía Rio Negro – San Alberto Km  53+100"
     },
     {
@@ -159,7 +150,7 @@
       "lat": 5.45854500000007,
       "lon": -74.6397259999999,
       "via": "Mediacanoa - Ansermanuevo",
-      "tarifa_cat1": 6400,
+      "tarifa_cat1": 7700,
       "ubicacion": "Vía Mediacanoa - Ansermanuevo Km 13"
     },
     {
@@ -168,7 +159,7 @@
       "lat": 6.39579700000007,
       "lon": -75.423661,
       "via": "Ubaté - Puente Nacional",
-      "tarifa_cat1": 16700,
+      "tarifa_cat1": 20300,
       "ubicacion": "Vía Ubate Puente Nacional  Km 66+200 Jurisdicción Saboyá"
     },
     {
@@ -177,7 +168,7 @@
       "lat": 9.46567700000003,
       "lon": -75.606506,
       "via": "Coveñas - San Onofre",
-      "tarifa_cat1": 15300,
+      "tarifa_cat1": 18300,
       "ubicacion": ""
     },
     {
@@ -186,7 +177,7 @@
       "lat": 5.06536600000004,
       "lon": -74.4141079999999,
       "via": "Cauyá - La Felisa",
-      "tarifa_cat1": 12800,
+      "tarifa_cat1": 14200,
       "ubicacion": "Vía Cauyá - El Palo"
     },
     {
@@ -204,7 +195,7 @@
       "lat": 4.94641200000007,
       "lon": -74.719094,
       "via": "San Gil - Bucaramanga",
-      "tarifa_cat1": 12800,
+      "tarifa_cat1": 15300,
       "ubicacion": "VÍA BUCARAMANGA - SAN GIL"
     },
     {
@@ -213,7 +204,7 @@
       "lat": 1.42545608200004,
       "lon": -77.284452436,
       "via": "Pasto - Mojarras",
-      "tarifa_cat1": 14800,
+      "tarifa_cat1": 15600,
       "ubicacion": "San Juan de Pasto - Cano"
     },
     {
@@ -222,7 +213,7 @@
       "lat": 8.60485611200005,
       "lon": -75.484821096,
       "via": "Planeta Rica - La Ye",
-      "tarifa_cat1": 17700,
+      "tarifa_cat1": 18600,
       "ubicacion": "Vía Planeta Rica - Sincelejo Km 26 + 300"
     },
     {
@@ -231,7 +222,7 @@
       "lat": 5.10439419400006,
       "lon": -73.912827744,
       "via": "Bogotá - Ubaté",
-      "tarifa_cat1": 12100,
+      "tarifa_cat1": 12700,
       "ubicacion": "Cogua – Tausa Km 40+000"
     },
     {
@@ -239,17 +230,8 @@
       "nombre": "CASETABLA",
       "lat": 4.11271500000004,
       "lon": -72.8350139999999,
-      "via": "Armenia - La Línea",
-      "tarifa_cat1": 6900,
-      "ubicacion": ""
-    },
-    {
-      "id": "3881",
-      "nombre": "CEBALLOS",
-      "lat": 10.383016105,
-      "lon": -75.5059221819999,
-      "via": "La Línea - Cajamarca",
-      "tarifa_cat1": 2500,
+      "via": "Puerto lopez - puerto gaitan",
+      "tarifa_cat1": 8300,
       "ubicacion": ""
     },
     {
@@ -258,7 +240,7 @@
       "lat": 8.81977500000005,
       "lon": -75.998909,
       "via": "Puerto Rey - Monteria",
-      "tarifa_cat1": 16100,
+      "tarifa_cat1": 19706,
       "ubicacion": "Via Puerto Rey – Montería Km 47 Recorrido  67 KMS"
     },
     {
@@ -267,7 +249,7 @@
       "lat": 3.55733700000008,
       "lon": -76.462683,
       "via": "Cali - Yumbo",
-      "tarifa_cat1": 11000,
+      "tarifa_cat1": 13200,
       "ubicacion": "Vía Yumbo – Aeropuerto Km 2+950"
     },
     {
@@ -303,7 +285,7 @@
       "lat": 4.26937800000007,
       "lon": -74.500107,
       "via": "Girardot - Silvania - Bogotá (Bosa)",
-      "tarifa_cat1": 13300,
+      "tarifa_cat1": 16100,
       "ubicacion": "Soacha – Girardot Km 52"
     },
     {
@@ -312,7 +294,7 @@
       "lat": 4.53745200000003,
       "lon": -74.271805,
       "via": "Girardot - Silvania - Bogotá (Bosa)",
-      "tarifa_cat1": 13300,
+      "tarifa_cat1": 16100,
       "ubicacion": "Soacha – Girardot Km 109"
     },
     {
