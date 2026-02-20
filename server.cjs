@@ -3008,6 +3008,143 @@ app.get('/route', async (req, res) => {
     });
   }
 });
+
+// ===== ENDPOINT: Rutas alternativas con comparación =====
+app.get('/route-alternatives', async (req, res) => {
+  try {
+    const origin = String(req.query.from || req.query.origin || '');
+    const destination = String(req.query.to || req.query.destination || '');
+    const vehicleId = String(req.query.vehicle_id || 'generic');
+    const passengers = parseInt(req.query.passengers) || 1;
+
+    if (!origin || !destination) {
+      return res.status(400).json({ error: 'BadRequest', detail: 'from y to requeridos' });
+    }
+
+    console.log('[ALT-ROUTES] 🔀 Calculando alternativas:', origin, '→', destination);
+
+    // Pedir alternativas a Google
+    const params = {
+      origin, destination,
+      departure_time: 'now',
+      traffic_model: 'best_guess',
+      alternatives: true,  // 🔀 Pedir alternativas
+      language: 'es',
+      units: 'metric',
+      key: GOOGLE_MAPS_API_KEY
+    };
+
+    const response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
+      params, timeout: 15000
+    });
+
+    if (response.data.status !== 'OK') {
+      return res.status(502).json({ error: 'google_error', detail: response.data.status });
+    }
+
+    const routes = response.data.routes;
+    console.log(`[ALT-ROUTES] 📊 Google devolvió ${routes.length} rutas`);
+
+    // Perfil del vehículo
+    const profile = vehicleProfiles[vehicleId] || vehicleProfiles.generic;
+    const batteryKwh = profile.batteryKwh || 60;
+    const baseRate = profile.consumptionRate || 0.28;
+    const weightFactor = 1 + (passengers - 1) * 0.015;
+
+    // Cargar peajes
+    let peajesData = [];
+    try {
+      peajesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'peajes_colombia.json'), 'utf8'));
+    } catch (e) { console.log('[ALT-ROUTES] ⚠️ No peajes file'); }
+
+    const alternatives = [];
+
+    for (let i = 0; i < Math.min(routes.length, 3); i++) {
+      const route = routes[i];
+      const leg = route.legs[0];
+      const distanceM = leg.distance.value;
+      const distanceKm = distanceM / 1000;
+      const durationSec = leg.duration_in_traffic?.value || leg.duration.value;
+      const durationMin = Math.round(durationSec / 60);
+
+      // Decodificar polyline para buscar peajes cercanos
+      const points = decodeGooglePolyline(route.overview_polyline.points);
+
+      // Consumo estimado (simplificado — sin elevación para rapidez)
+      const consumptionPercent = distanceKm * baseRate * weightFactor;
+
+      // Buscar peajes en la ruta (proximidad 500m)
+      let totalTolls = 0;
+      let tollCount = 0;
+      const tollsFound = [];
+
+      for (const peaje of peajesData) {
+        if (!peaje.lat || !peaje.lon) continue;
+        let minDist = Infinity;
+        // Verificar cada ~10mo punto (eficiencia)
+        const step = Math.max(1, Math.floor(points.length / 100));
+        for (let p = 0; p < points.length; p += step) {
+          const d = haversineDistance(peaje.lat, peaje.lon, points[p].lat, points[p].lon);
+          if (d < minDist) minDist = d;
+        }
+        if (minDist < 0.5) { // Menos de 500m
+          const tarifa = peaje.tarifas?.categoria_I || peaje.tarifa || 0;
+          totalTolls += tarifa;
+          tollCount++;
+          tollsFound.push(peaje.nombre || 'Peaje');
+        }
+      }
+
+      // Clasificar la ruta
+      let label, tag;
+      if (i === 0) {
+        label = 'Recomendada';
+        tag = '⚡';
+      } else if (consumptionPercent < alternatives[0]?.consumption_percent * 0.9) {
+        label = 'Más eficiente';
+        tag = '🔋';
+      } else if (totalTolls < (alternatives[0]?.total_tolls_cop || Infinity) * 0.7) {
+        label = 'Menos peajes';
+        tag = '💰';
+      } else if (durationMin < (alternatives[0]?.duration_min || Infinity)) {
+        label = 'Más rápida';
+        tag = '⚡';
+      } else {
+        label = 'Alternativa';
+        tag = '🔀';
+      }
+
+      alternatives.push({
+        index: i,
+        label,
+        tag,
+        distance_km: Math.round(distanceKm * 10) / 10,
+        duration_min: durationMin,
+        duration_text: leg.duration_in_traffic?.text || leg.duration.text,
+        consumption_percent: Math.round(consumptionPercent * 10) / 10,
+        toll_count: tollCount,
+        total_tolls_cop: totalTolls,
+        tolls: tollsFound,
+        summary: route.summary || '',
+        polyline_encoded: route.overview_polyline.points,
+        warnings: route.warnings || []
+      });
+
+      console.log(`[ALT-ROUTES]   Ruta ${i}: ${distanceKm.toFixed(0)}km, ${durationMin}min, ${consumptionPercent.toFixed(1)}%, ${tollCount} peajes ($${totalTolls}), via: ${route.summary}`);
+    }
+
+    return res.json({
+      origin, destination,
+      count: alternatives.length,
+      alternatives
+    });
+
+  } catch (error) {
+    console.error('[ALT-ROUTES] ❌ Error:', error.message);
+    return res.status(500).json({ error: 'alternatives_failed', detail: error.message });
+  }
+});
+
 app.get('/tolls-in-route', async (req, res) => {
   try {
     const origin = String(req.query.from || '');
