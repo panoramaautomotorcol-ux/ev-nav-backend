@@ -1396,13 +1396,14 @@ app.get('/ev/comments', (req, res) => {
 const stationStatusCache = new Map(); // siteId -> { reports: [], summary: {} }
 const STATUS_OPTIONS = ['funcionando', 'parcial', 'fuera_de_servicio', 'cola', 'cerrado'];
 const STATUS_TTL = 4 * 60 * 60 * 1000; // Reportes válidos por 4 horas
+const QUEUE_TTL = 30 * 60 * 1000; // Reportes de COLA expiran en 30 min
 const STATUS_COOLDOWN = 5 * 60 * 1000; // 5 min entre reportes del mismo usuario
 const statusUserCache = new Map(); // userIP -> { siteId -> lastReport }
 
 // POST: reportar estado
 app.post('/ev/station-status', (req, res) => {
   try {
-    const { siteId, status, waitMinutes, details } = req.body;
+    const { siteId, status, queueVehicles, details } = req.body;
     
     if (!siteId || !status || !STATUS_OPTIONS.includes(status)) {
       return res.status(400).json({ 
@@ -1435,31 +1436,34 @@ app.post('/ev/station-status', (req, res) => {
     if (!stationStatusCache.has(siteId)) stationStatusCache.set(siteId, { reports: [] });
     const stationData = stationStatusCache.get(siteId);
     
-    // Limpiar reportes expirados
-    stationData.reports = stationData.reports.filter(r => now - r.timestamp < STATUS_TTL);
+    // Limpiar reportes expirados — cola expira en 30min, otros en 4h
+    stationData.reports = stationData.reports.filter(r => {
+      const ttl = r.status === 'cola' ? QUEUE_TTL : STATUS_TTL;
+      return now - r.timestamp < ttl;
+    });
     
     stationData.reports.push({
       status,
-      waitMinutes: waitMinutes || null,
+      queueVehicles: queueVehicles || null,
       details: details ? details.substring(0, 200) : null,
       timestamp: now,
       userIP
     });
     
-    // Calcular resumen (estado más reportado en últimas 4h)
+    // Calcular resumen (estado más reportado)
     const statusCounts = {};
     stationData.reports.forEach(r => {
       statusCounts[r.status] = (statusCounts[r.status] || 0) + 1;
     });
     const topStatus = Object.entries(statusCounts).sort((a, b) => b[1] - a[1])[0];
-    const avgWait = stationData.reports
-      .filter(r => r.waitMinutes != null)
-      .reduce((acc, r, _, arr) => acc + r.waitMinutes / arr.length, 0);
+    const avgQueue = stationData.reports
+      .filter(r => r.queueVehicles != null)
+      .reduce((acc, r, _, arr) => acc + r.queueVehicles / arr.length, 0);
     
     stationData.summary = {
       currentStatus: topStatus[0],
       reportCount: stationData.reports.length,
-      avgWaitMinutes: avgWait > 0 ? Math.round(avgWait) : null,
+      avgQueueVehicles: avgQueue > 0 ? Math.round(avgQueue) : null,
       lastReport: now,
       statusBreakdown: statusCounts
     };
@@ -1493,8 +1497,11 @@ app.get('/ev/station-status', (req, res) => {
       return res.json({ siteId, summary: null, reports: [] });
     }
     
-    // Limpiar expirados
-    stationData.reports = stationData.reports.filter(r => now - r.timestamp < STATUS_TTL);
+    // Limpiar expirados — cola 30min, otros 4h
+    stationData.reports = stationData.reports.filter(r => {
+      const ttl = r.status === 'cola' ? QUEUE_TTL : STATUS_TTL;
+      return now - r.timestamp < ttl;
+    });
     
     if (stationData.reports.length === 0) {
       return res.json({ siteId, summary: null, reports: [] });
@@ -1506,7 +1513,7 @@ app.get('/ev/station-status', (req, res) => {
       .slice(0, 10)
       .map(r => ({
         status: r.status,
-        waitMinutes: r.waitMinutes,
+        queueVehicles: r.queueVehicles,
         details: r.details,
         timestamp: r.timestamp,
         timeAgo: Math.round((now - r.timestamp) / 60000)
