@@ -1392,6 +1392,138 @@ app.get('/ev/comments', (req, res) => {
 });
 
 
+// ===== REPORTE DE ESTADO DE ESTACIÓN (Comunidad) =====
+const stationStatusCache = new Map(); // siteId -> { reports: [], summary: {} }
+const STATUS_OPTIONS = ['funcionando', 'parcial', 'fuera_de_servicio', 'cola', 'cerrado'];
+const STATUS_TTL = 4 * 60 * 60 * 1000; // Reportes válidos por 4 horas
+const STATUS_COOLDOWN = 5 * 60 * 1000; // 5 min entre reportes del mismo usuario
+const statusUserCache = new Map(); // userIP -> { siteId -> lastReport }
+
+// POST: reportar estado
+app.post('/ev/station-status', (req, res) => {
+  try {
+    const { siteId, status, waitMinutes, details } = req.body;
+    
+    if (!siteId || !status || !STATUS_OPTIONS.includes(status)) {
+      return res.status(400).json({ 
+        error: 'invalid_status',
+        message: `Estado debe ser uno de: ${STATUS_OPTIONS.join(', ')}`
+      });
+    }
+    
+    const userIP = req.ip || req.connection.remoteAddress || 'unknown';
+    const now = Date.now();
+    
+    // Anti-spam: cooldown por usuario por estación
+    if (!statusUserCache.has(userIP)) statusUserCache.set(userIP, new Map());
+    const userSites = statusUserCache.get(userIP);
+    
+    if (userSites.has(siteId)) {
+      const lastReport = userSites.get(siteId);
+      if (now - lastReport < STATUS_COOLDOWN) {
+        const wait = Math.ceil((STATUS_COOLDOWN - (now - lastReport)) / 1000);
+        return res.status(429).json({
+          error: 'cooldown',
+          message: `Espera ${wait}s antes de reportar esta estación de nuevo`,
+          waitSeconds: wait
+        });
+      }
+    }
+    userSites.set(siteId, now);
+    
+    // Guardar reporte
+    if (!stationStatusCache.has(siteId)) stationStatusCache.set(siteId, { reports: [] });
+    const stationData = stationStatusCache.get(siteId);
+    
+    // Limpiar reportes expirados
+    stationData.reports = stationData.reports.filter(r => now - r.timestamp < STATUS_TTL);
+    
+    stationData.reports.push({
+      status,
+      waitMinutes: waitMinutes || null,
+      details: details ? details.substring(0, 200) : null,
+      timestamp: now,
+      userIP
+    });
+    
+    // Calcular resumen (estado más reportado en últimas 4h)
+    const statusCounts = {};
+    stationData.reports.forEach(r => {
+      statusCounts[r.status] = (statusCounts[r.status] || 0) + 1;
+    });
+    const topStatus = Object.entries(statusCounts).sort((a, b) => b[1] - a[1])[0];
+    const avgWait = stationData.reports
+      .filter(r => r.waitMinutes != null)
+      .reduce((acc, r, _, arr) => acc + r.waitMinutes / arr.length, 0);
+    
+    stationData.summary = {
+      currentStatus: topStatus[0],
+      reportCount: stationData.reports.length,
+      avgWaitMinutes: avgWait > 0 ? Math.round(avgWait) : null,
+      lastReport: now,
+      statusBreakdown: statusCounts
+    };
+    
+    console.log(`[STATUS] 📊 ${siteId}: ${status} (${stationData.reports.length} reportes, top=${topStatus[0]})`);
+    
+    // Emitir a todos los clientes
+    io.emit('station:status', {
+      siteId,
+      summary: stationData.summary
+    });
+    
+    return res.json({ ok: true, summary: stationData.summary });
+    
+  } catch (e) {
+    console.error('[STATUS] Error:', e);
+    return res.status(500).json({ error: 'Internal error' });
+  }
+});
+
+// GET: obtener estado de una estación
+app.get('/ev/station-status', (req, res) => {
+  try {
+    const { siteId } = req.query;
+    if (!siteId) return res.status(400).json({ error: 'Missing siteId' });
+    
+    const now = Date.now();
+    const stationData = stationStatusCache.get(siteId);
+    
+    if (!stationData || stationData.reports.length === 0) {
+      return res.json({ siteId, summary: null, reports: [] });
+    }
+    
+    // Limpiar expirados
+    stationData.reports = stationData.reports.filter(r => now - r.timestamp < STATUS_TTL);
+    
+    if (stationData.reports.length === 0) {
+      return res.json({ siteId, summary: null, reports: [] });
+    }
+    
+    // Reportes recientes (sin IP)
+    const recentReports = stationData.reports
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 10)
+      .map(r => ({
+        status: r.status,
+        waitMinutes: r.waitMinutes,
+        details: r.details,
+        timestamp: r.timestamp,
+        timeAgo: Math.round((now - r.timestamp) / 60000)
+      }));
+    
+    return res.json({
+      siteId,
+      summary: stationData.summary,
+      reports: recentReports
+    });
+    
+  } catch (e) {
+    console.error('[STATUS] Error:', e);
+    return res.status(500).json({ error: 'Internal error' });
+  }
+});
+
 
 // ===== ENDPOINT: obtener disponibilidad =====
 app.get('/ev/availability', (req, res) => {
@@ -2299,6 +2431,8 @@ async function getElevationProfile(coordinates) {
   
   const sampledPoints = sampleRoutePoints(coordinates, 5000);
   console.log(`[ELEVATION] 📊 Puntos sampleados: ${sampledPoints.length} de ${coordinates.length}`);
+  console.log(`[ELEVATION] 🔍 Formato del primer punto:`, sampledPoints[0]);
+  console.log(`[ELEVATION] 🔍 Tipo:`, typeof sampledPoints[0], Array.isArray(sampledPoints[0]) ? 'array' : 'object');
   
   if (sampledPoints.length < 2) {
     console.log('[ELEVATION] ⚠️  Muy pocos puntos para calcular elevación');
@@ -2306,12 +2440,6 @@ async function getElevationProfile(coordinates) {
   }
   
   const elevations = [];
-  // 🔧 FIX: Guardar las coordenadas lat/lon de cada punto sampleado
-  const sampledCoords = sampledPoints.map(point => {
-    const lat = point.lat || point[1];
-    const lng = point.lng || point.lon || point[0];
-    return { lat, lon: lng };
-  });
   
   // Usar Open Elevation API (gratis, sin límites, sin API key)
   const batchSize = 100; // Máximo por request
@@ -2320,13 +2448,22 @@ async function getElevationProfile(coordinates) {
     const batch = sampledPoints.slice(i, i + batchSize);
     
     try {
+      // Formato para Open Elevation: [{latitude, longitude}, ...]
+      // Las coordenadas vienen como objetos {lat, lng} no como arrays [lng, lat]
       const locations = batch.map(point => {
+        // Extraer lat y lng del punto (puede ser objeto o array)
         const lat = point.lat || point[1];
         const lng = point.lng || point.lon || point[0];
-        return { latitude: lat, longitude: lng };
+        
+        return {
+          latitude: lat,
+          longitude: lng
+        };
       });
       
       console.log(`[ELEVATION] 🌐 Llamando API con ${locations.length} puntos...`);
+      console.log(`[ELEVATION] 📋 Primer punto:`, JSON.stringify(locations[0]));
+      console.log(`[ELEVATION] 📋 Último punto:`, JSON.stringify(locations[locations.length - 1]));
       
       const response = await axios.post(
         'https://api.open-elevation.com/api/v1/lookup',
@@ -2346,17 +2483,22 @@ async function getElevationProfile(coordinates) {
       
     } catch (error) {
       console.error('[ELEVATION] ❌ Error obteniendo batch:', error.message);
+      if (error.response) {
+        console.error('[ELEVATION] 📋 Status:', error.response.status);
+        console.error('[ELEVATION] 📋 Data:', JSON.stringify(error.response.data));
+      }
+      // Rellenar con 0s si falla
       elevations.push(...new Array(batch.length).fill(0));
     }
     
+    // Pequeña pausa entre batches para no saturar la API
     if (i + batchSize < sampledPoints.length) {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
   }
   
   console.log(`[ELEVATION] 📊 Total elevaciones obtenidas: ${elevations.length}`);
-  // 🔧 FIX: Devolver objeto con elevaciones Y coordenadas
-  return { elevations, coords: sampledCoords };
+  return elevations;
 }
 
 // Calcular impacto de elevación en el consumo
@@ -2629,29 +2771,15 @@ app.get('/route', async (req, res) => {
           console.log('[ELEVATION] 📐 Puntos totales de ruta para elevación:', coordinates.length, 'Primer punto:', JSON.stringify(coordinates[0]), 'Último:', JSON.stringify(coordinates[coordinates.length-1]));
           
           // Samplear puntos (máximo 512 para Google Elevation, usar ~200 para eficiencia)
-          // Samplear puntos por DISTANCIA (no por índice) para gráfica proporcional
           let sampledCoords = coordinates;
           if (coordinates.length > 200) {
-            // Calcular distancia acumulada
-            const cumulDist = [0];
-            for (let i = 1; i < coordinates.length; i++) {
-              const d = haversineDistance(coordinates[i-1].lat, coordinates[i-1].lon, coordinates[i].lat, coordinates[i].lon) * 1000;
-              cumulDist.push(cumulDist[i-1] + d);
+            const step = Math.ceil(coordinates.length / 200);
+            sampledCoords = coordinates.filter((_, i) => i % step === 0);
+            // Siempre incluir el último punto
+            if (sampledCoords[sampledCoords.length - 1] !== coordinates[coordinates.length - 1]) {
+              sampledCoords.push(coordinates[coordinates.length - 1]);
             }
-            const totalDist = cumulDist[cumulDist.length - 1];
-            const interval = totalDist / 199; // 200 puntos
-            
-            sampledCoords = [coordinates[0]];
-            let nextTarget = interval;
-            let j = 1;
-            for (let s = 1; s < 199; s++) {
-              while (j < coordinates.length - 1 && cumulDist[j] < nextTarget) j++;
-              sampledCoords.push(coordinates[j]);
-              nextTarget += interval;
-            }
-            sampledCoords.push(coordinates[coordinates.length - 1]);
-            
-            console.log(`[ELEVATION] 🎯 Sampleo por distancia: ${sampledCoords.length} puntos de ${coordinates.length} (cada ${(interval/1000).toFixed(1)}km)`);
+            console.log(`[ELEVATION] 🎯 Sampleo: ${sampledCoords.length} puntos de ${coordinates.length}`);
           }
 
           // Google Elevation acepta hasta 512 puntos por request
@@ -2701,7 +2829,6 @@ app.get('/route', async (req, res) => {
 
             elevationData = {
               elevations: allElevations,
-              coords: sampledCoords.slice(0, allElevations.length), // 🔧 FIX: Incluir lat/lon de cada punto
               start_elevation: Math.round(startElev),
               end_elevation: Math.round(endElev),
               gain_m: Math.round(totalElevGain),
