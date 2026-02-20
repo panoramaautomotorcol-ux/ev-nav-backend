@@ -3047,7 +3047,7 @@ app.get('/route-alternatives', async (req, res) => {
     console.log(`[ALT-ROUTES] 📊 Google devolvió ${routes.length} rutas`);
 
     // Perfil del vehículo
-    const profile = VEHICLE_PROFILES[vehicleId] || VEHICLE_PROFILES.generic;
+    const profile = VEHICLE_PROFILES[vehicleId] || VEHICLE_PROFILES['generic'];
     const batteryKwh = profile.batteryKwh || 60;
     const baseRate = profile.consumptionRate || 0.28;
     const weightFactor = 1 + (passengers - 1) * 0.015;
