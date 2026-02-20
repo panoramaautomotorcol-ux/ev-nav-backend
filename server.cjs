@@ -2836,6 +2836,7 @@ app.get('/route', async (req, res) => {
 
             elevationData = {
               elevations: allElevations,
+              coords: sampledCoords.map(p => ({lat: p.lat, lon: p.lon})),
               start_elevation: Math.round(startElev),
               end_elevation: Math.round(endElev),
               gain_m: Math.round(totalElevGain),
