@@ -447,11 +447,20 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
 
   // ============================================================
   // 🆕 Procesar steps con tráfico (de TODOS los legs)
+  // Google NO da duration_in_traffic por step, solo por leg.
+  // Solución: calcular ratio de tráfico por leg y aplicar a cada step.
   // ============================================================
   const steps = [];
   let currentOffset = 0;
 
   for (const leg of legs) {
+    // Calcular ratio de tráfico del leg completo
+    const legFreeFlow = leg.duration.value; // segundos sin tráfico
+    const legWithTraffic = leg.duration_in_traffic?.value || legFreeFlow;
+    const trafficRatio = legFreeFlow > 0 ? legWithTraffic / legFreeFlow : 1.0;
+    
+    console.log(`[GOOGLE] 🚦 Leg traffic ratio: ${trafficRatio.toFixed(2)} (${Math.round(legFreeFlow/60)}min free → ${Math.round(legWithTraffic/60)}min traffic)`);
+
     for (const step of leg.steps) {
       const cleanText = step.html_instructions
         .replace(/<[^>]*>/g, '')
@@ -464,20 +473,24 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
 
       const distanceMeters = step.distance.value;
       const durationSeconds = step.duration.value;
-      const durationTrafficSeconds = step.duration_in_traffic?.value || durationSeconds;
+      // Aplicar ratio de tráfico del leg al step
+      const durationTrafficSeconds = Math.round(durationSeconds * trafficRatio);
 
       const distanceKm = distanceMeters / 1000;
       const durationHours = durationTrafficSeconds / 3600;
       const speedKmh = durationHours > 0 ? distanceKm / durationHours : 0;
 
+      // Umbrales ajustados para Colombia urbano
+      // Google Maps usa: verde >40, amarillo 20-40, naranja 10-20, rojo <10
       let trafficLevel = 'free';
       if (speedKmh < 10) {
-        trafficLevel = 'heavy';
+        trafficLevel = 'heavy';     // 🔴 Rojo oscuro - Parado
       } else if (speedKmh < 20) {
-        trafficLevel = 'moderate';
-      } else if (speedKmh < 40) {
-        trafficLevel = 'slow';
+        trafficLevel = 'slow';      // 🔴 Rojo - Muy lento
+      } else if (speedKmh < 35) {
+        trafficLevel = 'moderate';   // 🟠 Naranja - Lento
       }
+      // >= 35 km/h = 'free' (azul/verde)
 
       const startLat = step.start_location.lat;
       const startLng = step.start_location.lng;
