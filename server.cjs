@@ -590,12 +590,12 @@ function findClosestPointIndex(points, targetLat, targetLng) {
 const routeCache = new Map();
 const ROUTE_CACHE_TTL = 15 * 60 * 1000; // 15 minutos
 
-function getCacheKey(origin, destination, waypoints) {
-  return `${origin}_${destination}_${waypoints || 'direct'}`;
+function getCacheKey(origin, destination, waypoints, vehicleId, passengers) {
+  return `${origin}_${destination}_${waypoints || 'direct'}_${vehicleId || 'generic'}_${passengers || 1}`;
 }
 
-function getCachedRoute(origin, destination, waypoints) {
-  const key = getCacheKey(origin, destination, waypoints);
+function getCachedRoute(origin, destination, waypoints, vehicleId, passengers) {
+  const key = getCacheKey(origin, destination, waypoints, vehicleId, passengers);
   const cached = routeCache.get(key);
   
   if (cached && Date.now() - cached.timestamp < ROUTE_CACHE_TTL) {
@@ -606,8 +606,8 @@ function getCachedRoute(origin, destination, waypoints) {
   return null;
 }
 
-function setCachedRoute(origin, destination, waypoints, data) {
-  const key = getCacheKey(origin, destination, waypoints);
+function setCachedRoute(origin, destination, waypoints, vehicleId, passengers, data) {
+  const key = getCacheKey(origin, destination, waypoints, vehicleId, passengers);
   routeCache.set(key, {
     data,
     timestamp: Date.now()
@@ -2571,7 +2571,7 @@ app.get('/route', async (req, res) => {
     }
 
     // Verificar caché
-    const cached = getCachedRoute(origin, destination, waypoints);
+    const cached = getCachedRoute(origin, destination, waypoints, vehicleId, passengers);
     if (cached) {
       console.log('[ROUTE] ⚡ Usando ruta cacheada');
       return res.json(cached);
@@ -2999,7 +2999,7 @@ app.get('/route', async (req, res) => {
     };
 
     // Guardar en caché
-    setCachedRoute(origin, destination, waypoints, response);
+    setCachedRoute(origin, destination, waypoints, vehicleId, passengers, response);
 
     return res.json(response);
 
