@@ -448,7 +448,9 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
   // ============================================================
   // 🆕 Procesar steps con tráfico (de TODOS los legs)
   // Google NO da duration_in_traffic por step, solo por leg.
-  // Solución: calcular ratio de tráfico por leg y aplicar a cada step.
+  // Solución: usar velocidad de flujo libre del step como referencia,
+  // luego aplicar el ratio de tráfico del leg y comparar la DEGRADACIÓN.
+  // Esto evita marcar como "tráfico" calles que son naturalmente lentas.
   // ============================================================
   const steps = [];
   let currentOffset = 0;
@@ -477,20 +479,31 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
       const durationTrafficSeconds = Math.round(durationSeconds * trafficRatio);
 
       const distanceKm = distanceMeters / 1000;
-      const durationHours = durationTrafficSeconds / 3600;
-      const speedKmh = durationHours > 0 ? distanceKm / durationHours : 0;
+      
+      // Velocidad de flujo libre (indica tipo de vía)
+      const freeFlowHours = durationSeconds / 3600;
+      const freeFlowSpeed = freeFlowHours > 0 ? distanceKm / freeFlowHours : 60;
+      
+      // Velocidad con tráfico
+      const trafficHours = durationTrafficSeconds / 3600;
+      const trafficSpeed = trafficHours > 0 ? distanceKm / trafficHours : freeFlowSpeed;
 
-      // Umbrales ajustados para Colombia urbano
-      // Google Maps usa: verde >40, amarillo 20-40, naranja 10-20, rojo <10
+      // Clasificación de tráfico:
+      // Solo marcar congestión en vías que deberían ser rápidas (flujo libre >= 30 km/h)
+      // y cuando el leg realmente tiene congestión (ratio > 1.08)
+      // Calles residenciales lentas (flujo libre < 30) → siempre 'free'
       let trafficLevel = 'free';
-      if (speedKmh < 10) {
-        trafficLevel = 'heavy';     // 🔴 Rojo oscuro - Parado
-      } else if (speedKmh < 20) {
-        trafficLevel = 'slow';      // 🔴 Rojo - Muy lento
-      } else if (speedKmh < 35) {
-        trafficLevel = 'moderate';   // 🟠 Naranja - Lento
+      
+      if (freeFlowSpeed >= 30 && trafficRatio > 1.08) {
+        // Vía principal/autopista con congestión real
+        if (trafficSpeed < 10) {
+          trafficLevel = 'heavy';     // 🔴 Parado
+        } else if (trafficSpeed < 20) {
+          trafficLevel = 'slow';      // 🔴 Muy lento
+        } else if (trafficSpeed < 35) {
+          trafficLevel = 'moderate';   // 🟠 Lento
+        }
       }
-      // >= 35 km/h = 'free' (azul/verde)
 
       const startLat = step.start_location.lat;
       const startLng = step.start_location.lng;
@@ -507,7 +520,8 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
         distance: distanceMeters,
         duration: durationSeconds,
         duration_traffic: durationTrafficSeconds,
-        speed_kmh: Math.round(speedKmh),
+        speed_kmh: Math.round(trafficSpeed),
+        free_flow_speed: Math.round(freeFlowSpeed),
         traffic_level: trafficLevel,
         fromIdx: fromIdx,
         toIdx: toIdx
