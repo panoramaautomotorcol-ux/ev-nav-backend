@@ -396,38 +396,39 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
   }
 
   const route = data.routes[0];
-  const leg = route.legs[0];
+  const legs = route.legs; // Puede ser 1 (sin waypoints) o varios (con waypoints)
 
   console.log('[GOOGLE] ✅ Ruta recibida de Google Maps');
+  console.log('[GOOGLE] 📊 Legs:', legs.length);
 
-  // Decodificar polyline DETALLADA desde cada step (no overview que simplifica y cruza casas)
+  // Decodificar polyline DETALLADA desde cada step de TODOS los legs
   let points = [];
   
-  // Intentar construir polyline desde steps individuales (más detallada)
   let usedStepPolylines = false;
-  if (leg.steps && leg.steps.length > 0) {
-    for (const step of leg.steps) {
-      if (step.polyline && step.polyline.points) {
-        const stepPoints = decodeGooglePolyline(step.polyline.points);
-        if (stepPoints.length > 0) {
-          // Evitar duplicar el punto de unión entre steps
-          if (points.length > 0 && stepPoints.length > 0) {
-            const lastPt = points[points.length - 1];
-            const firstPt = stepPoints[0];
-            if (Math.abs(lastPt.lat - firstPt.lat) < 0.00001 && 
-                Math.abs(lastPt.lon - firstPt.lon) < 0.00001) {
-              points.push(...stepPoints.slice(1));
+  for (const leg of legs) {
+    if (leg.steps && leg.steps.length > 0) {
+      for (const step of leg.steps) {
+        if (step.polyline && step.polyline.points) {
+          const stepPoints = decodeGooglePolyline(step.polyline.points);
+          if (stepPoints.length > 0) {
+            if (points.length > 0 && stepPoints.length > 0) {
+              const lastPt = points[points.length - 1];
+              const firstPt = stepPoints[0];
+              if (Math.abs(lastPt.lat - firstPt.lat) < 0.00001 && 
+                  Math.abs(lastPt.lon - firstPt.lon) < 0.00001) {
+                points.push(...stepPoints.slice(1));
+              } else {
+                points.push(...stepPoints);
+              }
             } else {
               points.push(...stepPoints);
             }
-          } else {
-            points.push(...stepPoints);
           }
         }
       }
     }
-    usedStepPolylines = points.length > 10;
   }
+  usedStepPolylines = points.length > 10;
   
   // Fallback: usar overview_polyline si no se pudieron extraer de los steps
   if (!usedStepPolylines) {
@@ -445,93 +446,95 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
   console.log('[GOOGLE] 🔢 Puntos densificados:', points.length);
 
   // ============================================================
-  // 🆕 NUEVO: Procesar steps con tráfico
+  // 🆕 Procesar steps con tráfico (de TODOS los legs)
   // ============================================================
   const steps = [];
   let currentOffset = 0;
 
-  for (const step of leg.steps) {
-    // Limpiar HTML de las instrucciones
-    const cleanText = step.html_instructions
-      .replace(/<[^>]*>/g, '')  // Quitar tags HTML
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&amp;/g, '&')
-      .replace(/&#39;/g, "'")
-      .trim();
+  for (const leg of legs) {
+    for (const step of leg.steps) {
+      const cleanText = step.html_instructions
+        .replace(/<[^>]*>/g, '')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&#39;/g, "'")
+        .trim();
 
-    if (!cleanText) continue;
+      if (!cleanText) continue;
 
-    // ✅ NUEVO: Extraer datos de tráfico
-    const distanceMeters = step.distance.value;
-    const durationSeconds = step.duration.value; // Sin tráfico
-    const durationTrafficSeconds = step.duration_in_traffic?.value || durationSeconds; // ✅ CON tráfico
+      const distanceMeters = step.distance.value;
+      const durationSeconds = step.duration.value;
+      const durationTrafficSeconds = step.duration_in_traffic?.value || durationSeconds;
 
-    // Calcular velocidad real (con tráfico)
-    const distanceKm = distanceMeters / 1000;
-    const durationHours = durationTrafficSeconds / 3600;
-    const speedKmh = durationHours > 0 ? distanceKm / durationHours : 0;
+      const distanceKm = distanceMeters / 1000;
+      const durationHours = durationTrafficSeconds / 3600;
+      const speedKmh = durationHours > 0 ? distanceKm / durationHours : 0;
 
-    // Determinar nivel de tráfico según velocidad
-    let trafficLevel = 'free';
-    if (speedKmh < 10) {
-      trafficLevel = 'heavy';      // 🔴 Rojo - Congestionado
-    } else if (speedKmh < 20) {
-      trafficLevel = 'moderate';   // 🟠 Naranja - Moderado
-    } else if (speedKmh < 40) {
-      trafficLevel = 'slow';       // 🟡 Amarillo - Lento
+      let trafficLevel = 'free';
+      if (speedKmh < 10) {
+        trafficLevel = 'heavy';
+      } else if (speedKmh < 20) {
+        trafficLevel = 'moderate';
+      } else if (speedKmh < 40) {
+        trafficLevel = 'slow';
+      }
+
+      const startLat = step.start_location.lat;
+      const startLng = step.start_location.lng;
+      const endLat = step.end_location.lat;
+      const endLng = step.end_location.lng;
+
+      const fromIdx = findClosestPointIndex(points, startLat, startLng);
+      const toIdx = findClosestPointIndex(points, endLat, endLng);
+
+      steps.push({
+        text: cleanText,
+        offset: currentOffset,
+        length_m: distanceMeters,
+        distance: distanceMeters,
+        duration: durationSeconds,
+        duration_traffic: durationTrafficSeconds,
+        speed_kmh: Math.round(speedKmh),
+        traffic_level: trafficLevel,
+        fromIdx: fromIdx,
+        toIdx: toIdx
+      });
+
+      currentOffset += distanceMeters;
     }
-
-    // Encontrar índices en la polyline densificada
-    const startLat = step.start_location.lat;
-    const startLng = step.start_location.lng;
-    const endLat = step.end_location.lat;
-    const endLng = step.end_location.lng;
-
-    const fromIdx = findClosestPointIndex(points, startLat, startLng);
-    const toIdx = findClosestPointIndex(points, endLat, endLng);
-
-    steps.push({
-      text: cleanText,
-      offset: currentOffset,
-      length_m: distanceMeters,
-      
-      // ✅ NUEVOS CAMPOS DE TRÁFICO
-      distance: distanceMeters,           // metros
-      duration: durationSeconds,          // segundos SIN tráfico
-      duration_traffic: durationTrafficSeconds, // ✅ segundos CON tráfico
-      speed_kmh: Math.round(speedKmh),    // ✅ velocidad real
-      traffic_level: trafficLevel,        // ✅ free, slow, moderate, heavy
-      fromIdx: fromIdx,                   // ✅ índice inicio en polyline
-      toIdx: toIdx                        // ✅ índice fin en polyline
-    });
-
-    currentOffset += distanceMeters;
   }
 
   console.log('[GOOGLE] 📋 Steps generados:', steps.length);
-  console.log('[GOOGLE] 🚦 Tráfico por step:', steps.map(s => s.traffic_level).join(', '));
   
   if (steps.length > 0) {
     console.log('[GOOGLE] 📍 Primera instrucción:', steps[0].text);
     console.log('[GOOGLE] 📍 Última instrucción:', steps[steps.length - 1].text);
   }
 
-  // Duración total con tráfico
-  const durationSeconds = leg.duration_in_traffic 
-    ? leg.duration_in_traffic.value 
-    : leg.duration.value;
-
-  const distanceMeters = leg.distance.value;
-
-  console.log('[GOOGLE] 📊 Distancia:', (distanceMeters / 1000).toFixed(1), 'km');
-  console.log('[GOOGLE] ⏱️  Duración con tráfico:', Math.round(durationSeconds / 60), 'min');
+  // Duración y distancia total de TODOS los legs
+  let totalDurationSeconds = 0;
+  let totalDistanceMeters = 0;
+  let hasTrafficData = false;
+  let totalFreeFlowSeconds = 0;
   
-  // ✅ NUEVO: Log de resumen de tráfico
-  const hasTrafficData = !!leg.duration_in_traffic;
+  for (const leg of legs) {
+    totalDistanceMeters += leg.distance.value;
+    if (leg.duration_in_traffic) {
+      totalDurationSeconds += leg.duration_in_traffic.value;
+      totalFreeFlowSeconds += leg.duration.value;
+      hasTrafficData = true;
+    } else {
+      totalDurationSeconds += leg.duration.value;
+      totalFreeFlowSeconds += leg.duration.value;
+    }
+  }
+
   const delayMinutes = hasTrafficData 
-    ? (leg.duration_in_traffic.value - leg.duration.value) / 60 
+    ? (totalDurationSeconds - totalFreeFlowSeconds) / 60 
     : 0;
-  
+
+  console.log('[GOOGLE] 📊 Distancia total:', (totalDistanceMeters / 1000).toFixed(1), 'km');
+  console.log('[GOOGLE] ⏱️  Duración con tráfico:', Math.round(totalDurationSeconds / 60), 'min');
   console.log('[GOOGLE] 🚦 Datos de tráfico:', hasTrafficData ? 'SÍ' : 'NO');
   if (hasTrafficData) {
     console.log('[GOOGLE] ⏳ Retraso por tráfico:', delayMinutes.toFixed(1), 'min');
@@ -539,16 +542,15 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
 
   return {
     points,
-    steps,  // ✅ Ahora incluye datos de tráfico por step
-    distanceMeters,
-    durationSeconds,
+    steps,
+    distanceMeters: totalDistanceMeters,
+    durationSeconds: totalDurationSeconds,
     provider: 'google',
     
-    // ✅ NUEVO: Metadata de tráfico
     traffic_summary: {
       has_traffic_data: hasTrafficData,
-      free_flow_duration_min: leg.duration.value / 60,
-      traffic_duration_min: durationSeconds / 60,
+      free_flow_duration_min: totalFreeFlowSeconds / 60,
+      traffic_duration_min: totalDurationSeconds / 60,
       delay_minutes: delayMinutes
     }
   };
