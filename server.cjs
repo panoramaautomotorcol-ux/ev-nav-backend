@@ -488,19 +488,16 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
       const trafficHours = durationTrafficSeconds / 3600;
       const trafficSpeed = trafficHours > 0 ? distanceKm / trafficHours : freeFlowSpeed;
 
-      // Clasificación de tráfico:
-      // Solo marcar congestión en vías que deberían ser rápidas (flujo libre >= 30 km/h)
-      // y cuando el leg realmente tiene congestión (ratio > 1.08)
-      // Calles residenciales lentas (flujo libre < 30) → siempre 'free'
+      // Clasificación por velocidad con tráfico aplicado
+      // Solo si el step es largo (>100m) para ignorar mini-steps de giros
       let trafficLevel = 'free';
       
-      if (freeFlowSpeed >= 30 && trafficRatio > 1.08) {
-        // Vía principal/autopista con congestión real
-        if (trafficSpeed < 10) {
+      if (distanceMeters > 100) {
+        if (trafficSpeed < 8) {
           trafficLevel = 'heavy';     // 🔴 Parado
-        } else if (trafficSpeed < 20) {
+        } else if (trafficSpeed < 15) {
           trafficLevel = 'slow';      // 🔴 Muy lento
-        } else if (trafficSpeed < 35) {
+        } else if (trafficSpeed < 30) {
           trafficLevel = 'moderate';   // 🟠 Lento
         }
       }
