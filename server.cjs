@@ -493,12 +493,12 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
       let trafficLevel = 'free';
       
       if (distanceMeters > 100) {
-        if (trafficSpeed < 8) {
-          trafficLevel = 'heavy';     // 🔴 Parado
-        } else if (trafficSpeed < 15) {
-          trafficLevel = 'slow';      // 🔴 Muy lento
-        } else if (trafficSpeed < 30) {
-          trafficLevel = 'moderate';   // 🟠 Lento
+        if (trafficSpeed < 10) {
+          trafficLevel = 'heavy';     // 🔴 Parado/Muy lento
+        } else if (trafficSpeed < 25) {
+          trafficLevel = 'slow';      // 🔴 Lento  
+        } else if (trafficSpeed < 45) {
+          trafficLevel = 'moderate';   // 🟠 Tráfico moderado
         }
       }
 
