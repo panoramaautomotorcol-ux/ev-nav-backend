@@ -3681,6 +3681,14 @@ app.get('/api/calibration-stats', (req, res) => {
 // Base de datos en memoria para reportes (en producción: usar MongoDB/PostgreSQL)
 let trafficReports = [];
 
+// Endpoint para limpiar todos los reportes (admin)
+app.delete('/api/traffic-reports', (req, res) => {
+  const count = trafficReports.length;
+  trafficReports = [];
+  console.log(`[TRAFFIC-REPORT] 🗑️ Limpiados ${count} reportes`);
+  res.json({ success: true, deleted: count });
+});
+
 // Endpoint para reportar incidentes
 app.post('/api/traffic-report', (req, res) => {
   try {
@@ -3961,6 +3969,155 @@ app.delete('/traffic-reports', (req, res) => {
     }
   } catch (error) {
     console.error('[DELETE] ❌', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ==================== PRECIOS DE CARGA EN TIEMPO REAL ====================
+
+let chargingPrices = []; // En memoria (futuro: base de datos)
+
+// Reportar precio de carga
+app.post('/api/charging-price', (req, res) => {
+  try {
+    const { siteId, siteName, pricePerKwh, connectorType, paymentMethod, notes } = req.body;
+    
+    if (!siteId || !pricePerKwh) {
+      return res.status(400).json({ error: 'siteId y pricePerKwh son requeridos' });
+    }
+    
+    const price = parseFloat(pricePerKwh);
+    if (isNaN(price) || price <= 0 || price > 10000) {
+      return res.status(400).json({ error: 'Precio inválido' });
+    }
+    
+    const report = {
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+      siteId,
+      siteName: siteName || 'Desconocido',
+      pricePerKwh: price,
+      connectorType: connectorType || 'DC',
+      paymentMethod: paymentMethod || null,
+      notes: notes || null,
+      timestamp: new Date().toISOString(),
+      votes: 1,
+      confirmed: true,
+    };
+    
+    chargingPrices.push(report);
+    
+    // Mantener máximo 1000 reportes
+    if (chargingPrices.length > 1000) {
+      chargingPrices = chargingPrices.slice(-500);
+    }
+    
+    console.log('========================================');
+    console.log('[CHARGING-PRICE] 💰 NUEVO PRECIO');
+    console.log('========================================');
+    console.log(`📍 Estación: ${siteName} (${siteId})`);
+    console.log(`💵 Precio: $${price} COP/kWh`);
+    console.log(`🔌 Conector: ${connectorType}`);
+    console.log(`📊 Total reportes: ${chargingPrices.length}`);
+    console.log('========================================');
+    
+    res.json({ success: true, report });
+  } catch (error) {
+    console.error('[CHARGING-PRICE] ❌ Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Obtener precios de una estación
+app.get('/api/charging-prices/:siteId', (req, res) => {
+  try {
+    const { siteId } = req.params;
+    const { limit } = req.query;
+    const maxResults = parseInt(limit) || 10;
+    
+    // Filtrar por estación, ordenar por más reciente
+    const prices = chargingPrices
+      .filter(p => p.siteId === siteId)
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+      .slice(0, maxResults);
+    
+    // Calcular promedio de los últimos 5 reportes
+    const recent = prices.slice(0, 5);
+    const avgPrice = recent.length > 0 
+      ? recent.reduce((sum, p) => sum + p.pricePerKwh, 0) / recent.length 
+      : null;
+    
+    // Precio más reciente
+    const latestPrice = prices.length > 0 ? prices[0] : null;
+    
+    res.json({
+      success: true,
+      siteId,
+      count: prices.length,
+      avgPrice: avgPrice ? Math.round(avgPrice) : null,
+      latestPrice,
+      prices,
+    });
+  } catch (error) {
+    console.error('[CHARGING-PRICES] ❌ Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Obtener precios de múltiples estaciones (para mostrar en mapa)
+app.get('/api/charging-prices', (req, res) => {
+  try {
+    // Agrupar por siteId, devolver el precio promedio reciente de cada una
+    const grouped = {};
+    
+    for (const p of chargingPrices) {
+      if (!grouped[p.siteId]) {
+        grouped[p.siteId] = [];
+      }
+      grouped[p.siteId].push(p);
+    }
+    
+    const summary = Object.entries(grouped).map(([siteId, prices]) => {
+      const sorted = prices.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      const recent = sorted.slice(0, 5);
+      const avg = recent.reduce((sum, p) => sum + p.pricePerKwh, 0) / recent.length;
+      
+      return {
+        siteId,
+        siteName: sorted[0].siteName,
+        avgPrice: Math.round(avg),
+        latestPrice: sorted[0].pricePerKwh,
+        lastUpdated: sorted[0].timestamp,
+        reportCount: prices.length,
+      };
+    });
+    
+    res.json({ success: true, stations: summary });
+  } catch (error) {
+    console.error('[CHARGING-PRICES] ❌ Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Votar precio (confirmar/negar)
+app.post('/api/charging-price-vote', (req, res) => {
+  try {
+    const { priceId, vote } = req.body; // vote: 1 (confirmar) o -1 (negar)
+    
+    const price = chargingPrices.find(p => p.id === priceId);
+    if (!price) {
+      return res.status(404).json({ error: 'Precio no encontrado' });
+    }
+    
+    price.votes = (price.votes || 1) + (vote === 1 ? 1 : -1);
+    
+    // Si tiene muchos votos negativos, marcarlo como no confiable
+    if (price.votes <= -3) {
+      price.confirmed = false;
+    }
+    
+    res.json({ success: true, votes: price.votes, confirmed: price.confirmed });
+  } catch (error) {
+    console.error('[CHARGING-PRICE-VOTE] ❌ Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
