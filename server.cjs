@@ -346,6 +346,31 @@ function decodeGooglePolyline(encoded) {
   return poly;
 }
 
+// 🆕 Encode array of {lat, lon} to Google polyline format
+function encodeGooglePolyline(points) {
+  let encoded = '';
+  let prevLat = 0, prevLng = 0;
+  for (const pt of points) {
+    const lat = Math.round(pt.lat * 1e5);
+    const lng = Math.round(pt.lon * 1e5);
+    encoded += _encodeValue(lat - prevLat);
+    encoded += _encodeValue(lng - prevLng);
+    prevLat = lat;
+    prevLng = lng;
+  }
+  return encoded;
+}
+function _encodeValue(val) {
+  let v = val < 0 ? ~(val << 1) : (val << 1);
+  let encoded = '';
+  while (v >= 0x20) {
+    encoded += String.fromCharCode((0x20 | (v & 0x1f)) + 63);
+    v >>= 5;
+  }
+  encoded += String.fromCharCode(v + 63);
+  return encoded;
+}
+
 /**
  * Calcular ruta usando Google Maps Directions API
  */
@@ -2580,12 +2605,101 @@ app.get('/route', async (req, res) => {
     const lang = String(req.query.lang || 'es-ES');
     const debug = req.query.debug != null;
     const provider = String(req.query.provider || 'auto'); // 'google', 'here', 'auto'
+    const polylineHint = req.query.polyline_hint ? String(req.query.polyline_hint) : null;
 
     console.log('[ROUTE] 🚗 Calculando ruta:');
     console.log('[ROUTE]   Origen:', origin);
     console.log('[ROUTE]   Destino:', destination);
     console.log('[ROUTE]   Waypoints:', waypoints || 'ninguno');
+    console.log('[ROUTE]   Polyline hint:', polylineHint ? `${polylineHint.length} chars` : 'ninguno');
     console.log('[ROUTE]   Provider:', provider);
+
+    // 🆕 Si hay polyline_hint (ruta seleccionada por el usuario), generar via-waypoints
+    // para que Google siga exactamente la misma ruta
+    let effectiveWaypoints = waypoints;
+    if (polylineHint) {
+      try {
+        const hintPoints = decodeGooglePolyline(polylineHint);
+        if (hintPoints.length > 2) {
+          if (!waypoints) {
+            // Sin waypoints de carga: solo via-points de la polyline
+            const numVia = Math.min(8, Math.max(3, Math.floor(hintPoints.length / 20)));
+            const step = Math.floor(hintPoints.length / (numVia + 1));
+            const viaPoints = [];
+            for (let i = 1; i <= numVia; i++) {
+              const idx = Math.min(i * step, hintPoints.length - 2);
+              viaPoints.push(`via:${hintPoints[idx].lat},${hintPoints[idx].lon}`);
+            }
+            effectiveWaypoints = viaPoints.join('|');
+            console.log(`[ROUTE] 📍 Polyline hint → ${viaPoints.length} via-waypoints (sin cargadores)`);
+          } else {
+            // CON waypoints de carga: intercalar via-points entre los charging stops
+            // para que Google siga la ruta seleccionada entre cada parada
+            const chargingWps = waypoints.split('|');
+            const combined = [];
+            
+            // Calcular distancia acumulada a lo largo de la polyline hint
+            const cumDist = [0];
+            for (let i = 1; i < hintPoints.length; i++) {
+              cumDist.push(cumDist[i-1] + haversineDistance(
+                hintPoints[i-1].lat, hintPoints[i-1].lon,
+                hintPoints[i].lat, hintPoints[i].lon
+              ));
+            }
+            const totalDist = cumDist[cumDist.length - 1];
+            
+            // Para cada charging waypoint, encontrar su posición en la polyline
+            const wpPositions = [];
+            for (const wp of chargingWps) {
+              const [wLat, wLon] = wp.split(',').map(Number);
+              let minD = Infinity, bestIdx = 0;
+              for (let i = 0; i < hintPoints.length; i++) {
+                const d = haversineDistance(wLat, wLon, hintPoints[i].lat, hintPoints[i].lon);
+                if (d < minD) { minD = d; bestIdx = i; }
+              }
+              wpPositions.push({ wp, idx: bestIdx, dist: cumDist[bestIdx] });
+            }
+            wpPositions.sort((a, b) => a.dist - b.dist);
+            
+            // Intercalar: agregar 1-2 via-points entre cada par de paradas
+            let prevIdx = 0;
+            for (const wpPos of wpPositions) {
+              const gapIdx = wpPos.idx - prevIdx;
+              if (gapIdx > 10) {
+                // Agregar 1-2 via-points en este tramo
+                const numVia = gapIdx > 30 ? 2 : 1;
+                for (let v = 1; v <= numVia; v++) {
+                  const viaIdx = Math.round(prevIdx + (gapIdx * v / (numVia + 1)));
+                  if (viaIdx > 0 && viaIdx < hintPoints.length) {
+                    combined.push(`via:${hintPoints[viaIdx].lat},${hintPoints[viaIdx].lon}`);
+                  }
+                }
+              }
+              combined.push(wpPos.wp); // charging waypoint (sin "via:" para que sea parada)
+              prevIdx = wpPos.idx;
+            }
+            
+            // Via-points después del último cargador hasta el destino
+            const lastIdx = wpPositions.length > 0 ? wpPositions[wpPositions.length - 1].idx : 0;
+            const remainingGap = hintPoints.length - 1 - lastIdx;
+            if (remainingGap > 10) {
+              const numVia = remainingGap > 30 ? 2 : 1;
+              for (let v = 1; v <= numVia; v++) {
+                const viaIdx = Math.round(lastIdx + (remainingGap * v / (numVia + 1)));
+                if (viaIdx > 0 && viaIdx < hintPoints.length) {
+                  combined.push(`via:${hintPoints[viaIdx].lat},${hintPoints[viaIdx].lon}`);
+                }
+              }
+            }
+            
+            effectiveWaypoints = combined.join('|');
+            console.log(`[ROUTE] 📍 Polyline hint + ${chargingWps.length} cargadores → ${combined.length} waypoints combinados`);
+          }
+        }
+      } catch (e) {
+        console.error('[ROUTE] ⚠️ Error procesando polyline_hint:', e.message);
+      }
+    }
 
     if (!origin || !destination) {
       return res.status(400).json({ 
@@ -2594,8 +2708,9 @@ app.get('/route', async (req, res) => {
       });
     }
 
-    // Verificar caché
-    const cached = getCachedRoute(origin, destination, waypoints, vehicleId, passengers);
+    // Verificar caché (usar effectiveWaypoints para que polyline_hint tenga su propio cache)
+    const cacheWaypoints = effectiveWaypoints || waypoints;
+    const cached = getCachedRoute(origin, destination, cacheWaypoints, vehicleId, passengers);
     if (cached) {
       console.log('[ROUTE] ⚡ Usando ruta cacheada');
       return res.json(cached);
@@ -2608,7 +2723,7 @@ app.get('/route', async (req, res) => {
     if (provider === 'auto' || provider === 'google') {
       if (GOOGLE_MAPS_API_KEY) {
         try {
-          routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId);
+          routeData = await calculateRouteGoogle(origin, destination, effectiveWaypoints || waypoints, vehicleId);
           usedProvider = 'google';
           console.log('[ROUTE] ✅ Usando Google Maps');
         } catch (error) {
@@ -3023,7 +3138,7 @@ app.get('/route', async (req, res) => {
     };
 
     // Guardar en caché
-    setCachedRoute(origin, destination, waypoints, vehicleId, passengers, response);
+    setCachedRoute(origin, destination, cacheWaypoints, vehicleId, passengers, response);
 
     return res.json(response);
 
@@ -3093,6 +3208,51 @@ app.get('/route-alternatives', async (req, res) => {
 
       // Decodificar polyline para buscar peajes cercanos
       const points = decodeGooglePolyline(route.overview_polyline.points);
+      
+      // 🆕 También decodificar step-level polylines para tener alta resolución
+      // (overview_polyline puede tener solo ~200 puntos para 1000km)
+      let detailedPoints = [];
+      for (const stepLeg of route.legs) {
+        if (stepLeg.steps) {
+          for (const step of stepLeg.steps) {
+            if (step.polyline?.points) {
+              const stepPts = decodeGooglePolyline(step.polyline.points);
+              if (detailedPoints.length > 0 && stepPts.length > 0) {
+                const lastPt = detailedPoints[detailedPoints.length - 1];
+                const firstPt = stepPts[0];
+                if (Math.abs(lastPt.lat - firstPt.lat) < 0.00001 && Math.abs(lastPt.lon - firstPt.lon) < 0.00001) {
+                  detailedPoints.push(...stepPts.slice(1));
+                } else {
+                  detailedPoints.push(...stepPts);
+                }
+              } else {
+                detailedPoints.push(...stepPts);
+              }
+            }
+          }
+        }
+      }
+      // Si tenemos step polylines detalladas, samplear para no enviar demasiados datos
+      // pero mantener suficiente resolución (~1 punto cada 1-2km)
+      let sampledDetailedEncoded = null;
+      if (detailedPoints.length > points.length * 2) {
+        const targetPoints = Math.min(2000, Math.max(500, Math.round(distanceKm / 1.5)));
+        const sampleStep = Math.max(1, Math.floor(detailedPoints.length / targetPoints));
+        const sampled = [];
+        for (let s = 0; s < detailedPoints.length; s += sampleStep) {
+          sampled.push(detailedPoints[s]);
+        }
+        // Always include last point
+        if (sampled.length > 0) {
+          const lastSampled = sampled[sampled.length - 1];
+          const lastDetailed = detailedPoints[detailedPoints.length - 1];
+          if (Math.abs(lastSampled.lat - lastDetailed.lat) > 0.0001) {
+            sampled.push(lastDetailed);
+          }
+        }
+        sampledDetailedEncoded = encodeGooglePolyline(sampled);
+        console.log(`[ALT-ROUTES]   Ruta ${i}: overview=${points.length}pts, detailed=${detailedPoints.length}pts, sampled=${sampled.length}pts`);
+      }
 
       // Consumo estimado (simplificado — sin elevación para rapidez)
       const consumptionPercent = distanceKm * baseRate * weightFactor;
@@ -3151,6 +3311,7 @@ app.get('/route-alternatives', async (req, res) => {
         tolls: tollsFound,
         summary: route.summary || '',
         polyline_encoded: route.overview_polyline.points,
+        polyline_detailed: sampledDetailedEncoded || null,
         warnings: route.warnings || []
       });
 
