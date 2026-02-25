@@ -353,14 +353,14 @@ function encodeGooglePolyline(points) {
   for (const pt of points) {
     const lat = Math.round(pt.lat * 1e5);
     const lng = Math.round(pt.lon * 1e5);
-    encoded += _encodeValue(lat - prevLat);
-    encoded += _encodeValue(lng - prevLng);
+    encoded += _encodePolyValue(lat - prevLat);
+    encoded += _encodePolyValue(lng - prevLng);
     prevLat = lat;
     prevLng = lng;
   }
   return encoded;
 }
-function _encodeValue(val) {
+function _encodePolyValue(val) {
   let v = val < 0 ? ~(val << 1) : (val << 1);
   let encoded = '';
   while (v >= 0x20) {
@@ -2614,15 +2614,14 @@ app.get('/route', async (req, res) => {
     console.log('[ROUTE]   Polyline hint:', polylineHint ? `${polylineHint.length} chars` : 'ninguno');
     console.log('[ROUTE]   Provider:', provider);
 
-    // 🆕 Si hay polyline_hint (ruta seleccionada por el usuario), generar via-waypoints
-    // para que Google siga exactamente la misma ruta
+    // 🆕 Si hay polyline_hint, generar via-waypoints para forzar la misma ruta
     let effectiveWaypoints = waypoints;
     if (polylineHint) {
       try {
         const hintPoints = decodeGooglePolyline(polylineHint);
         if (hintPoints.length > 2) {
           if (!waypoints) {
-            // Sin waypoints de carga: solo via-points de la polyline
+            // Sin waypoints de carga: solo via-points
             const numVia = Math.min(8, Math.max(3, Math.floor(hintPoints.length / 20)));
             const step = Math.floor(hintPoints.length / (numVia + 1));
             const viaPoints = [];
@@ -2631,22 +2630,11 @@ app.get('/route', async (req, res) => {
               viaPoints.push(`via:${hintPoints[idx].lat},${hintPoints[idx].lon}`);
             }
             effectiveWaypoints = viaPoints.join('|');
-            console.log(`[ROUTE] 📍 Polyline hint → ${viaPoints.length} via-waypoints (sin cargadores)`);
+            console.log(`[ROUTE] 📍 Polyline hint → ${viaPoints.length} via-waypoints`);
           } else {
-            // CON waypoints de carga: intercalar via-points entre los charging stops
-            // para que Google siga la ruta seleccionada entre cada parada
+            // CON waypoints de carga: intercalar via-points entre paradas
             const chargingWps = waypoints.split('|');
             const combined = [];
-            
-            // Calcular distancia acumulada a lo largo de la polyline hint
-            const cumDist = [0];
-            for (let i = 1; i < hintPoints.length; i++) {
-              cumDist.push(cumDist[i-1] + haversineDistance(
-                hintPoints[i-1].lat, hintPoints[i-1].lon,
-                hintPoints[i].lat, hintPoints[i].lon
-              ));
-            }
-            const totalDist = cumDist[cumDist.length - 1];
             
             // Para cada charging waypoint, encontrar su posición en la polyline
             const wpPositions = [];
@@ -2657,16 +2645,15 @@ app.get('/route', async (req, res) => {
                 const d = haversineDistance(wLat, wLon, hintPoints[i].lat, hintPoints[i].lon);
                 if (d < minD) { minD = d; bestIdx = i; }
               }
-              wpPositions.push({ wp, idx: bestIdx, dist: cumDist[bestIdx] });
+              wpPositions.push({ wp, idx: bestIdx });
             }
-            wpPositions.sort((a, b) => a.dist - b.dist);
+            wpPositions.sort((a, b) => a.idx - b.idx);
             
-            // Intercalar: agregar 1-2 via-points entre cada par de paradas
+            // Intercalar via-points entre paradas
             let prevIdx = 0;
             for (const wpPos of wpPositions) {
               const gapIdx = wpPos.idx - prevIdx;
               if (gapIdx > 10) {
-                // Agregar 1-2 via-points en este tramo
                 const numVia = gapIdx > 30 ? 2 : 1;
                 for (let v = 1; v <= numVia; v++) {
                   const viaIdx = Math.round(prevIdx + (gapIdx * v / (numVia + 1)));
@@ -2675,20 +2662,16 @@ app.get('/route', async (req, res) => {
                   }
                 }
               }
-              combined.push(wpPos.wp); // charging waypoint (sin "via:" para que sea parada)
+              combined.push(wpPos.wp);
               prevIdx = wpPos.idx;
             }
-            
-            // Via-points después del último cargador hasta el destino
+            // Via-points después del último cargador
             const lastIdx = wpPositions.length > 0 ? wpPositions[wpPositions.length - 1].idx : 0;
             const remainingGap = hintPoints.length - 1 - lastIdx;
             if (remainingGap > 10) {
-              const numVia = remainingGap > 30 ? 2 : 1;
-              for (let v = 1; v <= numVia; v++) {
-                const viaIdx = Math.round(lastIdx + (remainingGap * v / (numVia + 1)));
-                if (viaIdx > 0 && viaIdx < hintPoints.length) {
-                  combined.push(`via:${hintPoints[viaIdx].lat},${hintPoints[viaIdx].lon}`);
-                }
+              const viaIdx = Math.round(lastIdx + remainingGap / 2);
+              if (viaIdx < hintPoints.length) {
+                combined.push(`via:${hintPoints[viaIdx].lat},${hintPoints[viaIdx].lon}`);
               }
             }
             
@@ -2708,7 +2691,7 @@ app.get('/route', async (req, res) => {
       });
     }
 
-    // Verificar caché (usar effectiveWaypoints para que polyline_hint tenga su propio cache)
+    // Verificar caché
     const cacheWaypoints = effectiveWaypoints || waypoints;
     const cached = getCachedRoute(origin, destination, cacheWaypoints, vehicleId, passengers);
     if (cached) {
@@ -3195,6 +3178,13 @@ app.get('/route-alternatives', async (req, res) => {
 
     // Usar peajes ya cargados en memoria (variable global)
     const peajesArr = peajesData?.peajes || [];
+    
+    // 🆕 Cargar cargadores DC para evaluar cobertura de cada ruta
+    const allChargers = _getEvItems().filter(c => {
+      const powerKw = c.power_kw || 0;
+      return c.lat && c.lon && powerKw >= 40; // Solo DC
+    });
+    console.log(`[ALT-ROUTES] 🔋 ${allChargers.length} cargadores DC disponibles para análisis de cobertura`);
 
     const alternatives = [];
 
@@ -3209,8 +3199,7 @@ app.get('/route-alternatives', async (req, res) => {
       // Decodificar polyline para buscar peajes cercanos
       const points = decodeGooglePolyline(route.overview_polyline.points);
       
-      // 🆕 También decodificar step-level polylines para tener alta resolución
-      // (overview_polyline puede tener solo ~200 puntos para 1000km)
+      // 🆕 Decodificar step-level polylines para alta resolución
       let detailedPoints = [];
       for (const stepLeg of route.legs) {
         if (stepLeg.steps) {
@@ -3232,8 +3221,8 @@ app.get('/route-alternatives', async (req, res) => {
           }
         }
       }
-      // Si tenemos step polylines detalladas, samplear para no enviar demasiados datos
-      // pero mantener suficiente resolución (~1 punto cada 1-2km)
+      
+      // Samplear detailed points para enviar al frontend (no enviar 50000+ puntos)
       let sampledDetailedEncoded = null;
       if (detailedPoints.length > points.length * 2) {
         const targetPoints = Math.min(2000, Math.max(500, Math.round(distanceKm / 1.5)));
@@ -3242,17 +3231,54 @@ app.get('/route-alternatives', async (req, res) => {
         for (let s = 0; s < detailedPoints.length; s += sampleStep) {
           sampled.push(detailedPoints[s]);
         }
-        // Always include last point
         if (sampled.length > 0) {
-          const lastSampled = sampled[sampled.length - 1];
-          const lastDetailed = detailedPoints[detailedPoints.length - 1];
-          if (Math.abs(lastSampled.lat - lastDetailed.lat) > 0.0001) {
-            sampled.push(lastDetailed);
-          }
+          const lastS = sampled[sampled.length - 1];
+          const lastD = detailedPoints[detailedPoints.length - 1];
+          if (Math.abs(lastS.lat - lastD.lat) > 0.0001) sampled.push(lastD);
         }
         sampledDetailedEncoded = encodeGooglePolyline(sampled);
-        console.log(`[ALT-ROUTES]   Ruta ${i}: overview=${points.length}pts, detailed=${detailedPoints.length}pts, sampled=${sampled.length}pts`);
       }
+      
+      // 🆕 Analizar cobertura de cargadores DC a lo largo de esta ruta
+      // Usar detailed points si disponibles, sino overview
+      const routePtsForAnalysis = detailedPoints.length > 0 ? detailedPoints : points;
+      const chargersNearRoute = [];
+      for (const c of allChargers) {
+        let minDist = Infinity;
+        const step = Math.max(1, Math.floor(routePtsForAnalysis.length / 300));
+        let bestIdx = 0;
+        for (let p = 0; p < routePtsForAnalysis.length; p += step) {
+          const d = haversineDistance(c.lat, c.lon, routePtsForAnalysis[p].lat, routePtsForAnalysis[p].lon);
+          if (d < minDist) { minDist = d; bestIdx = p; }
+        }
+        // Refinar
+        const rStart = Math.max(0, bestIdx - step);
+        const rEnd = Math.min(routePtsForAnalysis.length - 1, bestIdx + step);
+        for (let p = rStart; p <= rEnd; p++) {
+          const d = haversineDistance(c.lat, c.lon, routePtsForAnalysis[p].lat, routePtsForAnalysis[p].lon);
+          if (d < minDist) { minDist = d; bestIdx = p; }
+        }
+        if (minDist <= 10) { // 10km del route
+          // Estimar km a lo largo de la ruta (proporción del índice)
+          const kmAlong = (bestIdx / routePtsForAnalysis.length) * distanceKm;
+          chargersNearRoute.push({ name: c.name, km: Math.round(kmAlong), dist: minDist.toFixed(1) });
+        }
+      }
+      chargersNearRoute.sort((a, b) => a.km - b.km);
+      
+      // Calcular gap máximo (distancia más larga sin cargadores)
+      let maxGap = 0;
+      let prevKm = 0;
+      for (const c of chargersNearRoute) {
+        const gap = c.km - prevKm;
+        if (gap > maxGap) maxGap = gap;
+        prevKm = c.km;
+      }
+      // Gap del último cargador al destino
+      const lastGap = distanceKm - prevKm;
+      if (lastGap > maxGap) maxGap = lastGap;
+      
+      console.log(`[ALT-ROUTES]   Ruta ${i}: ${chargersNearRoute.length} cargadores cerca, gap máx: ${maxGap.toFixed(0)}km`);
 
       // Consumo estimado (simplificado — sin elevación para rapidez)
       const consumptionPercent = distanceKm * baseRate * weightFactor;
@@ -3284,18 +3310,36 @@ app.get('/route-alternatives', async (req, res) => {
       if (i === 0) {
         label = 'Recomendada';
         tag = '⚡';
-      } else if (consumptionPercent < alternatives[0]?.consumption_percent * 0.9) {
-        label = 'Más eficiente';
-        tag = '🔋';
-      } else if (totalTolls < (alternatives[0]?.total_tolls_cop || Infinity) * 0.7) {
-        label = 'Menos peajes';
-        tag = '💰';
-      } else if (durationMin < (alternatives[0]?.duration_min || Infinity)) {
-        label = 'Más rápida';
-        tag = '⚡';
       } else {
-        label = 'Alternativa';
-        tag = '🔀';
+        const ref = alternatives[0];
+        const refTolls = ref?.total_tolls_cop || 0;
+        const refConsumption = ref?.consumption_percent || 0;
+        const refDuration = ref?.duration_min || Infinity;
+        const refDistance = ref?.distance_km || Infinity;
+        
+        if (consumptionPercent < refConsumption * 0.9) {
+          label = 'Más eficiente';
+          tag = '🔋';
+        } else if (refTolls > 0 && totalTolls < refTolls * 0.7) {
+          // Solo "Menos peajes" si la recomendada SÍ tiene peajes y esta tiene significativamente menos
+          label = 'Menos peajes';
+          tag = '💰';
+        } else if (durationMin < refDuration * 0.95) {
+          label = 'Más rápida';
+          tag = '⚡';
+        } else if (distanceKm < refDistance * 0.95) {
+          label = 'Más corta';
+          tag = '📏';
+        } else {
+          // Usar el nombre de la vía como diferenciador
+          const summary = route.summary || '';
+          if (summary) {
+            label = summary.length > 30 ? summary.substring(0, 30) + '...' : summary;
+          } else {
+            label = `Ruta ${i + 1}`;
+          }
+          tag = '🔀';
+        }
       }
 
       alternatives.push({
@@ -3312,6 +3356,9 @@ app.get('/route-alternatives', async (req, res) => {
         summary: route.summary || '',
         polyline_encoded: route.overview_polyline.points,
         polyline_detailed: sampledDetailedEncoded || null,
+        chargers_near_route: chargersNearRoute.length,
+        max_gap_km: Math.round(maxGap),
+        charger_names: chargersNearRoute.map(c => `${c.name} (${c.km}km)`),
         warnings: route.warnings || []
       });
 
