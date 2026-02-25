@@ -3079,9 +3079,10 @@ app.get('/route-alternatives', async (req, res) => {
     const weightFactor = 1 + (passengers - 1) * 0.015;
 
     // Cargar peajes
-    let peajesData = [];
+    let peajesArr = [];
     try {
-      peajesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'peajes_colombia.json'), 'utf8'));
+      const raw = JSON.parse(fs.readFileSync(path.join(__dirname, 'peajes_colombia.json'), 'utf8'));
+      peajesArr = Array.isArray(raw) ? raw : (raw.peajes || []);
     } catch (e) { console.log('[ALT-ROUTES] ⚠️ No peajes file'); }
 
     const alternatives = [];
@@ -3105,7 +3106,7 @@ app.get('/route-alternatives', async (req, res) => {
       let tollCount = 0;
       const tollsFound = [];
 
-      for (const peaje of peajesData) {
+      for (const peaje of peajesArr) {
         if (!peaje.lat || !peaje.lon) continue;
         let minDist = Infinity;
         // Verificar cada ~10mo punto (eficiencia)
