@@ -3078,12 +3078,8 @@ app.get('/route-alternatives', async (req, res) => {
     const baseRate = profile.consumptionRate || 0.28;
     const weightFactor = 1 + (passengers - 1) * 0.015;
 
-    // Cargar peajes
-    let peajesArr = [];
-    try {
-      const raw = JSON.parse(fs.readFileSync(path.join(__dirname, 'peajes_colombia.json'), 'utf8'));
-      peajesArr = Array.isArray(raw) ? raw : (raw.peajes || []);
-    } catch (e) { console.log('[ALT-ROUTES] ⚠️ No peajes file'); }
+    // Usar peajes ya cargados en memoria (variable global)
+    const peajesArr = peajesData?.peajes || [];
 
     const alternatives = [];
 
