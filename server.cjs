@@ -1645,7 +1645,7 @@ app.get('/places-fast', async (req, res) => {
       return res.json(cached.data);
     }
     
-    console.log(`[SEARCH-FAST] 🔍 Buscando con Google Places: "${query}"`);
+    console.log(`[SEARCH-FAST] 🔍 Buscando con Google: "${query}"`);
     const startTime = Date.now();
     
     if (!GOOGLE_MAPS_API_KEY) {
@@ -1653,41 +1653,74 @@ app.get('/places-fast', async (req, res) => {
       return res.json({ items: [] });
     }
     
-    // Google Places Text Search (New)
     const atParts = (at || '4.60971,-74.08175').split(',').map(Number);
-    const response = await axios.post(
-      'https://places.googleapis.com/v1/places:searchText',
-      {
-        textQuery: query,
-        languageCode: lang || 'es',
-        maxResultCount: Math.min(parseInt(limit) || 10, 20),
-        locationBias: {
-          circle: {
-            center: { latitude: atParts[0] || 4.6097, longitude: atParts[1] || -74.0817 },
-            radius: 50000.0 // 50km bias
-          }
-        },
-        includedRegionCodes: ['CO'],
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
-          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.location',
-        },
-        timeout: 3000,
-      }
-    );
+    let items = [];
     
-    const items = (response.data.places || [])
-      .filter(p => p.location)
-      .map(p => ({
-        name: p.displayName?.text || '',
-        lat: p.location.latitude,
-        lon: p.location.longitude,
-        address: p.formattedAddress || p.displayName?.text || '',
-      }))
-      .slice(0, parseInt(limit) || 10);
+    // Detectar si es dirección colombiana (contiene # o patrones como "calle XX", "cra XX")
+    const looksLikeAddress = /#/.test(query) || 
+      /\b(calle|cll|carrera|cra|kr|diagonal|diag|transversal|tv|avenida|av)\s*\d/i.test(query);
+    
+    if (looksLikeAddress) {
+      // Google Geocoding API — mejor para direcciones exactas
+      const response = await axios.get(
+        'https://maps.googleapis.com/maps/api/geocode/json',
+        {
+          params: {
+            address: query + ', Colombia',
+            key: GOOGLE_MAPS_API_KEY,
+            language: lang || 'es',
+            region: 'co',
+            components: 'country:CO',
+          },
+          timeout: 3000,
+        }
+      );
+      
+      items = (response.data.results || [])
+        .filter(r => r.geometry?.location)
+        .map(r => ({
+          name: r.formatted_address || '',
+          lat: r.geometry.location.lat,
+          lon: r.geometry.location.lng,
+          address: r.formatted_address || '',
+        }))
+        .slice(0, parseInt(limit) || 10);
+    } else {
+      // Google Places Text Search — mejor para POIs y nombres de lugares
+      const response = await axios.post(
+        'https://places.googleapis.com/v1/places:searchText',
+        {
+          textQuery: query,
+          languageCode: lang || 'es',
+          maxResultCount: Math.min(parseInt(limit) || 10, 20),
+          locationBias: {
+            circle: {
+              center: { latitude: atParts[0] || 4.6097, longitude: atParts[1] || -74.0817 },
+              radius: 50000.0
+            }
+          },
+          includedRegionCodes: ['CO'],
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+            'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.location',
+          },
+          timeout: 3000,
+        }
+      );
+      
+      items = (response.data.places || [])
+        .filter(p => p.location)
+        .map(p => ({
+          name: p.displayName?.text || '',
+          lat: p.location.latitude,
+          lon: p.location.longitude,
+          address: p.formattedAddress || p.displayName?.text || '',
+        }))
+        .slice(0, parseInt(limit) || 10);
+    }
     
     const result = { items, provider: 'google' };
     
@@ -1843,6 +1876,42 @@ app.get('/places', async (req, res) => {
           });
           if (results.length >= limit*1.2) break;
         } catch {}
+      }
+    }
+
+    /* ---------- Google Geocoding (for Colombian addresses with #) ---------- */
+    const looksLikeAddress = /#/.test(q) || 
+      /\b(calle|cll|carrera|cra|kr|diagonal|diag|transversal|tv|avenida|av)\s*\d/i.test(q);
+    
+    if (ok(GOOGLE_MAPS_API_KEY) && looksLikeAddress) {
+      try {
+        const r = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+          params: {
+            address: q + ', Colombia',
+            key: GOOGLE_MAPS_API_KEY,
+            language: lang || 'es',
+            region: 'co',
+            components: 'country:CO',
+          },
+          timeout: 4000,
+        });
+        (r.data.results || []).forEach(result => {
+          const loc = result.geometry?.location;
+          if (!loc) return;
+          const lat = loc.lat, lon = loc.lng;
+          const name = result.formatted_address || '';
+          const comps = result.address_components || [];
+          const route = comps.find(c => c.types?.includes('route'));
+          const localityComp = comps.find(c => c.types?.includes('locality'));
+          const road = route?.long_name || extractRoadFromLabel(name);
+          const locality = localityComp?.long_name || '';
+          if (Number.isFinite(lat) && Number.isFinite(lon) && name) {
+            results.push({ type: 'address', name, address: name, lat, lon, provider: 'google-geocode', road, locality });
+          }
+        });
+        console.log(`[SEARCH] 🔍 Google Geocoding: ${r.data.results?.length || 0} resultados`);
+      } catch (e) {
+        console.error('[SEARCH] ⚠️ Google Geocoding error:', e.message);
       }
     }
 
@@ -3102,20 +3171,28 @@ app.get('/route-alternatives', async (req, res) => {
 
       // Clasificar la ruta
       let label, tag;
+      const ref = alternatives[0];
+      const refTolls = ref?.total_tolls_cop || 0;
+      const refDuration = ref?.duration_min || Infinity;
+      const refDistance = ref?.distance_km || Infinity;
+      
       if (i === 0) {
         label = 'Recomendada';
         tag = '⚡';
       } else if (consumptionPercent < alternatives[0]?.consumption_percent * 0.9) {
         label = 'Más eficiente';
         tag = '🔋';
-      } else if (totalTolls < (alternatives[0]?.total_tolls_cop || Infinity) * 0.7) {
+      } else if (refTolls > 0 && totalTolls < refTolls * 0.7) {
         label = 'Menos peajes';
         tag = '💰';
-      } else if (durationMin < (alternatives[0]?.duration_min || Infinity)) {
+      } else if (durationMin < refDuration * 0.95) {
         label = 'Más rápida';
         tag = '⚡';
+      } else if (distanceKm < refDistance * 0.95) {
+        label = 'Más corta';
+        tag = '📏';
       } else {
-        label = 'Alternativa';
+        label = route.summary || `Ruta ${i + 1}`;
         tag = '🔀';
       }
 
