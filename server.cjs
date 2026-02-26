@@ -2041,7 +2041,8 @@ app.get('/places', async (req, res) => {
         score += Math.max(0, 30 - Math.min(30, km));
       }
 
-      if (/google-geocode/.test(it.provider)) score += 30; // Geocoding results are most accurate for addresses
+      // 🔧 FIX: Google Geocode results go to TOP for address queries with #
+      if (/google-geocode/.test(it.provider) && looksLikeAddress) score += 200;
       if (/conjunto|residencial|torre|edificio|bloque/i.test(it.name)) score += 6;
 
       const hay = cleanAll((it.name||'') + ' ' + (it.address||''));
