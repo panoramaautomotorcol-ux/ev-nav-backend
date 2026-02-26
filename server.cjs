@@ -54,6 +54,106 @@ const axios = require('axios');
 // ==================== CALIBRACIÓN COLABORATIVA ====================
 const calibrationReports = []; // En producción: usar base de datos
 
+// ==================== CLIMA - OpenWeatherMap ====================
+const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY || '5da3b8b266eb0b869abcdcfb730f1f75';
+
+// Cache de clima (5 min TTL) — para no repetir consultas en la misma ruta
+const weatherCache = new Map();
+const WEATHER_CACHE_TTL = 5 * 60 * 1000; // 5 minutos
+
+/**
+ * Obtiene clima actual para unas coordenadas
+ * Retorna: { temp_c, feels_like_c, humidity, wind_speed_ms, rain_mm, condition, description }
+ */
+async function getWeatherAt(lat, lon) {
+  const cacheKey = `${lat.toFixed(2)},${lon.toFixed(2)}`;
+  const cached = weatherCache.get(cacheKey);
+  if (cached && (Date.now() - cached.timestamp) < WEATHER_CACHE_TTL) {
+    return cached.data;
+  }
+
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=es`;
+    const r = await axios.get(url, { timeout: 5000 });
+    const d = r.data;
+    
+    const weather = {
+      temp_c: d.main?.temp ?? 20,
+      feels_like_c: d.main?.feels_like ?? 20,
+      humidity: d.main?.humidity ?? 50,
+      wind_speed_ms: d.wind?.speed ?? 0,
+      rain_mm: d.rain?.['1h'] ?? d.rain?.['3h'] ?? 0,
+      condition: d.weather?.[0]?.main ?? 'Clear', // Rain, Clouds, Clear, etc.
+      description: d.weather?.[0]?.description ?? '',
+      icon: d.weather?.[0]?.icon ?? '01d',
+    };
+
+    weatherCache.set(cacheKey, { data: weather, timestamp: Date.now() });
+    return weather;
+  } catch (err) {
+    console.error('[WEATHER] ❌ Error OpenWeatherMap:', err.message);
+    return null; // Si falla, no ajustar consumo
+  }
+}
+
+/**
+ * Calcula el factor de ajuste de consumo por clima
+ * Retorna un multiplicador (1.0 = sin cambio, 1.15 = +15% consumo)
+ * 
+ * Factores:
+ * - Temperatura: A/C consume energía. Óptimo 20-25°C
+ * - Lluvia: Mayor resistencia al rodaje +5-10%
+ * - Viento fuerte: +3-8%
+ * - Humidity + calor: A/C trabaja más duro
+ */
+function calculateWeatherFactor(weather) {
+  if (!weather) return { factor: 1.0, details: 'Sin datos de clima' };
+
+  let factor = 1.0;
+  const reasons = [];
+
+  // 🌡️ Temperatura (factor más importante)
+  const temp = weather.temp_c;
+  if (temp < 5) {
+    factor *= 1.20; // Muy frío: calefacción + batería menos eficiente
+    reasons.push(`Frío extremo ${temp}°C (+20%)`);
+  } else if (temp < 15) {
+    factor *= 1.10; // Fresco: algo de calefacción
+    reasons.push(`Fresco ${temp}°C (+10%)`);
+  } else if (temp > 35) {
+    factor *= 1.15; // Muy caliente: A/C a máxima
+    reasons.push(`Calor extremo ${temp}°C (+15%)`);
+  } else if (temp > 30) {
+    factor *= 1.08; // Caliente: A/C
+    reasons.push(`Caluroso ${temp}°C (+8%)`);
+  }
+  // 20-30°C = óptimo, no se ajusta
+
+  // 🌧️ Lluvia
+  if (weather.rain_mm > 5) {
+    factor *= 1.10; // Lluvia fuerte
+    reasons.push(`Lluvia fuerte ${weather.rain_mm}mm (+10%)`);
+  } else if (weather.rain_mm > 0 || weather.condition === 'Rain' || weather.condition === 'Drizzle') {
+    factor *= 1.05; // Lluvia ligera
+    reasons.push(`Lluvia ligera (+5%)`);
+  }
+
+  // 💨 Viento
+  if (weather.wind_speed_ms > 10) {
+    factor *= 1.08; // Viento fuerte
+    reasons.push(`Viento fuerte ${weather.wind_speed_ms.toFixed(0)}m/s (+8%)`);
+  } else if (weather.wind_speed_ms > 6) {
+    factor *= 1.04;
+    reasons.push(`Viento moderado (+4%)`);
+  }
+
+  return {
+    factor: Math.round(factor * 1000) / 1000, // 3 decimales
+    details: reasons.length > 0 ? reasons.join(', ') : 'Clima óptimo',
+    raw: weather
+  };
+}
+
 // ==================== PERFILES DE VEHÍCULOS ====================
 const VEHICLE_PROFILES = {
   'hyundai_kona_48': { batteryKwh: 48.6, consumptionRate: 0.27 },
@@ -1601,6 +1701,29 @@ app.get('/ev/availability', (req, res) => {
 });
 
 // ==================== DEBUG ====================
+// ==================== CLIMA ====================
+app.get('/weather', async (req, res) => {
+  try {
+    const lat = parseFloat(req.query.lat);
+    const lon = parseFloat(req.query.lon);
+    if (isNaN(lat) || isNaN(lon)) {
+      return res.status(400).json({ error: 'lat y lon son requeridos' });
+    }
+    const weather = await getWeatherAt(lat, lon);
+    if (!weather) {
+      return res.status(502).json({ error: 'No se pudo obtener el clima' });
+    }
+    const wf = calculateWeatherFactor(weather);
+    res.json({
+      ...weather,
+      consumption_factor: wf.factor,
+      factor_details: wf.details,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/health', (_req, res) => {
   res.json({
     ok: true,
@@ -1610,7 +1733,7 @@ app.get('/health', (_req, res) => {
 });
 app.get('/debug/keys', (_req, res) => {
   const mask = k => k ? (k.slice(0,4)+'...'+k.slice(-4)) : '';
-  res.json({ here: mask(HERE_API_KEY), maptiler: mask(MAPTILER_KEY) });
+  res.json({ here: mask(HERE_API_KEY), maptiler: mask(MAPTILER_KEY), openweather: mask(OPENWEATHER_API_KEY) });
 });
 
 /* ==================== PLACES ==================== */
@@ -2950,6 +3073,33 @@ app.get('/route', async (req, res) => {
     let adjustedConsumption = baseConsumptionRate;
     if (avgSpeedKmh < 30) adjustedConsumption *= 1.1;
     else if (avgSpeedKmh > 80) adjustedConsumption *= 1.15;
+
+    // 🌤️ AJUSTE POR CLIMA — consultar OpenWeatherMap
+    let weatherInfo = null;
+    try {
+      const [oLat, oLon] = origin.split(',').map(Number);
+      const [dLat, dLon] = destination.split(',').map(Number);
+      // Usar punto medio de la ruta para el clima
+      const midLat = (oLat + dLat) / 2;
+      const midLon = (oLon + dLon) / 2;
+      const weather = await getWeatherAt(midLat, midLon);
+      const wf = calculateWeatherFactor(weather);
+      adjustedConsumption *= wf.factor;
+      weatherInfo = {
+        temperature: weather?.temp_c,
+        feels_like: weather?.feels_like_c,
+        condition: weather?.condition,
+        description: weather?.description,
+        icon: weather?.icon,
+        rain_mm: weather?.rain_mm,
+        wind_speed: weather?.wind_speed_ms,
+        factor: wf.factor,
+        factor_details: wf.details,
+      };
+      console.log(`[WEATHER] 🌤️ Clima: ${weather?.temp_c}°C, ${weather?.description} | Factor: ${wf.factor}x (${wf.details})`);
+    } catch (weatherErr) {
+      console.error('[WEATHER] ⚠️ No se pudo obtener clima:', weatherErr.message);
+    }
     
     let totalConsumptionPercent;
     
@@ -3064,6 +3214,7 @@ app.get('/route', async (req, res) => {
       steps: routeData.steps,
       elevation: elevationData,
       consumption_percent: totalConsumptionPercent,
+      weather: weatherInfo, // 🌤️ Info de clima aplicada
       provider: usedProvider,
       waypoints_applied: !!waypoints,  // 🆕 Flag para que el frontend sepa
       vehicle: {
@@ -3386,7 +3537,37 @@ app.get('/ev-route', async (req, res) => {
       '0,100,20,95,40,90,60,80,70,65,80,50,90,30,95,15,100,5');
     
     // Consumo auxiliar (clima, etc) en kW
-    const auxiliaryConsumption = Number(req.query.auxiliaryConsumption) || 1.5;
+    let auxiliaryConsumption = Number(req.query.auxiliaryConsumption) || 1.5;
+
+    // 🌤️ Ajustar auxiliar por clima real
+    let evWeatherInfo = null;
+    try {
+      const [oLat, oLon] = origin.split(',').map(Number);
+      const [dLat, dLon] = destination.split(',').map(Number);
+      const midLat = (oLat + dLat) / 2;
+      const midLon = (oLon + dLon) / 2;
+      const weather = await getWeatherAt(midLat, midLon);
+      if (weather) {
+        const temp = weather.temp_c;
+        // A/C o calefacción incrementan consumo auxiliar
+        if (temp < 10) auxiliaryConsumption = 3.0; // Calefacción
+        else if (temp < 18) auxiliaryConsumption = 2.0;
+        else if (temp > 32) auxiliaryConsumption = 3.0; // A/C fuerte
+        else if (temp > 28) auxiliaryConsumption = 2.5; // A/C moderado
+        // 18-28°C = 1.5 kW (default, ventilación básica)
+        
+        evWeatherInfo = {
+          temperature: weather.temp_c,
+          condition: weather.condition,
+          description: weather.description,
+          icon: weather.icon,
+          auxiliaryConsumption,
+        };
+        console.log(`[EV-ROUTE] 🌤️ Clima: ${temp}°C → auxiliar: ${auxiliaryConsumption} kW`);
+      }
+    } catch (e) {
+      console.error('[EV-ROUTE] ⚠️ Clima no disponible:', e.message);
+    }
     
     // Consumo por elevación (Wh/m)
     const ascent = Number(req.query.ascent) || 9;
@@ -3570,6 +3751,7 @@ app.get('/ev-route', async (req, res) => {
         finalSoc: finalSoc || 0,
         maxCharge
       },
+      weather: evWeatherInfo, // 🌤️ Clima aplicado
       chargingStops,
       totalChargingStops: chargingStops.length,
       totalChargingTimeMinutes: Math.round(totalChargingTime / 60)
