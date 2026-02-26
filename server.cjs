@@ -2068,6 +2068,10 @@ app.get('/places', async (req, res) => {
     if (looksLikeAddress) {
       const geocodeResults = items.filter(it => it.provider === 'google-geocode');
       const otherResults = items.filter(it => it.provider !== 'google-geocode');
+      console.log(`[SEARCH] 📊 looksLikeAddress=true, geocode=${geocodeResults.length}, other=${otherResults.length}`);
+      if (geocodeResults.length > 0) {
+        console.log(`[SEARCH] 📊 Geocode top: ${geocodeResults[0].name} (score: ${geocodeResults[0]._score})`);
+      }
       items = [...geocodeResults, ...otherResults].slice(0, limit);
     }
 
@@ -4006,6 +4010,13 @@ app.post("/admin/clear-elevation-cache", (req, res) => {
   elevationCache.clear();
   console.log(`[ADMIN] 🗑️  Cache de elevación limpiado (${size} entradas)`);
   res.json({ cleared: size, message: "Cache limpiado exitosamente" });
+});
+
+app.post("/admin/clear-search-cache", (req, res) => {
+  const size = searchCache.size;
+  searchCache.clear();
+  console.log(`[ADMIN] 🗑️  Cache de búsqueda limpiado (${size} entradas)`);
+  res.json({ cleared: size, message: "Search cache limpiado" });
 });
 
 
