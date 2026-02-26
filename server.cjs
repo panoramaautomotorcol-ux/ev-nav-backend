@@ -3781,6 +3781,160 @@ app.get('/ev-route', async (req, res) => {
   }
 });
 
+// ==================== COMUNIDAD: REPORTES DE RUTA ====================
+const routeReportsCache = new Map(); // key: "origen_destino" -> [reports]
+
+app.post('/community/route-reports', (req, res) => {
+  try {
+    const { origin, destination, originName, destName, vehicle, vehicleBrand,
+            startSoc, endSoc, chargingStops, tips, rating, photos, totalKm, totalTime } = req.body;
+    if (!originName || !destName || !vehicle) {
+      return res.status(400).json({ error: 'originName, destName y vehicle requeridos' });
+    }
+    const routeKey = `${(originName||'').toLowerCase().trim()}_${(destName||'').toLowerCase().trim()}`;
+    const report = {
+      id: `rr_${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
+      routeKey, originName: originName?.trim(), destName: destName?.trim(),
+      origin, destination, vehicle: vehicle?.trim(), vehicleBrand: (vehicleBrand||'').trim(),
+      startSoc: startSoc ?? null, endSoc: endSoc ?? null,
+      totalKm: totalKm ?? null, totalTime: totalTime ?? null,
+      chargingStops: Array.isArray(chargingStops) ? chargingStops : [],
+      tips: (tips||'').trim(), rating: Math.max(1, Math.min(5, rating||5)),
+      photos: Array.isArray(photos) ? photos.slice(0,5) : [],
+      timestamp: Date.now(), userIP: req.ip||'unknown', likes: 0,
+    };
+    const existing = routeReportsCache.get(routeKey) || [];
+    existing.unshift(report);
+    if (existing.length > 100) existing.length = 100;
+    routeReportsCache.set(routeKey, existing);
+    console.log(`[COMMUNITY] 📝 Reporte: ${originName} → ${destName} | ${vehicle} | ⭐${rating}`);
+    io.emit('route-report:added', { routeKey, report: { ...report, userIP: undefined } });
+    res.json({ ok: true, report: { ...report, userIP: undefined } });
+  } catch (e) {
+    console.error('[COMMUNITY] Error reporte:', e);
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
+app.get('/community/route-reports', (req, res) => {
+  try {
+    const { origin, destination, route } = req.query;
+    let routeKey = route ? route.toLowerCase().trim() : null;
+    if (!routeKey && origin && destination) {
+      routeKey = `${origin.toLowerCase().trim()}_${destination.toLowerCase().trim()}`;
+    }
+    if (!routeKey) return res.status(400).json({ error: 'route o origin+destination requeridos' });
+    
+    const reports = routeReportsCache.get(routeKey) || [];
+    const allReports = reports.sort((a,b) => b.timestamp - a.timestamp).slice(0,20)
+      .map(r => ({ ...r, userIP: undefined }));
+    res.json({ routeKey, reports: allReports, count: allReports.length });
+  } catch (e) {
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
+app.get('/community/feed', (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit)||20, 50);
+    const all = [];
+    for (const [, reports] of routeReportsCache) all.push(...reports);
+    const feed = all.sort((a,b) => b.timestamp - a.timestamp).slice(0,limit)
+      .map(r => ({ ...r, userIP: undefined }));
+    res.json({ feed, count: feed.length });
+  } catch (e) {
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
+app.post('/community/route-reports/:id/like', (req, res) => {
+  try {
+    const { id } = req.params;
+    for (const [, reports] of routeReportsCache) {
+      const report = reports.find(r => r.id === id);
+      if (report) { report.likes = (report.likes||0) + 1; return res.json({ ok: true, likes: report.likes }); }
+    }
+    res.status(404).json({ error: 'No encontrado' });
+  } catch (e) { res.status(500).json({ error: 'Error interno' }); }
+});
+
+// ==================== COMUNIDAD: POIs EV-FRIENDLY ====================
+const evPoisCache = new Map();
+
+app.post('/community/pois', (req, res) => {
+  try {
+    const { name, lat, lon, category, chargerType, chargerSpeed, isFree,
+            description, tips, rating, photos, address } = req.body;
+    if (!name || !lat || !lon || !category) {
+      return res.status(400).json({ error: 'name, lat, lon y category requeridos' });
+    }
+    const validCats = ['hotel_con_carga','restaurante_con_carga','cafe_con_carga','centro_comercial','parqueadero_con_carga','otro'];
+    if (!validCats.includes(category)) return res.status(400).json({ error: `category: ${validCats.join(', ')}` });
+
+    const poi = {
+      id: `poi_${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
+      name: name.trim(), lat: parseFloat(lat), lon: parseFloat(lon),
+      address: (address||'').trim(), category,
+      chargerType: chargerType||null, chargerSpeed: chargerSpeed||null,
+      isFree: isFree ?? null, description: (description||'').trim(),
+      tips: (tips||'').trim(), rating: Math.max(1, Math.min(5, rating||5)),
+      photos: Array.isArray(photos) ? photos.slice(0,5) : [], reviews: [],
+      timestamp: Date.now(), userIP: req.ip||'unknown', verified: false,
+    };
+    evPoisCache.set(poi.id, poi);
+    console.log(`[COMMUNITY] 📍 POI: ${name} (${category})`);
+    res.json({ ok: true, poi: { ...poi, userIP: undefined } });
+  } catch (e) {
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
+app.get('/community/pois', (req, res) => {
+  try {
+    const { minLat, maxLat, minLon, maxLon, category, near, radius } = req.query;
+    let pois = Array.from(evPoisCache.values());
+    if (minLat && maxLat && minLon && maxLon) {
+      const mn = { lat: parseFloat(minLat), lon: parseFloat(minLon) };
+      const mx = { lat: parseFloat(maxLat), lon: parseFloat(maxLon) };
+      pois = pois.filter(p => p.lat >= mn.lat && p.lat <= mx.lat && p.lon >= mn.lon && p.lon <= mx.lon);
+    }
+    if (near) {
+      const [nLat, nLon] = near.split(',').map(Number);
+      const rad = parseFloat(radius)||10;
+      pois = pois.filter(p => {
+        const d = Math.sqrt(Math.pow((p.lat-nLat)*111,2)+Math.pow((p.lon-nLon)*85,2));
+        return d <= rad;
+      });
+    }
+    if (category) pois = pois.filter(p => p.category === category);
+    res.json({ pois: pois.sort((a,b) => b.timestamp-a.timestamp).slice(0,50).map(p => ({...p, userIP: undefined})), count: pois.length });
+  } catch (e) {
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
+app.post('/community/pois/:id/review', (req, res) => {
+  try {
+    const { id } = req.params;
+    const { text, rating, vehicle, photos } = req.body;
+    if (!text) return res.status(400).json({ error: 'text requerido' });
+    const poi = evPoisCache.get(id);
+    if (!poi) return res.status(404).json({ error: 'POI no encontrado' });
+    const review = {
+      id: `rev_${Date.now()}`, text: text.trim(),
+      rating: Math.max(1,Math.min(5,rating||5)), vehicle: vehicle||'',
+      photos: Array.isArray(photos)?photos.slice(0,3):[], timestamp: Date.now(),
+    };
+    poi.reviews.push(review);
+    const ratings = poi.reviews.map(r => r.rating);
+    poi.rating = Math.round(ratings.reduce((a,b)=>a+b,0)/ratings.length*10)/10;
+    console.log(`[COMMUNITY] ✍️ Review en ${poi.name}: ⭐${rating}`);
+    res.json({ ok: true, review, avgRating: poi.rating });
+  } catch (e) {
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
 // ==================== CALIBRACIÓN COLABORATIVA ====================
 
 // Endpoint para recibir reportes de viajes reales
