@@ -1915,8 +1915,8 @@ app.get('/places', async (req, res) => {
       }
     }
 
-    /* ---------- Google Places (Text Search) ---------- */
-    if (ok(GOOGLE_MAPS_API_KEY)) {
+    /* ---------- Google Places (Text Search) — skip for addresses with # ---------- */
+    if (ok(GOOGLE_MAPS_API_KEY) && !/#/.test(q)) {
       try {
         const body = {
           textQuery: q,
@@ -2063,6 +2063,13 @@ app.get('/places', async (req, res) => {
     }).sort((a,b) => b._score - a._score);
 
     items = items.slice(0, limit);
+    
+    // 🔧 FIX: For address queries, force Google Geocode results to top
+    if (looksLikeAddress) {
+      const geocodeResults = items.filter(it => it.provider === 'google-geocode');
+      const otherResults = items.filter(it => it.provider !== 'google-geocode');
+      items = [...geocodeResults, ...otherResults].slice(0, limit);
+    }
 
     // Reverse Geocode Google (top-8) para completar road/locality
     async function fillRoadViaReverse(list) {
