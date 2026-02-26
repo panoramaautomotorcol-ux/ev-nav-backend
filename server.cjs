@@ -1882,6 +1882,7 @@ app.get('/places', async (req, res) => {
     /* ---------- Google Geocoding (for Colombian addresses with #) ---------- */
     const looksLikeAddress = /#/.test(q) || 
       /\b(calle|cll|carrera|cra|kr|diagonal|diag|transversal|tv|avenida|av)\s*\d/i.test(q);
+    const hasExactAddress = /#/.test(q); // Has # = exact address like "cra 22 # 51-38"
     
     if (ok(GOOGLE_MAPS_API_KEY) && looksLikeAddress) {
       try {
@@ -1895,6 +1896,7 @@ app.get('/places', async (req, res) => {
           },
           timeout: 4000,
         });
+        const geocodeItems = [];
         (r.data.results || []).forEach(result => {
           const loc = result.geometry?.location;
           if (!loc) return;
@@ -1906,10 +1908,21 @@ app.get('/places', async (req, res) => {
           const road = route?.long_name || extractRoadFromLabel(name);
           const locality = localityComp?.long_name || '';
           if (Number.isFinite(lat) && Number.isFinite(lon) && name) {
-            results.push({ type: 'address', name, address: name, lat, lon, provider: 'google-geocode', road, locality });
+            const item = { type: 'address', name, address: name, lat, lon, provider: 'google-geocode', road, locality };
+            results.push(item);
+            geocodeItems.push(item);
           }
         });
-        console.log(`[SEARCH] 🔍 Google Geocoding: ${r.data.results?.length || 0} resultados`);
+        console.log(`[SEARCH] 🔍 Google Geocoding: ${geocodeItems.length} resultados`);
+        
+        // 🔧 FIX: Si es dirección exacta con #, devolver SOLO geocode results inmediatamente
+        if (hasExactAddress && geocodeItems.length > 0) {
+          const result = { items: geocodeItems.slice(0, limit), provider: 'google-geocode' };
+          searchCache.set(cacheKey, { data: result, timestamp: Date.now() });
+          const elapsed = Date.now() - searchStart;
+          console.log(`[SEARCH] ✅ ${geocodeItems.length} resultados geocode directo en ${elapsed}ms para "${rawQ}"`);
+          return res.json(result);
+        }
       } catch (e) {
         console.error('[SEARCH] ⚠️ Google Geocoding error:', e.message);
       }
