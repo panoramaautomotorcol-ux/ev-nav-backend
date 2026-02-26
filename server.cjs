@@ -1604,7 +1604,7 @@ app.get('/ev/availability', (req, res) => {
 app.get('/health', (_req, res) => {
   res.json({
     ok: true,
-    providers: { routing: 'HERE', places: 'MT+HERE+Nomi+Overpass', traffic: 'HERE' },
+    providers: { routing: 'HERE', places: 'Google+MT+Nomi+Overpass', traffic: 'HERE' },
     env: { PORT, hasHere: !!HERE_API_KEY, hasMapTiler: !!MAPTILER_KEY, trafficTTLms: TRAFFIC_TTL_MS }
   });
 });
@@ -1645,44 +1645,51 @@ app.get('/places-fast', async (req, res) => {
       return res.json(cached.data);
     }
     
-    console.log(`[SEARCH-FAST] 🔍 Buscando: "${query}"`);
+    console.log(`[SEARCH-FAST] 🔍 Buscando con Google Places: "${query}"`);
     const startTime = Date.now();
     
-    if (!HERE_API_KEY) {
+    if (!GOOGLE_MAPS_API_KEY) {
+      console.warn('[SEARCH-FAST] ⚠️ GOOGLE_MAPS_API_KEY no configurada');
       return res.json({ items: [] });
     }
     
-    // Solo HERE Autosuggest (el más rápido)
-    const response = await axios.get(
-      'https://autosuggest.search.hereapi.com/v1/autosuggest',
+    // Google Places Text Search (New)
+    const atParts = (at || '4.60971,-74.08175').split(',').map(Number);
+    const response = await axios.post(
+      'https://places.googleapis.com/v1/places:searchText',
       {
-        params: {
-          q: query,
-          at: at || '4.60971,-74.08175',
-          limit: parseInt(limit) || 10,
-          lang: lang || 'es-ES',
-          in: 'countryCode:COL',
-          apiKey: HERE_API_KEY,
+        textQuery: query,
+        languageCode: lang || 'es',
+        maxResultCount: Math.min(parseInt(limit) || 10, 20),
+        locationBias: {
+          circle: {
+            center: { latitude: atParts[0] || 4.6097, longitude: atParts[1] || -74.0817 },
+            radius: 50000.0 // 50km bias
+          }
+        },
+        includedRegionCodes: ['CO'],
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.location',
         },
         timeout: 3000,
       }
     );
     
-    const items = (response.data.items || [])
-      .filter(item => item.position)
-      .map(item => ({
-        name: item.title || '',
-        lat: item.position.lat,
-        lon: item.position.lng,
-        address: item.address?.label || item.title,
+    const items = (response.data.places || [])
+      .filter(p => p.location)
+      .map(p => ({
+        name: p.displayName?.text || '',
+        lat: p.location.latitude,
+        lon: p.location.longitude,
+        address: p.formattedAddress || p.displayName?.text || '',
       }))
-      .filter(item => {
-        return item.lat >= 4.4 && item.lat <= 4.9 &&
-               item.lon >= -74.3 && item.lon <= -73.9;
-      })
       .slice(0, parseInt(limit) || 10);
     
-    const result = { items };
+    const result = { items, provider: 'google' };
     
     searchCache.set(cacheKey, {
       data: result,
@@ -1690,7 +1697,7 @@ app.get('/places-fast', async (req, res) => {
     });
     
     const elapsed = Date.now() - startTime;
-    console.log(`[SEARCH-FAST] ✅ ${items.length} resultados en ${elapsed}ms`);
+    console.log(`[SEARCH-FAST] ✅ ${items.length} resultados Google en ${elapsed}ms`);
     
     return res.json(result);
     
@@ -1839,85 +1846,56 @@ app.get('/places', async (req, res) => {
       }
     }
 
-    /* ---------- HERE (Autosuggest + Discover + Geocode) ---------- */
-    if (ok(HERE_API_KEY)) {
-      const hereVariants = queries.slice(0, 4);
-
-      // Autosuggest
-      for (const hq of hereVariants) {
-        try {
-          const params = { apiKey: HERE_API_KEY, q: hq, limit: Math.max(limit, 10), lang, in: 'countryCode:COL' };
-          if (atLat!=null && atLon!=null) params.at = `${atLat},${atLon}`;
-          const url = 'https://autosuggest.search.hereapi.com/v1/autosuggest';
-          const r = await axios.get(url, { params, timeout: 9000 });
-          const items = Array.isArray(r.data?.items) ? r.data.items : [];
-          items.forEach(it => {
-            if (!it.position) return;
-            const lat = it.position.lat, lon = it.position.lng;
-            const rt  = it.resultType || '';
-            const isAddress = rt === 'houseNumber' || rt === 'street';
-            const isLocality = rt === 'locality' || rt === 'administrativeArea';
-            const mappedType = isLocality ? 'city' : (isAddress ? 'address' : 'poi');
-            const name = isAddress
-              ? (it.address && (it.address.label || composeAddressName({
-                  street: it.address.street, house: it.address.houseNumber, fullLabel: it.address.label
-                })))
-              : (it.title || it.address?.label);
-            const addr = it.address?.label || it.title || name;
-            const road = it.address?.street || extractRoadFromLabel(addr);
-            const locality = it.address ? (it.address.district || it.address.subdistrict || it.address.city || it.address.county || '') : '';
-            if (Number.isFinite(lat) && Number.isFinite(lon) && name) {
-              results.push({ type: mappedType, name, address: addr, lat, lon, provider:'here', road, locality });
+    /* ---------- Google Places (Text Search) ---------- */
+    if (ok(GOOGLE_MAPS_API_KEY)) {
+      try {
+        const body = {
+          textQuery: q,
+          languageCode: lang || 'es',
+          maxResultCount: Math.min(limit * 2, 20),
+          includedRegionCodes: ['CO'],
+        };
+        if (atLat != null && atLon != null) {
+          body.locationBias = {
+            circle: {
+              center: { latitude: atLat, longitude: atLon },
+              radius: 50000.0
             }
-          });
-          if (results.length >= limit*1.2) break;
-        } catch {}
-      }
-
-      // Discover (POIs)
-      for (const hq of hereVariants) {
-        try {
-          const params = { apiKey: HERE_API_KEY, q: hq, limit: Math.max(limit, 12), lang, in: 'countryCode:COL' };
-          if (atLat!=null && atLon!=null) params.at = `${atLat},${atLon}`;
-          const url = 'https://discover.search.hereapi.com/v1/discover';
-          const r = await axios.get(url, { params, timeout: 9000 });
-          const items = Array.isArray(r.data?.items) ? r.data.items : [];
-          items.forEach(it => {
-            const pos = it.position || {};
-            const lat = Number(pos.lat), lon = Number(pos.lng);
-            const name = it.title || it.address?.label || '';
-            const addr = it.address?.label || name;
-            const road = it.address?.street || extractRoadFromLabel(addr);
-            const locality = it.address?.district || it.address?.city || it.address?.county || '';
-            if (Number.isFinite(lat) && Number.isFinite(lon) && name) {
-              results.push({ type: 'poi', name, address: addr, lat, lon, provider:'here-discover', road, locality });
-            }
-          });
-          if (results.length >= limit*1.5) break;
-        } catch {}
-      }
-
-      // Geocode (texto libre)
-      for (const hq of hereVariants) {
-        try {
-          const params = { apiKey: HERE_API_KEY, q: hq, limit: Math.max(limit, 12), lang, in: 'countryCode:COL' };
-          if (atLat!=null && atLon!=null) params.at = `${atLat},${atLon}`;
-          const url = 'https://geocode.search.hereapi.com/v1/geocode';
-          const r = await axios.get(url, { params, timeout: 9000 });
-          const items = Array.isArray(r.data?.items) ? r.data.items : [];
-          items.forEach(it => {
-            const pos = it.position || {};
-            const lat = Number(pos.lat), lon = Number(pos.lng);
-            const name = it.title || it.address?.label || '';
-            const addr = it.address?.label || name;
-            const road = it.address?.street || extractRoadFromLabel(addr);
-            const locality = it.address?.district || it.address?.city || it.address?.county || '';
-            if (Number.isFinite(lat) && Number.isFinite(lon) && name) {
-              results.push({ type: 'place', name, address: addr, lat, lon, provider:'here-geocode', road, locality });
-            }
-          });
-          if (results.length >= limit*1.8) break;
-        } catch {}
+          };
+        }
+        const r = await axios.post(
+          'https://places.googleapis.com/v1/places:searchText',
+          body,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+              'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.location,places.types,places.addressComponents',
+            },
+            timeout: 5000,
+          }
+        );
+        const places = r.data.places || [];
+        places.forEach(p => {
+          if (!p.location) return;
+          const lat = p.location.latitude, lon = p.location.longitude;
+          const name = p.displayName?.text || '';
+          const addr = p.formattedAddress || name;
+          const types = p.types || [];
+          const isAddress = types.includes('street_address') || types.includes('premise') || types.includes('subpremise');
+          const mappedType = isAddress ? 'address' : 'poi';
+          const road = extractRoadFromLabel(addr);
+          const localityComp = (p.addressComponents || []).find(c => 
+            (c.types || []).includes('locality') || (c.types || []).includes('administrative_area_level_2')
+          );
+          const locality = localityComp?.longText || '';
+          if (Number.isFinite(lat) && Number.isFinite(lon) && name) {
+            results.push({ type: mappedType, name, address: addr, lat, lon, provider: 'google', road, locality });
+          }
+        });
+        console.log(`[SEARCH] 🔍 Google Places: ${places.length} resultados`);
+      } catch (e) {
+        console.error('[SEARCH] ⚠️ Google Places error:', e.message);
       }
     }
 
@@ -2016,21 +1994,24 @@ app.get('/places', async (req, res) => {
 
     items = items.slice(0, limit);
 
-    // Reverse HERE (top-8) para completar road/locality
+    // Reverse Geocode Google (top-8) para completar road/locality
     async function fillRoadViaReverse(list) {
-      if (!HERE_API_KEY) return list;
+      if (!GOOGLE_MAPS_API_KEY) return list;
       const top = list.slice(0, 8);
       await Promise.all(top.map(async it => {
         if (it.road && it.locality) return;
         try {
-          const r = await axios.get('https://revgeocode.search.hereapi.com/v1/revgeocode', {
-            params: { at: `${it.lat},${it.lon}`, apiKey: HERE_API_KEY, lang: 'es', limit: 1 },
+          const r = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+            params: { latlng: `${it.lat},${it.lon}`, key: GOOGLE_MAPS_API_KEY, language: 'es', result_type: 'street_address|route|locality' },
             timeout: 1500
           });
-          const addr = r.data?.items?.[0]?.address;
-          if (addr) {
-            it.road = it.road || addr.street || extractRoadFromLabel(addr.label || '');
-            it.locality = it.locality || addr.district || addr.city || addr.county || '';
+          const result = r.data?.results?.[0];
+          if (result) {
+            const comps = result.address_components || [];
+            const route = comps.find(c => c.types?.includes('route'));
+            const locality = comps.find(c => c.types?.includes('locality') || c.types?.includes('administrative_area_level_2'));
+            it.road = it.road || route?.long_name || extractRoadFromLabel(result.formatted_address || '');
+            it.locality = it.locality || locality?.long_name || '';
           }
         } catch {}
       }));
@@ -2041,7 +2022,7 @@ app.get('/places', async (req, res) => {
     items = items.map(({ _score, ...rest }) => rest);
 
     // Guardar resultados en caché
-    const result = { items, provider: 'mt+here+nomi+overpass' };
+    const result = { items, provider: 'google+mt+nomi+overpass' };
     searchCache.set(cacheKey, {
       data: result,
       timestamp: Date.now()
@@ -3124,30 +3105,18 @@ app.get('/route-alternatives', async (req, res) => {
       if (i === 0) {
         label = 'Recomendada';
         tag = '⚡';
+      } else if (consumptionPercent < alternatives[0]?.consumption_percent * 0.9) {
+        label = 'Más eficiente';
+        tag = '🔋';
+      } else if (totalTolls < (alternatives[0]?.total_tolls_cop || Infinity) * 0.7) {
+        label = 'Menos peajes';
+        tag = '💰';
+      } else if (durationMin < (alternatives[0]?.duration_min || Infinity)) {
+        label = 'Más rápida';
+        tag = '⚡';
       } else {
-        const ref = alternatives[0];
-        const refTolls = ref?.total_tolls_cop || 0;
-        const refConsumption = ref?.consumption_percent || 0;
-        const refDuration = ref?.duration_min || Infinity;
-        const refDistance = ref?.distance_km || Infinity;
-        
-        if (consumptionPercent < refConsumption * 0.9) {
-          label = 'Más eficiente';
-          tag = '🔋';
-        } else if (refTolls > 0 && totalTolls < refTolls * 0.7) {
-          label = 'Menos peajes';
-          tag = '💰';
-        } else if (durationMin < refDuration * 0.95) {
-          label = 'Más rápida';
-          tag = '⚡';
-        } else if (distanceKm < refDistance * 0.95) {
-          label = 'Más corta';
-          tag = '📏';
-        } else {
-          const summ = route.summary || '';
-          label = summ.length > 30 ? summ.substring(0, 30) + '...' : (summ || `Ruta ${i + 1}`);
-          tag = '🔀';
-        }
+        label = 'Alternativa';
+        tag = '🔀';
       }
 
       alternatives.push({
@@ -3914,7 +3883,7 @@ console.log(`[STARTUP] 🗑️ Reportes sin coordenadas eliminados. Quedan: ${tr
       console.log(' • Local (PC):   http://127.0.0.1:' + PORT);
       console.log(' • Emulador AVD: http://10.0.2.2:'   + PORT);
       if (wifi) console.log(' • LAN (Wi-Fi): http://' + wifi.address + ':' + PORT);
-      console.log('Providers: routing=HERE, places=MapTiler+HERE+Nominatim+Overpass, traffic=HERE');
+      console.log('Providers: routing=HERE, places=Google+MapTiler+Nominatim+Overpass, traffic=HERE');
       console.log('[WS] WebSocket server ready for real-time updates');
     });
   } catch (e) { console.error('Error arrancando el server:', e); }
