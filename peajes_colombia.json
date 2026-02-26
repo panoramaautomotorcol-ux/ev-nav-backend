@@ -240,7 +240,7 @@
       "lat": 8.81977500000005,
       "lon": -75.998909,
       "via": "Puerto Rey - Monteria",
-      "tarifa_cat1": 19706,
+      "tarifa_cat1": 19700,
       "ubicacion": "Via Puerto Rey – Montería Km 47 Recorrido  67 KMS"
     },
     {
@@ -258,7 +258,7 @@
       "lat": 3.71302200000002,
       "lon": -76.31918,
       "via": "Cali - Palmira - Buga",
-      "tarifa_cat1": 11000,
+      "tarifa_cat1": 13200,
       "ubicacion": "Vía Cali - Andalucia Km 43+200"
     },
     {
@@ -267,7 +267,7 @@
       "lat": 4.79340820900006,
       "lon": -75.859962863,
       "via": "La Victoria - Cartago - Cerritos",
-      "tarifa_cat1": 15200,
+      "tarifa_cat1": 16600,
       "ubicacion": "Vía Andalucía – Y de Cerritos PR2506 Km 86"
     },
     {
@@ -276,7 +276,7 @@
       "lat": 4.24550200000004,
       "lon": -74.880531,
       "via": "Variante Chicoral",
-      "tarifa_cat1": 13800,
+      "tarifa_cat1": 16600,
       "ubicacion": "Km. 17+0350 de la ruta 4004B que corresponde a la vía Variante de Chicoral"
     },
     {
@@ -303,7 +303,7 @@
       "lat": 3.52344900000003,
       "lon": -76.3432789999999,
       "via": "Cali - Palmira - Buga",
-      "tarifa_cat1": 11100,
+      "tarifa_cat1": 13200,
       "ubicacion": "Vía Cali – Andalucía Km 17+300"
     },
     {
@@ -312,17 +312,8 @@
       "lat": 4.69838800000002,
       "lon": -75.606148,
       "via": "Armenia-Pereira",
-      "tarifa_cat1": 19200,
+      "tarifa_cat1": 21200,
       "ubicacion": "Vía Armenia - Pereira Km. 16+750"
-    },
-    {
-      "id": "10406",
-      "nombre": "CIRILO",
-      "lat": 8.21002779000003,
-      "lon": -76.744136536,
-      "via": "Vía Turbo - Necoclí",
-      "tarifa_cat1": 12100,
-      "ubicacion": "Vía turbo - Necoclí"
     },
     {
       "id": "3961",
@@ -330,7 +321,7 @@
       "lat": 6.53633000000002,
       "lon": -75.074777,
       "via": "Cisneros - Alto de Dolores",
-      "tarifa_cat1": 18000,
+      "tarifa_cat1": 29400,
       "ubicacion": "KM 03+000 RUTA 6206. Via Cisneros - Puerto Berrio"
     },
     {
@@ -357,17 +348,8 @@
       "lat": 4.40792900000002,
       "lon": -75.899872,
       "via": "La Paila - Club Campestre",
-      "tarifa_cat1": 14600,
+      "tarifa_cat1": 16200,
       "ubicacion": "Vía La Paila - Armenia Km 23"
-    },
-    {
-      "id": "3806",
-      "nombre": "CORRALITO DE PIEDRA",
-      "lat": 10.3096587110001,
-      "lon": -75.485086785,
-      "via": "Vía a Barú",
-      "tarifa_cat1": 7900,
-      "ubicacion": "Variante Mamonal - Gambote"
     },
     {
       "id": "4004",
@@ -375,7 +357,7 @@
       "lat": 10.957823864,
       "lon": -74.766759404,
       "via": "Calle 6",
-      "tarifa_cat1": 6400,
+      "tarifa_cat1": 9500,
       "ubicacion": ""
     },
     {
@@ -384,7 +366,7 @@
       "lat": 6.61769608900005,
       "lon": -73.0803086669999,
       "via": "San Gil - Bucaramanga",
-      "tarifa_cat1": 12100,
+      "tarifa_cat1": 12700,
       "ubicacion": "San Gil - Aratoca"
     },
     {
@@ -393,7 +375,7 @@
       "lat": 2.18894946000006,
       "lon": -76.851164685,
       "via": "Mojarras - Popayán",
-      "tarifa_cat1": 12400,
+      "tarifa_cat1": 13000,
       "ubicacion": "Kilometro 60+800 Vía Panamericana Mojarras – Popayan"
     },
     {
@@ -402,7 +384,7 @@
       "lat": 9.68215500000002,
       "lon": -75.124916,
       "via": "Puerta de Hierro - Carreto",
-      "tarifa_cat1": 11100,
+      "tarifa_cat1": 12700,
       "ubicacion": "Km 70+500 Troncal de Occidente Ruta 2515 Vía Sincelejo – Calamar"
     },
     {
@@ -411,7 +393,7 @@
       "lat": 10.060372,
       "lon": -73.923826,
       "via": "Bosconia - Río Ariguaní",
-      "tarifa_cat1": 10100,
+      "tarifa_cat1": 12600,
       "ubicacion": "Km 10+300 Vía Bosconia – Rio Ariguani"
     },
     {
@@ -420,7 +402,7 @@
       "lat": 4.74872200000004,
       "lon": -74.291145,
       "via": "El Corzo - Madrid",
-      "tarifa_cat1": 11800,
+      "tarifa_cat1": 12400,
       "ubicacion": "El Corzo - Madrid"
     },
     {
@@ -429,7 +411,7 @@
       "lat": 5.63127850700005,
       "lon": -72.9212520309999,
       "via": "Sogamoso - El Crucero",
-      "tarifa_cat1": 12200,
+      "tarifa_cat1": 12800,
       "ubicacion": "Via Sogamoso Yopal Km 8+900  Jurisdiccion Sogamoso"
     },
     {
@@ -438,7 +420,7 @@
       "lat": 9.83116600000005,
       "lon": -74.267754,
       "via": "Plato – Pueblo Nuevo",
-      "tarifa_cat1": 11700,
+      "tarifa_cat1": 14100,
       "ubicacion": "KM 67+300 Plato – Pueblo Nuevo"
     },
     {
@@ -447,7 +429,7 @@
       "lat": 11.276194,
       "lon": -73.122124,
       "via": "Río Palomino - Riohacha",
-      "tarifa_cat1": 12300,
+      "tarifa_cat1": 14100,
       "ubicacion": "Ubicación: 53+950 Tramo que cubre:Vía Riohacha - Palomino"
     },
     {
@@ -456,7 +438,7 @@
       "lat": 5.49713170400003,
       "lon": -74.613729591,
       "via": "El Korán - Guaduas",
-      "tarifa_cat1": 18900,
+      "tarifa_cat1": 19900,
       "ubicacion": "Bogotá – Medellín - Norte"
     },
     {
@@ -465,7 +447,7 @@
       "lat": 3.39378700000003,
       "lon": -75.2037579999999,
       "via": "Neiva - Natagaima",
-      "tarifa_cat1": 15700,
+      "tarifa_cat1": 17100,
       "ubicacion": "Vía Neiva – Castilla Km 54+400 Jurisdicción de Aipe"
     },
     {
@@ -474,7 +456,7 @@
       "lat": 7.10796900000003,
       "lon": -72.9689789999999,
       "via": "Cuestaboba - Pamplona",
-      "tarifa_cat1": 12400,
+      "tarifa_cat1": 13000,
       "ubicacion": "Bucaramanga - Pamplona"
     },
     {
@@ -483,17 +465,8 @@
       "lat": 1.06457300000005,
       "lon": -77.428397,
       "via": "Rumichaca - Pasto",
-      "tarifa_cat1": 14200,
+      "tarifa_cat1": 20900,
       "ubicacion": "Nariño - Tangua"
-    },
-    {
-      "id": "3918",
-      "nombre": "EL PLACER 2",
-      "lat": 1.08728410200007,
-      "lon": -77.408655204,
-      "via": "Puente Internacional Rumichaca - San Juan de Pasto",
-      "tarifa_cat1": 12300,
-      "ubicacion": "A un Kilometro del Municipio de Tangua Km. 56+050"
     },
     {
       "id": "3826",
@@ -501,7 +474,7 @@
       "lat": 5.03128500000003,
       "lon": -73.839882,
       "via": "Bogotá - Chocontá",
-      "tarifa_cat1": 10300,
+      "tarifa_cat1": 12400,
       "ubicacion": "Bogotá – Albarracín Km 36"
     },
     {
@@ -510,7 +483,7 @@
       "lat": 3.50073900000007,
       "lon": -76.4430649999999,
       "via": "Cali - Palmira - Buga",
-      "tarifa_cat1": 11100,
+      "tarifa_cat1": 13300,
       "ubicacion": "Vía Cali – Andalucía Km 5"
     },
     {
@@ -519,7 +492,7 @@
       "lat": 4.19209900000004,
       "lon": -74.8611529999999,
       "via": "El Espinal - Girardot",
-      "tarifa_cat1": 15700,
+      "tarifa_cat1": 17100,
       "ubicacion": "Km. 4 Vía Espinal - Girardot"
     },
     {
@@ -528,7 +501,7 @@
       "lat": 4.83535800000004,
       "lon": -74.0289309999999,
       "via": "Bogotá - Ubaté",
-      "tarifa_cat1": 11100,
+      "tarifa_cat1": 15200,
       "ubicacion": "Bogotá – Albarracín Km 4"
     },
     {
@@ -537,17 +510,8 @@
       "lat": 10.8375330000001,
       "lon": -74.902122,
       "via": "Sabanalarga - Barranquilla",
-      "tarifa_cat1": 11900,
+      "tarifa_cat1": 13300,
       "ubicacion": "Vía Cordialidad Km 98"
-    },
-    {
-      "id": "12408",
-      "nombre": "GALAPA 02",
-      "lat": 10.8821750000001,
-      "lon": -74.8370609899999,
-      "via": "",
-      "tarifa_cat1": 8300,
-      "ubicacion": ""
     },
     {
       "id": "3917",
@@ -555,7 +519,7 @@
       "lat": 10.136159,
       "lon": -75.264267,
       "via": "Cruz del Viso - Cartagena",
-      "tarifa_cat1": 11200,
+      "tarifa_cat1": 12600,
       "ubicacion": "Km 61+400 Ruta 9005 Troncal de Occidente"
     },
     {
@@ -564,7 +528,7 @@
       "lat": 5.10591700000003,
       "lon": -75.760278,
       "via": "",
-      "tarifa_cat1": 21000,
+      "tarifa_cat1": 25014,
       "ubicacion": ""
     },
     {
@@ -573,7 +537,7 @@
       "lat": 4.30042600000007,
       "lon": -75.050087,
       "via": "Ibague (Puente Blanco) - Cruce Ruta 45 (Espinal)",
-      "tarifa_cat1": 12700,
+      "tarifa_cat1": 15730,
       "ubicacion": "Km. 9+0600 de la ruta 4004 que corresponde a la vía Ibagué (Puente Blanco  El Espinal (cruce ruta 45))  Espinal"
     },
     {
@@ -582,7 +546,7 @@
       "lat": 6.32795500000003,
       "lon": -75.5155329999999,
       "via": "Medellín - Santuario",
-      "tarifa_cat1": 16800,
+      "tarifa_cat1": 18500,
       "ubicacion": "Km 7 Autopista Medellín - Bogotá"
     },
     {
@@ -591,7 +555,7 @@
       "lat": 4.56443500000006,
       "lon": -74.797319,
       "via": "Tramo que cubre la via Guataquí - Cambao - Honda",
-      "tarifa_cat1": 12800,
+      "tarifa_cat1": 15300,
       "ubicacion": "Km 3 Ruta 45"
     },
     {
@@ -600,7 +564,7 @@
       "lat": 4.88341307600007,
       "lon": -74.4831854,
       "via": "Guayabal de Síquima - Cambao",
-      "tarifa_cat1": 12400,
+      "tarifa_cat1": 20100,
       "ubicacion": "Peaje Rio Bogotá – Facatativa – Villeta – Viani – Cambao Km 63 Jurisdicción del Municipio de Guayabal"
     },
     {
@@ -609,7 +573,7 @@
       "lat": 5.20158400000003,
       "lon": -74.820282,
       "via": "Fresno - Honda",
-      "tarifa_cat1": 13700,
+      "tarifa_cat1": 16500,
       "ubicacion": "Km 35 + 100 Vía Mariquita – Honda"
     },
     {
@@ -618,7 +582,7 @@
       "lat": 3.63303700000006,
       "lon": -73.706421,
       "via": "Ye de Granada - Paso por el Puente sobre el Río Ocoa",
-      "tarifa_cat1": 13100,
+      "tarifa_cat1": 15800,
       "ubicacion": "Vía Villavicencio – Granada Km 7+200"
     },
     {
@@ -627,7 +591,7 @@
       "lat": 5.25773200000003,
       "lon": -75.657461,
       "via": "",
-      "tarifa_cat1": 14600,
+      "tarifa_cat1": 17600,
       "ubicacion": ""
     },
     {
@@ -636,7 +600,7 @@
       "lat": 4.90135570300004,
       "lon": -74.426167866,
       "via": "Sasaima - Albán",
-      "tarifa_cat1": 12400,
+      "tarifa_cat1": 20100,
       "ubicacion": "Peaje Río Bogotá – Facatativá – Villeta – Vianí – Cambao Km 89+400 Jurisdicción del Municipio de Albán"
     },
     {
@@ -645,7 +609,7 @@
       "lat": 10.9343822760001,
       "lon": -74.898251187,
       "via": "Vía Juan Mina - Las Hermanas",
-      "tarifa_cat1": 8300,
+      "tarifa_cat1": 10000,
       "ubicacion": "Vía La Cordialidad - Galapa"
     },
     {
@@ -654,7 +618,7 @@
       "lat": 8.03150800000003,
       "lon": -75.30281,
       "via": "Caucasia - Planeta Rica",
-      "tarifa_cat1": 14000,
+      "tarifa_cat1": 19700,
       "ubicacion": "Vía Caucasia – Planeta Rica  Km 12"
     },
     {
@@ -663,7 +627,7 @@
       "lat": 4.80945400000007,
       "lon": -73.945587,
       "via": "Bogotá (Los Patios) - Guasca",
-      "tarifa_cat1": 12300,
+      "tarifa_cat1": 13900,
       "ubicacion": "La Calera – Briceño Km 21+800"
     },
     {
@@ -672,17 +636,8 @@
       "lat": 9.43074200000007,
       "lon": -75.435951,
       "via": "Sincelejo - Toluviejo",
-      "tarifa_cat1": 10900,
+      "tarifa_cat1": 11500,
       "ubicacion": "Toluviego - Sincelejo"
-    },
-    {
-      "id": "3900",
-      "nombre": "LA ESTRELLA",
-      "lat": 5.12551851000006,
-      "lon": -75.505280332,
-      "via": "Manizales - Neira",
-      "tarifa_cat1": 6100,
-      "ubicacion": ""
     },
     {
       "id": "3800",
@@ -694,21 +649,12 @@
       "ubicacion": "Vía La Lizama – San Alberto Km 37 + 300"
     },
     {
-      "id": "3905",
-      "nombre": "LA HEROICA",
-      "lat": 10.342343514,
-      "lon": -75.490621142,
-      "via": "Variante Mamonal - Gambote",
-      "tarifa_cat1": 2900,
-      "ubicacion": "Variante Mamonal - Gambote"
-    },
-    {
       "id": "3922",
       "nombre": "LA LIBERTAD",
       "lat": 4.05697000000004,
       "lon": -73.463287,
       "via": "Villavicencio - Paso por el Puente sobre el Río La Balsa -Puerto Lopez",
-      "tarifa_cat1": 16900,
+      "tarifa_cat1": 20400,
       "ubicacion": "Vía Villavicencio – Puerto López Km 18+900"
     },
     {
@@ -717,7 +663,7 @@
       "lat": 7.08351700000003,
       "lon": -73.717392,
       "via": "Barrancabermeja -  La Lizama ubicación km 4",
-      "tarifa_cat1": 16700,
+      "tarifa_cat1": 20100,
       "ubicacion": "La Lizama"
     },
     {
@@ -726,7 +672,7 @@
       "lat": 9.63800300000003,
       "lon": -73.6394349999999,
       "via": "San Roque - Bosconia",
-      "tarifa_cat1": 10400,
+      "tarifa_cat1": 12500,
       "ubicacion": "Km 42 Vía San Roque - Bosconia"
     },
     {
@@ -735,7 +681,7 @@
       "lat": 7.86745647200007,
       "lon": -72.484164639,
       "via": "Cúcuta - Puente Internacional Simón Bolívar",
-      "tarifa_cat1": 2700,
+      "tarifa_cat1": 2800,
       "ubicacion": "Km. 2 de la Autopista Internacional que comunica a Cúcuta con San Antonio"
     },
     {
@@ -744,7 +690,7 @@
       "lat": 4.74462434300005,
       "lon": -74.171477243,
       "via": "Funza - Cota",
-      "tarifa_cat1": 11200,
+      "tarifa_cat1": 18500,
       "ubicacion": "Kilómetro 8 Vía Mosquera - Chía Jurisdicción del Municipio de Funza"
     },
     {
@@ -753,7 +699,7 @@
       "lat": 4.25246825100004,
       "lon": -76.118437533,
       "via": "Andalucía - La Paila -La Victoria",
-      "tarifa_cat1": 8400,
+      "tarifa_cat1": 13400,
       "ubicacion": "Vía Andalucía – Cerritos Km 12+300"
     },
     {
@@ -762,7 +708,7 @@
       "lat": 9.31889100000006,
       "lon": -75.320053,
       "via": "Sincelejo - Corozal",
-      "tarifa_cat1": 6100,
+      "tarifa_cat1": 6400,
       "ubicacion": "Sincelejo-Puerta de Hierro-Calamar"
     },
     {
@@ -771,7 +717,7 @@
       "lat": 6.15063000000004,
       "lon": -75.5312729999999,
       "via": "Glorieta Las Palmas - La Unión",
-      "tarifa_cat1": 12200,
+      "tarifa_cat1": 20200,
       "ubicacion": "Km. 5 RUTA 5601 Vía Medellín -  La Ceja"
     },
     {
@@ -780,7 +726,7 @@
       "lat": 10.978719174,
       "lon": -74.729718979,
       "via": "Barranquilla - Santa Marta",
-      "tarifa_cat1": 10100,
+      "tarifa_cat1": 17300,
       "ubicacion": "KM 3+300 Vía Barranquilla – Santa Marta"
     },
     {
@@ -789,7 +735,7 @@
       "lat": 7.10312711700004,
       "lon": -73.188611598,
       "via": "Lebrija - Palenque",
-      "tarifa_cat1": 7200,
+      "tarifa_cat1": 11500,
       "ubicacion": "Vía Fortuna - Bucaramanga Km 65+500 Jurisdicción del municipuio de Lebrija"
     },
     {
@@ -798,7 +744,7 @@
       "lat": 3.76300400000002,
       "lon": -76.6655939999999,
       "via": "Cruce Ruta 40 (Loboguerrero) - Buga",
-      "tarifa_cat1": 10300,
+      "tarifa_cat1": 12400,
       "ubicacion": "VÍA BUENAVENTURA - BUGA KM 63+700 Tramo que cubre: Desde el PR 63+310 en Loboguerrero y finaliza en el PR 118+418 en Buga"
     },
     {
@@ -807,7 +753,7 @@
       "lat": 7.72137200000003,
       "lon": -72.57132,
       "via": "Pamplona - Cúcuta",
-      "tarifa_cat1": 7900,
+      "tarifa_cat1": 9500,
       "ubicacion": "Km 119+900"
     },
     {
@@ -816,7 +762,7 @@
       "lat": 2.78557800000004,
       "lon": -75.301956,
       "via": "Garzón - Neiva",
-      "tarifa_cat1": 9200,
+      "tarifa_cat1": 12600,
       "ubicacion": "Vía Garzon – Neiva Km 98+499 Jurisdicción Municipio de Rivera"
     },
     {
@@ -825,7 +771,7 @@
       "lat": 6.82563436700002,
       "lon": -72.999481869,
       "via": "San Gil - Bucaramanga",
-      "tarifa_cat1": 12100,
+      "tarifa_cat1": 12700,
       "ubicacion": "Aratoca - Bucaramanga"
     },
     {
@@ -834,7 +780,7 @@
       "lat": 8.84519800000004,
       "lon": -75.824585,
       "via": "Montería - Cereté",
-      "tarifa_cat1": 6100,
+      "tarifa_cat1": 6400,
       "ubicacion": "Vía Monteria - Lorica Km. 1 más 320 metros"
     },
     {
@@ -843,7 +789,7 @@
       "lat": 8.82778300000007,
       "lon": -75.836761,
       "via": "Montería - Cereté",
-      "tarifa_cat1": 6100,
+      "tarifa_cat1": 6400,
       "ubicacion": "Vía Monteria - Lorica Km. 1 más 320 metros"
     },
     {
@@ -852,7 +798,7 @@
       "lat": 6.83050248100005,
       "lon": -75.468140396,
       "via": "Los Llanos - Tarazá",
-      "tarifa_cat1": 12400,
+      "tarifa_cat1": 13000,
       "ubicacion": "KM 03+450 RUTA 2511 -  vía Medellin - La Costa"
     },
     {
@@ -861,7 +807,7 @@
       "lat": 4.66337400000003,
       "lon": -74.0105799999999,
       "via": "Bogotá (Los Patios) - Guasca",
-      "tarifa_cat1": 12300,
+      "tarifa_cat1": 13900,
       "ubicacion": "La Calera – Briceño Km 0+050"
     },
     {
@@ -870,7 +816,7 @@
       "lat": 5.07724900000005,
       "lon": -73.553398,
       "via": "Brisas - Guateque",
-      "tarifa_cat1": 16900,
+      "tarifa_cat1": 19100,
       "ubicacion": "Vía Sisga – Guateque Km 27"
     },
     {
@@ -879,7 +825,7 @@
       "lat": 8.30157200000002,
       "lon": -75.530099,
       "via": "Caucasia - Planeta Rica",
-      "tarifa_cat1": 16100,
+      "tarifa_cat1": 19700,
       "ubicacion": "Vía Caucasia – Planeta Rica (Municipio de Plaza Bonita) Cubre Tramo Buenavista – Planeta Rica"
     },
     {
@@ -888,7 +834,7 @@
       "lat": 10.574535,
       "lon": -75.4505589999999,
       "via": "Cartagena - Lomita Arena",
-      "tarifa_cat1": 18400,
+      "tarifa_cat1": 22200,
       "ubicacion": "Km 16 Vía Cartagena  - Barranquilla"
     },
     {
@@ -897,7 +843,7 @@
       "lat": 9.09145900000004,
       "lon": -75.8198619999999,
       "via": "Cereté - Lorica",
-      "tarifa_cat1": 15800,
+      "tarifa_cat1": 19400,
       "ubicacion": "Vía Monteria - Lorica Km 32+700 Metros"
     },
     {
@@ -906,7 +852,7 @@
       "lat": 3.75991200000004,
       "lon": -76.411322,
       "via": "Yumbo - Mediacanoa",
-      "tarifa_cat1": 11000,
+      "tarifa_cat1": 13200,
       "ubicacion": "Vía Cali – Mediacanoa Km 36+600"
     },
     {
@@ -915,7 +861,7 @@
       "lat": 4.63824152500007,
       "lon": -74.2939825239999,
       "via": "La Mesa - Mosquera",
-      "tarifa_cat1": 11200,
+      "tarifa_cat1": 18500,
       "ubicacion": "Vía Chía – La Mesa – Girardot Km 105 Jurisdicción del Municipio de Bojacá"
     },
     {
@@ -924,7 +870,7 @@
       "lat": 8.09234900000007,
       "lon": -73.560015,
       "via": "San Alberto - La Mata",
-      "tarifa_cat1": 12300,
+      "tarifa_cat1": 14800,
       "ubicacion": "Km 28+500 Vía San Alberto – Aguaclara"
     },
     {
@@ -933,7 +879,7 @@
       "lat": 4.27987200000007,
       "lon": -73.834808,
       "via": "Bogotá (El Portal) - Villavicencio",
-      "tarifa_cat1": 14100,
+      "tarifa_cat1": 17800,
       "ubicacion": "Caqueza – Guayabetal Km 44+700"
     },
     {
@@ -942,7 +888,7 @@
       "lat": 11.2530630000001,
       "lon": -74.109322,
       "via": "Santa Marta - Río Palomino",
-      "tarifa_cat1": 12300,
+      "tarifa_cat1": 14100,
       "ubicacion": "Ubicación: 6+500 Tramo que cubre: Puente Nenguange – Palomino"
     },
     {
@@ -951,17 +897,8 @@
       "lat": 2.97780200000005,
       "lon": -75.307259,
       "via": "Neiva - Natagaima",
-      "tarifa_cat1": 15700,
+      "tarifa_cat1": 17100,
       "ubicacion": "Vía Neiva – Castilla Km 3+700 Jurisdicción Municipio de Neiva"
-    },
-    {
-      "id": "3965",
-      "nombre": "NIQUÍA",
-      "lat": 6.34510075000003,
-      "lon": -75.526595507,
-      "via": "Medellìn - Hoyo Rico",
-      "tarifa_cat1": 2500,
-      "ubicacion": "Km 15+000 Autopista norte"
     },
     {
       "id": "3892",
@@ -969,7 +906,7 @@
       "lat": 4.58154202000003,
       "lon": -74.2986611859999,
       "via": "El Colegio - El Charquito",
-      "tarifa_cat1": 11700,
+      "tarifa_cat1": 13600,
       "ubicacion": "Kilómetro 1.4 Vía Chusacá – El Triunfo – Viotá – El Portillo en la Vereda Charquito (Soacha)"
     },
     {
@@ -978,7 +915,7 @@
       "lat": 4.02625900000004,
       "lon": -73.7751919999999,
       "via": "Ye de Granada - Paso por el Puente sobre el Río Ocoa",
-      "tarifa_cat1": 13100,
+      "tarifa_cat1": 15800,
       "ubicacion": "Vía Villavicencio – Granada Km 54+450"
     },
     {
@@ -987,7 +924,7 @@
       "lat": 6.17823641900003,
       "lon": -73.333289569,
       "via": "Puente Nacional - San Gil",
-      "tarifa_cat1": 12100,
+      "tarifa_cat1": 12700,
       "ubicacion": "Vía Puente Nacional – San Gil Km 62+950"
     },
     {
@@ -996,7 +933,7 @@
       "lat": 8.85280400000005,
       "lon": -73.669722,
       "via": "La Mata - San Roque",
-      "tarifa_cat1": 12300,
+      "tarifa_cat1": 14800,
       "ubicacion": "Km 28+500 Vía La Mata – San Roque"
     },
     {
@@ -1005,7 +942,7 @@
       "lat": 6.33180205000002,
       "lon": -75.599368636,
       "via": "Medellín - San Pedro",
-      "tarifa_cat1": 6000,
+      "tarifa_cat1": 12900,
       "ubicacion": ""
     },
     {
@@ -1014,7 +951,7 @@
       "lat": 6.47799800000007,
       "lon": -75.37861,
       "via": "Medellìn - Hoyo Rico",
-      "tarifa_cat1": 14600,
+      "tarifa_cat1": 17700,
       "ubicacion": "KM 38+700 RUTA 2510 -  vía Medellín – La costa"
     },
     {
@@ -1023,7 +960,7 @@
       "lat": 11.0127000000001,
       "lon": -74.8895879999999,
       "via": "Cartagena - Lomita Arena",
-      "tarifa_cat1": 3000,
+      "tarifa_cat1": 0,
       "ubicacion": "Vía al mar Km 101"
     },
     {
@@ -1032,7 +969,7 @@
       "lat": 11.3676140000001,
       "lon": -72.156624,
       "via": "Riohacha - Paraguachón",
-      "tarifa_cat1": 12300,
+      "tarifa_cat1": 14100,
       "ubicacion": "Ubicación: 84+475 Tramo que cubre:Cuatro vías - Paraguachón"
     },
     {
@@ -1041,7 +978,7 @@
       "lat": 10.2445070000001,
       "lon": -75.445772,
       "via": "Variante de Gambote",
-      "tarifa_cat1": 11400,
+      "tarifa_cat1": 12800,
       "ubicacion": "Variante de Gambote"
     },
     {
@@ -1050,7 +987,7 @@
       "lat": 3.62760200000002,
       "lon": -76.4576509999999,
       "via": "Paso de La Torre - Siberia (Variante Yumbo)",
-      "tarifa_cat1": 11000,
+      "tarifa_cat1": 13200,
       "ubicacion": "Vía Vijes – Rozo Km 1+500"
     },
     {
@@ -1059,7 +996,7 @@
       "lat": 5.02706200000006,
       "lon": -75.587418,
       "via": "Club Campestre - La Trinidad",
-      "tarifa_cat1": 14600,
+      "tarifa_cat1": 16200,
       "ubicacion": "Club Campestre – La Trinidad Km. 1 + 200"
     },
     {
@@ -1068,7 +1005,7 @@
       "lat": 5.81215600000007,
       "lon": -75.679156,
       "via": "La Pintada - Peñalisa",
-      "tarifa_cat1": 16200,
+      "tarifa_cat1": 23900,
       "ubicacion": "KM 03 RUTA 25B01 Vía Pintada – Bolombolo"
     },
     {
@@ -1077,7 +1014,7 @@
       "lat": 4.20004800000004,
       "lon": -73.72142,
       "via": "Bogotá (El Portal) - Villavicencio",
-      "tarifa_cat1": 23000,
+      "tarifa_cat1": 29100,
       "ubicacion": "Vía Villavicencio – Puente Susumuco Km 78+020"
     },
     {
@@ -1086,7 +1023,7 @@
       "lat": 8.23123833000005,
       "lon": -73.4985723359999,
       "via": "Aguaclara - Río de Oro",
-      "tarifa_cat1": 11800,
+      "tarifa_cat1": 12400,
       "ubicacion": "Km 14 Vía Aguasclaras – Ocaña"
     },
     {
@@ -1095,7 +1032,7 @@
       "lat": 5.96879700000005,
       "lon": -75.594025,
       "via": "La Pintada - Primavera",
-      "tarifa_cat1": 10500,
+      "tarifa_cat1": 12600,
       "ubicacion": "KM 38+800 RUTA  2509 -  Via Medellin - La Pintada"
     },
     {
@@ -1104,7 +1041,7 @@
       "lat": 4.40331639000004,
       "lon": -74.7314643409999,
       "via": "Girardot - Tocaima",
-      "tarifa_cat1": 8500,
+      "tarifa_cat1": 14000,
       "ubicacion": "Vía Chía – La Mesa – Girardot Km 16  Jurisdicción del Municipio de Tocaima"
     },
     {
@@ -1113,7 +1050,7 @@
       "lat": 4.19417200000004,
       "lon": -73.5967029999999,
       "via": "Cumaral - Barranca de Upía",
-      "tarifa_cat1": 4800,
+      "tarifa_cat1": 5800,
       "ubicacion": "Conexión Anillo vial Cumaral Km 7+135"
     },
     {
@@ -1122,7 +1059,7 @@
       "lat": 9.79138800000004,
       "lon": -74.808983,
       "via": "Plato – Pueblo Nuevo",
-      "tarifa_cat1": 11700,
+      "tarifa_cat1": 14100,
       "ubicacion": "KM 0+150  Vía Plata – Pueblo Nuevo"
     },
     {
@@ -1131,7 +1068,7 @@
       "lat": 6.49666200000007,
       "lon": -74.501381,
       "via": "Cisneros - Puerto Berrío (Incluye el Puente sobre el Río Magdalena)",
-      "tarifa_cat1": 10900,
+      "tarifa_cat1": 15000,
       "ubicacion": "Vía Alto de Dolores - Puerto Berrío"
     },
     {
@@ -1140,7 +1077,7 @@
       "lat": 10.967563,
       "lon": -74.956105,
       "via": "Cartagena - Lomita Arena",
-      "tarifa_cat1": 17200,
+      "tarifa_cat1": 20700,
       "ubicacion": "Vía al Mar Km 93"
     },
     {
@@ -1149,7 +1086,7 @@
       "lat": 5.87259891400004,
       "lon": -74.611395406,
       "via": "Santuario - Cruce Ruta 45 (Caño Alegre)",
-      "tarifa_cat1": 17900,
+      "tarifa_cat1": 16700,
       "ubicacion": "KM 130+100 RUTA 6005 Autopista  Medellin - Bogota"
     },
     {
@@ -1158,17 +1095,8 @@
       "lat": 8.63071100000008,
       "lon": -75.763725,
       "via": "Caucasia - Planeta Rica",
-      "tarifa_cat1": 16100,
+      "tarifa_cat1": 19700,
       "ubicacion": "Via Planeta Rica – Montería Km 32+500 Recorrido 49 KMS"
-    },
-    {
-      "id": "3933",
-      "nombre": "QUIEBRA DE VELEZ",
-      "lat": 5.09425114600003,
-      "lon": -75.555374468,
-      "via": "Tres Puertas - Quiebra de Vélez - Manizales",
-      "tarifa_cat1": 3100,
-      "ubicacion": ""
     },
     {
       "id": "3886",
@@ -1176,7 +1104,7 @@
       "lat": 4.62716543300007,
       "lon": -74.289809132,
       "via": "Variante Soacha - La Mesa",
-      "tarifa_cat1": 11200,
+      "tarifa_cat1": 18500,
       "ubicacion": "kilómetro 106 Via Mosquera - Ramal a Soacha"
     },
     {
@@ -1185,7 +1113,7 @@
       "lat": 9.43103200100006,
       "lon": -73.473552148,
       "via": "San Roque - La Paz",
-      "tarifa_cat1": 14000,
+      "tarifa_cat1": 14700,
       "ubicacion": "Tramo que cubre:Vía Rincón Hondo - Agustín Codazzi"
     },
     {
@@ -1194,7 +1122,7 @@
       "lat": 3.64389600000004,
       "lon": -76.381091,
       "via": "Palmaseca - El Cerrito",
-      "tarifa_cat1": 11000,
+      "tarifa_cat1": 13200,
       "ubicacion": "Vía Palmaseca - Cerrito Km 17"
     },
     {
@@ -1203,7 +1131,7 @@
       "lat": 7.63281900600003,
       "lon": -73.263641967,
       "via": "Río Negro - San Alberto",
-      "tarifa_cat1": 12400,
+      "tarifa_cat1": 13000,
       "ubicacion": "Rio Negro – San Alberto"
     },
     {
@@ -1212,7 +1140,7 @@
       "lat": 4.69870000000003,
       "lon": -74.179344,
       "via": "Los Alpes - Madrid - Bogotá (Rio Bogotá)",
-      "tarifa_cat1": 11800,
+      "tarifa_cat1": 12400,
       "ubicacion": "Fontibon - Mosquera"
     },
     {
@@ -1221,7 +1149,7 @@
       "lat": 3.99550924900007,
       "lon": -76.328496698,
       "via": "Mediacanoa - Roldanillo",
-      "tarifa_cat1": 12200,
+      "tarifa_cat1": 12800,
       "ubicacion": "Mediacanoa - Ansermanuevo"
     },
     {
@@ -1230,7 +1158,7 @@
       "lat": 7.24326752600007,
       "lon": -73.149403777,
       "via": "La cemento - Rionegro",
-      "tarifa_cat1": 7200,
+      "tarifa_cat1": 12600,
       "ubicacion": "Vía Bucaramanga - Rionegro Km 13"
     },
     {
@@ -1239,7 +1167,7 @@
       "lat": 10.799603,
       "lon": -74.759003,
       "via": "Palmar de Varela - Barranquilla",
-      "tarifa_cat1": 11900,
+      "tarifa_cat1": 12500,
       "ubicacion": "Vía Oriental Km 55"
     },
     {
@@ -1248,7 +1176,7 @@
       "lat": 5.72786479600006,
       "lon": -73.744665879,
       "via": "Ubaté - Puente Nacional",
-      "tarifa_cat1": 12100,
+      "tarifa_cat1": 12700,
       "ubicacion": "Vía Ubate Puente Nacional  Km 66+200 Jurisdicción Saboyá"
     },
     {
@@ -1257,7 +1185,7 @@
       "lat": 5.05220000000003,
       "lon": -75.594574,
       "via": "Tres Puertas -La Manuela - Estación Uribe",
-      "tarifa_cat1": 14600,
+      "tarifa_cat1": 16200,
       "ubicacion": "Tres Puertas – Puente La Libertad Km. 9 + 200"
     },
     {
@@ -1266,7 +1194,7 @@
       "lat": 8.70998500000007,
       "lon": -75.716599,
       "via": "Monteria - San Carlos",
-      "tarifa_cat1": 15800,
+      "tarifa_cat1": 19400,
       "ubicacion": "Vía Montería - San Carlos ubicado sobre el Km -  9+700"
     },
     {
@@ -1275,7 +1203,7 @@
       "lat": 5.33243849400003,
       "lon": -75.7756032779999,
       "via": "Cauyá - La Felisa",
-      "tarifa_cat1": 12200,
+      "tarifa_cat1": 12800,
       "ubicacion": "Vía Cauyá - El Palo"
     },
     {
@@ -1284,7 +1212,7 @@
       "lat": 10.1217258250001,
       "lon": -73.238637775,
       "via": "San Roque - La Paz",
-      "tarifa_cat1": 7000,
+      "tarifa_cat1": 7400,
       "ubicacion": "Tramo que cubre:Vía Aguztín Codazzi - San Diego"
     },
     {
@@ -1293,7 +1221,7 @@
       "lat": 4.44416465900002,
       "lon": -74.301889391,
       "via": "Fusagasugá - Sibaté",
-      "tarifa_cat1": 7900,
+      "tarifa_cat1": 10300,
       "ubicacion": ""
     },
     {
@@ -1302,7 +1230,7 @@
       "lat": 9.87253100000004,
       "lon": -75.393358,
       "via": "San Onofre - María La Baja",
-      "tarifa_cat1": 16100,
+      "tarifa_cat1": 19700,
       "ubicacion": "Vía San Onofre – Cruz del Viso Km 21+400 metros"
     },
     {
@@ -1311,7 +1239,7 @@
       "lat": 4.58098863300006,
       "lon": -74.476174487,
       "via": "La Mesa - Anapoima",
-      "tarifa_cat1": 10500,
+      "tarifa_cat1": 17200,
       "ubicacion": "Chía - La Mesa - Girardot Km.61 Jurisdicción del Municipio de la Mesa"
     },
     {
@@ -1320,7 +1248,7 @@
       "lat": 4.67860900000005,
       "lon": -72.943748,
       "via": "Barranca de Upía - Monterrey",
-      "tarifa_cat1": 10800,
+      "tarifa_cat1": 20300,
       "ubicacion": "Villanueva - Monterrey Km.15+000"
     },
     {
@@ -1329,7 +1257,7 @@
       "lat": 6.17965929600007,
       "lon": -75.4613569959999,
       "via": "Vía Antigua a Rionegro",
-      "tarifa_cat1": 10000,
+      "tarifa_cat1": 15100,
       "ubicacion": "Km 21+500  -  Vía Medellín - Ríonegro"
     },
     {
@@ -1338,7 +1266,7 @@
       "lat": 5.04866200000004,
       "lon": -75.598846,
       "via": "Chinchiná - La Manuela",
-      "tarifa_cat1": 14600,
+      "tarifa_cat1": 16200,
       "ubicacion": "Cruce Guayacanes – La Manuela Km 6"
     },
     {
@@ -1347,7 +1275,7 @@
       "lat": 4.78040200000004,
       "lon": -74.185028,
       "via": "Villeta - Bogotá",
-      "tarifa_cat1": 13800,
+      "tarifa_cat1": 19440,
       "ubicacion": "Bogotá (El Cortijo) – Siberia – La Punta – El Vino – Villeta"
     },
     {
@@ -1356,7 +1284,7 @@
       "lat": 4.84165600000006,
       "lon": -73.9360839999999,
       "via": "Meusa",
-      "tarifa_cat1": 12300,
+      "tarifa_cat1": 14800,
       "ubicacion": "El Salitre - Sopó"
     },
     {
@@ -1365,7 +1293,7 @@
       "lat": 5.54052600000006,
       "lon": -75.570252,
       "via": "Autopista Conexión Pacífico 3",
-      "tarifa_cat1": 10500,
+      "tarifa_cat1": 12000,
       "ubicacion": ""
     },
     {
@@ -1374,7 +1302,7 @@
       "lat": 5.39159787600005,
       "lon": -75.599995129,
       "via": "La Felisa - La Pintada",
-      "tarifa_cat1": 16100,
+      "tarifa_cat1": 12000,
       "ubicacion": "Vía La Felisa – La Pintada"
     },
     {
@@ -1383,7 +1311,7 @@
       "lat": 5.55768487600005,
       "lon": -73.5011577779999,
       "via": "Sáchica - Tunja",
-      "tarifa_cat1": 12200,
+      "tarifa_cat1": 12800,
       "ubicacion": "Vía Chiquinquirá Tunja km 42+800 Jurisdicción Sáchica"
     },
     {
@@ -1392,7 +1320,7 @@
       "lat": 4.93954600000006,
       "lon": -75.6164449999999,
       "via": "La Romelia - Río Campo Alegre",
-      "tarifa_cat1": 16100,
+      "tarifa_cat1": 17800,
       "ubicacion": "Vía Pereira – Manizales Km. 20 + 200"
     },
     {
@@ -1401,7 +1329,7 @@
       "lat": 4.95009900000002,
       "lon": -75.618682,
       "via": "Intersección Jazmín - Estación de  Servicio Chinchiná",
-      "tarifa_cat1": 16100,
+      "tarifa_cat1": 17800,
       "ubicacion": "Vía Pereira – Chinchiná PR29RSC Km 24 + 100"
     },
     {
@@ -1410,7 +1338,7 @@
       "lat": 7.58918890900003,
       "lon": -75.393643031,
       "via": "Tarazá - Caucasia",
-      "tarifa_cat1": 12400,
+      "tarifa_cat1": 13000,
       "ubicacion": "KM 01+200 RUTA 2512 -  Via Medellin - La Costa"
     },
     {
@@ -1419,7 +1347,7 @@
       "lat": 10.9771881520001,
       "lon": -74.3366643319999,
       "via": "Barranquilla - Santa Marta",
-      "tarifa_cat1": 10100,
+      "tarifa_cat1": 17300,
       "ubicacion": "KM 50 Vía Barranquilla – Santa Marta"
     },
     {
@@ -1428,7 +1356,7 @@
       "lat": 4.66542497700004,
       "lon": -76.049532448,
       "via": "Roldanillo - La Virginia",
-      "tarifa_cat1": 12200,
+      "tarifa_cat1": 11400,
       "ubicacion": "Mediacanoa - Ansermanuevo"
     },
     {
@@ -1437,16 +1365,16 @@
       "lat": 6.39963700000004,
       "lon": -75.433016,
       "via": "Medellìn - Hoyo Rico",
-      "tarifa_cat1": 16700,
+      "tarifa_cat1": 20300,
       "ubicacion": "Km 4  Vía alterna Girardota Hatillo"
     },
     {
       "id": "3916",
-      "nombre": "TUCUNICA",
+      "nombre": "TUCURINCA",
       "lat": 10.608983,
       "lon": -74.168495,
       "via": "Paso Nacional por Aracataca - Ye de Ciénaga",
-      "tarifa_cat1": 10900,
+      "tarifa_cat1": 13100,
       "ubicacion": "KM 50 Rio Ariguani – Ye de Cienaga"
     },
     {
@@ -1455,7 +1383,7 @@
       "lat": 10.3569754530001,
       "lon": -75.4434161349999,
       "via": "Cruz del Viso - Cartagena",
-      "tarifa_cat1": 5100,
+      "tarifa_cat1": 5800,
       "ubicacion": "Km 60+00 y 68+00 Ruta 9005 Troncal de Occidente"
     },
     {
@@ -1464,7 +1392,7 @@
       "lat": 5.65691200000003,
       "lon": -73.2784349999999,
       "via": "Tunja - Duitama",
-      "tarifa_cat1": 10300,
+      "tarifa_cat1": 12400,
       "ubicacion": "Via Tunja – Paipa Km 12+200 Jurisdiccion Combita"
     },
     {
@@ -1473,7 +1401,7 @@
       "lat": 4.52345770800002,
       "lon": -75.5893814519999,
       "via": "Ibague - Armenia",
-      "tarifa_cat1": 12400,
+      "tarifa_cat1": 13000,
       "ubicacion": "Calarcá - Cajamarca"
     },
     {
@@ -1482,7 +1410,7 @@
       "lat": 4.44552673000004,
       "lon": -75.518799123,
       "via": "Armenia - La Línea",
-      "tarifa_cat1": 12400,
+      "tarifa_cat1": 13000,
       "ubicacion": "Armenia - Ibague"
     },
     {
@@ -1491,7 +1419,7 @@
       "lat": 10.2597040000001,
       "lon": -73.430756,
       "via": "Pueblo Nuevo – Bosconia – Valledupar",
-      "tarifa_cat1": 10400,
+      "tarifa_cat1": 12500,
       "ubicacion": "Km 87 Vía Pueblo Nuevo – Valledupar"
     },
     {
@@ -1500,7 +1428,7 @@
       "lat": 4.26108800000003,
       "lon": -73.448189,
       "via": "Cumaral - Barranca de Upía",
-      "tarifa_cat1": 8600,
+      "tarifa_cat1": 10400,
       "ubicacion": "Vía Cumaral – Paratebueno Km 29+555"
     },
     {
@@ -1509,7 +1437,7 @@
       "lat": 3.15127600000005,
       "lon": -76.460045,
       "via": "Popayán - Jamundí",
-      "tarifa_cat1": 11000,
+      "tarifa_cat1": 13200,
       "ubicacion": "Kilometro 91 Vía Panamericana Jurisdicción del Municipio de Villa Rica"
     },
     {
@@ -1518,7 +1446,7 @@
       "lat": 4.35131700000005,
       "lon": -72.169253,
       "via": "Puerto López - Puerto Gaitán",
-      "tarifa_cat1": 6900,
+      "tarifa_cat1": 8300,
       "ubicacion": "Vía Puerto López - Puerto Gaitán Km.99+200"
     },
     {
@@ -1527,7 +1455,7 @@
       "lat": 6.29471400000006,
       "lon": -74.456992,
       "via": "Río Ermitaño - La Lizama",
-      "tarifa_cat1": 13500,
+      "tarifa_cat1": 15300,
       "ubicacion": "Vía Rio Ermitaño La Lizama Km 6"
     },
     {
@@ -1536,8 +1464,17 @@
       "lat": 7.63328800000005,
       "lon": -74.8947039999999,
       "via": "Autopista Conexión Norte",
-      "tarifa_cat1": 15900,
+      "tarifa_cat1": 17600,
       "ubicacion": "Antioquia - Zaragoza"
+    },
+    {
+      "id": "manual001",
+      "nombre": "Tunel de Oriente",
+      "lat": 6.178730680235972,
+      "lon": -75.45247646192159,
+      "via": "Autopista medellin",
+      "tarifa_cat1": 26300,
+      "ubicacion": "Rionegro - Medellin"
     }
   ],
   "total": 173,
