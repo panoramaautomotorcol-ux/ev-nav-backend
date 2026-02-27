@@ -3396,128 +3396,129 @@ app.get('/tolls-in-route', async (req, res) => {
     const waypoints = req.query.waypoints ? String(req.query.waypoints) : null;
 
     if (!origin || !destination) {
-      return res.status(400).json({ 
-        error: 'BadRequest', 
-        detail: 'from y to son requeridos (lat,lon)' 
-      });
+      return res.status(400).json({ error: 'BadRequest', detail: 'from y to requeridos' });
     }
 
-    // Primero calculamos la ruta para obtener los puntos
-    if (!HERE_API_KEY) {
-      return res.status(500).json({ error: 'route_failed', detail: 'HERE_API_KEY faltante' });
-    }
-
-    const url = 'https://router.hereapi.com/v8/routes';
+    // Usar Google Directions para obtener la ruta
     const params = {
-      transportMode: 'car',
-      routingMode: 'fast',
-      origin,
-      destination,
-      return: 'polyline',
-      lang: 'es-ES',
-      apiKey: HERE_API_KEY
+      origin, destination,
+      departure_time: 'now',
+      language: 'es',
+      units: 'metric',
+      key: GOOGLE_MAPS_API_KEY
     };
+    if (waypoints) params.waypoints = waypoints;
 
-    // Agregar waypoints si existen
-    let viaString = '';
-    if (waypoints) {
-      const waypointsList = waypoints.split('|');
-      viaString = waypointsList.map(wp => `&via=${wp.trim()}`).join('');
+    const gResp = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
+      params, timeout: 15000
+    });
+
+    if (gResp.data.status !== 'OK' || !gResp.data.routes.length) {
+      return res.json({ tolls: [], totalCost: 0, count: 0 });
     }
 
-    const queryString = new URLSearchParams(params).toString();
-    const fullUrl = `${url}?${queryString}${viaString}`;
-
-    const hereResp = await fetch(fullUrl);
-    if (!hereResp.ok) {
-      return res.status(hereResp.status).json({ 
-        error: 'route_failed', 
-        detail: 'Error obteniendo ruta de HERE' 
-      });
-    }
-
-    const routeData = await hereResp.json();
-    const sections = routeData?.routes?.[0]?.sections || [];
-    
-    // Extraer todos los puntos de la ruta
-    let routePoints = [];
-    for (const section of sections) {
-      const polyline = section?.polyline || '';
-      if (polyline) {
-        const decoded = flex.decode(polyline);
-        routePoints.push(...decoded.polyline.map(p => ({ lat: p[0], lon: p[1] })));
-      }
-    }
+    const route = gResp.data.routes[0];
+    const routePoints = decodeGooglePolyline(route.overview_polyline.points);
 
     if (routePoints.length === 0) {
       return res.json({ tolls: [], totalCost: 0, count: 0 });
     }
 
-    console.log(`[PEAJES] 🔍 Analizando ruta con ${routePoints.length} puntos`);
+    console.log(`[PEAJES] Analizando ruta Google con ${routePoints.length} puntos`);
 
-    // Detectar peajes cercanos a la ruta Y calcular su distancia desde el origen
     const tollsOnRoute = [];
-    
-    for (const peaje of peajesData.peajes) {
-      // Buscar el punto de la ruta más cercano al peaje
-      let closestPointIndex = -1;
-      let minDistance = Infinity;
-      
-      for (let i = 0; i < routePoints.length; i++) {
-        const point = routePoints[i];
-        const dist = haversineDistance(peaje.lat, peaje.lon, point.lat, point.lon);
-        
-        if (dist < minDistance) {
-          minDistance = dist;
-          closestPointIndex = i;
+    const peajesArr = peajesData?.peajes || [];
+
+    for (const peaje of peajesArr) {
+      if (!peaje.lat || !peaje.lon) continue;
+      let closestIdx = -1;
+      let minDist = Infinity;
+      const step = Math.max(1, Math.floor(routePoints.length / 500));
+      for (let i = 0; i < routePoints.length; i += step) {
+        const d = haversineDistance(peaje.lat, peaje.lon, routePoints[i].lat, routePoints[i].lon);
+        if (d < minDist) { minDist = d; closestIdx = i; }
+      }
+      // Refinar cerca del punto mas cercano
+      if (closestIdx >= 0 && minDist < 1) {
+        const from = Math.max(0, closestIdx - step);
+        const to = Math.min(routePoints.length - 1, closestIdx + step);
+        for (let i = from; i <= to; i++) {
+          const d = haversineDistance(peaje.lat, peaje.lon, routePoints[i].lat, routePoints[i].lon);
+          if (d < minDist) { minDist = d; closestIdx = i; }
         }
       }
-      
-      // Si el punto más cercano está dentro del threshold (150m)
-      if (minDistance <= 0.15) {
-        // Calcular distancia acumulada desde el origen hasta este punto
-        let distanceFromOrigin = 0;
-        for (let i = 0; i < closestPointIndex; i++) {
-          const p1 = routePoints[i];
-          const p2 = routePoints[i + 1];
-          distanceFromOrigin += haversineDistance(p1.lat, p1.lon, p2.lat, p2.lon);
+      if (minDist <= 0.3) {
+        let distFromOrigin = 0;
+        for (let i = 0; i < closestIdx; i++) {
+          distFromOrigin += haversineDistance(routePoints[i].lat, routePoints[i].lon, routePoints[i+1].lat, routePoints[i+1].lon);
         }
-        
+        tollsOnRoute.push({
+          id: peaje.id, nombre: peaje.nombre, lat: peaje.lat, lon: peaje.lon,
+          via: peaje.via, tarifa: peaje.tarifa_cat1 || peaje.tarifa || 0,
+          distanceFromOrigin: Math.round(distFromOrigin * 1000)
+        });
+      }
+    }
+
+    tollsOnRoute.sort((a, b) => a.distanceFromOrigin - b.distanceFromOrigin);
+    const totalCost = tollsOnRoute.reduce((sum, t) => sum + t.tarifa, 0);
+
+    console.log(`[PEAJES] Encontrados ${tollsOnRoute.length} peajes, total: $${totalCost.toLocaleString('es-CO')}`);
+    res.json({ tolls: tollsOnRoute, totalCost, count: tollsOnRoute.length });
+  } catch (error) {
+    console.error('[PEAJES] Error:', error.message);
+    res.status(500).json({ error: 'tolls_failed', detail: error.message });
+  }
+});
+
+// 🚧 Buscar peajes sobre una polyline dada (sin recalcular ruta)
+app.post('/tolls-on-polyline', (req, res) => {
+  try {
+    const { points } = req.body; // [{lat, lon}, ...]
+    if (!points || points.length < 2) {
+      return res.json({ tolls: [], totalCost: 0, count: 0 });
+    }
+
+    const peajesArr = peajesData?.peajes || [];
+    const tollsOnRoute = [];
+    const usedIds = new Set();
+
+    for (const peaje of peajesArr) {
+      if (!peaje.lat || !peaje.lon || usedIds.has(peaje.id)) continue;
+      let minDist = Infinity;
+      const step = Math.max(1, Math.floor(points.length / 200));
+      for (let p = 0; p < points.length; p += step) {
+        const d = haversineDistance(peaje.lat, peaje.lon, points[p].lat, points[p].lon);
+        if (d < minDist) minDist = d;
+      }
+      if (minDist < 0.8) { // 800m de la ruta
+        usedIds.add(peaje.id);
+        // Calcular distancia desde el origen
+        let distFromOrigin = 0;
+        for (let p = 1; p < points.length; p += step) {
+          distFromOrigin += haversineDistance(points[p-step].lat, points[p-step].lon, points[p].lat, points[p].lon) * 1000;
+          const d = haversineDistance(peaje.lat, peaje.lon, points[p].lat, points[p].lon);
+          if (d < 1.0) break;
+        }
         tollsOnRoute.push({
           id: peaje.id,
           nombre: peaje.nombre,
           lat: peaje.lat,
           lon: peaje.lon,
-          via: peaje.via,
-          tarifa: peaje.tarifa_cat1,
-          distanceFromOrigin: Math.round(distanceFromOrigin * 1000) // Convertir a metros
+          via: peaje.via || peaje.ubicacion || '',
+          tarifa: peaje.tarifa_cat1 || peaje.tarifa || 0,
+          distanceFromOrigin: Math.round(distFromOrigin)
         });
       }
     }
-    
-    // Ordenar peajes por distancia desde el origen
+
     tollsOnRoute.sort((a, b) => a.distanceFromOrigin - b.distanceFromOrigin);
-
-    const totalCost = tollsOnRoute.reduce((sum, toll) => sum + toll.tarifa, 0);
-
-    console.log(`[PEAJES] ✅ Encontrados ${tollsOnRoute.length} peajes, costo total: $${totalCost.toLocaleString('es-CO')}`);
-    if (tollsOnRoute.length > 0) {
-      console.log(`[PEAJES] 📍 Primer peaje: ${tollsOnRoute[0].nombre} a ${(tollsOnRoute[0].distanceFromOrigin / 1000).toFixed(1)} km`);
-      console.log(`[PEAJES] 📍 Último peaje: ${tollsOnRoute[tollsOnRoute.length - 1].nombre} a ${(tollsOnRoute[tollsOnRoute.length - 1].distanceFromOrigin / 1000).toFixed(1)} km`);
-    }
-
-    res.json({
-      tolls: tollsOnRoute,
-      totalCost: totalCost,
-      count: tollsOnRoute.length
-    });
-
-  } catch (error) {
-    console.error('[PEAJES] ❌ Error:', error.message);
-    res.status(500).json({ 
-      error: 'tolls_failed', 
-      detail: error.message 
-    });
+    const totalCost = tollsOnRoute.reduce((s, t) => s + t.tarifa, 0);
+    console.log(`[TOLLS-POLYLINE] ${tollsOnRoute.length} peajes, $${totalCost.toLocaleString('es-CO')}`);
+    res.json({ tolls: tollsOnRoute, totalCost, count: tollsOnRoute.length });
+  } catch (e) {
+    console.error('[TOLLS-POLYLINE] Error:', e.message);
+    res.json({ tolls: [], totalCost: 0, count: 0 });
   }
 });
 
