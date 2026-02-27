@@ -1854,6 +1854,47 @@ app.get('/places-fast', async (req, res) => {
   }
 });
 
+// 🔍 Google Places Autocomplete - búsqueda rápida con Google
+app.get('/places-google', async (req, res) => {
+  try {
+    const q = String(req.query.q || '').trim();
+    if (!q) return res.json({ items: [] });
+    
+    const at = String(req.query.at || '4.6097,-74.0817');
+    const [lat, lon] = at.split(',').map(Number);
+    
+    // Google Text Search
+    const params = {
+      query: q + ' Colombia',
+      key: GOOGLE_MAPS_API_KEY,
+      language: 'es',
+      region: 'co',
+    };
+    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+      params.location = `${lat},${lon}`;
+      params.radius = 100000;
+    }
+    
+    const r = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', {
+      params, timeout: 5000
+    });
+    
+    const items = (r.data.results || []).slice(0, 8).map(p => ({
+      name: p.name || '',
+      address: p.formatted_address || '',
+      lat: p.geometry?.location?.lat || 0,
+      lon: p.geometry?.location?.lng || 0,
+      provider: 'google',
+    }));
+    
+    console.log(`[SEARCH-GOOGLE] 🔍 "${q}" → ${items.length} resultados`);
+    res.json({ items, provider: 'google' });
+  } catch (e) {
+    console.error('[SEARCH-GOOGLE] Error:', e.message);
+    res.status(500).json({ items: [], error: e.message });
+  }
+});
+
 app.get('/places', async (req, res) => {
   const { id, full } = req.query;
   if (id && String(full) === '1') {
@@ -2632,79 +2673,48 @@ function sampleRoutePoints(coordinates, intervalMeters = 5000) {
 // Obtener elevaciones usando Mapbox Tilequery API
 async function getElevationProfile(coordinates) {
   if (!coordinates || coordinates.length < 2) {
-    console.log('[ELEVATION] ⚠️  Coordenadas insuficientes');
+    console.log('[ELEVATION] Warning: Coordenadas insuficientes');
     return null;
   }
-  
   const sampledPoints = sampleRoutePoints(coordinates, 5000);
-  console.log(`[ELEVATION] 📊 Puntos sampleados: ${sampledPoints.length} de ${coordinates.length}`);
-  console.log(`[ELEVATION] 🔍 Formato del primer punto:`, sampledPoints[0]);
-  console.log(`[ELEVATION] 🔍 Tipo:`, typeof sampledPoints[0], Array.isArray(sampledPoints[0]) ? 'array' : 'object');
-  
-  if (sampledPoints.length < 2) {
-    console.log('[ELEVATION] ⚠️  Muy pocos puntos para calcular elevación');
+  if (sampledPoints.length < 3) {
+    console.log('[ELEVATION] Warning: Muy pocos puntos');
     return null;
   }
-  
   const elevations = [];
-  
-  // Usar Open Elevation API (gratis, sin límites, sin API key)
-  const batchSize = 100; // Máximo por request
-  
+  const batchSize = 300;
   for (let i = 0; i < sampledPoints.length; i += batchSize) {
     const batch = sampledPoints.slice(i, i + batchSize);
-    
     try {
-      // Formato para Open Elevation: [{latitude, longitude}, ...]
-      // Las coordenadas vienen como objetos {lat, lng} no como arrays [lng, lat]
       const locations = batch.map(point => {
-        // Extraer lat y lng del punto (puede ser objeto o array)
         const lat = point.lat || point[1];
         const lng = point.lng || point.lon || point[0];
-        
-        return {
-          latitude: lat,
-          longitude: lng
-        };
-      });
-      
-      console.log(`[ELEVATION] 🌐 Llamando API con ${locations.length} puntos...`);
-      console.log(`[ELEVATION] 📋 Primer punto:`, JSON.stringify(locations[0]));
-      console.log(`[ELEVATION] 📋 Último punto:`, JSON.stringify(locations[locations.length - 1]));
-      
-      const response = await axios.post(
-        'https://api.open-elevation.com/api/v1/lookup',
-        { locations },
-        { 
-          timeout: 10000,
-          headers: { 'Content-Type': 'application/json' }
-        }
+        return `${lat},${lng}`;
+      }).join('|');
+      console.log(`[ELEVATION] Google Elevation API: ${batch.length} puntos (batch ${Math.floor(i/batchSize)+1})`);
+      const response = await axios.get(
+        'https://maps.googleapis.com/maps/api/elevation/json',
+        { params: { locations, key: GOOGLE_MAPS_API_KEY }, timeout: 10000 }
       );
-      
-      const results = response.data.results || [];
-      console.log(`[ELEVATION] 📥 Recibidos ${results.length} resultados`);
-      
-      results.forEach(result => {
-        elevations.push(result.elevation || 0);
-      });
-      
-    } catch (error) {
-      console.error('[ELEVATION] ❌ Error obteniendo batch:', error.message);
-      if (error.response) {
-        console.error('[ELEVATION] 📋 Status:', error.response.status);
-        console.error('[ELEVATION] 📋 Data:', JSON.stringify(error.response.data));
+      if (response.data.status === 'OK') {
+        const results = response.data.results || [];
+        console.log(`[ELEVATION] Google: ${results.length} elevaciones OK`);
+        results.forEach(r => elevations.push(r.elevation || 0));
+      } else {
+        console.error(`[ELEVATION] Google status: ${response.data.status} - fallback`);
+        try {
+          const fallbackLocs = batch.map(p => ({ latitude: p.lat || p[1], longitude: p.lng || p.lon || p[0] }));
+          const fb = await axios.post('https://api.open-elevation.com/api/v1/lookup', { locations: fallbackLocs }, { timeout: 10000 });
+          (fb.data.results || []).forEach(r => elevations.push(r.elevation || 0));
+        } catch (_) { elevations.push(...new Array(batch.length).fill(0)); }
       }
-      // Rellenar con 0s si falla
+    } catch (error) {
+      console.error('[ELEVATION] Error:', error.message);
       elevations.push(...new Array(batch.length).fill(0));
     }
-    
-    // Pequeña pausa entre batches para no saturar la API
-    if (i + batchSize < sampledPoints.length) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
+    if (i + batchSize < sampledPoints.length) await new Promise(r => setTimeout(r, 50));
   }
-  
-  console.log(`[ELEVATION] 📊 Total elevaciones obtenidas: ${elevations.length}`);
+  console.log(`[ELEVATION] Total: ${elevations.length} elevaciones`);
   return elevations;
 }
 
