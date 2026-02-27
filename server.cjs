@@ -3358,6 +3358,30 @@ app.get('/route-alternatives', async (req, res) => {
         tag = '🔀';
       }
 
+      // Extraer steps de navegación de Google
+      const steps = (leg.steps || []).map(s => ({
+        text: (s.html_instructions || '').replace(/<[^>]*>/g, ''),
+        offset: s.start_location ? 0 : 0,
+        length_m: s.distance?.value || 0,
+        distance: s.distance?.value || 0,
+        duration: s.duration?.value || 0,
+        duration_traffic: s.duration?.value || 0,
+        speed_kmh: s.distance?.value && s.duration?.value ? Math.round((s.distance.value / 1000) / (s.duration.value / 3600)) : 30,
+        free_flow_speed: 30,
+        traffic_level: 'free',
+        maneuver: s.maneuver || '',
+        start_location: s.start_location || {},
+        end_location: s.end_location || {},
+        polyline: s.polyline?.points || '',
+      }));
+      
+      // Calcular offsets acumulados
+      let cumOffset = 0;
+      for (const st of steps) {
+        st.offset = cumOffset;
+        cumOffset += st.length_m;
+      }
+
       alternatives.push({
         index: i,
         label,
@@ -3371,6 +3395,7 @@ app.get('/route-alternatives', async (req, res) => {
         tolls: tollsFound,
         summary: route.summary || '',
         polyline_encoded: route.overview_polyline.points,
+        steps: steps,
         warnings: route.warnings || []
       });
 
