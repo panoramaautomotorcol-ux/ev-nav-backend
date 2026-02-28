@@ -3358,22 +3358,47 @@ app.get('/route-alternatives', async (req, res) => {
         tag = '🔀';
       }
 
-      // Extraer steps de navegación de Google
-      const steps = (leg.steps || []).map(s => ({
-        text: (s.html_instructions || '').replace(/<[^>]*>/g, ''),
-        offset: s.start_location ? 0 : 0,
-        length_m: s.distance?.value || 0,
-        distance: s.distance?.value || 0,
-        duration: s.duration?.value || 0,
-        duration_traffic: s.duration?.value || 0,
-        speed_kmh: s.distance?.value && s.duration?.value ? Math.round((s.distance.value / 1000) / (s.duration.value / 3600)) : 30,
-        free_flow_speed: 30,
-        traffic_level: 'free',
-        maneuver: s.maneuver || '',
-        start_location: s.start_location || {},
-        end_location: s.end_location || {},
-        polyline: s.polyline?.points || '',
-      }));
+      // Calcular ratio de tráfico del leg (igual que en /route)
+      const legFreeFlow = leg.duration.value;
+      const legWithTraffic = leg.duration_in_traffic?.value || legFreeFlow;
+      const trafficRatio = legFreeFlow > 0 ? legWithTraffic / legFreeFlow : 1.0;
+      console.log(`[ALT-ROUTES] 🚦 Ruta ${i} traffic ratio: ${trafficRatio.toFixed(2)} (${Math.round(legFreeFlow/60)}min free → ${Math.round(legWithTraffic/60)}min traffic)`);
+
+      // Extraer steps de navegación con tráfico real
+      const steps = (leg.steps || []).map(s => {
+        const distanceM = s.distance?.value || 0;
+        const durationSec = s.duration?.value || 0;
+        const durationTrafficSec = Math.round(durationSec * trafficRatio);
+        
+        const distanceKmStep = distanceM / 1000;
+        const freeFlowHours = durationSec / 3600;
+        const freeFlowSpeed = freeFlowHours > 0 ? distanceKmStep / freeFlowHours : 60;
+        const trafficHours = durationTrafficSec / 3600;
+        const trafficSpeed = trafficHours > 0 ? distanceKmStep / trafficHours : freeFlowSpeed;
+        
+        let trafficLevel = 'free';
+        if (distanceM > 100) {
+          if (trafficSpeed < 10) trafficLevel = 'heavy';
+          else if (trafficSpeed < 25) trafficLevel = 'slow';
+          else if (trafficSpeed < 45) trafficLevel = 'moderate';
+        }
+        
+        return {
+          text: (s.html_instructions || '').replace(/<[^>]*>/g, ''),
+          offset: 0,
+          length_m: distanceM,
+          distance: distanceM,
+          duration: durationSec,
+          duration_traffic: durationTrafficSec,
+          speed_kmh: Math.round(trafficSpeed),
+          free_flow_speed: Math.round(freeFlowSpeed),
+          traffic_level: trafficLevel,
+          maneuver: s.maneuver || '',
+          start_location: s.start_location || {},
+          end_location: s.end_location || {},
+          polyline: s.polyline?.points || '',
+        };
+      });
       
       // Calcular offsets acumulados
       let cumOffset = 0;
