@@ -101,231 +101,6 @@
     "provider": "ocm"
   },
   {
-    "id": "ocm:461670",
-    "name": "Hotel Campestre Lagos De Venecia ",
-    "address": "Calle 37 Via Guacas, Santa Rosa De Cabal , Risaralda ",
-    "lat": 4.8895915099793115,
-    "lon": -75.62269716386982,
-    "network": null,
-    "status": "Unknown",
-    "is_operational": true,
-    "last_updated": "2025-10-03T05:14:00Z",
-    "power_kw": 3.5,
-    "connectors": [
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 3.5,
-        "current": null,
-        "quantity": 2
-      }
-    ],
-    "provider": "ocm"
-  },
-  {
-    "id": "ocm:461173",
-    "name": "Wattia - Alfahar 01 & 02",
-    "address": "Calle 45 #31-210, Hotel Alfahar, El Carmen de Viboral, Antioquia",
-    "lat": 6.094869578467694,
-    "lon": -75.34144513840914,
-    "network": null,
-    "status": "Unknown",
-    "is_operational": true,
-    "last_updated": "2025-09-18T17:24:00Z",
-    "power_kw": 22,
-    "connectors": [
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 22,
-        "current": null,
-        "quantity": 1
-      },
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 22,
-        "current": null,
-        "quantity": 1
-      }
-    ],
-    "provider": "ocm"
-  },
-  {
-    "id": "ocm:460431",
-    "name": "Celsia el Papayo",
-    "address": "Avenida Mirolindo, Ibague, Tolima",
-    "lat": 4.428470693345304,
-    "lon": -75.20554445930472,
-    "network": null,
-    "status": "Unknown",
-    "is_operational": true,
-    "last_updated": "2025-08-25T07:53:00Z",
-    "power_kw": null,
-    "connectors": [
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": null,
-        "current": null,
-        "quantity": 1
-      },
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": null,
-        "current": null,
-        "quantity": 1
-      },
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": null,
-        "current": null,
-        "quantity": 1
-      }
-    ],
-    "provider": "ocm"
-  },
-  {
-    "id": "ocm:459392",
-    "name": "Hotel Parador del Gitano",
-    "address": "W722+45 Puerto Triunfo, Antioquia, cerca a Doradal, Doradal, Antioquia",
-    "lat": 5.900095521996292,
-    "lon": -74.74961633451426,
-    "network": null,
-    "status": "Unknown",
-    "is_operational": true,
-    "last_updated": "2025-07-20T16:24:00Z",
-    "power_kw": 7.2,
-    "connectors": [
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7.2,
-        "current": null,
-        "quantity": 1
-      },
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7.2,
-        "current": null,
-        "quantity": 1
-      }
-    ],
-    "provider": "ocm"
-  },
-  {
-    "id": "ocm:459390",
-    "name": "Hotel Parador Del Gitano",
-    "address": "Autopista Medellin - Bogota Kilometro 164, Doradal, Antioquia",
-    "lat": 5.900135605924717,
-    "lon": -74.74966237622493,
-    "network": null,
-    "status": "Unknown",
-    "is_operational": true,
-    "last_updated": "2025-10-10T12:29:00Z",
-    "power_kw": 7,
-    "connectors": [
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7,
-        "current": null,
-        "quantity": 1
-      },
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7,
-        "current": null,
-        "quantity": 1
-      }
-    ],
-    "provider": "ocm"
-  },
-  {
-    "id": "ocm:313651",
-    "name": "Metrokia Av 68",
-    "address": "Av. 68 #68b – 91, Bogotá D.C, Bogotá D.C",
-    "lat": 4.6770953385149365,
-    "lon": -74.08684386543138,
-    "network": null,
-    "status": "Unknown",
-    "is_operational": true,
-    "last_updated": "2025-06-15T16:04:00Z",
-    "power_kw": 50,
-    "connectors": [
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 50,
-        "current": null,
-        "quantity": 1
-      }
-    ],
-    "provider": "ocm"
-  },
-  {
-    "id": "ocm:312387",
-    "name": "Wattia La Perla 1",
-    "address": "Calle 30 #33-02, Parqueadero La Perla, El Carmen de Viboral, Antioquia",
-    "lat": 6.08205405564307,
-    "lon": -75.33676305597572,
-    "network": null,
-    "status": "Unknown",
-    "is_operational": true,
-    "last_updated": "2025-09-15T17:22:00Z",
-    "power_kw": 7.4,
-    "connectors": [
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7.4,
-        "current": null,
-        "quantity": 1
-      },
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7.4,
-        "current": null,
-        "quantity": 1
-      }
-    ],
-    "provider": "ocm"
-  },
-  {
-    "id": "ocm:312386",
-    "name": "Wattia El Carmen de Viboral",
-    "address": "Calle 31 #33-02, Parqueadero La Perla, El Carmen de Viboral, Antioquia",
-    "lat": 6.081722065589219,
-    "lon": -75.33674934135138,
-    "network": null,
-    "status": "Unknown",
-    "is_operational": true,
-    "last_updated": "2025-05-12T00:24:00Z",
-    "power_kw": 7.4,
-    "connectors": [
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7.4,
-        "current": null,
-        "quantity": 1
-      },
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 7.4,
-        "current": null,
-        "quantity": 1
-      }
-    ],
-    "provider": "ocm"
-  },
-  {
     "id": "ocm:311397",
     "name": "Terpel Voltex Doilgas",
     "address": "38 Sincelejo, Sincelejo, Sucre",
@@ -456,7 +231,7 @@
   },
   {
     "id": "ocm:311394",
-    "name": "Tambo El Privelegio",
+    "name": "energiaPereira Tambo El Privelegio",
     "address": "Pereira - Santa Rosa, Santa Rosa de Cabal, Risaralda",
     "lat": 4.855643840296935,
     "lon": -75.6367373339466,
@@ -464,64 +239,202 @@
     "status": "Unknown",
     "is_operational": true,
     "last_updated": "2025-03-31T03:14:00Z",
+    
+    "min_price_kwh_cop": 1764,
+    "max_price_kwh_cop": 1764,
+
     "power_kw": 50,
     "connectors": [
       {
-        "type": "Desconocido",
-        "level": null,
+        "type": "CCS1",
+        "level": 2,
         "power_kw": 50,
-        "current": null,
-        "quantity": 1
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1764
       },
       {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 43,
-        "current": null,
-        "quantity": 1
+        "type": "CHADEMO",
+        "level": 2,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1764
       },
       {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 50,
-        "current": null,
-        "quantity": 1
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1764
       }
     ],
     "provider": "ocm"
   },
   {
-    "id": "ocm:311393",
-    "name": "Tambo La Manuela",
-    "address": "Manizales - La Felisa, Manizales, Caldas",
-    "lat": 5.050252474877482,
-    "lon": -75.5661243441757,
+    "id": "manual:033",
+    "name": "energiaPereira Pereira plaza",
+    "address": "calle 15 # 13-110",
+    "lat": 4.807905346677259,
+    "lon": -75.69147461783932,
     "network": null,
     "status": "Unknown",
     "is_operational": true,
-    "last_updated": "2025-03-29T03:54:00Z",
-    "power_kw": 50,
+    "last_updated": "2025-03-31T03:14:00Z",
+    
+    "min_price_kwh_cop": 1323,
+    "max_price_kwh_cop": 1323,
+
+    "power_kw": 7.4,
     "connectors": [
       {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 50,
-        "current": null,
-        "quantity": 1
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1323
       },
       {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 43,
-        "current": null,
-        "quantity": 1
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1323
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:034",
+    "name": "energiaPereira electrolinera Energia de Pereira",
+    "address": "avenida la independencia con calle 71, frente al exito",
+    "lat": 4.803582091510194,
+    "lon": -75.73707899681285,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+    
+    "min_price_kwh_cop": 1764,
+    "max_price_kwh_cop": 1764,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1764
       },
       {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 50,
-        "current": null,
-        "quantity": 1
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1764
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1764
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:035",
+    "name": "energiaPereira cerritos del Mar",
+    "address": "via pereira cerritos 200 mt antes de la entrada 7",
+    "lat": 4.8066664987483705,
+    "lon": -75.8173095557823,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+    
+    "min_price_kwh_cop": 1323,
+    "max_price_kwh_cop": 1323,
+
+    "power_kw": 7.4,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1323
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:036",
+    "name": "energiaPereira castilla Plaza",
+    "address": "km 10 via cerritos",
+    "lat": 4.803547205141214,
+    "lon": -75.83253507881288,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+    
+    "min_price_kwh_cop": 1323,
+    "max_price_kwh_cop": 1323,
+
+    "power_kw": 7.4,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1323
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1323
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:037",
+    "name": "energiaPereira Nuestro Cartago",
+    "address": "carrera 2 # 34-15",
+    "lat": 4.758007105397269,
+    "lon": -75.93530653419752,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+    
+    "min_price_kwh_cop": 1323,
+    "max_price_kwh_cop": 1323,
+
+    "power_kw": 7.4,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1323
       }
     ],
     "provider": "ocm"
