@@ -446,6 +446,32 @@ function decodeGooglePolyline(encoded) {
   return poly;
 }
 
+/** Encode array of {lat, lon} into Google polyline string */
+function encodeGooglePolyline(points) {
+  let encoded = '';
+  let prevLat = 0, prevLng = 0;
+  for (const p of points) {
+    const lat = Math.round((p.lat || 0) * 1e5);
+    const lng = Math.round((p.lon || p.lng || 0) * 1e5);
+    encoded += _encodeValue(lat - prevLat);
+    encoded += _encodeValue(lng - prevLng);
+    prevLat = lat;
+    prevLng = lng;
+  }
+  return encoded;
+}
+
+function _encodeValue(val) {
+  let v = val < 0 ? ~(val << 1) : (val << 1);
+  let encoded = '';
+  while (v >= 0x20) {
+    encoded += String.fromCharCode((0x20 | (v & 0x1f)) + 63);
+    v >>= 5;
+  }
+  encoded += String.fromCharCode(v + 63);
+  return encoded;
+}
+
 /**
  * Calcular ruta usando Google Maps Directions API
  */
@@ -3407,7 +3433,29 @@ app.get('/route-alternatives', async (req, res) => {
         cumOffset += st.length_m;
       }
 
-      alternatives.push({
+        // Generar polyline detallada uniendo las polylines de cada step
+        // (overview_polyline es simplificada y pierde curvas)
+        let detailedPoints = [];
+        for (const s of leg.steps) {
+          if (s.polyline?.points) {
+            const stepPts = decodeGooglePolyline(s.polyline.points);
+            // Evitar duplicar el último punto del step anterior con el primero del siguiente
+            if (detailedPoints.length > 0 && stepPts.length > 0) {
+              detailedPoints = detailedPoints.concat(stepPts.slice(1));
+            } else {
+              detailedPoints = detailedPoints.concat(stepPts);
+            }
+          }
+        }
+        // Si tenemos polyline detallada, re-encodificarla; si no, usar overview
+        let polylineEncoded;
+        if (detailedPoints.length > 10) {
+          polylineEncoded = encodeGooglePolyline(detailedPoints);
+        } else {
+          polylineEncoded = route.overview_polyline.points;
+        }
+
+        alternatives.push({
         index: i,
         label,
         tag,
@@ -3419,7 +3467,7 @@ app.get('/route-alternatives', async (req, res) => {
         total_tolls_cop: totalTolls,
         tolls: tollsFound,
         summary: route.summary || '',
-        polyline_encoded: route.overview_polyline.points,
+        polyline_encoded: polylineEncoded,
         steps: steps,
         warnings: route.warnings || []
       });
