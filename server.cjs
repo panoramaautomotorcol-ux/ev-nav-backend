@@ -3335,7 +3335,7 @@ app.get('/route-alternatives', async (req, res) => {
       // Consumo estimado (simplificado — sin elevación para rapidez)
       const consumptionPercent = distanceKm * baseRate * weightFactor;
 
-      // Buscar peajes en la ruta (proximidad 500m)
+      // Buscar peajes en la ruta (proximidad 800m)
       let totalTolls = 0;
       let tollCount = 0;
       const tollsFound = [];
@@ -3343,13 +3343,12 @@ app.get('/route-alternatives', async (req, res) => {
       for (const peaje of peajesArr) {
         if (!peaje.lat || !peaje.lon) continue;
         let minDist = Infinity;
-        // Verificar cada ~10mo punto (eficiencia)
-        const step = Math.max(1, Math.floor(points.length / 100));
+        const step = Math.max(1, Math.floor(points.length / 300));
         for (let p = 0; p < points.length; p += step) {
           const d = haversineDistance(peaje.lat, peaje.lon, points[p].lat, points[p].lon);
           if (d < minDist) minDist = d;
         }
-        if (minDist < 0.5) { // Menos de 500m
+        if (minDist < 0.8) { // Menos de 800m
           const tarifa = peaje.tarifas?.categoria_I || peaje.tarifa || 0;
           totalTolls += tarifa;
           tollCount++;
@@ -3516,7 +3515,19 @@ app.get('/tolls-in-route', async (req, res) => {
     }
 
     const route = gResp.data.routes[0];
-    const routePoints = decodeGooglePolyline(route.overview_polyline.points);
+    // Usar polylines detalladas de cada step (más preciso que overview_polyline)
+    let routePoints = [];
+    for (const leg of route.legs) {
+      for (const step of leg.steps) {
+        if (step.polyline?.points) {
+          routePoints = routePoints.concat(decodeGooglePolyline(step.polyline.points));
+        }
+      }
+    }
+    // Fallback a overview si no hay steps
+    if (routePoints.length === 0) {
+      routePoints = decodeGooglePolyline(route.overview_polyline.points);
+    }
 
     if (routePoints.length === 0) {
       return res.json({ tolls: [], totalCost: 0, count: 0 });
@@ -3531,21 +3542,21 @@ app.get('/tolls-in-route', async (req, res) => {
       if (!peaje.lat || !peaje.lon) continue;
       let closestIdx = -1;
       let minDist = Infinity;
-      const step = Math.max(1, Math.floor(routePoints.length / 500));
+      const step = Math.max(1, Math.floor(routePoints.length / 2000));
       for (let i = 0; i < routePoints.length; i += step) {
         const d = haversineDistance(peaje.lat, peaje.lon, routePoints[i].lat, routePoints[i].lon);
         if (d < minDist) { minDist = d; closestIdx = i; }
       }
       // Refinar cerca del punto mas cercano
-      if (closestIdx >= 0 && minDist < 1) {
-        const from = Math.max(0, closestIdx - step);
-        const to = Math.min(routePoints.length - 1, closestIdx + step);
+      if (closestIdx >= 0 && minDist < 2) {
+        const from = Math.max(0, closestIdx - step * 2);
+        const to = Math.min(routePoints.length - 1, closestIdx + step * 2);
         for (let i = from; i <= to; i++) {
           const d = haversineDistance(peaje.lat, peaje.lon, routePoints[i].lat, routePoints[i].lon);
           if (d < minDist) { minDist = d; closestIdx = i; }
         }
       }
-      if (minDist <= 0.3) {
+      if (minDist <= 0.8) {
         let distFromOrigin = 0;
         for (let i = 0; i < closestIdx; i++) {
           distFromOrigin += haversineDistance(routePoints[i].lat, routePoints[i].lon, routePoints[i+1].lat, routePoints[i+1].lon);
