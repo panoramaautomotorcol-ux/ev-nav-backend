@@ -3589,10 +3589,33 @@ app.get('/tolls-in-route', async (req, res) => {
     }
 
     tollsOnRoute.sort((a, b) => a.distanceFromOrigin - b.distanceFromOrigin);
-    const totalCost = tollsOnRoute.reduce((sum, t) => sum + t.tarifa, 0);
+    
+    // 🔧 FIX: Deduplicar peajes del mismo nombre en sentidos opuestos
+    // Si dos peajes tienen nombres similares y están a menos de 30km entre sí,
+    // solo quedarse con el más cercano a la ruta (menor minDist)
+    const dedupedTolls = [];
+    for (const toll of tollsOnRoute) {
+      const baseName = toll.nombre.replace(/\s*(TOLIMA|QUIND[IÍ]O|NORTE|SUR|ESTE|OESTE|SENTIDO\s+\w+|IDA|VUELTA|RETORNO)\s*/gi, '').trim().toUpperCase();
+      const duplicate = dedupedTolls.find(t => {
+        const tBaseName = t.nombre.replace(/\s*(TOLIMA|QUIND[IÍ]O|NORTE|SUR|ESTE|OESTE|SENTIDO\s+\w+|IDA|VUELTA|RETORNO)\s*/gi, '').trim().toUpperCase();
+        if (tBaseName !== baseName) return false;
+        // Están a menos de 30km de distancia en la ruta
+        const distDiff = Math.abs(t.distanceFromOrigin - toll.distanceFromOrigin);
+        return distDiff < 30000; // 30km
+      });
+      
+      if (!duplicate) {
+        dedupedTolls.push(toll);
+      } else {
+        console.log(`[PEAJES] 🔄 Deduplicado: "${toll.nombre}" (duplicado de "${duplicate.nombre}", diff: ${Math.abs(toll.distanceFromOrigin - duplicate.distanceFromOrigin)/1000}km)`);
+      }
+    }
+    
+    const finalTolls = dedupedTolls;
+    const totalCost = finalTolls.reduce((sum, t) => sum + t.tarifa, 0);
 
-    console.log(`[PEAJES] Encontrados ${tollsOnRoute.length} peajes, total: $${totalCost.toLocaleString('es-CO')}`);
-    res.json({ tolls: tollsOnRoute, totalCost, count: tollsOnRoute.length });
+    console.log(`[PEAJES] Encontrados ${finalTolls.length} peajes (${tollsOnRoute.length - finalTolls.length} duplicados eliminados), total: $${totalCost.toLocaleString('es-CO')}`);
+    res.json({ tolls: finalTolls, totalCost, count: finalTolls.length });
   } catch (error) {
     console.error('[PEAJES] Error:', error.message);
     res.status(500).json({ error: 'tolls_failed', detail: error.message });
