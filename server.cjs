@@ -3310,6 +3310,80 @@ app.get('/route-alternatives', async (req, res) => {
     const routes = response.data.routes;
     console.log(`[ALT-ROUTES] 📊 Google devolvió ${routes.length} rutas`);
 
+    // Para rutas largas (>400km), intentar obtener una tercera alternativa
+    // forzando waypoint intermedio para explorar corredores diferentes
+    const [origLat, origLon] = origin.split(',').map(Number);
+    const [destLat, destLon] = destination.split(',').map(Number);
+    const directDistKm = haversineDistance(origLat, origLon, destLat, destLon);
+    
+    if (routes.length <= 2 && directDistKm > 400) {
+      try {
+        // Calcular punto intermedio desplazado al este del corredor principal
+        const midLat = (origLat + destLat) / 2;
+        const midLon = (origLon + destLon) / 2;
+        // Desplazar hacia el este (lon más positiva en Colombia = más cerca de la cordillera)
+        const offsetLon = 0.5; // ~55km al este
+        const waypointLat = midLat;
+        const waypointLon = midLon + offsetLon;
+        
+        console.log(`[ALT-ROUTES] 🔍 Buscando ruta alternativa via waypoint: ${waypointLat.toFixed(2)},${waypointLon.toFixed(2)}`);
+        
+        const altParams = {
+          origin, destination,
+          waypoints: `via:${waypointLat},${waypointLon}`,
+          departure_time: 'now',
+          traffic_model: 'best_guess',
+          language: 'es',
+          units: 'metric',
+          key: GOOGLE_MAPS_API_KEY
+        };
+        
+        const altResp = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
+          params: altParams, timeout: 10000
+        });
+        
+        if (altResp.data.status === 'OK' && altResp.data.routes.length > 0) {
+          const altRoute = altResp.data.routes[0];
+          // Verificar que es realmente diferente (>10% diferencia en distancia)
+          const altDistM = altRoute.legs.reduce((sum, l) => sum + l.distance.value, 0);
+          const mainDistM = routes[0].legs[0].distance.value;
+          const distDiff = Math.abs(altDistM - mainDistM) / mainDistM;
+          
+          if (distDiff > 0.03) { // >3% diferencia = ruta diferente
+            // Combinar los legs en uno para mantener compatibilidad
+            const combinedLeg = {
+              distance: { value: altDistM, text: `${Math.round(altDistM/1000)} km` },
+              duration: { 
+                value: altRoute.legs.reduce((sum, l) => sum + l.duration.value, 0),
+                text: ''
+              },
+              duration_in_traffic: {
+                value: altRoute.legs.reduce((sum, l) => sum + (l.duration_in_traffic?.value || l.duration.value), 0),
+                text: ''
+              },
+              steps: altRoute.legs.flatMap(l => l.steps || []),
+              start_location: altRoute.legs[0].start_location,
+              end_location: altRoute.legs[altRoute.legs.length - 1].end_location,
+            };
+            
+            // Crear ruta con overview_polyline completa y leg combinado
+            const altRouteFormatted = {
+              ...altRoute,
+              legs: [combinedLeg],
+              summary: altRoute.summary || 'Ruta alternativa',
+            };
+            
+            routes.push(altRouteFormatted);
+            console.log(`[ALT-ROUTES] ✅ Ruta alternativa agregada: ${Math.round(altDistM/1000)}km (diff: ${(distDiff*100).toFixed(1)}%)`);
+          } else {
+            console.log(`[ALT-ROUTES] ⏭️ Ruta alternativa muy similar (diff: ${(distDiff*100).toFixed(1)}%)`);
+          }
+        }
+      } catch (altErr) {
+        console.log(`[ALT-ROUTES] ⚠️ Error buscando ruta alternativa: ${altErr.message}`);
+      }
+    }
+
     // Perfil del vehículo
     const profile = VEHICLE_PROFILES[vehicleId] || VEHICLE_PROFILES['generic'];
     const batteryKwh = profile.batteryKwh || 60;
