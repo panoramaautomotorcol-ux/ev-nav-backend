@@ -3299,12 +3299,28 @@ app.get('/route-alternatives', async (req, res) => {
       key: GOOGLE_MAPS_API_KEY
     };
 
-    const response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
+    let response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
       params, timeout: 15000
     });
 
     if (response.data.status !== 'OK') {
-      return res.status(502).json({ error: 'google_error', detail: response.data.status });
+      // Reintentar sin departure_time si la ruta es muy larga
+      if (response.data.status === 'MAX_ROUTE_LENGTH_EXCEEDED') {
+        console.log('[ALT-ROUTES] ⚠️ Ruta muy larga, reintentando sin departure_time...');
+        const retryParams = { ...params };
+        delete retryParams.departure_time;
+        delete retryParams.traffic_model;
+        const retryResp = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
+          params: retryParams, timeout: 15000
+        });
+        if (retryResp.data.status === 'OK') {
+          response = retryResp;
+        } else {
+          return res.status(502).json({ error: 'google_error', detail: retryResp.data.status });
+        }
+      } else {
+        return res.status(502).json({ error: 'google_error', detail: response.data.status });
+      }
     }
 
     const routes = response.data.routes;
