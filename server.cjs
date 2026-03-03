@@ -3367,7 +3367,7 @@ app.get('/route-alternatives', async (req, res) => {
           const d = haversineDistance(peaje.lat, peaje.lon, points[p].lat, points[p].lon);
           if (d < minDist) minDist = d;
         }
-        if (minDist < 0.8) { // Menos de 800m
+        if (minDist < 0.3) { // Menos de 300m
           const tarifa = peaje.tarifas?.categoria_I || peaje.tarifa || 0;
           totalTolls += tarifa;
           tollCount++;
@@ -3575,7 +3575,7 @@ app.get('/tolls-in-route', async (req, res) => {
           if (d < minDist) { minDist = d; closestIdx = i; }
         }
       }
-      if (minDist <= 0.8) {
+      if (minDist <= 0.3) {
         let distFromOrigin = 0;
         for (let i = 0; i < closestIdx; i++) {
           distFromOrigin += haversineDistance(routePoints[i].lat, routePoints[i].lon, routePoints[i+1].lat, routePoints[i+1].lon);
@@ -3642,7 +3642,7 @@ app.post('/tolls-on-polyline', (req, res) => {
         const d = haversineDistance(peaje.lat, peaje.lon, points[p].lat, points[p].lon);
         if (d < minDist) minDist = d;
       }
-      if (minDist < 0.8) { // 800m de la ruta
+      if (minDist < 0.3) { // 300m de la ruta
         usedIds.add(peaje.id);
         // Calcular distancia desde el origen
         let distFromOrigin = 0;
