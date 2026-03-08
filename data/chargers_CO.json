@@ -3316,5 +3316,107 @@
       }
     ],
     "provider": "ocm"
+  },
+  {
+    "id": "manual:050",
+    "name": "CIEN CENTRO COMERCIAL LA ESTACION",
+    "address": "Calle 60 # 12-224 Ibague",
+    "lat": 4.445823161712923,
+    "lon": -75.2047568962034,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1707,
+    "max_price_kwh_cop": 1807,
+    
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1807
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1707
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1707
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 22,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1707
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:050",
+    "name": "CIEN CENTRO COMERCIAL LA ESTACION",
+    "address": "Calle 60 # 12-224 Ibague",
+    "lat": 4.445823161712923,
+    "lon": -75.2047568962034,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1707,
+    "max_price_kwh_cop": 1807,
+    
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1807
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1707
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1707
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 22,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1707
+      }
+    ],
+    "provider": "ocm"
   }
 ]
