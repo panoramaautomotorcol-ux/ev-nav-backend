@@ -3205,7 +3205,7 @@
     "provider": "ocm"
   },
   {
-    "id": "manual:047",
+    "id": "manual:048",
     "name": "CHEC CENTRO COMERCIAL FUNDADORES",
     "address": "CALLE 33B # 20-03",
     "lat": 5.066179240023047,
@@ -3248,7 +3248,7 @@
     "provider": "ocm"
   },
   {
-    "id": "manual:048",
+    "id": "manual:049",
     "name": "CHEC TAMBO",
     "address": "EL ROSARIO, MANIZALES",
     "lat": 5.049992462197878,
@@ -3275,7 +3275,7 @@
     "provider": "ocm"
   },
   {
-    "id": "manual:049",
+    "id": "manual:050",
     "name": "CHEC ACAPULCO",
     "address": "Km 13, via la Virginia - Viterbo",
     "lat": 5.003348654387366,
@@ -3318,7 +3318,7 @@
     "provider": "ocm"
   },
   {
-    "id": "manual:050",
+    "id": "manual:051",
     "name": "CIEN CENTRO COMERCIAL LA ESTACION",
     "address": "Calle 60 # 12-224 Ibague",
     "lat": 4.445823161712923,
@@ -3369,7 +3369,7 @@
     "provider": "ocm"
   },
   {
-    "id": "manual:051",
+    "id": "manual:052",
     "name": "ERGENIA CENTRO COMERCIAL MULTIPLAZA",
     "address": "Carrera 72 # 17a-63 Bogota",
     "lat": 4.653052045866701,
@@ -3404,7 +3404,7 @@
     "provider": "ocm"
   },
   {
-    "id": "manual:052",
+    "id": "manual:053",
     "name": "ERGENIA CENTRO COMERCIAL SANTAFE",
     "address": "Calle 185 # 45-3 Bogota",
     "lat": 4.761405226302841,
@@ -3439,7 +3439,7 @@
     "provider": "ocm"
   },
   {
-    "id": "manual:053",
+    "id": "manual:054",
     "name": "ERGENIA SALVIO PARQUE 93",
     "address": "Carrera 12 # 93-75 Bogota",
     "lat": 4.676030087138486,
