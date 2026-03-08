@@ -3369,52 +3369,122 @@
     "provider": "ocm"
   },
   {
-    "id": "manual:050",
-    "name": "CIEN CENTRO COMERCIAL LA ESTACION",
-    "address": "Calle 60 # 12-224 Ibague",
-    "lat": 4.445823161712923,
-    "lon": -75.2047568962034,
+    "id": "manual:051",
+    "name": "ERGENIA CENTRO COMERCIAL MULTIPLAZA",
+    "address": "Carrera 72 # 17a-63 Bogota",
+    "lat": 4.653052045866701,
+    "lon": -74.12619911153361,
     "network": null,
     "status": "Unknown",
     "is_operational": true,
     "last_updated": "2025-03-31T05:14:00Z",
 
-    "min_price_kwh_cop": 1707,
-    "max_price_kwh_cop": 1807,
+    "min_price_kwh_cop": 2177,
+    "max_price_kwh_cop": 2177,
     
-    "power_kw": 40,
+    "power_kw": 30,
     "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2177
+      },
       {
         "type": "CCS2",
         "level": 3,
-        "power_kw": 40,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2177
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:052",
+    "name": "ERGENIA CENTRO COMERCIAL SANTAFE",
+    "address": "Calle 185 # 45-3 Bogota",
+    "lat": 4.761405226302841,
+    "lon": -74.04702179068704,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 2177,
+    "max_price_kwh_cop": 2177,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2177
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2177
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:053",
+    "name": "ERGENIA SALVIO PARQUE 93",
+    "address": "Carrera 12 # 93-75 Bogota",
+    "lat": 4.676030087138486,
+    "lon": -74.04871039799472,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 2177,
+    "max_price_kwh_cop": 2177,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1807
+        "price_kwh_cop": 2177
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2177
       },
       {
         "type": "TIPO 1",
         "level": 1,
-        "power_kw": 7,
+        "power_kw": 11,
         "current": "AC",
         "quantity": 1,
-        "price_kwh_cop": 1707
+        "price_kwh_cop": 2177
       },
       {
         "type": "TIPO 2",
         "level": 1,
-        "power_kw": 7,
+        "power_kw": 11,
         "current": "AC",
         "quantity": 1,
-        "price_kwh_cop": 1707
-      },
-      {
-        "type": "TIPO 2",
-        "level": 1,
-        "power_kw": 22,
-        "current": "DC",
-        "quantity": 1,
-        "price_kwh_cop": 1707
+        "price_kwh_cop": 2177
       }
     ],
     "provider": "ocm"
