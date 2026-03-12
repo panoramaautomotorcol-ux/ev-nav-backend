@@ -4145,7 +4145,7 @@ app.post('/api/calibration-report', (req, res) => {
     
     res.json({
       success: true,
-      message: '¡Gracias por ayudar a mejorar EcoDrive! 💚',
+      message: '¡Gracias por ayudar a mejorar WATTGO EV! 💚',
       report_id: calibrationData.id,
       total_reports: calibrationReports.length
     });
