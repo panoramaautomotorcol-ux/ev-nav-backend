@@ -54,7 +54,7 @@ async function fetchOcmCountry({ countryCode, maxresults = 10000 }) {
     maxresults: String(maxresults),
   };
   const headers = {
-    'User-Agent': 'EcoDriveApp/1.0 (+contacto@panoramaautomotor.com)',
+    'User-Agent': 'WattgoEV/1.0 (+contacto@panoramaautomotor.com)',
     ...(OCM_API_KEY ? { 'X-API-Key': OCM_API_KEY } : {}),
     'Accept': 'application/json',
   };

@@ -1,4 +1,6 @@
 
+const fs = require('fs');
+
 // ===== OCM mapping helpers =====
 function codeFromOcm(c) {
   const title = String(c?.ConnectionType?.Title || '').toLowerCase();
@@ -50,9 +52,78 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 const axios = require('axios');
+const nodemailer = require('nodemailer');
+
+// ===== EMAIL CONFIG =====
+const _mailTransporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
+
+async function sendReportEmail({ siteId, siteName, status, queueVehicles, details, userIP }) {
+  const statusLabels = {
+    disponible: '✅ Disponible',
+    ocupado: '🔴 Ocupado',
+    cola: '🟡 Cola de espera',
+    fuera_servicio: '⚫ Fuera de servicio',
+    desconocido: '❓ Desconocido',
+  };
+  const fecha = new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' });
+  const html = `
+    <h2>⚡ Nuevo reporte de cargador — WATTGO EV</h2>
+    <table style="border-collapse:collapse;font-family:sans-serif">
+      <tr><td style="padding:6px 12px;font-weight:bold">Estación</td><td style="padding:6px 12px">${siteName || siteId}</td></tr>
+      <tr><td style="padding:6px 12px;font-weight:bold">ID</td><td style="padding:6px 12px">${siteId}</td></tr>
+      <tr><td style="padding:6px 12px;font-weight:bold">Estado</td><td style="padding:6px 12px">${statusLabels[status] || status}</td></tr>
+      ${queueVehicles ? `<tr><td style="padding:6px 12px;font-weight:bold">Vehículos en cola</td><td style="padding:6px 12px">${queueVehicles}</td></tr>` : ''}
+      ${details ? `<tr><td style="padding:6px 12px;font-weight:bold">Detalles</td><td style="padding:6px 12px">${details}</td></tr>` : ''}
+      <tr><td style="padding:6px 12px;font-weight:bold">Fecha</td><td style="padding:6px 12px">${fecha}</td></tr>
+      <tr><td style="padding:6px 12px;font-weight:bold">IP usuario</td><td style="padding:6px 12px">${userIP}</td></tr>
+    </table>
+  `;
+  try {
+    await _mailTransporter.sendMail({
+      from: `"WATTGO EV" <${process.env.GMAIL_USER}>`,
+      to: 'panoramaautomotorcol@gmail.com',
+      subject: `[WATTGO EV] Reporte: ${siteName || siteId} → ${statusLabels[status] || status}`,
+      html,
+    });
+    console.log(`[EMAIL] ✅ Reporte enviado: ${siteId} → ${status}`);
+  } catch (err) {
+    console.error('[EMAIL] ❌ Error enviando reporte:', err.message);
+  }
+}
 
 // ==================== CALIBRACIÓN COLABORATIVA ====================
-const calibrationReports = []; // En producción: usar base de datos
+// Persistencia en archivo JSON para sobrevivir reinicios de Render.com
+const CALIBRATION_FILE = './calibration_data.json';
+
+function loadCalibrationReports() {
+  try {
+    if (fs.existsSync(CALIBRATION_FILE)) {
+      const raw = fs.readFileSync(CALIBRATION_FILE, 'utf-8');
+      const data = JSON.parse(raw);
+      console.log(`[CALIBRATION] ✅ Cargados ${data.length} reportes desde disco`);
+      return data;
+    }
+  } catch (e) {
+    console.error('[CALIBRATION] ⚠️ Error al cargar archivo:', e.message);
+  }
+  return [];
+}
+
+function saveCalibrationReports(reports) {
+  try {
+    fs.writeFileSync(CALIBRATION_FILE, JSON.stringify(reports, null, 2), 'utf-8');
+  } catch (e) {
+    console.error('[CALIBRATION] ⚠️ Error al guardar archivo:', e.message);
+  }
+}
+
+const calibrationReports = loadCalibrationReports();
 
 // ==================== CLIMA - OpenWeatherMap ====================
 const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY || '5da3b8b266eb0b869abcdcfb730f1f75';
@@ -256,7 +327,7 @@ function getVehicleProfile(vehicleId) {
 
 const os = require('os');
 const flex = require('@here/flexpolyline');
-const fs = require('fs');    
+// fs ya importado al inicio
 
 const app = express();
 
@@ -1555,7 +1626,7 @@ const statusUserCache = new Map(); // userIP -> { siteId -> lastReport }
 // POST: reportar estado
 app.post('/ev/station-status', (req, res) => {
   try {
-    const { siteId, status, queueVehicles, details } = req.body;
+    const { siteId, status, queueVehicles, details, siteName } = req.body;
     
     if (!siteId || !status || !STATUS_OPTIONS.includes(status)) {
       return res.status(400).json({ 
@@ -1621,6 +1692,9 @@ app.post('/ev/station-status', (req, res) => {
     };
     
     console.log(`[STATUS] 📊 ${siteId}: ${status} (${stationData.reports.length} reportes, top=${topStatus[0]})`);
+    
+    // Enviar email de notificación
+    sendReportEmail({ siteId, siteName, status, queueVehicles, details, userIP });
     
     // Emitir a todos los clientes
     io.emit('station:status', {
@@ -4125,8 +4199,9 @@ app.post('/api/calibration-report', (req, res) => {
       id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     };
     
-    // Guardar reporte
+    // Guardar reporte en memoria y en disco
     calibrationReports.push(calibrationData);
+    saveCalibrationReports(calibrationReports);
     
     // Logs detallados
     console.log('\n========================================');
