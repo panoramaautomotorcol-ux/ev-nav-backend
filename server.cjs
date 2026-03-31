@@ -1398,6 +1398,112 @@ app.post('/ev/availability', (req, res) => {
     }
     
     const userSites = userUpdateCache.get(userIP);
+
+    // 🔧 FIX: Rate limit por siteId+connectorKey, no solo por siteId
+    // Así un usuario puede reportar diferentes cargadores del mismo sitio
+    const connectorKey = `${siteId}|${connectorType}|${connectorCurrent}|${connectorKw}`;
+    
+    // Verificar rate limits
+    if (userSites.has(connectorKey)) {
+      const siteHistory = userSites.get(connectorKey);
+      const lastUpdate = siteHistory.lastUpdate;
+      
+      // REGLA 1: Cooldown por conector específico
+      if (now - lastUpdate < SPAM_CONFIG.COOLDOWN_BETWEEN_UPDATES) {
+        const waitTime = Math.ceil((SPAM_CONFIG.COOLDOWN_BETWEEN_UPDATES - (now - lastUpdate)) / 1000);
+        console.log(`[SPAM] Usuario debe esperar ${waitTime}s`);
+        return res.status(429).json({ 
+          error: 'rate_limit',
+          message: `Por favor espera ${waitTime} segundos antes de actualizar este cargador nuevamente`,
+          waitSeconds: waitTime
+        });
+      }
+      
+      // REGLA 2: Límite en ventana por conector
+      const windowStart = now - SPAM_CONFIG.TIME_WINDOW;
+      const recentUpdates = siteHistory.updates.filter(t => t > windowStart);
+      
+      if (recentUpdates.length >= SPAM_CONFIG.MAX_UPDATES_PER_SITE) {
+        console.log(`[SPAM] Usuario excedió límite`);
+        return res.status(429).json({ 
+          error: 'spam_detected',
+          message: 'Has alcanzado el límite de actualizaciones para este cargador. Intenta más tarde.',
+        });
+      }
+      
+      siteHistory.lastUpdate = now;
+      siteHistory.count++;
+      siteHistory.updates = [...recentUpdates, now];
+    } else {
+      userSites.set(connectorKey, {
+        lastUpdate: now,
+        count: 1,
+        updates: [now]
+      });
+    }
+    
+    // Guardar con votación
+    const key = connectorKey;
+    const autoExpire = available < 2 ? now + AVAIL_TTL_MS : null;
+    
+    const prevData = availabilityCache.get(key) || {};
+    const votes = prevData.votes || [];
+    
+    // 🔧 FIX: Reemplazar voto anterior del mismo usuario si existe
+    const filteredVotes = votes.filter(v => v.userIP !== userIP);
+    filteredVotes.push({
+      value: available,
+      userIP: userIP,
+      timestamp: now
+    });
+    
+    const recentVotes = filteredVotes.filter(v => now - v.timestamp < 10 * 60 * 1000);
+
+    // 🔧 FIX: Usar el valor mínimo reportado (más conservador para disponibilidad)
+    // Si alguien reporta 3 disponibles, mostrar 3, no el promedio con el valor original
+    const minAvail = Math.min(...recentVotes.map(v => v.value));
+    
+    availabilityCache.set(key, {
+      avail: minAvail,
+      timestamp: now,
+      autoExpire: autoExpire,
+      votes: recentVotes,
+      voteCount: recentVotes.length
+    });
+
+    console.log(`[AVAIL] Updated ${key} → ${minAvail} (${recentVotes.length} votos)${autoExpire ? ' (expira en 2h)' : ''}`);
+
+    // 🔧 FIX: Emitir el valor mínimo inmediatamente a todos los clientes
+    io.emit('availability:updated', {
+      siteId: siteId,
+      connectorType: connectorType,
+      connectorCurrent: connectorCurrent,
+      connectorKw: connectorKw,
+      available: minAvail,
+      voteCount: recentVotes.length
+    });
+
+    console.log(`[WS] Evento emitido: availability:updated para ${siteId}`);
+
+    return res.json({ 
+      ok: true, 
+      key, 
+      available: minAvail,
+      voteCount: recentVotes.length
+    });
+  } catch (e) {
+    console.error('[AVAIL] Error:', e);
+    return res.status(500).json({ error: 'Internal error' });
+  }
+});
+    const now = Date.now();
+    
+    // Inicializar usuario
+    if (!userUpdateCache.has(userIP)) {
+      userUpdateCache.set(userIP, new Map());
+    }
+    
+    const userSites = userUpdateCache.get(userIP);
     
     // Verificar rate limits
     if (userSites.has(siteId)) {
