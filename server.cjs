@@ -87,7 +87,7 @@ async function sendReportEmail({ siteId, siteName, status, queueVehicles, detail
   try {
     await _mailTransporter.sendMail({
       from: `"WATTGO EV" <${process.env.GMAIL_USER}>`,
-      to: 'panoramaautomotorcol@gmail.com',
+      to: 'notificacion.wattgo.ev@gmail.com',
       subject: `[WATTGO EV] Reporte: ${siteName || siteId} → ${statusLabels[status] || status}`,
       html,
     });
@@ -4541,7 +4541,7 @@ app.post('/api/premium-notify', async (req, res) => {
     `;
     await _mailTransporter.sendMail({
       from: `"WATTGO EV" <${process.env.GMAIL_USER}>`,
-      to: 'panoramaautomotorcol@gmail.com',
+      to: 'notificacion.wattgo.ev@gmail.com',
       subject: `[WATTGO EV] Interesado Premium: ${email}`,
       html,
     });
