@@ -4524,6 +4524,35 @@ app.get('/traffic-reports', (req, res) => {
   }
 });
 
+// ===== PREMIUM NOTIFICATION =====
+app.post('/api/premium-notify', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({ error: 'Email inválido' });
+    }
+    const fecha = new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' });
+    const html = `
+      <h2>⚡ Nuevo interesado en WATTGO EV Premium</h2>
+      <table style="border-collapse:collapse;font-family:sans-serif">
+        <tr><td style="padding:6px 12px;font-weight:bold">Email</td><td style="padding:6px 12px">${email}</td></tr>
+        <tr><td style="padding:6px 12px;font-weight:bold">Fecha</td><td style="padding:6px 12px">${fecha}</td></tr>
+      </table>
+    `;
+    await _mailTransporter.sendMail({
+      from: `"WATTGO EV" <${process.env.GMAIL_USER}>`,
+      to: 'panoramaautomotorcol@gmail.com',
+      subject: `[WATTGO EV] Interesado Premium: ${email}`,
+      html,
+    });
+    console.log(`[PREMIUM] ✅ Notificación enviada: ${email}`);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[PREMIUM] ❌ Error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ===== errores globales =====
 process.on('uncaughtException', e => console.error('UNCAUGHT', e));
 process.on('unhandledRejection', e => console.error('UNHANDLED', e));
