@@ -3488,5 +3488,94 @@
       }
     ],
     "provider": "ocm"
+  },
+  {
+    "id": "manual:055",
+    "name": "EVINKA primax carrera 71",
+    "address": "Carrera 71 # 19-05 Bogota",
+    "lat": 4.65181847230879,
+    "lon": -74.12339905734086,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:056",
+    "name": "EVINKA shell calle 80",
+    "address": "Bogota la vega, via siberia km 0,5 cota",
+    "lat": 4.73352086419672,
+    "lon": -74.1312208869466,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:056",
+    "name": "EVINKA shell Aguacatala",
+    "address": "10 sur 147 medellin",
+    "lat": 6.196889904831437,
+    "lon": -75.58410513847001,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
   }
 ]
