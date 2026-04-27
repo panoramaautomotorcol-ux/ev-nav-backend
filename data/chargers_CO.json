@@ -45,28 +45,35 @@
     "status": "Unknown",
     "is_operational": true,
     "last_updated": "2025-10-18T18:39:00Z",
+
+    "min_price_kwh_cop": 1681,
+    "max_price_kwh_cop": 1681,
+
     "power_kw": 40,
     "connectors": [
       {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 30,
-        "current": null,
-        "quantity": 1
-      },
-      {
-        "type": "Desconocido",
-        "level": null,
-        "power_kw": 30,
-        "current": null,
-        "quantity": 1
-      },
-      {
-        "type": "Desconocido",
-        "level": null,
+        "type": "GBT",
+        "level": 3,
         "power_kw": 40,
-        "current": null,
-        "quantity": 1
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1681
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1681
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1681
       }
     ],
     "provider": "ocm"
@@ -111,8 +118,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T03:14:00Z",
 
-    "min_price_kwh_cop": 1800,
-    "max_price_kwh_cop": 1800,
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
 
     "power_kw": 50,
     "connectors": [
@@ -154,8 +161,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T03:14:00Z",
 
-    "min_price_kwh_cop": 1650,
-    "max_price_kwh_cop": 1650,
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
 
     "power_kw": 50,
     "connectors": [
@@ -165,7 +172,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1650
+        "price_kwh_cop": 1750
       },
       {
         "type": "TIPO 2",
@@ -173,7 +180,7 @@
         "power_kw": 43,
         "current": null,
         "quantity": 1,
-        "price_kwh_cop": 1650
+        "price_kwh_cop": 1750
       },
       {
         "type": "CHADEMO",
@@ -181,7 +188,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1650
+        "price_kwh_cop": 1750
       }
     ],
     "provider": "ocm"
@@ -207,7 +214,7 @@
         "level": 2,
         "power_kw": 40,
         "current": "DC",
-        "quantity": 2,
+        "quantity": 1,
         "price_kwh_cop": 1750
       },
       {
@@ -215,7 +222,7 @@
         "level": 2,
         "power_kw": 40,
         "current": "DC",
-        "quantity": 2,
+        "quantity": 4,
         "price_kwh_cop": 1750
       },
       {
@@ -223,7 +230,7 @@
         "level": 2,
         "power_kw": 40,
         "current": "DC",
-        "quantity": 2,
+        "quantity": 1,
         "price_kwh_cop": 1750
       }
     ],
@@ -563,8 +570,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T03:14:00Z",
 
-    "min_price_kwh_cop": 1800,
-    "max_price_kwh_cop": 1800,
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
 
     "power_kw": 40,
     "connectors": [
@@ -574,7 +581,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "CCS1",
@@ -582,7 +589,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "TIPO 2",
@@ -590,7 +597,7 @@
         "power_kw": 11,
         "current": "AC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       }
     ],
     "provider": "ocm"
@@ -606,8 +613,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T03:14:00Z",
 
-    "min_price_kwh_cop": 1800,
-    "max_price_kwh_cop": 1800,
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
 
     "power_kw": null,
     "connectors": [
@@ -617,7 +624,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "TIPO 2",
@@ -625,7 +632,7 @@
         "power_kw": 43,
         "current": "AC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "CCS1",
@@ -633,7 +640,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       }
     ],
     "provider": "ocm"
@@ -649,8 +656,8 @@
     "is_operational": true,
     "last_updated": "2024-12-08T01:49:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
 
     "power_kw": 50,
     "connectors": [
@@ -660,7 +667,7 @@
         "power_kw": 43,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -668,7 +675,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CHADEMO",
@@ -676,7 +683,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -692,8 +699,8 @@
     "is_operational": true,
     "last_updated": "2024-10-14T08:09:00Z",
 
-    "min_price_kwh_cop": 1450,
-    "max_price_kwh_cop": 1450,
+    "min_price_kwh_cop": 1550,
+    "max_price_kwh_cop": 1550,
 
     "power_kw": 7,
     "connectors": [
@@ -703,7 +710,7 @@
         "power_kw": 7,
         "current": "AC",
         "quantity": 2,
-        "price_kwh_cop": 1450
+        "price_kwh_cop": 1550
       },
       {
         "type": "TIPO 2",
@@ -711,7 +718,7 @@
         "power_kw": 7,
         "current": "AC",
         "quantity": 2,
-        "price_kwh_cop": 1450
+        "price_kwh_cop": 1550
       }
     ],
     "provider": "ocm"
@@ -1231,8 +1238,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T03:14:00Z",
 
-    "min_price_kwh_cop": 1800,
-    "max_price_kwh_cop": 1800,
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
     
     "power_kw": 50,
     "connectors": [
@@ -1242,7 +1249,7 @@
         "power_kw": 43,
         "current": "AC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "CCS1",
@@ -1250,7 +1257,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "CHADEMO",
@@ -1258,7 +1265,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       }
     ],
     "provider": "ocm"
@@ -1274,8 +1281,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T03:14:00Z",
 
-    "min_price_kwh_cop": 1800,
-    "max_price_kwh_cop": 1800,
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
 
     "power_kw": 60,
     "connectors": [
@@ -1285,7 +1292,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "CCS1",
@@ -1293,7 +1300,7 @@
         "power_kw": 35,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "CCS2",
@@ -1301,7 +1308,7 @@
         "power_kw": 30,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       }
     ],
     "provider": "ocm"
@@ -1317,8 +1324,8 @@
     "is_operational": true,
     "last_updated": "2024-06-24T05:39:00Z",
 
-    "min_price_kwh_cop": 1800,
-    "max_price_kwh_cop": 1800,
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
 
     "power_kw": 40,
     "connectors": [
@@ -1328,7 +1335,7 @@
         "power_kw": 30,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "CCS1",
@@ -1336,7 +1343,7 @@
         "power_kw": 30,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       },
       {
         "type": "CCS2",
@@ -1344,7 +1351,7 @@
         "power_kw": 30,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1800
+        "price_kwh_cop": 1900
       }
     ],
     "provider": "ocm"
@@ -1403,8 +1410,8 @@
     "is_operational": true,
     "last_updated": "2023-10-18T01:57:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
 
     "power_kw": 50,
     "connectors": [
@@ -1414,7 +1421,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "TIPO 2",
@@ -1422,7 +1429,7 @@
         "power_kw": 43,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -1438,8 +1445,8 @@
     "is_operational": true,
     "last_updated": "2023-10-11T18:59:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
 
     "power_kw": null,
     "connectors": [
@@ -1449,7 +1456,7 @@
         "power_kw": 43,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -1457,7 +1464,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CHADEMO",
@@ -1465,7 +1472,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -1481,8 +1488,8 @@
     "is_operational": true,
     "last_updated": "2023-10-11T18:59:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
     
     "power_kw": 40,
     "connectors": [
@@ -1492,7 +1499,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -1500,7 +1507,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CHADEMO",
@@ -1508,7 +1515,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -1567,8 +1574,8 @@
     "is_operational": true,
     "last_updated": "2023-07-13T02:30:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
 
     "power_kw": null,
     "connectors": [
@@ -1578,7 +1585,7 @@
         "power_kw": 80,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -1586,7 +1593,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS2",
@@ -1594,7 +1601,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -1610,8 +1617,8 @@
     "is_operational": true,
     "last_updated": "2023-07-13T02:30:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
 
     "power_kw": 50,
     "connectors": [
@@ -1621,7 +1628,7 @@
         "power_kw": 80,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -1629,7 +1636,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS2",
@@ -1637,7 +1644,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -1653,8 +1660,8 @@
     "is_operational": true,
     "last_updated": "2023-07-13T02:30:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
 
     "power_kw": 40,
     "connectors": [
@@ -1664,7 +1671,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS2",
@@ -1672,7 +1679,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -1680,7 +1687,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -1731,8 +1738,8 @@
     "is_operational": true,
     "last_updated": "2023-07-10T09:02:00Z",
 
-    "min_price_kwh_cop": 1650,
-    "max_price_kwh_cop": 1650,
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
 
     "power_kw": 40,
     "connectors": [
@@ -1742,7 +1749,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1650
+        "price_kwh_cop": 1750
       },
       {
         "type": "CCS1",
@@ -1750,7 +1757,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1650
+        "price_kwh_cop": 1750
       },
       {
         "type": "GBT",
@@ -1758,7 +1765,7 @@
         "power_kw": 30,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1650
+        "price_kwh_cop": 1750
       }
     ],
     "provider": "ocm"
@@ -1774,8 +1781,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T03:14:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
 
     "power_kw": 40,
     "connectors": [
@@ -1785,7 +1792,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS2",
@@ -1793,7 +1800,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -1801,7 +1808,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -2051,8 +2058,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T05:14:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
 
     "power_kw": 40,
     "connectors": [
@@ -2062,7 +2069,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -2070,7 +2077,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "TIPO 2",
@@ -2078,7 +2085,7 @@
         "power_kw": 11,
         "current": "AC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -2231,8 +2238,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T05:14:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
     
     "power_kw": null,
     "connectors": [
@@ -2242,7 +2249,7 @@
         "power_kw": 11,
         "current": "AC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -2250,7 +2257,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "GBT",
@@ -2258,7 +2265,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -2317,8 +2324,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T05:14:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
 
     "power_kw": null,
     "connectors": [
@@ -2328,7 +2335,7 @@
         "power_kw": 43,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CCS1",
@@ -2336,7 +2343,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       },
       {
         "type": "CHADEMO",
@@ -2344,7 +2351,7 @@
         "power_kw": 50,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1700
+        "price_kwh_cop": 1800
       }
     ],
     "provider": "ocm"
@@ -2360,8 +2367,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T05:14:00Z",
 
-    "min_price_kwh_cop": 1650,
-    "max_price_kwh_cop": 1650,
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
 
     "power_kw": null,
     "connectors": [
@@ -2371,7 +2378,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1650
+        "price_kwh_cop": 1750
       },
       {
         "type": "CCS1",
@@ -2379,7 +2386,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1650
+        "price_kwh_cop": 1750
       },
       {
         "type": "GBT",
@@ -2387,7 +2394,7 @@
         "power_kw": 40,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1650
+        "price_kwh_cop": 1750
       }
     ],
     "provider": "ocm"
@@ -2534,7 +2541,7 @@
         "level": 3,
         "power_kw": 80,
         "current": "DC",
-        "quantity": 6,
+        "quantity": 4,
         "price_kwh_cop": 1750
       },
       {
@@ -2542,7 +2549,7 @@
         "level": 3,
         "power_kw": 80,
         "current": "DC",
-        "quantity": 6,
+        "quantity": 3,
         "price_kwh_cop": 1750
       },
       {
@@ -2550,7 +2557,7 @@
         "level": 3,
         "power_kw": 80,
         "current": "DC",
-        "quantity": 6,
+        "quantity": 2,
         "price_kwh_cop": 1750
       }
     ],
@@ -2567,8 +2574,8 @@
     "is_operational": true,
     "last_updated": "2025-03-31T05:14:00Z",
 
-    "min_price_kwh_cop": 1450,
-    "max_price_kwh_cop": 1450,
+    "min_price_kwh_cop": 1550,
+    "max_price_kwh_cop": 1550,
 
     "power_kw": null,
     "connectors": [
@@ -2578,7 +2585,7 @@
         "power_kw": 7,
         "current": "AC",
         "quantity": 1,
-        "price_kwh_cop": 1450
+        "price_kwh_cop": 1550
       },
       {
         "type": "TIPO 1",
@@ -2586,7 +2593,7 @@
         "power_kw": 7,
         "current": "AC",
         "quantity": 1,
-        "price_kwh_cop": 1450
+        "price_kwh_cop": 1550
       }
     ],
     "provider": "ocm"
@@ -3574,6 +3581,127 @@
         "current": "DC",
         "quantity": 2,
         "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:057",
+    "name": "voltex - Opain Parqueadero Central",
+    "address": "Aeropuerto el Dorado, Bogota, Bogota",
+    "lat": 4.696598164529732,
+    "lon": -74.14103444746189,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T21:29:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "TIPO GBT",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:058",
+    "name": "voltex - Centro Comercial Avenida Chile",
+    "address": "calle 72 # 10-34, Bogota, Bogota",
+    "lat": 4.656991473057687,
+    "lon": -74.0573235178576,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T21:29:00Z",
+
+    "min_price_kwh_cop": 1550,
+    "max_price_kwh_cop": 1550,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1550
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:059",
+    "name": "voltex - Compostela",
+    "address": "carrera 72 # 152-2, Bogota, Bogota",
+    "lat": 4.738549431064897,
+    "lon": -74.06535093149162,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T21:29:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 80,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 3,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
       }
     ],
     "provider": "ocm"
