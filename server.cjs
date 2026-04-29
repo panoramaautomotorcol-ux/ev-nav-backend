@@ -251,6 +251,7 @@ const VEHICLE_PROFILES = {
   'mg_s5_49': { batteryKwh: 49.0, consumptionRate: 0.29 },
   'mg_zs_51': { batteryKwh: 51.0, consumptionRate: 0.31 },
   'mg_4_49': { batteryKwh: 49.0, consumptionRate: 0.3, weightKg: 1655 },
+  'mg_4_64': { batteryKwh: 64.0, consumptionRate: 0.222, weightKg: 1664 },
   'bmw_i7_105': { batteryKwh: 105.7, consumptionRate: 0.18 },
   'bmw_i5_81': { batteryKwh: 81.2, consumptionRate: 0.2 },
   'bmw_i4_80': { batteryKwh: 80.7, consumptionRate: 0.17 },
