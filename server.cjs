@@ -1868,6 +1868,11 @@ app.get('/places-fast', async (req, res) => {
     
     const query = q.trim();
     const cacheKey = `fast_${query.toLowerCase()}_${at}`;
+    // FILTRO DE LONGITUD MINIMA (reduccion de costos Google API)
+    if (query.length < 3) {
+      console.log(`[SEARCH-FAST] Query muy corta ignorada: "${query}"`);
+      return res.json({ items: [], provider: 'min_length' });
+    }
     
     // Verificar caché
     const cached = searchCache.get(cacheKey);
@@ -1966,7 +1971,10 @@ app.get('/places-fast', async (req, res) => {
 app.get('/places-google', async (req, res) => {
   try {
     const q = String(req.query.q || '').trim();
-    if (!q) return res.json({ items: [] });
+    if (!q || q.length < 3) {
+      if (q) console.log(`[SEARCH-GOOGLE] Query muy corta ignorada: "${q}"`);
+      return res.json({ items: [], provider: 'min_length' });
+    }
     
     const at = String(req.query.at || '4.6097,-74.0817');
     const [lat, lon] = at.split(',').map(Number);
@@ -2048,7 +2056,11 @@ app.get('/places', async (req, res) => {
         provider: 'suggestions'
       });
     }
-
+    // ⚡ FILTRO DE LONGITUD MÍNIMA (reducción de costos Google API)
+    if (rawQ.length < 3) {
+      console.log(`[SEARCH] ⏭️  Query muy corta ignorada: "${rawQ}"`);
+      return res.json({ items: [], provider: 'min_length' });
+    }
     const atStr = String(req.query.at || '').trim(); // "lat,lon"
     const lang  = String(req.query.lang || 'es').slice(0,2);
     let limit   = Number(req.query.limit || 8);
