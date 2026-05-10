@@ -812,8 +812,29 @@ function findClosestPointIndex(points, targetLat, targetLng) {
 const routeCache = new Map();
 const ROUTE_CACHE_TTL = 15 * 60 * 1000; // 15 minutos
 
+function roundCoords(coordStr) {
+  if (!coordStr || typeof coordStr !== 'string') return coordStr;
+  // Si tiene waypoints separados por |, redondear cada uno
+  if (coordStr.includes('|')) {
+    return coordStr.split('|').map(wp => roundCoords(wp.trim())).join('|');
+  }
+  const parts = coordStr.split(',');
+  if (parts.length !== 2) return coordStr;
+  const lat = parseFloat(parts[0]);
+  const lon = parseFloat(parts[1]);
+  if (isNaN(lat) || isNaN(lon)) return coordStr;
+  // Redondear a 3 decimales (~110m de tolerancia)
+  const roundedLat = Math.round(lat * 1000) / 1000;
+  const roundedLon = Math.round(lon * 1000) / 1000;
+  return `${roundedLat},${roundedLon}`;
+}
+
 function getCacheKey(origin, destination, waypoints, vehicleId, passengers) {
-  return `${origin}_${destination}_${waypoints || 'direct'}_${vehicleId || 'generic'}_${passengers || 1}`;
+  // Redondear coordenadas a ~110m para que GPS quieto use cache
+  const o = roundCoords(origin);
+  const d = roundCoords(destination);
+  const w = waypoints ? roundCoords(waypoints) : 'direct';
+  return `${o}_${d}_${w}_${vehicleId || 'generic'}_${passengers || 1}`;
 }
 
 function getCachedRoute(origin, destination, waypoints, vehicleId, passengers) {
