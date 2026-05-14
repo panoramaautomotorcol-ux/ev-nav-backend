@@ -4635,7 +4635,94 @@ setInterval(() => {
   }
 }, 60 * 60 * 1000);
 
+// ===== REPORTE DE CARGADOR =====
+app.post('/report-charger', async (req, res) => {
+  try {
+    const {
+      nombre,
+      direccion,
+      latitud,
+      longitud,
+      tipo_corriente,
+      potencia_kw,
+      cantidad_conectores,
+      tipo_conector,
+      notas,
+      fecha_reporte,
+    } = req.body;
 
+    // Validación básica
+    if (!nombre || latitud == null || longitud == null) {
+      return res.status(400).json({
+        error: 'Faltan datos requeridos (nombre, latitud, longitud)'
+      });
+    }
+
+    const fecha = new Date(fecha_reporte || Date.now())
+      .toLocaleString('es-CO', { timeZone: 'America/Bogota' });
+
+    const mapsUrl = `https://www.google.com/maps?q=${latitud},${longitud}`;
+
+    const html = `
+      <div style="font-family:sans-serif;max-width:600px">
+        <h2 style="color:#FF6F00">⚡ Nuevo cargador reportado</h2>
+        <table style="border-collapse:collapse;width:100%;border:1px solid #ddd">
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5;width:35%">📍 Nombre</td>
+            <td style="padding:8px 12px">${nombre}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🏠 Dirección</td>
+            <td style="padding:8px 12px">${direccion || 'Sin dirección'}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🌐 Coordenadas</td>
+            <td style="padding:8px 12px">${latitud}, ${longitud}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🗺️ Mapa</td>
+            <td style="padding:8px 12px">
+              <a href="${mapsUrl}" style="color:#1976D2">Ver en Google Maps</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">⚡ Tipo corriente</td>
+            <td style="padding:8px 12px">${tipo_corriente || 'No especificado'}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🔋 Potencia</td>
+            <td style="padding:8px 12px">${potencia_kw || 'N/A'} kW</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🔌 Conectores</td>
+            <td style="padding:8px 12px">${cantidad_conectores || 'N/A'} (${tipo_conector || 'N/A'})</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">📝 Notas</td>
+            <td style="padding:8px 12px">${notas || 'Sin notas'}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">📅 Fecha</td>
+            <td style="padding:8px 12px">${fecha}</td>
+          </tr>
+        </table>
+      </div>
+    `;
+
+    await _mailTransporter.sendMail({
+      from: `"WATTGO EV" <${process.env.GMAIL_USER}>`,
+      to: 'notificacion.wattgo.ev@gmail.com',
+      subject: `[WATTGO EV] Nuevo cargador: ${nombre}`,
+      html,
+    });
+
+    console.log(`[REPORT-CHARGER] ✅ Reporte recibido: ${nombre} (${latitud}, ${longitud})`);
+    res.json({ success: true, message: 'Reporte enviado correctamente' });
+  } catch (err) {
+    console.error('[REPORT-CHARGER] ❌ Error:', err.message);
+    res.status(500).json({ error: 'Error al procesar el reporte' });
+  }
+});
 // 🆕 Endpoint para limpiar cache de elevación (útil para desarrollo)
 app.post("/admin/clear-elevation-cache", (req, res) => {
   const size = elevationCache.size;
