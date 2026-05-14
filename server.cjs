@@ -4646,7 +4646,8 @@ app.post('/report-charger', async (req, res) => {
       tipo_corriente,
       potencia_kw,
       cantidad_conectores,
-      tipo_conector,
+      tipos_conector,
+      foto_base64,
       notas,
       fecha_reporte,
     } = req.body;
@@ -4695,7 +4696,7 @@ app.post('/report-charger', async (req, res) => {
           </tr>
           <tr>
             <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🔌 Conectores</td>
-            <td style="padding:8px 12px">${cantidad_conectores || 'N/A'} (${tipo_conector || 'N/A'})</td>
+            <td style="padding:8px 12px">${cantidad_conectores || 'N/A'} (${Array.isArray(tipos_conector) ? tipos_conector.join(', ') : (tipos_conector || 'N/A')})</td>
           </tr>
           <tr>
             <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">📝 Notas</td>
@@ -4714,6 +4715,11 @@ app.post('/report-charger', async (req, res) => {
       to: 'notificacion.wattgo.ev@gmail.com',
       subject: `[WATTGO EV] Nuevo cargador: ${nombre}`,
       html,
+      attachments: foto_base64 ? [{
+        filename: `cargador_${(nombre || 'reporte').replace(/[^a-z0-9]/gi, '_')}.jpg`,
+        content: foto_base64,
+        encoding: 'base64',
+      }] : [],
     });
 
     console.log(`[REPORT-CHARGER] ✅ Reporte recibido: ${nombre} (${latitud}, ${longitud})`);
