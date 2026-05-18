@@ -377,6 +377,9 @@ setInterval(() => {
 // ===== CACHÉ DE ELEVACIÓN =====
 const elevationCache = new Map();
 const ELEVATION_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 horas
+// Cache PERMANENTE para reverse geocode (las direcciones de coordenadas NO cambian)
+const reverseGeocodeCache = new Map();
+const REVERSE_GEOCODE_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 dias
 
 // Limpiar caché de elevación cada 6 horas
 setInterval(() => {
@@ -2375,6 +2378,14 @@ app.get('/places', async (req, res) => {
       const top = list.slice(0, 8);
       await Promise.all(top.map(async it => {
         if (it.road && it.locality) return;
+        // Cache key: coords redondeadas a ~10m
+        const cacheKey = `${it.lat.toFixed(4)},${it.lon.toFixed(4)}`;
+        const cached = reverseGeocodeCache.get(cacheKey);
+        if (cached && (Date.now() - cached.timestamp) < REVERSE_GEOCODE_CACHE_TTL) {
+          it.road = it.road || cached.road;
+          it.locality = it.locality || cached.locality;
+          return;
+        }
         try {
           const r = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
             params: { latlng: `${it.lat},${it.lon}`, key: GOOGLE_MAPS_API_KEY, language: 'es', result_type: 'street_address|route|locality' },
@@ -2387,6 +2398,12 @@ app.get('/places', async (req, res) => {
             const locality = comps.find(c => c.types?.includes('locality') || c.types?.includes('administrative_area_level_2'));
             it.road = it.road || route?.long_name || extractRoadFromLabel(result.formatted_address || '');
             it.locality = it.locality || locality?.long_name || '';
+            // Guardar en cache permanente
+            reverseGeocodeCache.set(cacheKey, { 
+              road: it.road, 
+              locality: it.locality, 
+              timestamp: Date.now() 
+            });
           }
         } catch {}
       }));
