@@ -2003,6 +2003,17 @@ app.get('/places-google', async (req, res) => {
     const at = String(req.query.at || '4.6097,-74.0817');
     const [lat, lon] = at.split(',').map(Number);
     
+    // 🆕 CACHE: redondear coords a ~1km para mayor hit rate
+    const atKey = (Number.isFinite(lat) && Number.isFinite(lon)) 
+      ? `${lat.toFixed(2)},${lon.toFixed(2)}` 
+      : 'no-loc';
+    const cacheKey = `google_${q.toLowerCase()}_${atKey}`;
+    const cached = searchCache.get(cacheKey);
+    if (cached && (Date.now() - cached.timestamp) < SEARCH_CACHE_TTL) {
+      console.log(`[SEARCH-GOOGLE] ⚡ Cache HIT: "${q}"`);
+      return res.json(cached.data);
+    }
+    
     // Google Text Search
     const params = {
       query: q + ' Colombia',
@@ -2027,8 +2038,12 @@ app.get('/places-google', async (req, res) => {
       provider: 'google',
     }));
     
-    console.log(`[SEARCH-GOOGLE] 🔍 "${q}" → ${items.length} resultados`);
-    res.json({ items, provider: 'google' });
+    const result = { items, provider: 'google' };
+    // 🆕 Guardar en cache
+    searchCache.set(cacheKey, { data: result, timestamp: Date.now() });
+    
+    console.log(`[SEARCH-GOOGLE] 🔍 "${q}" → ${items.length} resultados (cached)`);
+    res.json(result);
   } catch (e) {
     console.error('[SEARCH-GOOGLE] Error:', e.message);
     res.status(500).json({ items: [], error: e.message });
