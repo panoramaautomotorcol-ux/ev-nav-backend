@@ -63,7 +63,7 @@ const _mailTransporter = nodemailer.createTransport({
   },
 });
 
-async function sendReportEmail({ siteId, siteName, status, queueVehicles, details, userIP }) {
+async function sendReportEmail({ siteId, siteName, status, queueVehicles, details, userIP, lat, lon }) {
   const statusLabels = {
     disponible: '✅ Disponible',
     ocupado: '🔴 Ocupado',
@@ -77,6 +77,7 @@ async function sendReportEmail({ siteId, siteName, status, queueVehicles, detail
     <table style="border-collapse:collapse;font-family:sans-serif">
       <tr><td style="padding:6px 12px;font-weight:bold">Estación</td><td style="padding:6px 12px">${siteName || siteId}</td></tr>
       <tr><td style="padding:6px 12px;font-weight:bold">ID</td><td style="padding:6px 12px">${siteId}</td></tr>
+      ${(lat && lon) ? `<tr><td style="padding:6px 12px;font-weight:bold">📍 Ubicación</td><td style="padding:6px 12px"><a href="https://maps.google.com/?q=${lat},${lon}" target="_blank">Ver en Google Maps (${Number(lat).toFixed(5)}, ${Number(lon).toFixed(5)})</a></td></tr>` : ''}
       <tr><td style="padding:6px 12px;font-weight:bold">Estado</td><td style="padding:6px 12px">${statusLabels[status] || status}</td></tr>
       ${queueVehicles ? `<tr><td style="padding:6px 12px;font-weight:bold">Vehículos en cola</td><td style="padding:6px 12px">${queueVehicles}</td></tr>` : ''}
       ${details ? `<tr><td style="padding:6px 12px;font-weight:bold">Detalles</td><td style="padding:6px 12px">${details}</td></tr>` : ''}
@@ -1661,7 +1662,7 @@ const statusUserCache = new Map(); // userIP -> { siteId -> lastReport }
 // POST: reportar estado
 app.post('/ev/station-status', (req, res) => {
   try {
-    const { siteId, status, queueVehicles, details, siteName } = req.body;
+    const { siteId, status, queueVehicles, details, siteName, lat, lon } = req.body;
     
     if (!siteId || !status || !STATUS_OPTIONS.includes(status)) {
       return res.status(400).json({ 
@@ -1729,7 +1730,7 @@ app.post('/ev/station-status', (req, res) => {
     console.log(`[STATUS] 📊 ${siteId}: ${status} (${stationData.reports.length} reportes, top=${topStatus[0]})`);
     
     // Enviar email de notificación
-    sendReportEmail({ siteId, siteName, status, queueVehicles, details, userIP });
+    sendReportEmail({ siteId, siteName, status, queueVehicles, details, userIP, lat, lon });
     
     // Emitir a todos los clientes
     io.emit('station:status', {
