@@ -3435,14 +3435,14 @@ app.get('/route-alternatives', async (req, res) => {
 
     if (!origin || !destination) {
       return res.status(400).json({ error: 'BadRequest', detail: 'from y to requeridos' });
-      // 🆕 Verificar cache primero
+    }
+    // 🆕 Verificar cache primero
     const waypoints = String(req.query.waypoints || '');
     const cacheKey = `${origin}_${destination}_${waypoints}_${vehicleId}_${passengers}`;
     const cached = altRoutesCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < ALT_ROUTES_CACHE_TTL) {
       console.log('[ALT-ROUTES] ⚡ Cache HIT:', cacheKey);
       return res.json(cached.data);
-    }
     }
 
     console.log('[ALT-ROUTES] 🔀 Calculando alternativas:', origin, '→', destination);
