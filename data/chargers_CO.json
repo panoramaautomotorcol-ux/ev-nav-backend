@@ -3705,5 +3705,284 @@
       }
     ],
     "provider": "ocm"
+  },
+  {
+    "id": "manual:060 CODIGO QR",
+    "name": "Olimpica super Market",
+    "address": "Cra. 53 #82-77, Nte. Centro Historico, Barranquilla",
+    "lat": 11.003520185667313,
+    "lon": -74.82623979110073,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T21:29:00Z",
+
+    "min_price_kwh_cop": 1850,
+    "max_price_kwh_cop": 1850,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1850
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:061 CODIGO QR",
+    "name": "Centro comercial Ventura plaza",
+    "address": "centro comercial ventura plaza, cucuta",
+    "lat": 7.887254293920165,
+    "lon": -72.4959282127575,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T21:29:00Z",
+
+    "min_price_kwh_cop": 1850,
+    "max_price_kwh_cop": 1850,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1850
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:062 CODIGO QR",
+    "name": "Centro comercial Unicentro",
+    "address": "centro comercial unicentro, cucuta",
+    "lat": 7.916409787386073,
+    "lon": -72.49449641051619,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T21:29:00Z",
+
+    "min_price_kwh_cop": 1850,
+    "max_price_kwh_cop": 1850,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1850
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:063 CODIGO QR",
+    "name": "HOTEL PARADOR DEL GITANO",
+    "address": "Autopista Medellín-Bogotá, Km 164, Doradal",
+    "lat": 5.899922460518098,
+    "lon": -74.73568844862095,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T21:29:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 5,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "TIPO 2",
+        "level": 5,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:064 CODIGO QR",
+    "name": "Wattia Santorini (La Aldea)",
+    "address": "La Aldea Santorini, Doradal, Puerto Triunfo, Antioquia",
+    "lat": 5.899309343362663,
+    "lon": -74.73597814465101,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-08T21:29:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 22,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:065",
+    "name": "EnelX Hotel Hacaritama",
+    "address": "Hotel Hacaritama, Villavicencio",
+    "lat": 4.128373939751814,
+    "lon": -73.6134948700179,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-02T13:34:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+
+    "power_kw": 160,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 160,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 160,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:066",
+    "name": "TESLA Centro Comercial Unicentro",
+    "address": "Cra 66B #34 A 75, Laureles, Medellin",
+    "lat": 4.128373939751814,
+    "lon": -73.6134948700179,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-02T13:34:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+
+    "power_kw": 160,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 325,
+        "current": "DC",
+        "quantity": 6,
+        "price_kwh_cop": 1900
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:067 CODIGO QR",
+    "name": "smart charge San Lorenzo",
+    "address": "Sogamoso, parque industrial San Lorenzo",
+    "lat": 	6.796421607769846,
+    "lon": -73.09337192370626,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-02T13:34:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+
+    "power_kw": 160,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      },
+      {
+        "type": "TIPO 2",
+        "level": 3,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      }
+    ],
+    "provider": "ocm"
+  },
+  {
+    "id": "manual:068 CODIGO QR",
+    "name": "ERCO COMPLEX LLANOGRANDE",
+    "address": "KM 6 #Via, Llano Grande, Rionegro, Antioquia",
+    "lat": 6.1250708,
+    "lon": -75.4219497,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-10-18T18:34:00Z",
+    "power_kw": 7.4,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      }
+    ],
+    "provider": "ocm"
   }
 ]
