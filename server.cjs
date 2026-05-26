@@ -4697,6 +4697,10 @@ app.post('/report-charger', async (req, res) => {
       tipos_conector,
       foto_base64,
       notas,
+      es_publico,
+      operador,
+      metodos_carga,
+      precio_kwh_cop,
       fecha_reporte,
     } = req.body;
 
@@ -4745,6 +4749,22 @@ app.post('/report-charger', async (req, res) => {
           <tr>
             <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🔌 Conectores</td>
             <td style="padding:8px 12px">${cantidad_conectores || 'N/A'} (${Array.isArray(tipos_conector) ? tipos_conector.join(', ') : (tipos_conector || 'N/A')})</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:${es_publico === false ? '#FFEBEE' : '#f5f5f5'}">🌐 Acceso</td>
+            <td style="padding:8px 12px;${es_publico === false ? 'color:#C62828;font-weight:bold' : ''}">${es_publico === false ? '⚠️ PRIVADO / Conjunto cerrado' : '✅ Público'}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🏢 Operador</td>
+            <td style="padding:8px 12px">${operador || 'No especificado'}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">💳 Método de carga</td>
+            <td style="padding:8px 12px">${Array.isArray(metodos_carga) && metodos_carga.length ? metodos_carga.join(', ') : 'No especificado'}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">💰 Precio kWh</td>
+            <td style="padding:8px 12px">${precio_kwh_cop ? '$' + precio_kwh_cop + ' COP' : 'No especificado'}</td>
           </tr>
           <tr>
             <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">📝 Notas</td>
