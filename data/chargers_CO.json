@@ -3984,5 +3984,31 @@
       }
     ],
     "provider": "ocm"
+  },
+  {
+    "id": "manual:069",
+    "name": "EnelX Eco Energy Mobility",
+    "address": "centro comercial Cañaveral, floridablanca",
+    "lat": 7.070961838859944,
+    "lon": -73.10736468522316,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-02T13:34:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": 80,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 80,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1700
+      }
+    ]
   }
 ]
