@@ -534,30 +534,45 @@
   },
   {
     "id": "manual:040",
-    "name": "Terpel voltex centro comercial Cañaveral",
-    "address": "centro comercial Cañaveral, floridablanca",
-    "lat": 7.0709710402234975,
-    "lon": -73.10732920011114,
+    "name": "Terpel voltex El bosque",
+    "address": "avenida el bosque # 23-128, floridablanca",
+    "lat": 7.075132612269115,
+    "lon": -73.1087353055931,
     "network": null,
     "status": "Unknown",
     "is_operational": true,
     "last_updated": "2025-03-31T05:14:00Z",
 
-    "min_price_kwh_cop": 1700,
-    "max_price_kwh_cop": 1700,
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
     
     "power_kw": 160,
     "connectors": [
       {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
         "type": "CCS2",
         "level": 3,
-        "power_kw": 80,
+        "power_kw": 60,
         "current": "DC",
-        "quantity": 2,
-        "price_kwh_cop": 1700
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
       }
-    ],
-    "provider": "ocm"
+    ]
   },
   {
     "id": "ocm:307731",
