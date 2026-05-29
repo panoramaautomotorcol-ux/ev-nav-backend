@@ -4610,5 +4610,258 @@
       }
     ],
     "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:086",
+    "name": "VOLTOP GRAN HYATT",
+    "address": "calle 24 # 57-60, Bogota",
+    "lat": 4.643978969258214,
+    "lon": -74.10003764439378,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1350,
+    "max_price_kwh_cop": 1350,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 11,
+        "price_kwh_cop": 1350
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:087",
+    "name": "VOLTOP APARCAR",
+    "address": "calle 77 # 16-31, Bogota",
+    "lat": 4.66417591937396,
+    "lon": -74.05945836336525,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1350,
+    "max_price_kwh_cop": 1350,
+    
+    "power_kw": 180,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 6,
+        "price_kwh_cop": 1350
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:088",
+    "name": "VOLTOP UNIVERSIDAD EAN",
+    "address": "universidad Ean, carrera 11, Bogota",
+    "lat": 4.663846865154284,
+    "lon": -74.05476834405405,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1350,
+    "max_price_kwh_cop": 1990,
+    
+    "power_kw": 180,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 8,
+        "price_kwh_cop": 1990
+      },
+      {
+        "type": "TIPO 2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 10,
+        "price_kwh_cop": 1350
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:089",
+    "name": "Energicar centro comercial pacific center",
+    "address": "calle 36 # 6a-65",
+    "lat": 3.474139577112055,
+    "lon": -76.52777285858967,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1990,
+    "max_price_kwh_cop": 1990,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1990
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1990
+      },
+      {
+        "type": "TIPO 2",
+        "level": 3,
+        "power_kw": 22,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1990
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:090",
+    "name": "Energicar Versalles",
+    "address": "avenida 5 # 23d-31, cali",
+    "lat": 3.4659798227586833,
+    "lon": -76.52755698573887,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1990
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1990
+      },
+      {
+        "type": "TIPO 2",
+        "level": 3,
+        "power_kw": 22,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1990
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:091",
+    "name": "Energicar Plazaoleta Jairo Varela",
+    "address": "Plazoleta Jairo Valera, cali",
+    "lat": 3.454620836579849,
+    "lon": -76.53514653492007,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+    
+    "power_kw": 7.5,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 3,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1990
+      },
+      {
+        "type": "TIPO 1",
+        "level": 3,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 5,
+        "price_kwh_cop": 1990
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:092",
+    "name": "Energicar CENTRO COMERCIAL UNICENTRO",
+    "address": "CENTRO COMERCIAL UNICENTRO, cali",
+    "lat": 3.3743684622191097,
+    "lon": -76.54174021101306,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+    
+    "power_kw": 7.5,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 3,
+        "price_kwh_cop": 1990
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 3,
+        "price_kwh_cop": 1990
+      },
+      {
+        "type": "TIPO 1",
+        "level": 3,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1990
+      }
+    ],
+    "provider": "WATTGO EV"
   }
 ]
