@@ -3457,6 +3457,11 @@ app.get('/route-alternatives', async (req, res) => {
       units: 'metric',
       key: GOOGLE_MAPS_API_KEY
     };
+    // 🆕 Agregar waypoints si el usuario los pasó (paradas intermedias)
+    if (waypoints) {
+      params.waypoints = waypoints.split('|').join('|');
+      console.log('[ALT-ROUTES] 📍 Waypoints agregados:', waypoints.split('|').length);
+    }
 
     let response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
       params, timeout: 15000
