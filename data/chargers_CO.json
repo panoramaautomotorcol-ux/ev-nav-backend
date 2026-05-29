@@ -4263,33 +4263,6 @@
   },
   {
     "id": "manual:076",
-    "name": "EnelX centro comercial Unicentro",
-    "address": "carrera 15 # 124-30, Bogotá, D.C.",
-    "lat": 4.700699679725048,
-    "lon": -74.04125708330551,
-    "network": null,
-    "status": "Operational",
-    "is_operational": true,
-    "last_updated": "2025-11-15T24:30:00Z",
-
-    "min_price_kwh_cop": 1490,
-    "max_price_kwh_cop": 1690,
-
-    "power_kw": null,
-    "connectors": [
-      {
-        "type": "GBT",
-        "level": 3,
-        "power_kw": 60,
-        "current": "DC",
-        "quantity": 2,
-        "price_kwh_cop": 1690
-      }
-    ],
-    "provider": "WATTGO EV"
-  },
-  {
-    "id": "manual:077",
     "name": "EnelX electro villa",
     "address": "carrera 2n # 10-144, Pereira",
     "lat": 4.833002823416095,
@@ -4324,7 +4297,7 @@
     "provider": "WATTGO EV"
   },
   {
-    "id": "manual:078",
+    "id": "manual:077",
     "name": "MOVEQ SENIOR´S MALL",
     "address": "La tebaida - el caimo",
     "lat": 4.462076714762986,
@@ -4367,7 +4340,7 @@
     "provider": "WATTGO EV"
   },
   {
-    "id": "manual:079",
+    "id": "manual:078",
     "name": "CIEN CENTRO COMERCIAL MULTICENTRO",
     "address": "Carrera 5 # 60-123 Ibague",
     "lat": 4.437452864977402,
@@ -4410,7 +4383,7 @@
     "provider": "WATTGO EV"
   },
   {
-    "id": "manual:080",
+    "id": "manual:079",
     "name": "ERGENIA PORTOBELO PARQUE 93",
     "address": "CALLE 93A, 11A-90 Bogota",
     "lat": 4.677164932921087,
@@ -4453,7 +4426,7 @@
     "provider": "WATTGO EV"
   },
   {
-    "id": "manual:081",
+    "id": "manual:080",
     "name": "ERGENIA MC Donald calle 140",
     "address": "Carrera 9 # 140-02 Bogota",
     "lat": 4.718193716047452,
@@ -4488,7 +4461,7 @@
     "provider": "WATTGO EV"
   },
   {
-    "id": "manual:082",
+    "id": "manual:081",
     "name": "ERGENIA HABITEL",
     "address": "AVENIDA EL DORADO 100-97 Bogota",
     "lat": 4.689007028756819,
