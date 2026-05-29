@@ -380,6 +380,14 @@
         "current": "AC",
         "quantity": 1,
         "price_kwh_cop": 1323
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1323
       }
     ],
     "provider": "ocm"
@@ -437,6 +445,14 @@
     "connectors": [
       {
         "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1323
+      },
+      {
+        "type": "TIPO 2",
         "level": 1,
         "power_kw": 7.4,
         "current": "AC",
@@ -1237,7 +1253,7 @@
         "power_kw": 30,
         "current": "DC",
         "quantity": 1,
-        "price_kwh_cop": 1490
+        "price_kwh_cop": 1690
       }
     ],
     "provider": "ocm"
@@ -3411,7 +3427,7 @@
         "level": 3,
         "power_kw": 30,
         "current": "DC",
-        "quantity": 2,
+        "quantity": 1,
         "price_kwh_cop": 2177
       },
       {
@@ -3419,7 +3435,7 @@
         "level": 3,
         "power_kw": 30,
         "current": "DC",
-        "quantity": 2,
+        "quantity": 3,
         "price_kwh_cop": 2177
       }
     ],
@@ -3967,7 +3983,7 @@
         "price_kwh_cop": 1900
       }
     ],
-    "provider": "ocm"
+    "provider": "WATTGO EV"
   },
   {
     "id": "manual:068 CODIGO QR",
@@ -3998,7 +4014,7 @@
         "price_kwh_cop": 1900
       }
     ],
-    "provider": "ocm"
+    "provider": "WATTGO EV"
   },
   {
     "id": "manual:069",
@@ -4024,6 +4040,602 @@
         "quantity": 2,
         "price_kwh_cop": 1700
       }
-    ]
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:070",
+    "name": "Terpel voltex La Mariana ",
+    "address": "diagonal 2b # 85-10 sur, BOGOTA",
+    "lat": 4.639460276603927,
+    "lon": -74.15660124438325,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:071",
+    "name": "Terpel voltex Fontibon ",
+    "address": "calle 22 # 98a-03, BOGOTA",
+    "lat": 4.675846570757713,
+    "lon": -74.14057051978351,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:072",
+    "name": "Terpel voltex centro ",
+    "address": "carrera 13 calle 17, BOGOTA",
+    "lat": 4.606365401300309,
+    "lon": -74.07670647997935,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:073",
+    "name": "EnelX centro comercial primavera",
+    "address": "centro comercial primavera, Villavicencio",
+    "lat": 4.135044175898116,
+    "lon": -73.64037851464083,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2024-08-02T13:34:00Z",
+
+    "min_price_kwh_cop": 1550,
+    "max_price_kwh_cop": 1550,
+
+    "power_kw": 7.4,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 2,
+        "power_kw": 7.5,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1550
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 7.5,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1550
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:074",
+    "name": "EnelX centro comercial Unicentro",
+    "address": "carrera 15 # 124-30, Bogotá, D.C.",
+    "lat": 4.701514880796026,
+    "lon": -74.04066635569086,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1490,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 8,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:075",
+    "name": "EnelX centro comercial Unicentro",
+    "address": "carrera 15 # 124-30, Bogotá, D.C.",
+    "lat": 4.700699679725048,
+    "lon": -74.04125708330551,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1490,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:076",
+    "name": "EnelX centro comercial Unicentro",
+    "address": "carrera 15 # 124-30, Bogotá, D.C.",
+    "lat": 4.700699679725048,
+    "lon": -74.04125708330551,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1490,
+    "max_price_kwh_cop": 1690,
+
+    "power_kw": null,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1690
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:077",
+    "name": "EnelX electro villa",
+    "address": "carrera 2n # 10-144, Pereira",
+    "lat": 4.833002823416095,
+    "lon": -75.6965434087176,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
+
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:078",
+    "name": "MOVEQ SENIOR´S MALL",
+    "address": "La tebaida - el caimo",
+    "lat": 4.462076714762986,
+    "lon": -75.76656855362401,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
+    
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:079",
+    "name": "CIEN CENTRO COMERCIAL MULTICENTRO",
+    "address": "Carrera 5 # 60-123 Ibague",
+    "lat": 4.437452864977402,
+    "lon": -75.20076353653562,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1707,
+    "max_price_kwh_cop": 1807,
+    
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1807
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1707
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1707
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:080",
+    "name": "ERGENIA PORTOBELO PARQUE 93",
+    "address": "CALLE 93A, 11A-90 Bogota",
+    "lat": 4.677164932921087,
+    "lon": -74.0481513305,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 2715,
+    "max_price_kwh_cop": 2715,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1752
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2715
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2715
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:081",
+    "name": "ERGENIA MC Donald calle 140",
+    "address": "Carrera 9 # 140-02 Bogota",
+    "lat": 4.718193716047452,
+    "lon": -74.03222119688263,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 2177,
+    "max_price_kwh_cop": 2177,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2177
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2177
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:082",
+    "name": "ERGENIA HABITEL",
+    "address": "AVENIDA EL DORADO 100-97 Bogota",
+    "lat": 4.689007028756819,
+    "lon": -74.13113984837702,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1752,
+    "max_price_kwh_cop": 1752,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 4,
+        "price_kwh_cop": 1752
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:082",
+    "name": "ERGENIA MC Donald EL POBLADO",
+    "address": "Carrera 9 # 140-02 Bogota",
+    "lat": 6.1995094175537275,
+    "lon": -75.57363927371694,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 2177,
+    "max_price_kwh_cop": 2177,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2177
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2177
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:083",
+    "name": "EVINKA Centro comercial sabana norte",
+    "address": "centro comercial sabana norte, chia",
+    "lat": 4.862323082036369,
+    "lon": -74.04319255347804,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:084",
+    "name": "EVINKA Biomax puente cajica",
+    "address": "Cajica Zipaquira, cajica",
+    "lat": 4.899683141791783,
+    "lon": -74.02924386653845,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:085",
+    "name": "EVINKA Parqueadero IVAC",
+    "address": "Calle 99 48-25",
+    "lat": 4.6869055895269724,
+    "lon": -74.06051170728477,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 3,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
   }
 ]
