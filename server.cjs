@@ -3506,10 +3506,15 @@ app.get('/route-alternatives', async (req, res) => {
 
     for (let i = 0; i < Math.min(routes.length, 3); i++) {
       const route = routes[i];
-      const leg = route.legs[0];
-      const distanceM = leg.distance.value;
+      // 🆕 Sumar TODOS los legs (importante cuando hay waypoints)
+      const legs = route.legs || [];
+      let distanceM = 0;
+      let durationSec = 0;
+      for (const leg of legs) {
+        distanceM += leg.distance?.value || 0;
+        durationSec += (leg.duration_in_traffic?.value || leg.duration?.value || 0);
+      }
       const distanceKm = distanceM / 1000;
-      const durationSec = leg.duration_in_traffic?.value || leg.duration.value;
       const durationMin = Math.round(durationSec / 60);
 
       // Decodificar polyline para buscar peajes cercanos
@@ -3566,14 +3571,19 @@ app.get('/route-alternatives', async (req, res) => {
         tag = '🔀';
       }
 
-      // Calcular ratio de tráfico del leg (igual que en /route)
-      const legFreeFlow = leg.duration.value;
-      const legWithTraffic = leg.duration_in_traffic?.value || legFreeFlow;
-      const trafficRatio = legFreeFlow > 0 ? legWithTraffic / legFreeFlow : 1.0;
-      console.log(`[ALT-ROUTES] 🚦 Ruta ${i} traffic ratio: ${trafficRatio.toFixed(2)} (${Math.round(legFreeFlow/60)}min free → ${Math.round(legWithTraffic/60)}min traffic)`);
-
-      // Extraer steps de navegación con tráfico real
-      const steps = (leg.steps || []).map(s => {
+      // 🆕 Calcular ratio de tráfico SUMANDO todos los legs (importante con waypoints)
+      let totalFreeFlow = 0;
+      let totalWithTraffic = 0;
+      for (const lg of legs) {
+        const ff = lg.duration?.value || 0;
+        totalFreeFlow += ff;
+        totalWithTraffic += (lg.duration_in_traffic?.value || ff);
+      }
+      const trafficRatio = totalFreeFlow > 0 ? totalWithTraffic / totalFreeFlow : 1.0;
+      console.log(`[ALT-ROUTES] 🚦 Ruta ${i} traffic ratio: ${trafficRatio.toFixed(2)} (${Math.round(totalFreeFlow/60)}min free → ${Math.round(totalWithTraffic/60)}min traffic)`);
+      // 🆕 Extraer steps de TODOS los legs (concat) para soportar waypoints
+      const allSteps = legs.flatMap(lg => lg.steps || []);
+      const steps = allSteps.map(s => {
         const distanceM = s.distance?.value || 0;
         const durationSec = s.duration?.value || 0;
         const durationTrafficSec = Math.round(durationSec * trafficRatio);
@@ -3615,17 +3625,19 @@ app.get('/route-alternatives', async (req, res) => {
         cumOffset += st.length_m;
       }
 
-        // Generar polyline detallada uniendo las polylines de cada step
-        // (overview_polyline es simplificada y pierde curvas)
+        // 🆕 Generar polyline detallada uniendo TODOS los steps de TODOS los legs
+        // (importante con waypoints: cada leg trae sus propios steps)
         let detailedPoints = [];
-        for (const s of leg.steps) {
-          if (s.polyline?.points) {
-            const stepPts = decodeGooglePolyline(s.polyline.points);
-            // Evitar duplicar el último punto del step anterior con el primero del siguiente
-            if (detailedPoints.length > 0 && stepPts.length > 0) {
-              detailedPoints = detailedPoints.concat(stepPts.slice(1));
-            } else {
-              detailedPoints = detailedPoints.concat(stepPts);
+        for (const lg of legs) {
+          for (const s of (lg.steps || [])) {
+            if (s.polyline?.points) {
+              const stepPts = decodeGooglePolyline(s.polyline.points);
+              // Evitar duplicar el último punto del step anterior con el primero del siguiente
+              if (detailedPoints.length > 0 && stepPts.length > 0) {
+                detailedPoints = detailedPoints.concat(stepPts.slice(1));
+              } else {
+                detailedPoints = detailedPoints.concat(stepPts);
+              }
             }
           }
         }
@@ -3643,7 +3655,7 @@ app.get('/route-alternatives', async (req, res) => {
         tag,
         distance_km: Math.round(distanceKm * 10) / 10,
         duration_min: durationMin,
-        duration_text: leg.duration_in_traffic?.text || leg.duration.text,
+        duration_text: `${Math.floor(durationSec / 3600)}h ${Math.floor((durationSec % 3600) / 60)}min`,
         consumption_percent: Math.round(consumptionPercent * 10) / 10,
         toll_count: tollCount,
         total_tolls_cop: totalTolls,
