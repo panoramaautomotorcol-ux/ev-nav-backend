@@ -551,7 +551,7 @@ function _encodeValue(val) {
 /**
  * Calcular ruta usando Google Maps Directions API
  */
-async function calculateRouteGoogle(origin, destination, waypoints = null, vehicleId = 'generic') {
+async function calculateRouteGoogle(origin, destination, waypoints = null, vehicleId = 'generic', waypointsStrict = false) {
   if (!GOOGLE_MAPS_API_KEY) {
     throw new Error('GOOGLE_MAPS_API_KEY no configurada');
   }
@@ -575,8 +575,14 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
   // Agregar waypoints si existen
   if (waypoints) {
     const waypointsList = waypoints.split('|');
-    params.waypoints = waypointsList.join('|');
-    console.log('[GOOGLE] 📍 Waypoints agregados:', waypointsList.length);
+    if (waypointsStrict) {
+      // 🆕 Modo estricto: prefijo "via:" obliga a Google a pasar EXACTAMENTE por el punto
+      params.waypoints = waypointsList.map(w => `via:${w}`).join('|');
+      console.log('[GOOGLE] 📍 Waypoints ESTRICTOS (via:):', waypointsList.length);
+    } else {
+      params.waypoints = waypointsList.join('|');
+      console.log('[GOOGLE] 📍 Waypoints agregados:', waypointsList.length);
+    }
   }
 
   let response;
@@ -836,16 +842,17 @@ function roundCoords(coordStr) {
   return `${roundedLat},${roundedLon}`;
 }
 
-function getCacheKey(origin, destination, waypoints, vehicleId, passengers) {
+function getCacheKey(origin, destination, waypoints, vehicleId, passengers, waypointsStrict = false) {
   // Redondear coordenadas a ~110m para que GPS quieto use cache
   const o = roundCoords(origin);
   const d = roundCoords(destination);
   const w = waypoints ? roundCoords(waypoints) : 'direct';
-  return `${o}_${d}_${w}_${vehicleId || 'generic'}_${passengers || 1}`;
+  const strict = waypointsStrict ? '_strict' : '';
+  return `${o}_${d}_${w}_${vehicleId || 'generic'}_${passengers || 1}${strict}`;
 }
 
-function getCachedRoute(origin, destination, waypoints, vehicleId, passengers) {
-  const key = getCacheKey(origin, destination, waypoints, vehicleId, passengers);
+function getCachedRoute(origin, destination, waypoints, vehicleId, passengers, waypointsStrict = false) {
+  const key = getCacheKey(origin, destination, waypoints, vehicleId, passengers, waypointsStrict);
   const cached = routeCache.get(key);
   
   if (cached && Date.now() - cached.timestamp < ROUTE_CACHE_TTL) {
@@ -856,8 +863,8 @@ function getCachedRoute(origin, destination, waypoints, vehicleId, passengers) {
   return null;
 }
 
-function setCachedRoute(origin, destination, waypoints, vehicleId, passengers, data) {
-  const key = getCacheKey(origin, destination, waypoints, vehicleId, passengers);
+function setCachedRoute(origin, destination, waypoints, vehicleId, passengers, data, waypointsStrict = false) {
+  const key = getCacheKey(origin, destination, waypoints, vehicleId, passengers, waypointsStrict);
   routeCache.set(key, {
     data,
     timestamp: Date.now()
@@ -2936,6 +2943,7 @@ app.get('/route', async (req, res) => {
     const origin = String(req.query.from || req.query.origin || '');
     const destination = String(req.query.to || req.query.destination || '');
     const waypoints = req.query.waypoints ? String(req.query.waypoints) : null;
+    const waypointsStrict = req.query.waypoints_strict === 'true' || req.query.waypoints_strict === '1';
     const vehicleId = String(req.query.vehicle_id || 'generic');
     const passengers = parseInt(req.query.passengers) || 1; // 🆕 Número de pasajeros (1-5)
     const lang = String(req.query.lang || 'es-ES');
@@ -2956,7 +2964,7 @@ app.get('/route', async (req, res) => {
     }
 
     // Verificar caché
-    const cached = getCachedRoute(origin, destination, waypoints, vehicleId, passengers);
+    const cached = getCachedRoute(origin, destination, waypoints, vehicleId, passengers, waypointsStrict);
     if (cached) {
       console.log('[ROUTE] ⚡ Usando ruta cacheada');
       return res.json(cached);
@@ -2969,7 +2977,7 @@ app.get('/route', async (req, res) => {
     if (provider === 'auto' || provider === 'google') {
       if (GOOGLE_MAPS_API_KEY) {
         try {
-          routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId);
+          routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId, waypointsStrict);
           usedProvider = 'google';
           console.log('[ROUTE] ✅ Usando Google Maps');
         } catch (error) {
@@ -3412,7 +3420,7 @@ app.get('/route', async (req, res) => {
     };
 
     // Guardar en caché
-    setCachedRoute(origin, destination, waypoints, vehicleId, passengers, response);
+    setCachedRoute(origin, destination, waypoints, vehicleId, passengers, response, waypointsStrict);
 
     return res.json(response);
 
