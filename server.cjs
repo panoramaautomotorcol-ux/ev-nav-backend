@@ -2949,6 +2949,10 @@ app.get('/route', async (req, res) => {
     const lang = String(req.query.lang || 'es-ES');
     const debug = req.query.debug != null;
     const provider = String(req.query.provider || 'auto'); // 'google', 'here', 'auto'
+    // ⚡ LITE: verificaciones del planner — solo distancia/duración,
+    // sin polyline/elevación/clima/consumo. La ruta FINAL del usuario
+    // siempre va por el camino completo (sin lite).
+    const lite = req.query.lite === '1' || req.query.lite === 'true';
 
     console.log('[ROUTE] 🚗 Calculando ruta:');
     console.log('[ROUTE]   Origen:', origin);
@@ -2968,6 +2972,15 @@ app.get('/route', async (req, res) => {
     if (cached) {
       console.log('[ROUTE] ⚡ Usando ruta cacheada');
       return res.json(cached);
+    }
+
+    // ⚡ LITE: cache propio (clave separada para nunca mezclar con respuestas completas)
+    if (lite) {
+      const cachedLite = getCachedRoute(origin, destination, waypoints, vehicleId + '__lite', passengers, waypointsStrict);
+      if (cachedLite) {
+        console.log('[ROUTE] ⚡ Usando ruta LITE cacheada');
+        return res.json(cachedLite);
+      }
     }
 
     let routeData = null;
@@ -3152,6 +3165,25 @@ app.get('/route', async (req, res) => {
         error: 'no_route', 
         detail: 'No se pudo calcular la ruta' 
       });
+    }
+
+    // ⚡ LITE: responder aquí con solo distancia/duración. Se salta
+    // elevación, clima, consumo y la polyline de ~28k puntos que el
+    // planner descarta de todas formas.
+    if (lite) {
+      const liteDistanceKm = routeData.distanceMeters / 1000;
+      const liteResponse = {
+        lite: true,
+        distance_km: liteDistanceKm,
+        duration_sec: routeData.durationSeconds,
+        duration_min: routeData.durationSeconds / 60,
+        durationSeconds: routeData.durationSeconds,
+        provider: usedProvider,
+        waypoints_applied: !!waypoints,
+      };
+      setCachedRoute(origin, destination, waypoints, vehicleId + '__lite', passengers, liteResponse, waypointsStrict);
+      console.log(`[ROUTE] ⚡ LITE: ${liteDistanceKm.toFixed(1)} km (sin elevación/clima/consumo)`);
+      return res.json(liteResponse);
     }
 
     // Obtener perfil de elevación (Google Elevation API)
