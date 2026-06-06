@@ -382,18 +382,17 @@ const ELEVATION_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 horas
 const reverseGeocodeCache = new Map();
 const REVERSE_GEOCODE_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 dias
 
-// Limpiar caché de elevación cada 6 horas
+// 💰 Sin limpieza por edad (la altimetría no caduca): solo tope de
+// tamaño para cuidar la memoria — si crece mucho, salen los más viejos.
 setInterval(() => {
-  const now = Date.now();
-  let cleaned = 0;
-  for (const [key, value] of elevationCache.entries()) {
-    if (now - value.timestamp > ELEVATION_CACHE_TTL) {
+  const MAX_ELEV_ENTRIES = 4000;
+  if (elevationCache.size > MAX_ELEV_ENTRIES) {
+    let toDrop = elevationCache.size - 3000;
+    for (const key of elevationCache.keys()) {
+      if (toDrop-- <= 0) break;
       elevationCache.delete(key);
-      cleaned++;
     }
-  }
-  if (cleaned > 0) {
-    console.log(`[CACHE-ELEVATION] Limpiados ${cleaned} perfiles`);
+    console.log(`[CACHE-ELEVATION] Tope aplicado: ${elevationCache.size} perfiles`);
   }
 }, 6 * 60 * 60 * 1000); // Cada 6 horas
 
@@ -551,7 +550,7 @@ function _encodeValue(val) {
 /**
  * Calcular ruta usando Google Maps Directions API
  */
-async function calculateRouteGoogle(origin, destination, waypoints = null, vehicleId = 'generic', waypointsStrict = false) {
+async function calculateRouteGoogle(origin, destination, waypoints = null, vehicleId = 'generic', waypointsStrict = false, noTraffic = false) {
   if (!GOOGLE_MAPS_API_KEY) {
     throw new Error('GOOGLE_MAPS_API_KEY no configurada');
   }
@@ -564,13 +563,22 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
   const params = {
     origin: origin,
     destination: destination,
-    departure_time: 'now',  // ✅ Tráfico en tiempo real
-    traffic_model: 'best_guess', // ✅ Mejor predicción
     alternatives: false,
     language: 'es',
     units: 'metric',
     key: GOOGLE_MAPS_API_KEY
   };
+  // 💰 SKU: con departure_time la llamada factura como Directions
+  // ADVANCED (US$10/1K, 5K gratis). Las verificaciones lite del planner
+  // solo necesitan DISTANCIA (los km no cambian con el tráfico), así que
+  // van sin tráfico → SKU básico (US$5/1K, 10K gratis). Las rutas que el
+  // usuario VE siguen llevando tráfico en tiempo real intacto.
+  if (!noTraffic) {
+    params.departure_time = 'now';  // ✅ Tráfico en tiempo real
+    params.traffic_model = 'best_guess'; // ✅ Mejor predicción
+  } else {
+    console.log('[GOOGLE] 💰 Sin tráfico (verificación lite → SKU Directions básico)');
+  }
 
   // Agregar waypoints si existen
   if (waypoints) {
@@ -2407,7 +2415,8 @@ app.get('/places', async (req, res) => {
         // Cache key: coords redondeadas a ~10m
         const cacheKey = `${it.lat.toFixed(4)},${it.lon.toFixed(4)}`;
         const cached = reverseGeocodeCache.get(cacheKey);
-        if (cached && (Date.now() - cached.timestamp) < REVERSE_GEOCODE_CACHE_TTL) {
+        // 💰 Sin TTL: la dirección de una coordenada NO cambia
+        if (cached) {
           it.road = it.road || cached.road;
           it.locality = it.locality || cached.locality;
           return;
@@ -2990,7 +2999,7 @@ app.get('/route', async (req, res) => {
     if (provider === 'auto' || provider === 'google') {
       if (GOOGLE_MAPS_API_KEY) {
         try {
-          routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId, waypointsStrict);
+          routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId, waypointsStrict, lite);
           usedProvider = 'google';
           console.log('[ROUTE] ✅ Usando Google Maps');
         } catch (error) {
@@ -3194,7 +3203,9 @@ app.get('/route', async (req, res) => {
         const cacheKey = `elev_${origin}_${destination}_${waypoints || 'direct'}_${vehicleId}`;
         const cached = elevationCache.get(cacheKey);
 
-        if (cached && (Date.now() - cached.timestamp) < ELEVATION_CACHE_TTL) {
+        // 💰 Sin TTL: la altimetría de una ruta NO cambia nunca — antes se
+        // recompraba a Google cada 24h aunque la instancia siguiera viva.
+        if (cached) {
           console.log(`[ELEVATION] ⚡ Cache HIT: ${origin} → ${destination}`);
           elevationData = cached.data;
         } else {
