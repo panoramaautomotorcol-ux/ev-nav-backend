@@ -3406,9 +3406,11 @@ app.get('/route', async (req, res) => {
         } else if (isDownhillTrip) {
           rollingFactor = 0.85;
         } else if (isUphillTrip) {
-          rollingFactor = 0.80;
+          rollingFactor = 0.86; // 🔧 CAL: era 0.80; subida real C.Apicalá→Bog 47% vs 41% predicho
         } else if (isMountainMixed) {
-          rollingFactor = 0.80; // Montaña mixta: velocidad promedio baja
+          // 🔧 CAL conservadora: era 0.80 (asumía 50-60km/h). A 80-97km/h
+          // sostenidos el arrastre aerodinámico es mayor → sesgo a zona segura.
+          rollingFactor = 0.86;
         }
         
         // 🆕 Factor de peso en consumo plano (más peso = más resistencia rodadura)
