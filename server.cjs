@@ -100,7 +100,10 @@ async function sendReportEmail({ siteId, siteName, status, queueVehicles, detail
 
 // ==================== CALIBRACIÓN COLABORATIVA ====================
 // Persistencia en archivo JSON para sobrevivir reinicios de Render.com
-const CALIBRATION_FILE = './calibration_data.json';
+// Disco persistente de Render (/var/data) si existe; si no, carpeta local (dev)
+const CALIBRATION_FILE = require('fs').existsSync('/var/data')
+  ? '/var/data/calibration_data.json'
+  : './calibration_data.json';
 
 function loadCalibrationReports() {
   try {
