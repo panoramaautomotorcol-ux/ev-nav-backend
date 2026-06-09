@@ -4422,70 +4422,84 @@ app.post('/api/calibration-report', (req, res) => {
 app.get('/api/calibration-stats', (req, res) => {
   try {
     const vehicleId = req.query.vehicle_id;
-    
-    let filteredReports = calibrationReports;
+
+    // FILTRO DE CALIDAD - excluir reportes basura
+    const MAX_RATE = 0.45;   // techo fisico kWh/km (imposible por encima)
+    const MIN_KM   = 5;      // viajes muy cortos no calibran bien
+    const isValid = (r) => {
+      const km   = r.route && r.route.distance_km ? r.route.distance_km : 0;
+      const rate = r.calculated_consumption_rate || 0;
+      return km >= MIN_KM && rate > 0 && rate <= MAX_RATE;
+    };
+
+    let baseReports = calibrationReports;
     if (vehicleId) {
-      filteredReports = calibrationReports.filter(r => r.vehicle_id === vehicleId);
+      baseReports = calibrationReports.filter(r => r.vehicle_id === vehicleId);
     }
-    
+
+    const filteredReports = baseReports.filter(isValid);
+    const excludedCount = baseReports.length - filteredReports.length;
+
     if (filteredReports.length === 0) {
-      return res.json({ 
-        message: 'No hay reportes disponibles',
-        total_reports: 0
+      return res.json({
+        message: 'No hay reportes validos disponibles',
+        total_reports: 0,
+        excluded_reports: excludedCount
       });
     }
-    
-    // Calcular estadísticas
-    const avgConsumption = filteredReports.reduce((sum, r) => 
+
+    const avgConsumption = filteredReports.reduce((sum, r) =>
       sum + (r.calculated_consumption_rate || 0), 0
     ) / filteredReports.length;
-    
-    const avgError = filteredReports.reduce((sum, r) => 
-      sum + Math.abs(r.prediction?.error_percent || 0), 0
+
+    const avgError = filteredReports.reduce((sum, r) =>
+      sum + Math.abs((r.prediction && r.prediction.error_percent) || 0), 0
     ) / filteredReports.length;
-    
-    // Agrupar por vehículo
+
     const byVehicle = {};
     filteredReports.forEach(r => {
       if (!byVehicle[r.vehicle_id]) {
-        byVehicle[r.vehicle_id] = {
-          count: 0,
-          totalConsumption: 0,
-          totalError: 0
-        };
+        byVehicle[r.vehicle_id] = { count: 0, totalConsumption: 0, totalError: 0 };
       }
       byVehicle[r.vehicle_id].count++;
       byVehicle[r.vehicle_id].totalConsumption += r.calculated_consumption_rate || 0;
-      byVehicle[r.vehicle_id].totalError += Math.abs(r.prediction?.error_percent || 0);
+      byVehicle[r.vehicle_id].totalError += Math.abs((r.prediction && r.prediction.error_percent) || 0);
     });
-    
+
     const vehicleStats = Object.keys(byVehicle).map(vId => ({
       vehicle_id: vId,
       reports: byVehicle[vId].count,
       avg_consumption: (byVehicle[vId].totalConsumption / byVehicle[vId].count).toFixed(4),
       avg_error: (byVehicle[vId].totalError / byVehicle[vId].count).toFixed(2)
     }));
-    
+
     res.json({
       filter: vehicleId || 'all',
       total_reports: filteredReports.length,
+      excluded_reports: excludedCount,
       avg_consumption_rate: avgConsumption.toFixed(4),
       avg_error_percent: avgError.toFixed(2),
       by_vehicle: vehicleStats,
       recent_reports: filteredReports.slice(-10).reverse().map(r => ({
         id: r.id,
         vehicle: r.vehicle_id,
-        route: `${r.route.origin || 'N/A'} → ${r.route.destination || 'N/A'}`,
-        distance_km: r.route.distance_km,
-        consumption_rate: r.calculated_consumption_rate?.toFixed(4),
-        error_percent: r.prediction?.error_percent?.toFixed(1),
+        route: `${(r.route && r.route.origin) || 'N/A'} → ${(r.route && r.route.destination) || 'N/A'}`,
+        distance_km: r.route ? r.route.distance_km : null,
+        battery: `${(r.battery && r.battery.initial_percent != null) ? r.battery.initial_percent : 'N/A'}% → ${(r.battery && r.battery.final_percent != null) ? r.battery.final_percent : 'N/A'}%`,
+        initial_percent: r.battery ? r.battery.initial_percent : null,
+        final_percent: r.battery ? r.battery.final_percent : null,
+        consumed_percent: r.battery ? r.battery.consumed_percent : null,
+        consumption_rate: r.calculated_consumption_rate != null ? r.calculated_consumption_rate.toFixed(4) : null,
+        duration_min: (r.metadata && r.metadata.duration_min != null) ? Number(r.metadata.duration_min).toFixed(1) : null,
+        predicted_arrival: r.prediction ? r.prediction.estimated_arrival : null,
+        error_percent: (r.prediction && r.prediction.error_percent != null) ? r.prediction.error_percent.toFixed(1) : null,
         date: r.received_at
       }))
     });
-    
+
   } catch (error) {
     console.error('[CALIBRATION] ❌ Error stats:', error);
-    res.status(500).json({ error: 'Error al obtener estadísticas' });
+    res.status(500).json({ error: 'Error al obtener estadisticas' });
   }
 });
 
