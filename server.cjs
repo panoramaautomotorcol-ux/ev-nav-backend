@@ -1993,29 +1993,38 @@ app.get('/places-fast', async (req, res) => {
         }))
         .slice(0, parseInt(limit) || 10);
     } else {
-      // Google Places Text Search (classic API)
-      const response = await axios.get(
-        'https://maps.googleapis.com/maps/api/place/textsearch/json',
+      // Google Places Text Search (New API) — cobra solo por campos solicitados
+      const response = await axios.post(
+        'https://places.googleapis.com/v1/places:searchText',
         {
-          params: {
-            query: query,
-            key: GOOGLE_MAPS_API_KEY,
-            language: lang || 'es',
-            region: 'co',
-            location: `${atParts[0] || 4.6097},${atParts[1] || -74.0817}`,
-            radius: 50000,
+          textQuery: query,
+          languageCode: lang || 'es',
+          regionCode: 'co',
+          locationBias: {
+            circle: {
+              center: { latitude: atParts[0] || 4.6097, longitude: atParts[1] || -74.0817 },
+              radius: 50000.0
+            }
+          },
+          maxResultCount: 10
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+            'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.location'
           },
           timeout: 3000,
         }
       );
       
-      items = (response.data.results || [])
-        .filter(r => r.geometry?.location)
+      items = (response.data.places || [])
+        .filter(r => r.location)
         .map(r => ({
-          name: r.name || '',
-          lat: r.geometry.location.lat,
-          lon: r.geometry.location.lng,
-          address: r.formatted_address || r.name || '',
+          name: r.displayName?.text || '',
+          lat: r.location.latitude,
+          lon: r.location.longitude,
+          address: r.formattedAddress || r.displayName?.text || '',
         }))
         .slice(0, parseInt(limit) || 10);
     }
@@ -2073,15 +2082,39 @@ app.get('/places-google', async (req, res) => {
       params.radius = 100000;
     }
     
-    const r = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', {
-      params, timeout: 5000
-    });
-    
-    const items = (r.data.results || []).slice(0, 8).map(p => ({
-      name: p.name || '',
-      address: p.formatted_address || '',
-      lat: p.geometry?.location?.lat || 0,
-      lon: p.geometry?.location?.lng || 0,
+    const r = await axios.post('https://places.googleapis.com/v1/places:searchText',
+      {
+        textQuery: params.query,
+        languageCode: params.language || 'es',
+        regionCode: 'co',
+        maxResultCount: 8,
+        ...(params.location ? {
+          locationBias: {
+            circle: {
+              center: { 
+                latitude: parseFloat(params.location.split(',')[0]),
+                longitude: parseFloat(params.location.split(',')[1])
+              },
+              radius: params.radius || 100000
+            }
+          }
+        } : {})
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.location'
+        },
+        timeout: 5000
+      }
+    );
+
+    const items = (r.data.places || []).map(p => ({
+      name: p.displayName?.text || '',
+      address: p.formattedAddress || '',
+      lat: p.location?.latitude || 0,
+      lon: p.location?.longitude || 0,
       provider: 'google',
     }));
     
@@ -2302,16 +2335,37 @@ app.get('/places', async (req, res) => {
           params.location = `${atLat},${atLon}`;
           params.radius = 50000;
         }
-        const r = await axios.get(
-          'https://maps.googleapis.com/maps/api/place/textsearch/json',
-          { params, timeout: 5000 }
+        const r = await axios.post(
+          'https://places.googleapis.com/v1/places:searchText',
+          {
+            textQuery: params.query,
+            languageCode: params.language || 'es',
+            regionCode: 'co',
+            maxResultCount: 10,
+            ...(atLat != null && atLon != null ? {
+              locationBias: {
+                circle: {
+                  center: { latitude: atLat, longitude: atLon },
+                  radius: 50000
+                }
+              }
+            } : {})
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+              'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.location,places.types'
+            },
+            timeout: 5000
+          }
         );
-        const places = r.data.results || [];
+        const places = r.data.places || [];
         places.forEach(p => {
-          if (!p.geometry?.location) return;
-          const lat = p.geometry.location.lat, lon = p.geometry.location.lng;
-          const name = p.name || '';
-          const addr = p.formatted_address || name;
+          if (!p.location) return;
+          const lat = p.location.latitude, lon = p.location.longitude;
+          const name = p.displayName?.text || '';
+          const addr = p.formattedAddress || name;
           const types = p.types || [];
           const isAddress = types.includes('street_address') || types.includes('premise') || types.includes('subpremise');
           const mappedType = isAddress ? 'address' : 'poi';
