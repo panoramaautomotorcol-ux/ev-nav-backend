@@ -3447,7 +3447,7 @@ app.get('/route', async (req, res) => {
         const isExtremeUphill = gainM > (lossM * 2.5); // Subida extrema (ej: Girardot→Bogotá, +2300m)
         
         // 2. ENERGÍA POR RODAMIENTO (Consumo base en plano, incluye factor clima)
-        const consumptionWhPerKm = (baseConsumptionRate / 100) * batteryKwh * 1000 * (weatherInfo?.factor || 1.0);
+        const consumptionWhPerKm = (baseConsumptionRate / 100) * batteryKwh * 1000;
         
         // Rolling factor calibrado con datos reales MG4:
         // BAJADA: Bogotá→Girardot (5-12% real) → RF 0.75
