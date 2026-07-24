@@ -2095,7 +2095,7 @@ app.get('/places-google', async (req, res) => {
                 latitude: parseFloat(params.location.split(',')[0]),
                 longitude: parseFloat(params.location.split(',')[1])
               },
-              radius: params.radius || 100000
+              radius: parseFloat(params.radius || 100000)
             }
           }
         } : {})
@@ -2125,7 +2125,7 @@ app.get('/places-google', async (req, res) => {
     console.log(`[SEARCH-GOOGLE] 🔍 "${q}" → ${items.length} resultados (cached)`);
     res.json(result);
   } catch (e) {
-    console.error('[SEARCH-GOOGLE] Error:', e.message);
+    console.error('[SEARCH-GOOGLE] Error:', e.message, e.response?.data);
     res.status(500).json({ items: [], error: e.message });
   }
 });
