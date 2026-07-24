@@ -3463,7 +3463,7 @@ app.get('/route', async (req, res) => {
         } else if (isDownhillTrip) {
           rollingFactor = 0.85;
         } else if (isUphillTrip) {
-          rollingFactor = 1.0; // 🔧 CAL: subida Anapoima→Bog real 30% vs 26% predicho
+          rollingFactor = 1.05; // 🔧 CAL: subida Anapoima→Bog real 30% predicho 26%
         } else if (isMountainMixed) {
           // 🔧 CAL conservadora: era 0.80 (asumía 50-60km/h). A 80-97km/h
           // sostenidos el arrastre aerodinámico es mayor → sesgo a zona segura.
