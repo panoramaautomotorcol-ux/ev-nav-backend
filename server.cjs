@@ -2095,7 +2095,7 @@ app.get('/places-google', async (req, res) => {
                 latitude: parseFloat(params.location.split(',')[0]),
                 longitude: parseFloat(params.location.split(',')[1])
               },
-              radius: parseFloat(params.radius || 100000)
+              radius: Math.min(parseFloat(params.radius || 50000), 50000)
             }
           }
         } : {})
