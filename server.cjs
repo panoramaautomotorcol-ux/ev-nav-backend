@@ -3463,7 +3463,7 @@ app.get('/route', async (req, res) => {
         } else if (isDownhillTrip) {
           rollingFactor = 0.85;
         } else if (isUphillTrip) {
-          rollingFactor = 0.86; // 🔧 CAL: era 0.80; subida real C.Apicalá→Bog 47% vs 41% predicho
+          rollingFactor = 1.0; // 🔧 CAL: subida Anapoima→Bog real 30% vs 26% predicho
         } else if (isMountainMixed) {
           // 🔧 CAL conservadora: era 0.80 (asumía 50-60km/h). A 80-97km/h
           // sostenidos el arrastre aerodinámico es mayor → sesgo a zona segura.
