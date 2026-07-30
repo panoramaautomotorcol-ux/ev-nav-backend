@@ -4863,5 +4863,242 @@
       }
     ],
     "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:093",
+    "name": "EnelX Plaza de las americas",
+    "address": "centro comercial plaza de las americas, Bogota",
+    "lat": 4.6201688663640965,
+    "lon": -74.13478472697388,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1950,
+    "max_price_kwh_cop": 1950,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 160,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1950
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1950
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 160,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1950
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:094",
+    "name": "EnelX Hotel 104",
+    "address": "carrera 18a # 104-77, Bogota",
+    "lat": 4.691055741454576,
+    "lon": -74.05033488954642,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:095",
+    "name": "EnelX Fersautos",
+    "address": "kilometro 1 anillo vial Floridablanca",
+    "lat": 7.061668424366772,
+    "lon": -73.10961140843665,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1950,
+    "max_price_kwh_cop": 1950,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1950
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:096",
+    "name": "energiaPereira Portal de cerritos",
+    "address": "Cartago km 5, Cerritos, Pereira",
+    "lat": 4.812433436785696,
+    "lon": -75.77326297433338,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1764,
+    "max_price_kwh_cop": 1764,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1764
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1764
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1764
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:097",
+    "name": "Cien internacional de electricos",
+    "address": "calle 22 # 30-22, Bogota",
+    "lat": 4.622330263643249,
+    "lon": -74.0854742422152,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1707,
+    "max_price_kwh_cop": 1707,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:098",
+    "name": "Cien Mercacentro",
+    "address": "Comuna 9 - Picaleña, Perímetro Urbano Ibagué, Ibagué",
+    "lat": 4.415914770152506,
+    "lon": -75.175785424477,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 22,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:098",
+    "name": "Cien Mercacentro",
+    "address": "Comuna 9 - Picaleña, Perímetro Urbano Ibagué, Ibagué",
+    "lat": 4.415914770152506,
+    "lon": -75.175785424477,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 2200,
+    "max_price_kwh_cop": 2200,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2200
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2200
+      }
+    ],
+    "provider": "WATTGO EV"
   }
 ]
