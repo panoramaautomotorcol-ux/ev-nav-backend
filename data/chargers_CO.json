@@ -5065,40 +5065,5 @@
       }
     ],
     "provider": "WATTGO EV"
-  },
-  {
-    "id": "manual:098",
-    "name": "Cien Mercacentro",
-    "address": "Comuna 9 - Picaleña, Perímetro Urbano Ibagué, Ibagué",
-    "lat": 4.415914770152506,
-    "lon": -75.175785424477,
-    "network": null,
-    "status": "Operational",
-    "is_operational": true,
-    "last_updated": "2025-11-15T24:30:00Z",
-
-    "min_price_kwh_cop": 2200,
-    "max_price_kwh_cop": 2200,
-
-    "power_kw": 7,
-    "connectors": [
-      {
-        "type": "CCS1",
-        "level": 3,
-        "power_kw": 60,
-        "current": "DC",
-        "quantity": 1,
-        "price_kwh_cop": 2200
-      },
-      {
-        "type": "CCS2",
-        "level": 3,
-        "power_kw": 60,
-        "current": "DC",
-        "quantity": 2,
-        "price_kwh_cop": 2200
-      }
-    ],
-    "provider": "WATTGO EV"
   }
 ]
