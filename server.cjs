@@ -386,7 +386,7 @@ io.on('connection', (socket) => {
 
 // ===== CACHÉ DE BÚSQUEDAS =====
 const searchCache = new Map();
-const SEARCH_CACHE_TTL = 10 * 60 * 1000; // 10 minutos
+const SEARCH_CACHE_TTL = 60 * 60 * 1000; // 60 minutos
 
 // Limpiar caché cada hora
 setInterval(() => {
@@ -856,7 +856,7 @@ function findClosestPointIndex(points, targetLat, targetLng) {
  * Sistema de caché de rutas
  */
 const routeCache = new Map();
-const ROUTE_CACHE_TTL = 15 * 60 * 1000; // 15 minutos
+const ROUTE_CACHE_TTL = 60 * 60 * 1000; // 60 minutos
 // Cache para alternativas de ruta (mismo TTL que routeCache)
 const altRoutesCache = new Map();
 const ALT_ROUTES_CACHE_TTL = 15 * 60 * 1000; // 15 minutos
