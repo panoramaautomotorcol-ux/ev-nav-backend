@@ -2006,7 +2006,7 @@ app.get('/places-fast', async (req, res) => {
               radius: 50000.0
             }
           },
-          maxResultCount: 10
+          maxResultCount: 5
         },
         {
           headers: {
@@ -2087,7 +2087,7 @@ app.get('/places-google', async (req, res) => {
         textQuery: params.query,
         languageCode: params.language || 'es',
         regionCode: 'co',
-        maxResultCount: 8,
+        maxResultCount: 5,
         ...(params.location ? {
           locationBias: {
             circle: {
@@ -2341,7 +2341,7 @@ app.get('/places', async (req, res) => {
             textQuery: params.query,
             languageCode: params.language || 'es',
             regionCode: 'co',
-            maxResultCount: 10,
+            maxResultCount: 5,
             ...(atLat != null && atLon != null ? {
               locationBias: {
                 circle: {
@@ -2491,7 +2491,7 @@ app.get('/places', async (req, res) => {
     // Reverse Geocode Google (top-8) para completar road/locality
     async function fillRoadViaReverse(list) {
       if (!GOOGLE_MAPS_API_KEY) return list;
-      const top = list.slice(0, 8);
+      const top = list.slice(0, 3);
       await Promise.all(top.map(async it => {
         if (it.road && it.locality) return;
         // Cache key: coords redondeadas a ~10m
