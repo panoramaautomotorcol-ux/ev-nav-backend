@@ -1940,7 +1940,7 @@ app.get('/places-fast', async (req, res) => {
     const query = q.trim();
     const cacheKey = `fast_${query.toLowerCase()}_${at}`;
     // FILTRO DE LONGITUD MINIMA (reduccion de costos Google API)
-    if (query.length < 3) {
+    if (query.length < 4) {
       console.log(`[SEARCH-FAST] Query muy corta ignorada: "${query}"`);
       return res.json({ items: [], provider: 'min_length' });
     }
@@ -2051,7 +2051,7 @@ app.get('/places-fast', async (req, res) => {
 app.get('/places-google', async (req, res) => {
   try {
     const q = String(req.query.q || '').trim();
-    if (!q || q.length < 3) {
+    if (!q || q.length < 4) {
       if (q) console.log(`[SEARCH-GOOGLE] Query muy corta ignorada: "${q}"`);
       return res.json({ items: [], provider: 'min_length' });
     }
@@ -2176,7 +2176,7 @@ app.get('/places', async (req, res) => {
       });
     }
     // ⚡ FILTRO DE LONGITUD MÍNIMA (reducción de costos Google API)
-    if (rawQ.length < 3) {
+    if (rawQ.length < 4) {
       console.log(`[SEARCH] ⏭️  Query muy corta ignorada: "${rawQ}"`);
       return res.json({ items: [], provider: 'min_length' });
     }
