@@ -1965,7 +1965,7 @@ app.get('/places-fast', async (req, res) => {
     
     // Detectar si es dirección colombiana (contiene # o patrones como "calle XX", "cra XX")
     const looksLikeAddress = /#/.test(query) || 
-      /\b(calle|cll|carrera|cra|kr|diagonal|diag|transversal|tv|avenida|av)\s*\d/i.test(query);
+      /\b(calle|cll|carrera|cra|kr|diagonal|diag|transversal|tv|avenida|av)\s*\d+\s+\d/i.test(query);
     
     if (looksLikeAddress) {
       // Google Geocoding API — mejor para direcciones exactas
@@ -2275,7 +2275,7 @@ app.get('/places', async (req, res) => {
 
     /* ---------- Google Geocoding (for Colombian addresses with #) ---------- */
     const looksLikeAddress = /#/.test(q) || 
-      /\b(calle|cll|carrera|cra|kr|diagonal|diag|transversal|tv|avenida|av)\s*\d/i.test(q);
+      /\b(calle|cll|carrera|cra|kr|diagonal|diag|transversal|tv|avenida|av)\s*\d+\s+\d/i.test(q);
     const hasExactAddress = /#/.test(q); // Has # = exact address like "cra 22 # 51-38"
     
     if (ok(GOOGLE_MAPS_API_KEY) && looksLikeAddress) {
