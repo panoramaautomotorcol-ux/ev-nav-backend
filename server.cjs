@@ -3587,7 +3587,7 @@ app.get('/route-alternatives', async (req, res) => {
       origin, destination,
       departure_time: 'now',
       traffic_model: 'best_guess',
-      alternatives: true,  // 🔀 Pedir alternativas
+      alternatives: false,  // 🔧 Desactivado para reducir costos - solo ruta principal
       language: 'es',
       units: 'metric',
       key: GOOGLE_MAPS_API_KEY
