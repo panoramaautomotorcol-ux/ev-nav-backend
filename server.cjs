@@ -601,7 +601,12 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
   // solo necesitan DISTANCIA (los km no cambian con el tráfico), así que
   // van sin tráfico → SKU básico (US$5/1K, 10K gratis). Las rutas que el
   // usuario VE siguen llevando tráfico en tiempo real intacto.
-  if (!noTraffic) {
+  // 💰 Google no devuelve duration_in_traffic cuando hay waypoints (todos los
+  // ratios vuelven en 1.00), así que departure_time solo encarece el SKU sin
+  // aportar dato. Los colores de tráfico usan umbrales de velocidad absolutos
+  // y siguen funcionando igual.
+  const hasWaypoints = !!waypoints && waypoints.length > 0;
+  if (!noTraffic && !hasWaypoints) {
     params.departure_time = 'now';  // ✅ Tráfico en tiempo real
     params.traffic_model = 'best_guess'; // ✅ Mejor predicción
   } else {
