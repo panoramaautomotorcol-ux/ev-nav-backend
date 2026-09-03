@@ -407,8 +407,41 @@ setInterval(() => {
 const elevationCache = new Map();
 const ELEVATION_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 horas
 // Cache PERMANENTE para reverse geocode (las direcciones de coordenadas NO cambian)
-const reverseGeocodeCache = new Map();
-const REVERSE_GEOCODE_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 dias
+// 💰 Cache persistente en disco: la dirección de una coordenada NO cambia nunca.
+// Sobrevive reinicios de Render, que antes vaciaban el cache y obligaban a repagar.
+const REVGEO_FILE = require('fs').existsSync('/var/data')
+  ? '/var/data/revgeo_cache.json'
+  : './revgeo_cache.json';
+
+function loadRevGeoCache() {
+  try {
+    if (fs.existsSync(REVGEO_FILE)) {
+      const data = JSON.parse(fs.readFileSync(REVGEO_FILE, 'utf-8'));
+      console.log(`[REVGEO] ✅ Cargadas ${Object.keys(data).length} coordenadas desde disco`);
+      return new Map(Object.entries(data));
+    }
+  } catch (e) {
+    console.error('[REVGEO] ⚠️ Error al cargar archivo:', e.message);
+  }
+  return new Map();
+}
+
+const reverseGeocodeCache = loadRevGeoCache();
+let revGeoDirty = 0;
+
+function saveRevGeoCache() {
+  try {
+    fs.writeFileSync(REVGEO_FILE, JSON.stringify(Object.fromEntries(reverseGeocodeCache)), 'utf-8');
+    revGeoDirty = 0;
+  } catch (e) {
+    console.error('[REVGEO] ⚠️ Error al guardar archivo:', e.message);
+  }
+}
+
+// Volcar a disco cada 20 entradas nuevas (evita escribir en cada búsqueda)
+function markRevGeoDirty() {
+  if (++revGeoDirty >= 20) saveRevGeoCache();
+}
 
 // 💰 Sin limpieza por edad (la altimetría no caduca): solo tope de
 // tamaño para cuidar la memoria — si crece mucho, salen los más viejos.
@@ -2526,6 +2559,7 @@ app.get('/places', async (req, res) => {
               locality: it.locality, 
               timestamp: Date.now() 
             });
+            markRevGeoDirty();
           }
         } catch {}
       }));
