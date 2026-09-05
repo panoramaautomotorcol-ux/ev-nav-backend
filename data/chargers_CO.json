@@ -5065,5 +5065,48 @@
       }
     ],
     "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:099",
+    "name": "Electrolandia",
+    "address": "carrera 90 # 16-97, Cali",
+    "lat": 3.366157538194308,
+    "lon": -76.52213235371286,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1000,
+    "max_price_kwh_cop": 1250,
+
+    "power_kw": 11,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1000
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1000
+      },
+      {
+        "type": "GBT",
+        "level": 1,
+        "power_kw": 11,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1000
+      }
+    ],
+    "provider": "WATTGO EV"
   }
 ]
