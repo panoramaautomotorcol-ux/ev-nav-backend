@@ -5111,5 +5111,32 @@
       }
     ],
     "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:100",
+    "name": "Mubon Centro Comercial Viva Tunja",
+    "address": "Av. Universitaria # 51 - 21, TUNJA",
+    "lat": 5.556843085531014,
+    "lon": -73.3460030140589,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1600,
+    "max_price_kwh_cop": 1600,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1600
+      }
+    ],
+    "provider": "WATTGO EV"
   }
 ]
