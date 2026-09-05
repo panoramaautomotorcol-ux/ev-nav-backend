@@ -5080,6 +5080,9 @@
     "min_price_kwh_cop": 1000,
     "max_price_kwh_cop": 1250,
 
+    "contact_url": "https://wa.me/573108176786?text=Hola,%20quiero%20cargar%20en%20Electrolandia",
+    "contact_label": "Escribir por WhatsApp",
+
     "power_kw": 11,
     "connectors": [
       {
