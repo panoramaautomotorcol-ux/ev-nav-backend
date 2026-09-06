@@ -5138,5 +5138,627 @@
       }
     ],
     "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:101",
+    "name": "Mubon Exito 170",
+    "address": "exito calle 170, Bogota",
+    "lat": 	4.754443237647098,
+    "lon": -74.04468626804635,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1600,
+    "max_price_kwh_cop": 1600,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1600
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1600
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:102",
+    "name": "Mubon carulla Galerias",
+    "address": "carulla Galeria, Bogota",
+    "lat": 	4.642451602836267,
+    "lon": -74.07512636173983,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1600,
+    "max_price_kwh_cop": 1600,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1600
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1600
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:103",
+    "name": "Mubon centro comercial Galerias",
+    "address": "centro comercial Galerias, Bogota",
+    "lat": 	4.642440874876996,
+    "lon": -74.0741877134528,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1600,
+    "max_price_kwh_cop": 1600,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1950
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1950
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:104",
+    "name": "Mubon Cañaveral Prados del Norte",
+    "address": "Calle 64 Norte, Zona Parque del Amor, Comuna 2, CALI",
+    "lat": 	3.4705088128740655,
+    "lon": -76.51926888673079,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1600,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 1,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1600
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1600
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:105",
+    "name": "Primax La Boqueria",
+    "address": "Calle 64 Norte, Zona Parque del Amor, Comuna 2, CALI",
+    "lat": 	3.508223893718481,
+    "lon": -76.52059299168917,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 4,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2000
+      },
+      {
+        "type": "GBT",
+        "level": 4,
+        "power_kw": 30,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2000
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:106",
+    "name": "CENSEV Centro Comercial Ventura plaza",
+    "address": "Centro Comercial Ventura plaza, CUCUTA",
+    "lat": 	7.887924034683455,
+    "lon": -72.49663847409398,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1600,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 4,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1600
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 19,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:107",
+    "name": "CENSEV UNICENTRO",
+    "address": "Centro Comercial Ventura plaza, CUCUTA",
+    "lat": 	7.917490443114374,
+    "lon": -72.49402100055391,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+
+    "power_kw": 19,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 19,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 19,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:108",
+    "name": "CENSEV AV FRANCISO FERNANDEZ",
+    "address": "AV FRANCISCO FERNANDEZ, OCAÑA",
+    "lat": 	8.253929212682607,
+    "lon": -73.35934132367278,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+
+    "power_kw": 25,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 4,
+        "power_kw": 25,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1600
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 19,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:109",
+    "name": "CENSEV CARIONGO ",
+    "address": "carrera 5 calle 9 esquina, PAMPLONA",
+    "lat": 	7.372784305100581,
+    "lon": -72.65058555918604,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+
+    "power_kw": 19,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 19,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 19,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:110",
+    "name": "voltrelli las Palmas ",
+    "address": "Lavadero Las Palmas, 38-07, Calle 26, MEDELLIN",
+    "lat": 	6.2245334,
+    "lon": -75.5653586,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 120,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 4,
+        "power_kw": 120,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "GBT",
+        "level": 4,
+        "power_kw": 120,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:111",
+    "name": "EDS Las brisas Neiva",
+    "address": "EDS Las brisas Neiva",
+    "lat": 	2.9308058371394963,
+    "lon": -75.26873250167301,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+
+    "power_kw": 150,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 4,
+        "power_kw": 150,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      },
+      {
+        "type": "GBT",
+        "level": 4,
+        "power_kw": 150,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      },
+      {
+        "type": "CCS1",
+        "level": 4,
+        "power_kw": 150,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1900
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:112",
+    "name": "Mubon CC La Cometa - Mubon",
+    "address": "Cra 19 # 42-23, Pamira, Valle del Cauca",
+    "lat": 	3.537472683996159,
+    "lon": -76.29003161764416,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1600,
+    "max_price_kwh_cop": 1600,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1600
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:112",
+    "name": "ESSA EDS SAN RAFAEL ",
+    "address": "Carrera 21 con Calle 45, Bucaramanga",
+    "lat": 	7.1166813510420015,
+    "lon": -73.12011999347011,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1500,
+    "max_price_kwh_cop": 1500,
+
+    "power_kw": 53,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 4,
+        "power_kw": 53,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1500
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:112",
+    "name": "ESSA CENTRO COMERCIAL CACIQUE ",
+    "address": "CENTRO COMERCIAL CACIQUE, Bucaramanga",
+    "lat": 	7.099036142861678,
+    "lon": -73.10803675319184,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1200,
+    "max_price_kwh_cop": 1200,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1200
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1200
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:113",
+    "name": "ESSA CENTRO COMERCIAL LA FLORIDA",
+    "address": "CENTRO COMERCIAL LA FLORIDA, FLORIDABLANCA",
+    "lat": 	7.070422895639979,
+    "lon": -73.10580631476708,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1200,
+    "max_price_kwh_cop": 1200,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1200
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1200
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:114",
+    "name": "ESSA CENTRO COMERCIAL EL PUENTE",
+    "address": "CENTRO COMERCIAL EL PUENTE, SAN GIL",
+    "lat": 	6.552443316398694,
+    "lon": -73.13378068751263,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1200,
+    "max_price_kwh_cop": 1200,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1200
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1200
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:114",
+    "name": "ESSA CENTRO COMERCIAL SAN SILVESTRE",
+    "address": "CENTRO COMERCIAL SAN SILVESTRE, BARRANCABERMEJA",
+    "lat": 	7.067139784586487,
+    "lon": -73.85769761692313,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1200,
+    "max_price_kwh_cop": 1200,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1200
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1200
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:115",
+    "name": "ESSA EDS SAN ALBERTO",
+    "address": "EDS SAN ALBERTO, San alberto",
+    "lat": 	7.761107067573377,
+    "lon": -73.38955238370895,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1500,
+    "max_price_kwh_cop": 1500,
+
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 4,
+        "power_kw": 53,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1500
+      }
+    ],
+    "provider": "WATTGO EV"
   }
 ]
