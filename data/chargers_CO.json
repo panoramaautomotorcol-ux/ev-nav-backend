@@ -5760,5 +5760,48 @@
       }
     ],
     "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:116",
+    "name": "Euros Hotel",
+    "address": "Euros, Carretera Panamericana, Postobon El Bordo",
+    "lat": 	2.1158394,
+    "lon": -76.9846547,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1500,
+    "max_price_kwh_cop": 1500,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 2500
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 2500
+      },
+      {
+        "type": "GBT",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 2500
+      }
+    ],
+    "provider": "WATTGO EV"
   }
 ]
