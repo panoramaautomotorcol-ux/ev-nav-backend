@@ -4576,7 +4576,7 @@ app.get('/api/calibration-stats', (req, res) => {
       avg_consumption_rate: avgConsumption.toFixed(4),
       avg_error_percent: avgError.toFixed(2),
       by_vehicle: vehicleStats,
-      recent_reports: filteredReports.slice(-10).reverse().map(r => ({
+      recent_reports: filteredReports.slice(-Math.min(parseInt(req.query.limit) || 50, 100)).reverse().map(r => ({
         id: r.id,
         vehicle: r.vehicle_id,
         route: `${(r.route && r.route.origin) || 'N/A'} → ${(r.route && r.route.destination) || 'N/A'}`,
