@@ -3500,7 +3500,18 @@ app.get('/route', async (req, res) => {
         } else if (isExtremeUphill) {
           rollingFactor = 0.70;
         } else if (isDownhillTrip) {
-          rollingFactor = 0.85;
+          // 🔧 CAL: el descuento por bajada depende de qué tan pronunciada sea.
+          // Melgar (26 m/km de bajada) → 0.85 funciona. Montería (3 m/km en 449km)
+          // es casi plano y a 90-100 km/h el arrastre manda → cerca de 1.0.
+          const dropPerKm = Math.abs(netChange) / Math.max(distanceKm, 1);
+          if (dropPerKm >= 20) {
+            rollingFactor = 0.85;
+          } else if (dropPerKm <= 5) {
+            rollingFactor = 1.0;
+          } else {
+            // interpolación lineal entre 5 y 20 m/km
+            rollingFactor = 1.0 - ((dropPerKm - 5) / 15) * 0.15;
+          }
         } else if (isUphillTrip) {
           rollingFactor = 1.05; // 🔧 CAL: subida Anapoima→Bog real 30% predicho 26%
         } else if (isMountainMixed) {
