@@ -417,7 +417,7 @@ function saveSearchCache() {
 }
 
 function markSearchDirty() {
-  if (++searchDirty >= 1) saveSearchCache();
+  if (++searchDirty >= 20) saveSearchCache();
 }
 
 // Limpiar caché cada hora
