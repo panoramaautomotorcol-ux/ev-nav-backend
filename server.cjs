@@ -384,9 +384,41 @@ io.on('connection', (socket) => {
   });
 });
 
-// ===== CACHÉ DE BÚSQUEDAS =====
-const searchCache = new Map();
-const SEARCH_CACHE_TTL = 60 * 60 * 1000; // 60 minutos
+// 💰 Cache persistente en disco: las coordenadas de un lugar no cambian.
+// Sobrevive reinicios de Render, que antes vaciaban el cache y obligaban a repagar.
+const SEARCH_FILE = require('fs').existsSync('/var/data')
+  ? '/var/data/search_cache.json'
+  : './search_cache.json';
+
+function loadSearchCache() {
+  try {
+    if (fs.existsSync(SEARCH_FILE)) {
+      const data = JSON.parse(fs.readFileSync(SEARCH_FILE, 'utf-8'));
+      console.log(`[SEARCH-CACHE] ✅ Cargadas ${Object.keys(data).length} búsquedas desde disco`);
+      return new Map(Object.entries(data));
+    }
+  } catch (e) {
+    console.error('[SEARCH-CACHE] ⚠️ Error al cargar archivo:', e.message);
+  }
+  return new Map();
+}
+
+const searchCache = loadSearchCache();
+const SEARCH_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 días
+let searchDirty = 0;
+
+function saveSearchCache() {
+  try {
+    fs.writeFileSync(SEARCH_FILE, JSON.stringify(Object.fromEntries(searchCache)), 'utf-8');
+    searchDirty = 0;
+  } catch (e) {
+    console.error('[SEARCH-CACHE] ⚠️ Error al guardar archivo:', e.message);
+  }
+}
+
+function markSearchDirty() {
+  if (++searchDirty >= 20) saveSearchCache();
+}
 
 // Limpiar caché cada hora
 setInterval(() => {
@@ -2067,16 +2099,18 @@ app.get('/places-fast', async (req, res) => {
         .slice(0, parseInt(limit) || 10);
     }
     
-    const result = { items, provider: 'google' };
-    
+    items = items.map(({ _score, ...rest }) => rest);
+
+    const result = { items, provider: 'google+mt+nomi+overpass' };
     searchCache.set(cacheKey, {
       data: result,
       timestamp: Date.now()
     });
+    markSearchDirty();
     
-    const elapsed = Date.now() - startTime;
-    console.log(`[SEARCH-FAST] ✅ ${items.length} resultados Google en ${elapsed}ms`);
-    
+    const elapsed = Date.now() - searchStart;
+    console.log(`[SEARCH] ✅ ${items.length} resultados en ${elapsed}ms para "${rawQ}"`);
+
     return res.json(result);
     
   } catch (error) {
@@ -2159,6 +2193,7 @@ app.get('/places-google', async (req, res) => {
     const result = { items, provider: 'google' };
     // 🆕 Guardar en cache
     searchCache.set(cacheKey, { data: result, timestamp: Date.now() });
+    markSearchDirty();
     
     console.log(`[SEARCH-GOOGLE] 🔍 "${q}" → ${items.length} resultados (cached)`);
     res.json(result);
@@ -2351,6 +2386,7 @@ app.get('/places', async (req, res) => {
         if (hasExactAddress && geocodeItems.length > 0) {
           const result = { items: geocodeItems.slice(0, limit), provider: 'google-geocode' };
           searchCache.set(cacheKey, { data: result, timestamp: Date.now() });
+          markSearchDirty();
           const elapsed = Date.now() - searchStart;
           console.log(`[SEARCH] ✅ ${geocodeItems.length} resultados geocode directo en ${elapsed}ms para "${rawQ}"`);
           return res.json(result);
@@ -2569,12 +2605,12 @@ app.get('/places', async (req, res) => {
 
     items = items.map(({ _score, ...rest }) => rest);
 
-    // Guardar resultados en caché
     const result = { items, provider: 'google+mt+nomi+overpass' };
     searchCache.set(cacheKey, {
       data: result,
       timestamp: Date.now()
     });
+    markSearchDirty();
     
     const elapsed = Date.now() - searchStart;
     console.log(`[SEARCH] ✅ ${items.length} resultados en ${elapsed}ms para "${rawQ}"`);
