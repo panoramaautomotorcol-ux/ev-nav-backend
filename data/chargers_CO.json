@@ -3374,7 +3374,7 @@
       {
         "type": "CCS2",
         "level": 3,
-        "power_kw": 40,
+        "power_kw": 22,
         "current": "DC",
         "quantity": 1,
         "price_kwh_cop": 1807
@@ -3392,13 +3392,13 @@
         "level": 1,
         "power_kw": 7,
         "current": "AC",
-        "quantity": 1,
+        "quantity": 3,
         "price_kwh_cop": 1707
       },
       {
-        "type": "TIPO 2",
+        "type": "CCS1",
         "level": 1,
-        "power_kw": 22,
+        "power_kw": 40,
         "current": "DC",
         "quantity": 1,
         "price_kwh_cop": 1707
