@@ -6154,7 +6154,7 @@
         "level": 1,
         "power_kw": 7,
         "current": "AC",
-        "quantity": 4,
+        "quantity": 1,
         "price_kwh_cop": 1800
       },
       {
@@ -6162,7 +6162,7 @@
         "level": 1,
         "power_kw": 7,
         "current": "AC",
-        "quantity": 4,
+        "quantity": 1,
         "price_kwh_cop": 1800
       }
     ],
@@ -6315,8 +6315,8 @@
     "id": "manual:134",
     "name": "Parqueadero C63",
     "address": "Av Calle 63 # 15-32, Bogota",
-    "lat": 	4.6635741142431915,
-    "lon": -74.13366265859105,
+    "lat": 	4.649923,
+    "lon": -74.066103,
     "network": null,
     "status": "Operational",
     "is_operational": true,
