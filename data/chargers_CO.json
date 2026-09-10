@@ -5803,5 +5803,693 @@
       }
     ],
     "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:117",
+    "name": "Hotel Morúa",
+    "address": "Vía Sirivana, Yopal",
+    "lat": 5.351055080058248,
+    "lon": -72.37117799179414,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1500,
+    "max_price_kwh_cop": 1500,
+    
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1500
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:118",
+    "name": "Mubon Centro empresarial Maz",
+    "address": "Carrera 55, UPZs de Bogotá, Localidad Suba",
+    "lat": 	4.7389343917890905,
+    "lon": -74.05735239562858,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1900
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:119",
+    "name": "Mubon Centro comercial Acuarela",
+    "address": "Carrera 80, Quintas de don Simón, Comuna 17, cali",
+    "lat": 	3.3879280441587505,
+    "lon": -76.53682691167812,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:120",
+    "name": "EVINKA Centro Conercial Laureles",
+    "address": "KM 7 Vía Sopo - Guasca",
+    "lat": 4.823485549339966,
+    "lon": -73.93568107908419,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:121",
+    "name": "Q-Volt barranquilla",
+    "address": "Calle 99C, Palmas del Rio, Localidad Riomar",
+    "lat": 11.029066925898318,
+    "lon": -74.80448668175883,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 160,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 160,
+        "current": "DC",
+        "quantity": 4,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 160,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:122",
+    "name": "Puerta del sol",
+    "address": "Ruta del Sol, Puerto Libre, Puerto Salgar",
+    "lat": 	5.7540601,
+    "lon": -74.628884,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 4000,
+    "max_price_kwh_cop": 4000,
+    
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 4000
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:123",
+    "name": "hotel la posada de la ermita",
+    "address": "Carrera 5, La Ermita, Mariquita",
+    "lat": 	5.2018251,
+    "lon": -74.8961351,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 2500,
+    "max_price_kwh_cop": 2500,
+    
+    "power_kw": 50,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2500
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:124",
+    "name": "Electrocarsfast",
+    "address": "Cra 16 #45-138, Bucaramanga, Santander",
+    "lat": 	6.5502297,
+    "lon": -73.1391294,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1650,
+    "max_price_kwh_cop": 1650,
+    
+    "power_kw": 80,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 80,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 80,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1650
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:125",
+    "name": "Mubon centro comercial places mall",
+    "address": "Avenida circunvalar calle 65, monteria",
+    "lat": 	8.776511351804903,
+    "lon": -75.86392318885333,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1788,
+    "max_price_kwh_cop": 1788,
+
+    "power_kw": 22,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 22,
+        "current": "AC",
+        "quantity": 4,
+        "price_kwh_cop": 1788
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:126",
+    "name": "Terpel Zenú Norte",
+    "address": "Terpel Zenú, Calle 104, Plaza de Ferias, medellin",
+    "lat": 6.301472094770246,
+    "lon": -75.56458706218723,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T03:14:00Z",
+
+    "min_price_kwh_cop": 1850,
+    "max_price_kwh_cop": 1850,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1850
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1850
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:127",
+    "name": "EVINKA EDS Biomax Los Libertadores",
+    "address": "Paipa, Tundama, Boyacá",
+    "lat": 5.7798193,
+    "lon": -73.1116761,
+    "network": null,
+    "status": "Unknown",
+    "is_operational": true,
+    "last_updated": "2025-03-31T05:14:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:128",
+    "name": "Mubon llanos de calibio",
+    "address": "Calle 42, Comuna 3, Perímetro Urbano Popayán",
+    "lat": 	2.496863157939842,
+    "lon": -76.56920361751258,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 4,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 4,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:129",
+    "name": "Mubon Centro Comercial San Rafael",
+    "address": "Ac. 134 #55 30, Bogotá",
+    "lat": 	4.723089516890732,
+    "lon": -74.06221239476123,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1900
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:130",
+    "name": "Mubon Palermo Imagen",
+    "address": "avenida Panamericana número 16D 115, pasto",
+    "lat": 	1.2239750659681066,
+    "lon": -77.28617565435253,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2950
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:131",
+    "name": "Cien Centro comercial la Herradura",
+    "address": "Cra 19 # 28-76 Tuluá, Valle del Cauca",
+    "lat": 4.084322584186655,
+    "lon": -76.20366028553384,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+
+    "power_kw": 40,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:132",
+    "name": "Mubon surtifamiliar caney",
+    "address": "Carrera 86, Caney, Comuna 17,cali",
+    "lat": 	3.3830194244385816,
+    "lon": -76.51601666079722,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2000
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:133",
+    "name": "gran centro el parque",
+    "address": "carrera 19 entre calle 20 y 19, sincelejo",
+    "lat": 	10.328566442874772,
+    "lon": -75.41696127755014,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2000
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:134",
+    "name": "Parqueadero C63",
+    "address": "Av Calle 63 # 15-32, Bogota",
+    "lat": 	4.6635741142431915,
+    "lon": -74.13366265859105,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1950,
+    "max_price_kwh_cop": 1950,
+
+    "power_kw": 30,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 30,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1950
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:135",
+    "name": "Motel Casaloma",
+    "address": "Motel Casa Loma, Carrera 7 B # 25 – 05 zona industrial Palermo, Palermo, Huila",
+    "lat": 	2.9453521354006784,
+    "lon": -75.31266523009364,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:136",
+    "name": "Mubon parqueadero La Galleta",
+    "address": "parqueadero la galleta, Villa de Leyva",
+    "lat": 	4.893651442751072,
+    "lon": -74.02396803489957,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+
+    "power_kw": 7,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7,
+        "current": "AC",
+        "quantity": 4,
+        "price_kwh_cop": 2300
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:137",
+    "name": "Mubon Éxito colina",
+    "address": "Calle 147, UPZs de Bogotá, Localidad Suba",
+    "lat": 	4.734435160869342,
+    "lon": -74.06448595225811,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1990,
+    "max_price_kwh_cop": 1990,
+
+    "power_kw": 120,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 120,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1900
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:138",
+    "name": "EnelX Centro comercial Palatino",
+    "address": "138-33, Carrera 7, Bogota",
+    "lat": 4.715664364670267,
+    "lon": -74.02908984571695,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+
+    "power_kw": 200,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 200,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2000
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2000
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 200,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2000
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:139",
+    "name": "SEAndes Punto de Carga I",
+    "address": "Calle 14 No 6-46 Barrio Pueblo Nuevo, Ibague",
+    "lat": 4.445169029819415,
+    "lon": -75.23699105044102,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2025-11-15T24:30:00Z",
+
+    "min_price_kwh_cop": 1950,
+    "max_price_kwh_cop": 1950,
+
+    "contact_url": "https://wa.me/573227901278?text=Hola,%20quiero%20cargar%20en%20SEAndes",
+    "contact_label": "Escribir por WhatsApp",
+
+    "power_kw": 4,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 4,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1950
+      }
+    ],
+    "provider": "WATTGO EV"
   }
 ]
