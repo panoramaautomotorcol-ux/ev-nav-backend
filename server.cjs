@@ -2550,7 +2550,10 @@ app.get('/places', async (req, res) => {
           q: qv, format: 'jsonv2', addressdetails: 1,
           limit: Math.min(limit, 10), 'accept-language': lang, countrycodes: 'co'
         };
-        if (atLat!=null && atLon!=null) { params.viewbox = bboxAround(atLat,atLon,18); params.bounded = 1; }
+        // 🔧 Sin bounded: el viewbox queda como preferencia, no como filtro duro.
+        // Antes, un municipio a 50km (Silvania) caía fuera de la caja de 18km y
+        // Nominatim solo devolvía tramos de vía cercanos.
+        if (atLat!=null && atLon!=null) { params.viewbox = bboxAround(atLat,atLon,18); }
         const r = await axios.get('https://nominatim.openstreetmap.org/search', {
           params, headers: { 'User-Agent': 'ev-backend/1.0 (places)' }, timeout: 9000
         });
