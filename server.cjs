@@ -2502,6 +2502,44 @@ app.get('/places', async (req, res) => {
       }
     }
 
+        /* ---------- Geocoding de respaldo: Places no indexa municipios ----------
+       "mesitas del colegio", "la vega", "carmen de apicalá" no son POIs, así que
+       Places devuelve 0. Geocoding sí los resuelve y cuesta menos. */
+    const googleResults = results.filter(r => r.provider === 'google').length;
+    if (ok(GOOGLE_MAPS_API_KEY) && !looksLikeAddress && googleResults < 2) {
+      try {
+        const r = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+          params: {
+            address: q + ', Colombia',
+            key: GOOGLE_MAPS_API_KEY,
+            language: lang || 'es',
+            region: 'co',
+            components: 'country:CO',
+          },
+          timeout: 4000,
+        });
+        let added = 0;
+        (r.data.results || []).forEach(result => {
+          const loc = result.geometry?.location;
+          if (!loc) return;
+          const lat = loc.lat, lon = loc.lng;
+          const name = result.formatted_address || '';
+          const comps = result.address_components || [];
+          const route = comps.find(c => c.types?.includes('route'));
+          const localityComp = comps.find(c => c.types?.includes('locality'));
+          const road = route?.long_name || extractRoadFromLabel(name);
+          const locality = localityComp?.long_name || '';
+          if (Number.isFinite(lat) && Number.isFinite(lon) && name) {
+            results.push({ type: 'place', name, address: name, lat, lon, provider: 'google-geocode', road, locality });
+            added++;
+          }
+        });
+        console.log(`[SEARCH] 🔍 Geocoding respaldo: ${added} resultados`);
+      } catch (e) {
+        console.error('[SEARCH] ⚠️ Geocoding respaldo error:', e.message);
+      }
+    }
+
     /* ---------- Nominatim ---------- */
     try {
       const looksConjunto = /^conj(?:unto)?\.?\s+/i.test(String(req.query.q||''));
