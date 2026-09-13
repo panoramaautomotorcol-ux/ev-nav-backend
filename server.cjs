@@ -436,8 +436,40 @@ setInterval(() => {
 }, 60 * 60 * 1000); // Cada hora
 
 // ===== CACHÉ DE ELEVACIÓN =====
-const elevationCache = new Map();
-const ELEVATION_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 horas
+// 💰 Cache persistente en disco: la altimetría de una ruta NO cambia nunca.
+const ELEV_FILE = require('fs').existsSync('/var/data')
+  ? '/var/data/elevation_cache.json'
+  : './elevation_cache.json';
+
+function loadElevationCache() {
+  try {
+    if (fs.existsSync(ELEV_FILE)) {
+      const data = JSON.parse(fs.readFileSync(ELEV_FILE, 'utf-8'));
+      console.log(`[ELEV-CACHE] ✅ Cargados ${Object.keys(data).length} perfiles desde disco`);
+      return new Map(Object.entries(data));
+    }
+  } catch (e) {
+    console.error('[ELEV-CACHE] ⚠️ Error al cargar archivo:', e.message);
+  }
+  return new Map();
+}
+
+const elevationCache = loadElevationCache();
+const ELEVATION_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 horas (ya no se usa)
+let elevDirty = 0;
+
+function saveElevationCache() {
+  try {
+    fs.writeFileSync(ELEV_FILE, JSON.stringify(Object.fromEntries(elevationCache)), 'utf-8');
+    elevDirty = 0;
+  } catch (e) {
+    console.error('[ELEV-CACHE] ⚠️ Error al guardar archivo:', e.message);
+  }
+}
+
+function markElevDirty() {
+  if (++elevDirty >= 20) saveElevationCache();
+}
 // Cache PERMANENTE para reverse geocode (las direcciones de coordenadas NO cambian)
 // 💰 Cache persistente en disco: la dirección de una coordenada NO cambia nunca.
 // Sobrevive reinicios de Render, que antes vaciaban el cache y obligaban a repagar.
@@ -3442,7 +3474,8 @@ app.get('/route', async (req, res) => {
             elevationCache.set(cacheKey, {
               data: elevationData,
               timestamp: Date.now()
-            });
+            }); 
+            markElevDirty();
 
             console.log(`[ELEVATION] ✅ Perfil obtenido en ${Date.now() - startTime}ms`);
             console.log(`[ELEVATION]   Inicio: ${startElev.toFixed(0)}m → Fin: ${endElev.toFixed(0)}m`);
