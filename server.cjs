@@ -2529,6 +2529,7 @@ app.get('/places', async (req, res) => {
           const localityComp = comps.find(c => c.types?.includes('locality'));
           const road = route?.long_name || extractRoadFromLabel(name);
           const locality = localityComp?.long_name || '';
+          console.log(`[GEO-DEBUG] "${name}" types=[${(result.types||[]).join(',')}] loc_type=${result.geometry?.location_type}`);
           if (Number.isFinite(lat) && Number.isFinite(lon) && name) {
             results.push({ type: 'place', name, address: name, lat, lon, provider: 'google-geocode', road, locality });
             added++;
