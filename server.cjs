@@ -420,7 +420,7 @@ function markSearchDirty() {
   if (++searchDirty >= 20) saveSearchCache();
 }
 
-// Limpiar caché cada hora
+// Limpiar caché cada hora (por edad y por tamaño)
 setInterval(() => {
   const now = Date.now();
   let cleaned = 0;
@@ -430,8 +430,23 @@ setInterval(() => {
       cleaned++;
     }
   }
+
+  // 💰 Tope de tamaño: cada entrada guarda hasta 10 resultados completos,
+  // así que el archivo crece rápido. Si pasa el tope, salen los más viejos.
+  const MAX_SEARCH_ENTRIES = 5000;
+  if (searchCache.size > MAX_SEARCH_ENTRIES) {
+    let toDrop = searchCache.size - 4000;
+    for (const key of searchCache.keys()) {
+      if (toDrop-- <= 0) break;
+      searchCache.delete(key);
+      cleaned++;
+    }
+    console.log(`[CACHE] Tope aplicado: ${searchCache.size} búsquedas`);
+  }
+
   if (cleaned > 0) {
     console.log(`[CACHE] Limpiados ${cleaned} búsquedas. Caché actual: ${searchCache.size}`);
+    saveSearchCache();
   }
 }, 60 * 60 * 1000); // Cada hora
 
