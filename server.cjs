@@ -2349,7 +2349,10 @@ app.get('/places', async (req, res) => {
     const results = [];
 
     /* ---------- MapTiler ---------- */
-    if (ok(MAPTILER_KEY)) {
+    // 🔧 Desactivado: devolvía calles cercanas al usuario en vez del destino
+    // buscado (ver "mesitas del colegio", "silvania"), y hacía 4 consultas por
+    // búsqueda. Google Places + Geocoding cubren los mismos casos mejor.
+    if (false && ok(MAPTILER_KEY)) {
       const mtVariants = queries.slice(0, 4);
       for (const mtQ of mtVariants) {
         try {
