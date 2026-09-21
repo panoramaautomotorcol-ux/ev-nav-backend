@@ -404,6 +404,15 @@ app.use((req, res, next) => {
       usageStats[day] = usageStats[day] || {};
       const d = usageStats[day][dev] = usageStats[day][dev] || { route: 0, lite: 0, alt: 0, search: 0 };
       d[kind]++;
+      // Destinos únicos: el app a veces pide alternativas dos veces para el mismo destino
+      if (kind === 'alt') {
+        const destQ = req.query.destination || req.query.dest || req.query.to;
+        if (destQ) {
+          const dest = String(destQ).split(',').map(n => Number(n).toFixed(3)).join(',');
+          d.dests = d.dests || [];
+          if (!d.dests.includes(dest)) d.dests.push(dest);
+        }
+      }
       if (++usageDirty >= 20) saveUsage();
     }
   }
@@ -424,7 +433,8 @@ app.get('/api/usage-stats', (req, res) => {
       const calls = c.route + c.lite + c.alt + c.search;
       deviceDays++;
       callsTotal += calls;
-      if (c.alt > 2) { overLimitDays++; callsOverLimit += calls; }
+      const destinos = (c.dests || []).length || c.alt;
+      if (destinos > 2) { overLimitDays++; callsOverLimit += calls; }
       const p = perDev[dev] = perDev[dev] || { route: 0, lite: 0, alt: 0, search: 0, days: 0 };
       p.route += c.route; p.lite += c.lite; p.alt += c.alt; p.search += c.search; p.days++;
     }
