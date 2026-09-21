@@ -3351,7 +3351,7 @@ app.get('/route', async (req, res) => {
     if (provider === 'auto' || provider === 'google') {
       if (GOOGLE_MAPS_API_KEY) {
         try {
-          routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId, waypointsStrict, lite);
+          routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId, waypointsStrict, lite || !(typeof req !== 'undefined' && req.query && req.query.premium === '1'));
           usedProvider = 'google';
           console.log('[ROUTE] ✅ Usando Google Maps');
         } catch (error) {
@@ -3871,8 +3871,8 @@ app.get('/route-alternatives', async (req, res) => {
     // Pedir alternativas a Google
     const params = {
       origin, destination,
-      departure_time: 'now',
-      traffic_model: 'best_guess',
+      // Tráfico en vivo solo para premium (SKU Advanced cuesta el doble)
+      ...((typeof req !== 'undefined' && req.query && req.query.premium === '1') ? { departure_time: 'now', traffic_model: 'best_guess' } : {}),
       alternatives: true,  // 🔧 Desactivado para reducir costos - solo ruta principal
       language: 'es',
       units: 'metric',
@@ -4119,7 +4119,7 @@ app.get('/tolls-in-route', async (req, res) => {
     // Usar Google Directions para obtener la ruta
     const params = {
       origin, destination,
-      departure_time: 'now',
+      ...((typeof req !== 'undefined' && req.query && req.query.premium === '1') ? { departure_time: 'now' } : {}),
       language: 'es',
       units: 'metric',
       key: GOOGLE_MAPS_API_KEY
