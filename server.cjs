@@ -374,6 +374,83 @@ const io = new Server(httpServer, {
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
+// ===== MEDICIÓN DE USO POR DISPOSITIVO =====
+// Cuenta peticiones por día y por dispositivo (header X-Device-Id, anónimo)
+// para saber si el gasto de Google lo concentran pocos usuarios o se reparte.
+const USAGE_FILE = require('fs').existsSync('/var/data')
+  ? '/var/data/usage_stats.json'
+  : './usage_stats.json';
+
+let usageStats = {};
+try {
+  if (fs.existsSync(USAGE_FILE)) usageStats = JSON.parse(fs.readFileSync(USAGE_FILE, 'utf-8'));
+} catch (e) { console.error('[USAGE] ⚠️ Error al cargar:', e.message); }
+
+let usageDirty = 0;
+function saveUsage() {
+  try { fs.writeFileSync(USAGE_FILE, JSON.stringify(usageStats), 'utf-8'); usageDirty = 0; }
+  catch (e) { console.error('[USAGE] ⚠️ Error al guardar:', e.message); }
+}
+
+app.use((req, res, next) => {
+  const dev = req.get('X-Device-Id');
+  if (dev) {
+    let kind = null;
+    if (req.path === '/route') kind = (req.query.lite === '1' || req.query.lite === 'true') ? 'lite' : 'route';
+    else if (req.path === '/route-alternatives') kind = 'alt';
+    else if (req.path.startsWith('/places')) kind = 'search';
+    if (kind) {
+      const day = new Date().toISOString().slice(0, 10);
+      usageStats[day] = usageStats[day] || {};
+      const d = usageStats[day][dev] = usageStats[day][dev] || { route: 0, lite: 0, alt: 0, search: 0 };
+      d[kind]++;
+      if (++usageDirty >= 20) saveUsage();
+    }
+  }
+  next();
+});
+// Resumen de uso: /api/usage-stats?days=7
+// "alt" ≈ rutas iniciadas por el usuario (una por destino elegido).
+// "route" y "lite" incluyen llamadas internas (segmentos, verificaciones).
+app.get('/api/usage-stats', (req, res) => {
+  const days = Math.min(parseInt(req.query.days) || 7, 60);
+  const cutoff = new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
+  const perDev = {};
+  let deviceDays = 0, overLimitDays = 0, callsTotal = 0, callsOverLimit = 0;
+
+  for (const [day, devs] of Object.entries(usageStats)) {
+    if (day < cutoff) continue;
+    for (const [dev, c] of Object.entries(devs)) {
+      const calls = c.route + c.lite + c.alt + c.search;
+      deviceDays++;
+      callsTotal += calls;
+      if (c.alt > 2) { overLimitDays++; callsOverLimit += calls; }
+      const p = perDev[dev] = perDev[dev] || { route: 0, lite: 0, alt: 0, search: 0, days: 0 };
+      p.route += c.route; p.lite += c.lite; p.alt += c.alt; p.search += c.search; p.days++;
+    }
+  }
+
+  const list = Object.entries(perDev)
+    .map(([dev, p]) => ({ dev: dev.slice(0, 6), ...p, total: p.route + p.lite + p.alt + p.search }))
+    .sort((a, b) => b.total - a.total);
+  const topN = Math.max(1, Math.ceil(list.length * 0.1));
+  const topCalls = list.slice(0, topN).reduce((s, x) => s + x.total, 0);
+  const pct = (a, b) => b ? (a / b * 100).toFixed(1) + '%' : '0%';
+
+  res.json({
+    days,
+    devices: list.length,
+    device_days: deviceDays,
+    total_calls: callsTotal,
+    top_10pct_devices_share: pct(topCalls, callsTotal),
+    limit_2_routes_per_day: {
+      device_days_over_limit: overLimitDays,
+      pct_device_days_over_limit: pct(overLimitDays, deviceDays),
+      pct_calls_in_those_days: pct(callsOverLimit, callsTotal),
+    },
+    top_devices: list.slice(0, 15),
+  });
+});
 
 // Manejar conexiones de WebSocket
 io.on('connection', (socket) => {
