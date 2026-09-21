@@ -412,14 +412,14 @@ app.use((req, res, next) => {
   const dev = req.get('X-Device-Id');
   if (dev) {
     let kind = null;
-    if (req.path === '/route') kind = (req.query.lite === '1' || req.query.lite === 'true') ? 'lite' : 'route';
+    if (req.path === '/route') kind = req.query.recalc === '1' ? 'recalc' : (req.query.lite === '1' || req.query.lite === 'true') ? 'lite' : 'route';
     else if (req.path === '/route-alternatives') kind = 'alt';
     else if (req.path.startsWith('/places')) kind = 'search';
     if (kind) {
       const day = new Date().toISOString().slice(0, 10);
       usageStats[day] = usageStats[day] || {};
       const d = usageStats[day][dev] = usageStats[day][dev] || { route: 0, lite: 0, alt: 0, search: 0 };
-      d[kind]++;
+      d[kind] = (d[kind] || 0) + 1;
       // Destinos únicos: el app a veces pide alternativas dos veces para el mismo destino
       if (kind === 'alt') {
         const destQ = req.query.destination || req.query.dest || req.query.to;
@@ -446,18 +446,18 @@ app.get('/api/usage-stats', (req, res) => {
   for (const [day, devs] of Object.entries(usageStats)) {
     if (day < cutoff) continue;
     for (const [dev, c] of Object.entries(devs)) {
-      const calls = c.route + c.lite + c.alt + c.search;
+      const calls = c.route + c.lite + c.alt + c.search + (c.recalc || 0);
       deviceDays++;
       callsTotal += calls;
       const destinos = (c.dests || []).length || c.alt;
       if (destinos > 2) { overLimitDays++; callsOverLimit += calls; }
-      const p = perDev[dev] = perDev[dev] || { route: 0, lite: 0, alt: 0, search: 0, days: 0 };
-      p.route += c.route; p.lite += c.lite; p.alt += c.alt; p.search += c.search; p.days++;
+      const p = perDev[dev] = perDev[dev] || { route: 0, recalc: 0, lite: 0, alt: 0, search: 0, days: 0 };
+      p.route += c.route; p.lite += c.lite; p.alt += c.alt; p.search += c.search; p.recalc += (c.recalc || 0); p.days++;
     }
   }
 
   const list = Object.entries(perDev)
-    .map(([dev, p]) => ({ dev: dev.slice(0, 6), ...p, total: p.route + p.lite + p.alt + p.search }))
+    .map(([dev, p]) => ({ dev: dev.slice(0, 6), ...p, total: p.route + p.recalc + p.lite + p.alt + p.search }))
     .sort((a, b) => b.total - a.total);
   const topN = Math.max(1, Math.ceil(list.length * 0.1));
   const topCalls = list.slice(0, topN).reduce((s, x) => s + x.total, 0);
@@ -3329,7 +3329,7 @@ app.get('/route', async (req, res) => {
     }
 
     // Verificar caché
-    const cached = getCachedRoute(origin, destination, waypoints, vehicleId, passengers, waypointsStrict);
+    const cached = getCachedRoute(origin, destination, waypoints, vehicleId + (req.query.recalc === '1' ? '__recalc' : ''), passengers, waypointsStrict);
     if (cached) {
       console.log('[ROUTE] ⚡ Usando ruta cacheada');
       return res.json(cached);
@@ -3550,7 +3550,8 @@ app.get('/route', async (req, res) => {
     // Obtener perfil de elevación (Google Elevation API)
     let elevationData = null;
     
-    if (routeData.points.length > 0 && GOOGLE_MAPS_API_KEY) {
+    // En recálculos el app descarta el consumo: no pedir elevación
+    if (routeData.points.length > 0 && GOOGLE_MAPS_API_KEY && req.query.recalc !== '1') {
       try {
                 // 💰 La altimetría no depende del vehículo, y el GPS exacto casi no se repite:
         // redondeando a 3 decimales (~100 m) y sin vehicleId el cache sí pega.
@@ -3832,7 +3833,7 @@ app.get('/route', async (req, res) => {
     };
 
     // Guardar en caché
-    setCachedRoute(origin, destination, waypoints, vehicleId, passengers, response, waypointsStrict);
+    setCachedRoute(origin, destination, waypoints, vehicleId + (req.query.recalc === '1' ? '__recalc' : ''), passengers, response, waypointsStrict);
 
     return res.json(response);
 
