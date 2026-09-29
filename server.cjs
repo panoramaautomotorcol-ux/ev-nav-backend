@@ -3555,7 +3555,7 @@ app.get('/route', async (req, res) => {
       try {
                 // 💰 La altimetría no depende del vehículo, y el GPS exacto casi no se repite:
         // redondeando a 3 decimales (~100 m) y sin vehicleId el cache sí pega.
-        const r3 = (s) => String(s || '').split('|').map(p => p.split(',').map(n => Number(n).toFixed(3)).join(',')).join('|');
+        const r3 = (s) => String(s || '').split('|').map(p => p.split(',').map(n => Number(n).toFixed(2)).join(',')).join('|');
         const cacheKey = `elev_${r3(origin)}_${r3(destination)}_${waypoints ? r3(waypoints) : 'direct'}`;
         const cached = elevationCache.get(cacheKey);
 
