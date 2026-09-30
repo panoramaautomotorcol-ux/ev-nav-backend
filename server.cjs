@@ -3563,7 +3563,7 @@ app.get('/route', async (req, res) => {
         // recompraba a Google cada 24h aunque la instancia siguiera viva.
         if (cached) {
           console.log(`[ELEVATION] ⚡ Cache HIT: ${origin} → ${destination}`);
-          elevationData = cached.data;
+          elevationData = { ...cached.data }; // copia: no pisar el consumo de otros usuarios
         } else {
           console.log(`[ELEVATION] 🏔️  Obteniendo perfil con Google: ${origin} → ${destination}`);
           const startTime = Date.now();
