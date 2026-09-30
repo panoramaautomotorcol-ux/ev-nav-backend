@@ -243,6 +243,8 @@ const VEHICLE_PROFILES = {
   'chery_eq7_65': { batteryKwh: 65.5, consumptionRate: 0.2 },
   'chery_icar_03_all_road_69': { batteryKwh: 69.77, consumptionRate: 0.24 },
   'chery_icar_03_2wd_65': { batteryKwh: 65.7, consumptionRate: 0.24 },
+  'chery_icar_v23_2wd_60': { batteryKwh: 59.9, consumptionRate: 0.32 }, // CLTC x1.3
+  'chery_icar_v23_4wd_82': { batteryKwh: 81.8, consumptionRate: 0.26 }, // CLTC x1.3
   'chevrolet_equinox_85': { batteryKwh: 85.0, consumptionRate: 0.15 },
   'chevrolet_spark_ev_41': { batteryKwh: 41.9, consumptionRate: 0.34 },
   'chevrolet_blazer_ev_85': { batteryKwh: 85.0, consumptionRate: 0.17 },
@@ -278,6 +280,7 @@ const VEHICLE_PROFILES = {
   'gac_aion_v_600_75': { batteryKwh: 75.25, consumptionRate: 0.17 },
   'gac_aion_v_500_64': { batteryKwh: 64.5, consumptionRate: 0.2 },
   'gac_aion_ut_44': { batteryKwh: 44.0, consumptionRate: 0.25 },
+  'gac_aion_ut_light_32': { batteryKwh: 32.24, consumptionRate: 0.43 }, // CLTC x1.3
   'gac_aion_ut_60': { batteryKwh: 60.0, consumptionRate: 0.2 },
   'gac_hypetec_ht_72': { batteryKwh: 72.7, consumptionRate: 0.19 },
   'kia_ev3_ligth_81': { batteryKwh: 81.4, consumptionRate: 0.17 },
@@ -310,6 +313,10 @@ const VEHICLE_PROFILES = {
   'geely_ex2_max_39': { batteryKwh: 39.4, consumptionRate: 0.25 },
   'geely_ex5_pro_60': { batteryKwh: 60.22, consumptionRate: 0.23 },
   'geely_ex5_max_60': { batteryKwh: 60.22, consumptionRate: 0.24 },
+  'geely_ex5_pro_50': { batteryKwh: 49.52, consumptionRate: 0.32 }, // CLTC x1.3
+  'changan_nevo_q05_emax_52': { batteryKwh: 51.9, consumptionRate: 0.29 }, // CLTC x1.3
+  'changan_nevo_q05_emax_ultra_52': { batteryKwh: 51.9, consumptionRate: 0.29 }, // CLTC x1.3
+  'seres_5_80': { batteryKwh: 80, consumptionRate: 0.27 }, // CLTC x1.3
   'tesla_model_3_rwd_60': { batteryKwh: 60.0, consumptionRate: 0.19 },
   'tesla_model_3_long_range_75': { batteryKwh: 75.0, consumptionRate: 0.15 },
   'tesla_model_3_performance_75': { batteryKwh: 75.0, consumptionRate: 0.18 },
