@@ -4238,7 +4238,7 @@ app.post('/tolls-on-polyline', (req, res) => {
     for (const peaje of peajesArr) {
       if (!peaje.lat || !peaje.lon || usedIds.has(peaje.id)) continue;
       let minDist = Infinity;
-      const step = Math.max(1, Math.floor(points.length / 200));
+      const step = Math.max(1, Math.floor(points.length / 2000));
       for (let p = 0; p < points.length; p += step) {
         const d = haversineDistance(peaje.lat, peaje.lon, points[p].lat, points[p].lon);
         if (d < minDist) minDist = d;
@@ -4247,7 +4247,7 @@ app.post('/tolls-on-polyline', (req, res) => {
         usedIds.add(peaje.id);
         // Calcular distancia desde el origen
         let distFromOrigin = 0;
-        for (let p = 1; p < points.length; p += step) {
+        for (let p = step; p < points.length; p += step) {
           distFromOrigin += haversineDistance(points[p-step].lat, points[p-step].lon, points[p].lat, points[p].lon) * 1000;
           const d = haversineDistance(peaje.lat, peaje.lon, points[p].lat, points[p].lon);
           if (d < 1.0) break;
