@@ -3959,13 +3959,17 @@ app.get('/route-alternatives', async (req, res) => {
       for (const peaje of peajesArr) {
         if (!peaje.lat || !peaje.lon) continue;
         let minDist = Infinity;
-        const step = Math.max(1, Math.floor(points.length / 300));
-        for (let p = 0; p < points.length; p += step) {
-          const d = haversineDistance(peaje.lat, peaje.lon, points[p].lat, points[p].lon);
+        const kx = 111.32 * Math.cos(peaje.lat * Math.PI / 180), ky = 110.574;
+        for (let p = 1; p < points.length; p++) {
+          const ax = (points[p-1].lon - peaje.lon) * kx, ay = (points[p-1].lat - peaje.lat) * ky;
+          const bx = (points[p].lon - peaje.lon) * kx, by = (points[p].lat - peaje.lat) * ky;
+          const dx = bx - ax, dy = by - ay, len2 = dx * dx + dy * dy;
+          const tt = len2 > 0 ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / len2)) : 0;
+          const d = Math.hypot(ax + tt * dx, ay + tt * dy);
           if (d < minDist) minDist = d;
         }
-        if (minDist < 0.3) { // Menos de 300m
-          const tarifa = peaje.tarifas?.categoria_I || peaje.tarifa || 0;
+        if (minDist < 0.4) { // distancia al tramo de ruta, no solo a los vertices
+          const tarifa = peaje.tarifa_cat1 || peaje.tarifa || 0;
           totalTolls += tarifa;
           tollCount++;
           tollsFound.push(peaje.nombre || 'Peaje');
