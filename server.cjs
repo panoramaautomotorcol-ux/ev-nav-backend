@@ -513,6 +513,9 @@ function loadSearchCache() {
   return new Map();
 }
 
+// Claves de cache de busqueda: texto normalizado y ubicacion a ~11 km
+function sKey(q) { return String(q || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim(); }
+function sLoc(at) { const [a, b] = String(at || '').split(',').map(Number); return (Number.isFinite(a) && Number.isFinite(b)) ? a.toFixed(1) + ',' + b.toFixed(1) : 'no-loc'; }
 const searchCache = loadSearchCache();
 const SEARCH_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 días
 let searchDirty = 0;
@@ -2165,7 +2168,7 @@ app.get('/places-fast', async (req, res) => {
     }
     
     const query = q.trim();
-    const cacheKey = `fast_${query.toLowerCase()}_${at}`;
+    const cacheKey = `fast_${sKey(query)}_${sLoc(at)}`;
     // FILTRO DE LONGITUD MINIMA (reduccion de costos Google API)
     if (query.length < 4) {
       console.log(`[SEARCH-FAST] Query muy corta ignorada: "${query}"`);
@@ -2292,7 +2295,7 @@ app.get('/places-google', async (req, res) => {
     const atKey = (Number.isFinite(lat) && Number.isFinite(lon)) 
       ? `${lat.toFixed(2)},${lon.toFixed(2)}` 
       : 'no-loc';
-    const cacheKey = `google_${q.toLowerCase()}_${atKey}`;
+    const cacheKey = `google_${sKey(q)}_${sLoc(at)}`;
     const cached = searchCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < SEARCH_CACHE_TTL) {
       console.log(`[SEARCH-GOOGLE] ⚡ Cache HIT: "${q}"`);
@@ -2416,7 +2419,7 @@ app.get('/places', async (req, res) => {
     if (!Number.isFinite(limit) || limit<=0) limit = 8; if (limit>12) limit=12;
     
     // VERIFICAR CACHÉ ANTES DE BUSCAR
-    const cacheKey = `${rawQ.toLowerCase()}_${atStr}_${lang}_${limit}`;
+    const cacheKey = `${sKey(rawQ)}_${sLoc(atStr)}_${lang}_${limit}`;
     const cached = searchCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < SEARCH_CACHE_TTL) {
       console.log(`[SEARCH] ⚡ Cache HIT: "${rawQ}" (${cached.data.items?.length || 0} resultados)`);
