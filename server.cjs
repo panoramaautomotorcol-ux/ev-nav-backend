@@ -649,6 +649,20 @@ setInterval(() => {
   }
 }, 6 * 60 * 60 * 1000); // Cada 6 horas
 
+// ===== MUNICIPIOS (DANE DIVIPOLA) =====
+let municipiosData = [];
+try {
+  const munPath = path.join(__dirname, 'municipios_colombia.json');
+  if (fs.existsSync(munPath)) {
+    municipiosData = JSON.parse(fs.readFileSync(munPath, 'utf8'));
+    console.log(`[MUNICIPIOS] ✅ Cargados ${municipiosData.length} municipios`);
+  } else {
+    console.log('[MUNICIPIOS] ⚠️  Archivo municipios_colombia.json no encontrado');
+  }
+} catch (error) {
+  console.log('[MUNICIPIOS] ❌ Error cargando municipios:', error.message);
+}
+
 // ===== BASE DE DATOS DE PEAJES =====
 // fs ya está declarado arriba
 let peajesData = { peajes: [] };
@@ -4354,7 +4368,32 @@ app.post('/tolls-on-polyline', (req, res) => {
     }
     const totalCost = tollsOnRoute.reduce((s, t) => s + t.tarifa, 0);
     console.log(`[TOLLS-POLYLINE] ${tollsOnRoute.length} peajes, $${totalCost.toLocaleString('es-CO')}`);
-    res.json({ tolls: tollsOnRoute, totalCost, count: tollsOnRoute.length });
+    // Municipios por los que pasa la ruta (cabecera a menos de 2 km)
+    const towns = [];
+    if (municipiosData.length && points.length > 1) {
+      let minLa = Infinity, maxLa = -Infinity, minLo = Infinity, maxLo = -Infinity;
+      for (const pt of points) {
+        if (pt.lat < minLa) minLa = pt.lat; if (pt.lat > maxLa) maxLa = pt.lat;
+        if (pt.lon < minLo) minLo = pt.lon; if (pt.lon > maxLo) maxLo = pt.lon;
+      }
+      const mg = 0.03;
+      const first = points[0], lastPt = points[points.length - 1];
+      const pstep = Math.max(1, Math.floor(points.length / 2000));
+      for (const m of municipiosData) {
+        if (m.lat < minLa - mg || m.lat > maxLa + mg || m.lon < minLo - mg || m.lon > maxLo + mg) continue;
+        if (haversineDistance(m.lat, m.lon, first.lat, first.lon) < 3) continue;
+        if (haversineDistance(m.lat, m.lon, lastPt.lat, lastPt.lon) < 3) continue;
+        let best = Infinity, bestP = 0;
+        for (let q = 0; q < points.length; q += pstep) {
+          const dd = haversineDistance(m.lat, m.lon, points[q].lat, points[q].lon);
+          if (dd < best) { best = dd; bestP = q; }
+        }
+        if (best < 2.0) towns.push({ nombre: m.n, depto: m.d, lat: m.lat, lon: m.lon, idx: bestP });
+      }
+      towns.sort((a, b) => a.idx - b.idx);
+    }
+    console.log(`[TOLLS-POLYLINE] ${towns.length} municipios en la ruta`);
+    res.json({ tolls: tollsOnRoute, totalCost, count: tollsOnRoute.length, towns });
   } catch (e) {
     console.error('[TOLLS-POLYLINE] Error:', e.message);
     res.json({ tolls: [], totalCost: 0, count: 0 });
