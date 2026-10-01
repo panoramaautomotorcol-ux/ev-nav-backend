@@ -4279,6 +4279,17 @@ app.post('/tolls-on-polyline', (req, res) => {
     }
 
     tollsOnRoute.sort((a, b) => a.distanceFromOrigin - b.distanceFromOrigin);
+    // Deduplicar el mismo peaje registrado en ambos sentidos (< 30 km, mismo nombre base)
+    const baseName = (n) => String(n || '').replace(/\s*(TOLIMA|QUIND[IÍ]O|NORTE|SUR|ESTE|OESTE|SENTIDO\s+\w+|IDA|VUELTA|RETORNO)\s*/gi, '').trim().toUpperCase();
+    for (let i = tollsOnRoute.length - 1; i > 0; i--) {
+      for (let j = 0; j < i; j++) {
+        if (baseName(tollsOnRoute[j].nombre) === baseName(tollsOnRoute[i].nombre) &&
+            Math.abs(tollsOnRoute[i].distanceFromOrigin - tollsOnRoute[j].distanceFromOrigin) < 30000) {
+          tollsOnRoute.splice(i, 1);
+          break;
+        }
+      }
+    }
     const totalCost = tollsOnRoute.reduce((s, t) => s + t.tarifa, 0);
     console.log(`[TOLLS-POLYLINE] ${tollsOnRoute.length} peajes, $${totalCost.toLocaleString('es-CO')}`);
     res.json({ tolls: tollsOnRoute, totalCost, count: tollsOnRoute.length });
