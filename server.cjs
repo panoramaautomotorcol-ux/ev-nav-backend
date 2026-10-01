@@ -3309,6 +3309,66 @@ function calculateElevationImpact(elevations) {
 }
 
 // ==================== ENDPOINT /route CON GOOGLE MAPS + HERE FALLBACK ====================
+// Correccion de tuneles: Google Elevation da la altura del terreno, no la de la via.
+// Firma de tunel: tramo casi recto donde el terreno sube muy por encima de la linea
+// entre sus extremos, con pendientes imposibles para una carretera.
+function fixTunnelProfile(elevations, coords) {
+  const n = Math.min(elevations.length, coords.length);
+  const e = elevations.slice();
+  if (n < 4) return { elevations: e, fixedCount: 0 };
+  const d = [0];
+  for (let k = 1; k < n; k++) {
+    d.push(d[k - 1] + haversineDistance(coords[k - 1].lat, coords[k - 1].lon, coords[k].lat, coords[k].lon));
+  }
+  const cands = [];
+  for (let i = 0; i < n - 2; i++) {
+    for (let j = i + 2; j < n; j++) {
+      const along = d[j] - d[i];
+      if (along > 14) break;
+      if (along < 1) continue;
+      const chord = haversineDistance(coords[i].lat, coords[i].lon, coords[j].lat, coords[j].lon);
+      if (chord <= 0 || along / chord > 1.06) continue;
+      let maxEx = 0, kPeak = -1;
+      for (let k = i + 1; k < j; k++) {
+        const lin = e[i] + (e[j] - e[i]) * (d[k] - d[i]) / along;
+        const ex = e[k] - lin;
+        if (ex > maxEx) { maxEx = ex; kPeak = k; }
+      }
+      if (kPeak < 0 || maxEx < 100) continue;
+      const dMin = Math.min(d[kPeak] - d[i], d[j] - d[kPeak]);
+      if (dMin <= 0 || maxEx / (dMin * 1000) < 0.12) continue;
+      cands.push({ i, j, maxEx });
+    }
+  }
+  cands.sort((a, b) => (b.maxEx - a.maxEx) || ((b.j - b.i) - (a.j - a.i)));
+  const used = [];
+  let fixedCount = 0;
+  for (const c of cands) {
+    if (used.some(u => c.i < u.j && c.j > u.i)) continue;
+    const along = d[c.j] - d[c.i];
+    for (let k = c.i + 1; k < c.j; k++) {
+      e[k] = e[c.i] + (e[c.j] - e[c.i]) * (d[k] - d[c.i]) / along;
+    }
+    used.push(c);
+    fixedCount++;
+    console.log(`[ELEVATION] 🚇 Túnel detectado: km ${d[c.i].toFixed(0)}-${d[c.j].toFixed(0)} (${along.toFixed(1)} km), terreno +${c.maxEx.toFixed(0)} m sobre la via -> corregido`);
+  }
+  return { elevations: e, fixedCount };
+}
+
+function applyTunnelFix(ed) {
+  if (!ed || !Array.isArray(ed.elevations) || !Array.isArray(ed.coords)) return ed;
+  const r = fixTunnelProfile(ed.elevations, ed.coords);
+  if (!r.fixedCount) return ed;
+  let gain = 0, loss = 0;
+  for (let i = 1; i < r.elevations.length; i++) {
+    const df = r.elevations[i] - r.elevations[i - 1];
+    if (df > 0) gain += df; else loss -= df;
+  }
+  console.log(`[ELEVATION] 🚇 Perfil corregido: +${Math.round(gain)}m / -${Math.round(loss)}m (antes +${ed.gain_m}m / -${ed.loss_m}m)`);
+  return { ...ed, elevations: r.elevations, gain_m: Math.round(gain), loss_m: Math.round(loss), tunnels_fixed: r.fixedCount };
+}
+
 app.get('/route', async (req, res) => {
   try {
     const origin = String(req.query.from || req.query.origin || '');
@@ -3574,6 +3634,7 @@ app.get('/route', async (req, res) => {
         if (cached) {
           console.log(`[ELEVATION] ⚡ Cache HIT: ${origin} → ${destination}`);
           elevationData = { ...cached.data }; // copia: no pisar el consumo de otros usuarios
+          elevationData = applyTunnelFix(elevationData);
         } else {
           console.log(`[ELEVATION] 🏔️  Obteniendo perfil con Google: ${origin} → ${destination}`);
           const startTime = Date.now();
@@ -3648,6 +3709,7 @@ app.get('/route', async (req, res) => {
               net_change: Math.round(endElev - startElev)
             };
 
+            elevationData = applyTunnelFix(elevationData);
             elevationCache.set(cacheKey, {
               data: elevationData,
               timestamp: Date.now()
