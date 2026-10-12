@@ -854,7 +854,7 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
 
   // Agregar waypoints si existen
   if (waypoints) {
-    const waypointsList = waypoints.split('|');
+    const waypointsList = (waypointsStrict ? waypoints : capWaypoints(waypoints)).split('|');
     if (waypointsStrict) {
       // 🆕 Modo estricto: prefijo "via:" obliga a Google a pasar EXACTAMENTE por el punto
       params.waypoints = waypointsList.map(w => `via:${w}`).join('|');
@@ -3326,6 +3326,65 @@ function calculateElevationImpact(elevations) {
 // Correccion de tuneles: Google Elevation da la altura del terreno, no la de la via.
 // Firma de tunel: tramo casi recto donde el terreno sube muy por encima de la linea
 // entre sus extremos, con pendientes imposibles para una carretera.
+// Tope de waypoints: Google cobra Directions ADVANCED con mas de 10.
+// Protege los puntos que son cargadores y reparte los puntos de forma.
+let _wpChargerPts = null;
+function _loadWpChargerPts() {
+  if (_wpChargerPts) return _wpChargerPts;
+  _wpChargerPts = [];
+  try {
+    const f = path.join(__dirname, 'data', 'chargers_CO.json');
+    const data = JSON.parse(fs.readFileSync(f, 'utf8'));
+    const walk = (o, d) => {
+      if (!o || d > 5) return;
+      if (Array.isArray(o)) { for (const x of o) walk(x, d + 1); return; }
+      if (typeof o !== 'object') return;
+      const loc = o.location || {};
+      const la = Number(o.lat ?? o.latitude ?? o.latitud ?? loc.lat);
+      const lo = Number(o.lon ?? o.lng ?? o.longitude ?? o.longitud ?? loc.lon ?? loc.lng);
+      if (Number.isFinite(la) && Number.isFinite(lo) && la !== 0) {
+        _wpChargerPts.push([la, lo]);
+        return;
+      }
+      for (const k of Object.keys(o)) walk(o[k], d + 1);
+    };
+    walk(data, 0);
+  } catch (e) {
+    console.log('[WAYPOINTS] No se pudieron leer cargadores:', e.message);
+  }
+  console.log('[WAYPOINTS] Cargadores para proteger: ' + _wpChargerPts.length);
+  return _wpChargerPts;
+}
+
+function capWaypoints(wpStr, max = 10) {
+  if (!wpStr) return wpStr;
+  const list = String(wpStr).split('|').map(s => s.trim()).filter(Boolean);
+  if (list.length <= max) return wpStr;
+  const ch = _loadWpChargerPts();
+  const prot = list.map(s => {
+    const [la, lo] = s.replace(/^via:/, '').split(',').map(Number);
+    if (!Number.isFinite(la) || !Number.isFinite(lo)) return true;
+    return ch.some(c => haversineDistance(la, lo, c[0], c[1]) < 0.3);
+  });
+  const nProt = prot.filter(Boolean).length;
+  if (nProt >= max) {
+    console.log('[WAYPOINTS] ' + nProt + ' cargadores, no se recorta');
+    return wpStr;
+  }
+  const shape = [];
+  list.forEach((_, i) => { if (!prot[i]) shape.push(i); });
+  const keepN = max - nProt;
+  const keep = new Set();
+  list.forEach((_, i) => { if (prot[i]) keep.add(i); });
+  for (let k = 0; k < keepN; k++) {
+    const j = Math.round((k + 0.5) * shape.length / keepN - 0.5);
+    keep.add(shape[Math.min(shape.length - 1, Math.max(0, j))]);
+  }
+  const out = list.filter((_, i) => keep.has(i));
+  console.log('[WAYPOINTS] Recortados ' + list.length + ' -> ' + out.length + ' (cargadores protegidos: ' + nProt + ')');
+  return out.join('|');
+}
+
 function fixTunnelProfile(elevations, coords) {
   const n = Math.min(elevations.length, coords.length);
   const e = elevations.slice();
@@ -3966,7 +4025,7 @@ app.get('/route-alternatives', async (req, res) => {
     };
     // 🆕 Agregar waypoints si el usuario los pasó (paradas intermedias)
     if (waypoints) {
-      params.waypoints = waypoints.split('|').join('|');
+      params.waypoints = capWaypoints(waypoints);
       console.log('[ALT-ROUTES] 📍 Waypoints agregados:', waypoints.split('|').length);
     }
 
@@ -4214,7 +4273,7 @@ app.get('/tolls-in-route', async (req, res) => {
       units: 'metric',
       key: GOOGLE_MAPS_API_KEY
     };
-    if (waypoints) params.waypoints = waypoints;
+    if (waypoints) params.waypoints = capWaypoints(waypoints);
 
     const gResp = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
       params, timeout: 15000
