@@ -2636,7 +2636,17 @@ app.get('/places', async (req, res) => {
        "mesitas del colegio", "la vega", "carmen de apicalá" no son POIs, así que
        Places devuelve 0. Geocoding sí los resuelve y cuesta menos. */
     const googleResults = results.filter(r => r.provider === 'google').length;
-    if (ok(GOOGLE_MAPS_API_KEY) && !looksLikeAddress && googleResults < 2) {
+    // Municipios del DANE: resolver gratis antes de pedir Geocoding
+    let localMuni = 0;
+    if (!looksLikeAddress && googleResults < 2) {
+      for (const m of matchMunicipios(q, 3)) {
+        const label = m.n + ', ' + m.d;
+        results.push({ type: 'place', name: label, address: label, lat: m.lat, lon: m.lon, provider: 'dane', road: '', locality: m.n });
+        localMuni++;
+      }
+      if (localMuni) console.log('[SEARCH] Municipios DANE: ' + localMuni + ' (sin Geocoding)');
+    }
+    if (ok(GOOGLE_MAPS_API_KEY) && !looksLikeAddress && googleResults < 2 && localMuni === 0) {
       try {
         const r = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
           params: {
@@ -2784,7 +2794,14 @@ app.get('/places', async (req, res) => {
     // Reverse Geocode Google (top-8) para completar road/locality
     async function fillRoadViaReverse(list) {
       if (!GOOGLE_MAPS_API_KEY) return list;
-      const top = list.slice(0, 3);
+      // Municipio gratis con el DANE; a Google solo la calle del primer resultado
+      for (const it of list) {
+        if (!it.locality && Number.isFinite(it.lat) && Number.isFinite(it.lon)) {
+          const m = nearestMunicipio(it.lat, it.lon, 20);
+          if (m) it.locality = m.n;
+        }
+      }
+      const top = list.slice(0, 1);
       await Promise.all(top.map(async it => {
         if (it.road && it.locality) return;
         // Cache key: coords redondeadas a ~10m
@@ -3383,6 +3400,30 @@ function capWaypoints(wpStr, max = 10) {
   const out = list.filter((_, i) => keep.has(i));
   console.log('[WAYPOINTS] Recortados ' + list.length + ' -> ' + out.length + ' (cargadores protegidos: ' + nProt + ')');
   return out.join('|');
+}
+
+// Municipios DANE en la busqueda: evitan llamadas a Google Geocoding
+function matchMunicipios(q, max = 3) {
+  if (!municipiosData.length) return [];
+  const k = sKey(q).replace(/,.*$/, '').trim();
+  if (k.length < 3) return [];
+  const exact = [], pref = [];
+  for (const m of municipiosData) {
+    const n = sKey(m.n);
+    if (n === k) exact.push(m);
+    else if (k.length >= 4 && n.startsWith(k)) pref.push(m);
+  }
+  return exact.concat(pref).slice(0, max);
+}
+
+function nearestMunicipio(lat, lon, maxKm = 20) {
+  let best = null, bd = Infinity;
+  for (const m of municipiosData) {
+    if (Math.abs(m.lat - lat) > 0.3 || Math.abs(m.lon - lon) > 0.3) continue;
+    const d = haversineDistance(lat, lon, m.lat, m.lon);
+    if (d < bd) { bd = d; best = m; }
+  }
+  return bd <= maxKm ? best : null;
 }
 
 function fixTunnelProfile(elevations, coords) {
