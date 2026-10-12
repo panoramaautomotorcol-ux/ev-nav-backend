@@ -1,4 +1,4 @@
-﻿
+
 const fs = require('fs');
 
 // ===== OCM mapping helpers =====
@@ -65,21 +65,21 @@ const _mailTransporter = nodemailer.createTransport({
 
 async function sendReportEmail({ siteId, siteName, status, queueVehicles, details, userIP, lat, lon }) {
   const statusLabels = {
-    disponible: 'âœ… Disponible',
-    ocupado: 'ðŸ”´ Ocupado',
-    cola: 'ðŸŸ¡ Cola de espera',
-    fuera_servicio: 'âš« Fuera de servicio',
-    desconocido: 'â“ Desconocido',
+    disponible: '✅ Disponible',
+    ocupado: '🔴 Ocupado',
+    cola: '🟡 Cola de espera',
+    fuera_servicio: '⚫ Fuera de servicio',
+    desconocido: '❓ Desconocido',
   };
   const fecha = new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' });
   const html = `
-    <h2>âš¡ Nuevo reporte de cargador â€” WATTGO EV</h2>
+    <h2>⚡ Nuevo reporte de cargador — WATTGO EV</h2>
     <table style="border-collapse:collapse;font-family:sans-serif">
-      <tr><td style="padding:6px 12px;font-weight:bold">EstaciÃ³n</td><td style="padding:6px 12px">${siteName || siteId}</td></tr>
+      <tr><td style="padding:6px 12px;font-weight:bold">Estación</td><td style="padding:6px 12px">${siteName || siteId}</td></tr>
       <tr><td style="padding:6px 12px;font-weight:bold">ID</td><td style="padding:6px 12px">${siteId}</td></tr>
-      ${(lat && lon) ? `<tr><td style="padding:6px 12px;font-weight:bold">ðŸ“ UbicaciÃ³n</td><td style="padding:6px 12px"><a href="https://maps.google.com/?q=${lat},${lon}" target="_blank">Ver en Google Maps (${Number(lat).toFixed(5)}, ${Number(lon).toFixed(5)})</a></td></tr>` : ''}
+      ${(lat && lon) ? `<tr><td style="padding:6px 12px;font-weight:bold">📍 Ubicación</td><td style="padding:6px 12px"><a href="https://maps.google.com/?q=${lat},${lon}" target="_blank">Ver en Google Maps (${Number(lat).toFixed(5)}, ${Number(lon).toFixed(5)})</a></td></tr>` : ''}
       <tr><td style="padding:6px 12px;font-weight:bold">Estado</td><td style="padding:6px 12px">${statusLabels[status] || status}</td></tr>
-      ${queueVehicles ? `<tr><td style="padding:6px 12px;font-weight:bold">VehÃ­culos en cola</td><td style="padding:6px 12px">${queueVehicles}</td></tr>` : ''}
+      ${queueVehicles ? `<tr><td style="padding:6px 12px;font-weight:bold">Vehículos en cola</td><td style="padding:6px 12px">${queueVehicles}</td></tr>` : ''}
       ${details ? `<tr><td style="padding:6px 12px;font-weight:bold">Detalles</td><td style="padding:6px 12px">${details}</td></tr>` : ''}
       <tr><td style="padding:6px 12px;font-weight:bold">Fecha</td><td style="padding:6px 12px">${fecha}</td></tr>
       <tr><td style="padding:6px 12px;font-weight:bold">IP usuario</td><td style="padding:6px 12px">${userIP}</td></tr>
@@ -89,16 +89,16 @@ async function sendReportEmail({ siteId, siteName, status, queueVehicles, detail
     await _mailTransporter.sendMail({
       from: `"WATTGO EV" <${process.env.GMAIL_USER}>`,
       to: 'notificacion.wattgo.ev@gmail.com',
-      subject: `[WATTGO EV] Reporte: ${siteName || siteId} â†’ ${statusLabels[status] || status}`,
+      subject: `[WATTGO EV] Reporte: ${siteName || siteId} → ${statusLabels[status] || status}`,
       html,
     });
-    console.log(`[EMAIL] âœ… Reporte enviado: ${siteId} â†’ ${status}`);
+    console.log(`[EMAIL] ✅ Reporte enviado: ${siteId} → ${status}`);
   } catch (err) {
-    console.error('[EMAIL] âŒ Error enviando reporte:', err.message);
+    console.error('[EMAIL] ❌ Error enviando reporte:', err.message);
   }
 }
 
-// ==================== CALIBRACIÃ“N COLABORATIVA ====================
+// ==================== CALIBRACIÓN COLABORATIVA ====================
 // Persistencia en archivo JSON para sobrevivir reinicios de Render.com
 // Disco persistente de Render (/var/data) si existe; si no, carpeta local (dev)
 const CALIBRATION_FILE = require('fs').existsSync('/var/data')
@@ -110,11 +110,11 @@ function loadCalibrationReports() {
     if (fs.existsSync(CALIBRATION_FILE)) {
       const raw = fs.readFileSync(CALIBRATION_FILE, 'utf-8');
       const data = JSON.parse(raw);
-      console.log(`[CALIBRATION] âœ… Cargados ${data.length} reportes desde disco`);
+      console.log(`[CALIBRATION] ✅ Cargados ${data.length} reportes desde disco`);
       return data;
     }
   } catch (e) {
-    console.error('[CALIBRATION] âš ï¸ Error al cargar archivo:', e.message);
+    console.error('[CALIBRATION] ⚠️ Error al cargar archivo:', e.message);
   }
   return [];
 }
@@ -123,7 +123,7 @@ function saveCalibrationReports(reports) {
   try {
     fs.writeFileSync(CALIBRATION_FILE, JSON.stringify(reports, null, 2), 'utf-8');
   } catch (e) {
-    console.error('[CALIBRATION] âš ï¸ Error al guardar archivo:', e.message);
+    console.error('[CALIBRATION] ⚠️ Error al guardar archivo:', e.message);
   }
 }
 
@@ -132,7 +132,7 @@ const calibrationReports = loadCalibrationReports();
 // ==================== CLIMA - OpenWeatherMap ====================
 const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY || '5da3b8b266eb0b869abcdcfb730f1f75';
 
-// Cache de clima (5 min TTL) â€” para no repetir consultas en la misma ruta
+// Cache de clima (5 min TTL) — para no repetir consultas en la misma ruta
 const weatherCache = new Map();
 const WEATHER_CACHE_TTL = 5 * 60 * 1000; // 5 minutos
 
@@ -166,7 +166,7 @@ async function getWeatherAt(lat, lon) {
     weatherCache.set(cacheKey, { data: weather, timestamp: Date.now() });
     return weather;
   } catch (err) {
-    console.error('[WEATHER] âŒ Error OpenWeatherMap:', err.message);
+    console.error('[WEATHER] ❌ Error OpenWeatherMap:', err.message);
     return null; // Si falla, no ajustar consumo
   }
 }
@@ -176,10 +176,10 @@ async function getWeatherAt(lat, lon) {
  * Retorna un multiplicador (1.0 = sin cambio, 1.15 = +15% consumo)
  * 
  * Factores:
- * - Temperatura: A/C consume energÃ­a. Ã“ptimo 20-25Â°C
+ * - Temperatura: A/C consume energía. Óptimo 20-25°C
  * - Lluvia: Mayor resistencia al rodaje +5-10%
  * - Viento fuerte: +3-8%
- * - Humidity + calor: A/C trabaja mÃ¡s duro
+ * - Humidity + calor: A/C trabaja más duro
  */
 function calculateWeatherFactor(weather) {
   if (!weather) return { factor: 1.0, details: 'Sin datos de clima' };
@@ -187,24 +187,24 @@ function calculateWeatherFactor(weather) {
   let factor = 1.0;
   const reasons = [];
 
-  // ðŸŒ¡ï¸ Temperatura (factor mÃ¡s importante)
+  // 🌡️ Temperatura (factor más importante)
   const temp = weather.temp_c;
   if (temp < 5) {
-    factor *= 1.20; // Muy frÃ­o: calefacciÃ³n + baterÃ­a menos eficiente
-    reasons.push(`FrÃ­o extremo ${temp}Â°C (+20%)`);
+    factor *= 1.20; // Muy frío: calefacción + batería menos eficiente
+    reasons.push(`Frío extremo ${temp}°C (+20%)`);
   } else if (temp < 15) {
-    factor *= 1.10; // Fresco: algo de calefacciÃ³n
-    reasons.push(`Fresco ${temp}Â°C (+10%)`);
+    factor *= 1.10; // Fresco: algo de calefacción
+    reasons.push(`Fresco ${temp}°C (+10%)`);
   } else if (temp > 35) {
-    factor *= 1.15; // Muy caliente: A/C a mÃ¡xima
-    reasons.push(`Calor extremo ${temp}Â°C (+15%)`);
+    factor *= 1.15; // Muy caliente: A/C a máxima
+    reasons.push(`Calor extremo ${temp}°C (+15%)`);
   } else if (temp > 30) {
     factor *= 1.08; // Caliente: A/C
-    reasons.push(`Caluroso ${temp}Â°C (+8%)`);
+    reasons.push(`Caluroso ${temp}°C (+8%)`);
   }
-  // 20-30Â°C = Ã³ptimo, no se ajusta
+  // 20-30°C = óptimo, no se ajusta
 
-  // ðŸŒ§ï¸ Lluvia
+  // 🌧️ Lluvia
   if (weather.rain_mm > 5) {
     factor *= 1.10; // Lluvia fuerte
     reasons.push(`Lluvia fuerte ${weather.rain_mm}mm (+10%)`);
@@ -213,7 +213,7 @@ function calculateWeatherFactor(weather) {
     reasons.push(`Lluvia ligera (+5%)`);
   }
 
-  // ðŸ’¨ Viento
+  // 💨 Viento
   if (weather.wind_speed_ms > 10) {
     factor *= 1.08; // Viento fuerte
     reasons.push(`Viento fuerte ${weather.wind_speed_ms.toFixed(0)}m/s (+8%)`);
@@ -224,12 +224,12 @@ function calculateWeatherFactor(weather) {
 
   return {
     factor: Math.round(factor * 1000) / 1000, // 3 decimales
-    details: reasons.length > 0 ? reasons.join(', ') : 'Clima Ã³ptimo',
+    details: reasons.length > 0 ? reasons.join(', ') : 'Clima óptimo',
     raw: weather
   };
 }
 
-// ==================== PERFILES DE VEHÃCULOS ====================
+// ==================== PERFILES DE VEHÍCULOS ====================
 const VEHICLE_PROFILES = {
   'hyundai_kona_48': { batteryKwh: 48.6, consumptionRate: 0.27 },
   'jeep_avenger_54': { batteryKwh: 54.0, consumptionRate: 0.25 },
@@ -331,7 +331,7 @@ const VEHICLE_PROFILES = {
   'smart_1_pro_66': { batteryKwh: 66.0, consumptionRate: 0.24 },
   'smart_1_brabus_66': { batteryKwh: 66.0, consumptionRate: 0.25 },
   'voyah_courage_80': { batteryKwh: 80.0, consumptionRate: 0.16 },
-  // ðŸ†• Sincronizados desde la app (antes caian al generico)
+  // 🆕 Sincronizados desde la app (antes caian al generico)
   'chery_e5_51': { batteryKwh: 50.6, consumptionRate: 0.24 },
   'mini_aceman_e_39': { batteryKwh: 39.0, consumptionRate: 0.35 },
   'mini_jcw_aceman_e_49': { batteryKwh: 49.0, consumptionRate: 0.3 },
@@ -390,15 +390,15 @@ const httpServer = http.createServer(app);
 // Configurar Socket.io con CORS
 const io = new Server(httpServer, {
   cors: {
-    origin: '*', // Permitir todas las conexiones (ajusta en producciÃ³n)
+    origin: '*', // Permitir todas las conexiones (ajusta en producción)
     methods: ['GET', 'POST']
   }
 });
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
-// ===== MEDICIÃ“N DE USO POR DISPOSITIVO =====
-// Cuenta peticiones por dÃ­a y por dispositivo (header X-Device-Id, anÃ³nimo)
+// ===== MEDICIÓN DE USO POR DISPOSITIVO =====
+// Cuenta peticiones por día y por dispositivo (header X-Device-Id, anónimo)
 // para saber si el gasto de Google lo concentran pocos usuarios o se reparte.
 const USAGE_FILE = require('fs').existsSync('/var/data')
   ? '/var/data/usage_stats.json'
@@ -407,12 +407,12 @@ const USAGE_FILE = require('fs').existsSync('/var/data')
 let usageStats = {};
 try {
   if (fs.existsSync(USAGE_FILE)) usageStats = JSON.parse(fs.readFileSync(USAGE_FILE, 'utf-8'));
-} catch (e) { console.error('[USAGE] âš ï¸ Error al cargar:', e.message); }
+} catch (e) { console.error('[USAGE] ⚠️ Error al cargar:', e.message); }
 
 let usageDirty = 0;
 function saveUsage() {
   try { fs.writeFileSync(USAGE_FILE, JSON.stringify(usageStats), 'utf-8'); usageDirty = 0; }
-  catch (e) { console.error('[USAGE] âš ï¸ Error al guardar:', e.message); }
+  catch (e) { console.error('[USAGE] ⚠️ Error al guardar:', e.message); }
 }
 
 app.use((req, res, next) => {
@@ -427,7 +427,7 @@ app.use((req, res, next) => {
       usageStats[day] = usageStats[day] || {};
       const d = usageStats[day][dev] = usageStats[day][dev] || { route: 0, lite: 0, alt: 0, search: 0 };
       d[kind] = (d[kind] || 0) + 1;
-      // Destinos Ãºnicos: el app a veces pide alternativas dos veces para el mismo destino
+      // Destinos únicos: el app a veces pide alternativas dos veces para el mismo destino
       if (kind === 'alt') {
         const destQ = req.query.destination || req.query.dest || req.query.to;
         if (destQ) {
@@ -442,7 +442,7 @@ app.use((req, res, next) => {
   next();
 });
 // Resumen de uso: /api/usage-stats?days=7
-// "alt" â‰ˆ rutas iniciadas por el usuario (una por destino elegido).
+// "alt" ≈ rutas iniciadas por el usuario (una por destino elegido).
 // "route" y "lite" incluyen llamadas internas (segmentos, verificaciones).
 app.get('/api/usage-stats', (req, res) => {
   const days = Math.min(parseInt(req.query.days) || 7, 60);
@@ -494,7 +494,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// ðŸ’° Cache persistente en disco: las coordenadas de un lugar no cambian.
+// 💰 Cache persistente en disco: las coordenadas de un lugar no cambian.
 // Sobrevive reinicios de Render, que antes vaciaban el cache y obligaban a repagar.
 const SEARCH_FILE = require('fs').existsSync('/var/data')
   ? '/var/data/search_cache.json'
@@ -504,11 +504,11 @@ function loadSearchCache() {
   try {
     if (fs.existsSync(SEARCH_FILE)) {
       const data = JSON.parse(fs.readFileSync(SEARCH_FILE, 'utf-8'));
-      console.log(`[SEARCH-CACHE] âœ… Cargadas ${Object.keys(data).length} bÃºsquedas desde disco`);
+      console.log(`[SEARCH-CACHE] ✅ Cargadas ${Object.keys(data).length} búsquedas desde disco`);
       return new Map(Object.entries(data));
     }
   } catch (e) {
-    console.error('[SEARCH-CACHE] âš ï¸ Error al cargar archivo:', e.message);
+    console.error('[SEARCH-CACHE] ⚠️ Error al cargar archivo:', e.message);
   }
   return new Map();
 }
@@ -517,7 +517,7 @@ function loadSearchCache() {
 function sKey(q) { return String(q || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim(); }
 function sLoc(at) { const [a, b] = String(at || '').split(',').map(Number); return (Number.isFinite(a) && Number.isFinite(b)) ? a.toFixed(1) + ',' + b.toFixed(1) : 'no-loc'; }
 const searchCache = loadSearchCache();
-const SEARCH_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 dÃ­as
+const SEARCH_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 días
 let searchDirty = 0;
 
 function saveSearchCache() {
@@ -525,7 +525,7 @@ function saveSearchCache() {
     fs.writeFileSync(SEARCH_FILE, JSON.stringify(Object.fromEntries(searchCache)), 'utf-8');
     searchDirty = 0;
   } catch (e) {
-    console.error('[SEARCH-CACHE] âš ï¸ Error al guardar archivo:', e.message);
+    console.error('[SEARCH-CACHE] ⚠️ Error al guardar archivo:', e.message);
   }
 }
 
@@ -533,7 +533,7 @@ function markSearchDirty() {
   if (++searchDirty >= 20) saveSearchCache();
 }
 
-// Limpiar cachÃ© cada hora (por edad y por tamaÃ±o)
+// Limpiar caché cada hora (por edad y por tamaño)
 setInterval(() => {
   const now = Date.now();
   let cleaned = 0;
@@ -544,8 +544,8 @@ setInterval(() => {
     }
   }
 
-  // ðŸ’° Tope de tamaÃ±o: cada entrada guarda hasta 10 resultados completos,
-  // asÃ­ que el archivo crece rÃ¡pido. Si pasa el tope, salen los mÃ¡s viejos.
+  // 💰 Tope de tamaño: cada entrada guarda hasta 10 resultados completos,
+  // así que el archivo crece rápido. Si pasa el tope, salen los más viejos.
   const MAX_SEARCH_ENTRIES = 5000;
   if (searchCache.size > MAX_SEARCH_ENTRIES) {
     let toDrop = searchCache.size - 4000;
@@ -554,17 +554,17 @@ setInterval(() => {
       searchCache.delete(key);
       cleaned++;
     }
-    console.log(`[CACHE] Tope aplicado: ${searchCache.size} bÃºsquedas`);
+    console.log(`[CACHE] Tope aplicado: ${searchCache.size} búsquedas`);
   }
 
   if (cleaned > 0) {
-    console.log(`[CACHE] Limpiados ${cleaned} bÃºsquedas. CachÃ© actual: ${searchCache.size}`);
+    console.log(`[CACHE] Limpiados ${cleaned} búsquedas. Caché actual: ${searchCache.size}`);
     saveSearchCache();
   }
 }, 60 * 60 * 1000); // Cada hora
 
-// ===== CACHÃ‰ DE ELEVACIÃ“N =====
-// ðŸ’° Cache persistente en disco: la altimetrÃ­a de una ruta NO cambia nunca.
+// ===== CACHÉ DE ELEVACIÓN =====
+// 💰 Cache persistente en disco: la altimetría de una ruta NO cambia nunca.
 const ELEV_FILE = require('fs').existsSync('/var/data')
   ? '/var/data/elevation_cache.json'
   : './elevation_cache.json';
@@ -573,11 +573,11 @@ function loadElevationCache() {
   try {
     if (fs.existsSync(ELEV_FILE)) {
       const data = JSON.parse(fs.readFileSync(ELEV_FILE, 'utf-8'));
-      console.log(`[ELEV-CACHE] âœ… Cargados ${Object.keys(data).length} perfiles desde disco`);
+      console.log(`[ELEV-CACHE] ✅ Cargados ${Object.keys(data).length} perfiles desde disco`);
       return new Map(Object.entries(data));
     }
   } catch (e) {
-    console.error('[ELEV-CACHE] âš ï¸ Error al cargar archivo:', e.message);
+    console.error('[ELEV-CACHE] ⚠️ Error al cargar archivo:', e.message);
   }
   return new Map();
 }
@@ -591,7 +591,7 @@ function saveElevationCache() {
     fs.writeFileSync(ELEV_FILE, JSON.stringify(Object.fromEntries(elevationCache)), 'utf-8');
     elevDirty = 0;
   } catch (e) {
-    console.error('[ELEV-CACHE] âš ï¸ Error al guardar archivo:', e.message);
+    console.error('[ELEV-CACHE] ⚠️ Error al guardar archivo:', e.message);
   }
 }
 
@@ -599,7 +599,7 @@ function markElevDirty() {
   if (++elevDirty >= 20) saveElevationCache();
 }
 // Cache PERMANENTE para reverse geocode (las direcciones de coordenadas NO cambian)
-// ðŸ’° Cache persistente en disco: la direcciÃ³n de una coordenada NO cambia nunca.
+// 💰 Cache persistente en disco: la dirección de una coordenada NO cambia nunca.
 // Sobrevive reinicios de Render, que antes vaciaban el cache y obligaban a repagar.
 const REVGEO_FILE = require('fs').existsSync('/var/data')
   ? '/var/data/revgeo_cache.json'
@@ -609,11 +609,11 @@ function loadRevGeoCache() {
   try {
     if (fs.existsSync(REVGEO_FILE)) {
       const data = JSON.parse(fs.readFileSync(REVGEO_FILE, 'utf-8'));
-      console.log(`[REVGEO] âœ… Cargadas ${Object.keys(data).length} coordenadas desde disco`);
+      console.log(`[REVGEO] ✅ Cargadas ${Object.keys(data).length} coordenadas desde disco`);
       return new Map(Object.entries(data));
     }
   } catch (e) {
-    console.error('[REVGEO] âš ï¸ Error al cargar archivo:', e.message);
+    console.error('[REVGEO] ⚠️ Error al cargar archivo:', e.message);
   }
   return new Map();
 }
@@ -626,17 +626,17 @@ function saveRevGeoCache() {
     fs.writeFileSync(REVGEO_FILE, JSON.stringify(Object.fromEntries(reverseGeocodeCache)), 'utf-8');
     revGeoDirty = 0;
   } catch (e) {
-    console.error('[REVGEO] âš ï¸ Error al guardar archivo:', e.message);
+    console.error('[REVGEO] ⚠️ Error al guardar archivo:', e.message);
   }
 }
 
-// Volcar a disco cada 20 entradas nuevas (evita escribir en cada bÃºsqueda)
+// Volcar a disco cada 20 entradas nuevas (evita escribir en cada búsqueda)
 function markRevGeoDirty() {
   if (++revGeoDirty >= 20) saveRevGeoCache();
 }
 
-// ðŸ’° Sin limpieza por edad (la altimetrÃ­a no caduca): solo tope de
-// tamaÃ±o para cuidar la memoria â€” si crece mucho, salen los mÃ¡s viejos.
+// 💰 Sin limpieza por edad (la altimetría no caduca): solo tope de
+// tamaño para cuidar la memoria — si crece mucho, salen los más viejos.
 setInterval(() => {
   const MAX_ELEV_ENTRIES = 4000;
   if (elevationCache.size > MAX_ELEV_ENTRIES) {
@@ -655,36 +655,36 @@ try {
   const munPath = path.join(__dirname, 'municipios_colombia.json');
   if (fs.existsSync(munPath)) {
     municipiosData = JSON.parse(fs.readFileSync(munPath, 'utf8'));
-    console.log(`[MUNICIPIOS] âœ… Cargados ${municipiosData.length} municipios`);
+    console.log(`[MUNICIPIOS] ✅ Cargados ${municipiosData.length} municipios`);
   } else {
-    console.log('[MUNICIPIOS] âš ï¸  Archivo municipios_colombia.json no encontrado');
+    console.log('[MUNICIPIOS] ⚠️  Archivo municipios_colombia.json no encontrado');
   }
 } catch (error) {
-  console.log('[MUNICIPIOS] âŒ Error cargando municipios:', error.message);
+  console.log('[MUNICIPIOS] ❌ Error cargando municipios:', error.message);
 }
 
 // ===== BASE DE DATOS DE PEAJES =====
-// fs ya estÃ¡ declarado arriba
+// fs ya está declarado arriba
 let peajesData = { peajes: [] };
 
 try {
   const peajesPath = path.join(__dirname, 'peajes_colombia.json');
   if (fs.existsSync(peajesPath)) {
     peajesData = JSON.parse(fs.readFileSync(peajesPath, 'utf8'));
-    console.log(`[PEAJES] âœ… Cargados ${peajesData.peajes.length} peajes`);
+    console.log(`[PEAJES] ✅ Cargados ${peajesData.peajes.length} peajes`);
   } else {
-    console.log('[PEAJES] âš ï¸  Archivo peajes_colombia.json no encontrado');
+    console.log('[PEAJES] ⚠️  Archivo peajes_colombia.json no encontrado');
   }
 } catch (error) {
-  console.log('[PEAJES] âŒ Error cargando peajes:', error.message);
+  console.log('[PEAJES] ❌ Error cargando peajes:', error.message);
 }
 
 /**
- * Calcula si un peaje estÃ¡ cerca de la ruta
+ * Calcula si un peaje está cerca de la ruta
  * @param {number} peajeLat - Latitud del peaje
  * @param {number} peajeLon - Longitud del peaje
  * @param {Array} routePoints - Puntos de la ruta [{lat, lon}]
- * @param {number} threshold - Distancia mÃ¡xima en km (default 1km)
+ * @param {number} threshold - Distancia máxima en km (default 1km)
  * @returns {boolean}
  */
 function isPeajeOnRoute(peajeLat, peajeLon, routePoints, threshold = 1.0) {
@@ -711,7 +711,7 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-// ===== DENSIFICACIÃ“N DE RUTA (FIX 15) =====
+// ===== DENSIFICACIÓN DE RUTA (FIX 15) =====
 // Interpolar puntos entre dos coordenadas
 function interpolatePoints(p1, p2, numPoints = 3) {
   const result = [];
@@ -822,7 +822,7 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
     throw new Error('GOOGLE_MAPS_API_KEY no configurada');
   }
 
-  console.log('[GOOGLE] ðŸ—ºï¸  Calculando ruta con Google Maps');
+  console.log('[GOOGLE] 🗺️  Calculando ruta con Google Maps');
   console.log('[GOOGLE]   Origen:', origin);
   console.log('[GOOGLE]   Destino:', destination);
   console.log('[GOOGLE]   Waypoints:', waypoints || 'ninguno');
@@ -835,33 +835,33 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
     units: 'metric',
     key: GOOGLE_MAPS_API_KEY
   };
-  // ðŸ’° SKU: con departure_time la llamada factura como Directions
+  // 💰 SKU: con departure_time la llamada factura como Directions
   // ADVANCED (US$10/1K, 5K gratis). Las verificaciones lite del planner
-  // solo necesitan DISTANCIA (los km no cambian con el trÃ¡fico), asÃ­ que
-  // van sin trÃ¡fico â†’ SKU bÃ¡sico (US$5/1K, 10K gratis). Las rutas que el
-  // usuario VE siguen llevando trÃ¡fico en tiempo real intacto.
-  // ðŸ’° Google no devuelve duration_in_traffic cuando hay waypoints (todos los
-  // ratios vuelven en 1.00), asÃ­ que departure_time solo encarece el SKU sin
-  // aportar dato. Los colores de trÃ¡fico usan umbrales de velocidad absolutos
+  // solo necesitan DISTANCIA (los km no cambian con el tráfico), así que
+  // van sin tráfico → SKU básico (US$5/1K, 10K gratis). Las rutas que el
+  // usuario VE siguen llevando tráfico en tiempo real intacto.
+  // 💰 Google no devuelve duration_in_traffic cuando hay waypoints (todos los
+  // ratios vuelven en 1.00), así que departure_time solo encarece el SKU sin
+  // aportar dato. Los colores de tráfico usan umbrales de velocidad absolutos
   // y siguen funcionando igual.
   const hasWaypoints = !!waypoints && waypoints.length > 0;
   if (!noTraffic && !hasWaypoints) {
-    params.departure_time = 'now';  // âœ… TrÃ¡fico en tiempo real
-    params.traffic_model = 'best_guess'; // âœ… Mejor predicciÃ³n
+    params.departure_time = 'now';  // ✅ Tráfico en tiempo real
+    params.traffic_model = 'best_guess'; // ✅ Mejor predicción
   } else {
-    console.log('[GOOGLE] ðŸ’° Sin trÃ¡fico (verificaciÃ³n lite â†’ SKU Directions bÃ¡sico)');
+    console.log('[GOOGLE] 💰 Sin tráfico (verificación lite → SKU Directions básico)');
   }
 
   // Agregar waypoints si existen
   if (waypoints) {
     const waypointsList = (waypointsStrict ? waypoints : capWaypoints(waypoints)).split('|');
     if (waypointsStrict) {
-      // ðŸ†• Modo estricto: prefijo "via:" obliga a Google a pasar EXACTAMENTE por el punto
+      // 🆕 Modo estricto: prefijo "via:" obliga a Google a pasar EXACTAMENTE por el punto
       params.waypoints = waypointsList.map(w => `via:${w}`).join('|');
-      console.log('[GOOGLE] ðŸ“ Waypoints ESTRICTOS (via:):', waypointsList.length);
+      console.log('[GOOGLE] 📍 Waypoints ESTRICTOS (via:):', waypointsList.length);
     } else {
       params.waypoints = waypointsList.join('|');
-      console.log('[GOOGLE] ðŸ“ Waypoints agregados:', waypointsList.length);
+      console.log('[GOOGLE] 📍 Waypoints agregados:', waypointsList.length);
     }
   }
 
@@ -872,22 +872,22 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
       timeout: 15000
     });
   } catch (error) {
-    console.error('[GOOGLE] âŒ Error llamando a Google Maps:', error.message);
+    console.error('[GOOGLE] ❌ Error llamando a Google Maps:', error.message);
     throw error;
   }
 
   const data = response.data;
 
   if (data.status !== 'OK') {
-    console.error('[GOOGLE] âŒ Google Maps error:', data.status, data.error_message);
+    console.error('[GOOGLE] ❌ Google Maps error:', data.status, data.error_message);
     throw new Error(`Google Maps error: ${data.status}`);
   }
 
   const route = data.routes[0];
   const legs = route.legs; // Puede ser 1 (sin waypoints) o varios (con waypoints)
 
-  console.log('[GOOGLE] âœ… Ruta recibida de Google Maps');
-  console.log('[GOOGLE] ðŸ“Š Legs:', legs.length);
+  console.log('[GOOGLE] ✅ Ruta recibida de Google Maps');
+  console.log('[GOOGLE] 📊 Legs:', legs.length);
 
   // Decodificar polyline DETALLADA desde cada step de TODOS los legs
   let points = [];
@@ -922,34 +922,34 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
   if (!usedStepPolylines) {
     const polylineEncoded = route.overview_polyline.points;
     points = decodeGooglePolyline(polylineEncoded);
-    console.log('[GOOGLE] âš ï¸ Usando overview_polyline (fallback)');
+    console.log('[GOOGLE] ⚠️ Usando overview_polyline (fallback)');
   } else {
-    console.log('[GOOGLE] âœ… Polyline construida desde steps (detallada)');
+    console.log('[GOOGLE] ✅ Polyline construida desde steps (detallada)');
   }
 
-  console.log('[GOOGLE] ðŸ“Š Puntos originales:', points.length);
+  console.log('[GOOGLE] 📊 Puntos originales:', points.length);
 
   // Densificar ruta (40 metros entre puntos)
   points = densifyRoute(points, 40);
-  console.log('[GOOGLE] ðŸ”¢ Puntos densificados:', points.length);
+  console.log('[GOOGLE] 🔢 Puntos densificados:', points.length);
 
   // ============================================================
-  // ðŸ†• Procesar steps con trÃ¡fico (de TODOS los legs)
+  // 🆕 Procesar steps con tráfico (de TODOS los legs)
   // Google NO da duration_in_traffic por step, solo por leg.
-  // SoluciÃ³n: usar velocidad de flujo libre del step como referencia,
-  // luego aplicar el ratio de trÃ¡fico del leg y comparar la DEGRADACIÃ“N.
-  // Esto evita marcar como "trÃ¡fico" calles que son naturalmente lentas.
+  // Solución: usar velocidad de flujo libre del step como referencia,
+  // luego aplicar el ratio de tráfico del leg y comparar la DEGRADACIÓN.
+  // Esto evita marcar como "tráfico" calles que son naturalmente lentas.
   // ============================================================
   const steps = [];
   let currentOffset = 0;
 
   for (const leg of legs) {
-    // Calcular ratio de trÃ¡fico del leg completo
-    const legFreeFlow = leg.duration.value; // segundos sin trÃ¡fico
+    // Calcular ratio de tráfico del leg completo
+    const legFreeFlow = leg.duration.value; // segundos sin tráfico
     const legWithTraffic = leg.duration_in_traffic?.value || legFreeFlow;
     const trafficRatio = legFreeFlow > 0 ? legWithTraffic / legFreeFlow : 1.0;
     
-    console.log(`[GOOGLE] ðŸš¦ Leg traffic ratio: ${trafficRatio.toFixed(2)} (${Math.round(legFreeFlow/60)}min free â†’ ${Math.round(legWithTraffic/60)}min traffic)`);
+    console.log(`[GOOGLE] 🚦 Leg traffic ratio: ${trafficRatio.toFixed(2)} (${Math.round(legFreeFlow/60)}min free → ${Math.round(legWithTraffic/60)}min traffic)`);
 
     for (const step of leg.steps) {
       const cleanText = step.html_instructions
@@ -963,30 +963,30 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
 
       const distanceMeters = step.distance.value;
       const durationSeconds = step.duration.value;
-      // Aplicar ratio de trÃ¡fico del leg al step
+      // Aplicar ratio de tráfico del leg al step
       const durationTrafficSeconds = Math.round(durationSeconds * trafficRatio);
 
       const distanceKm = distanceMeters / 1000;
       
-      // Velocidad de flujo libre (indica tipo de vÃ­a)
+      // Velocidad de flujo libre (indica tipo de vía)
       const freeFlowHours = durationSeconds / 3600;
       const freeFlowSpeed = freeFlowHours > 0 ? distanceKm / freeFlowHours : 60;
       
-      // Velocidad con trÃ¡fico
+      // Velocidad con tráfico
       const trafficHours = durationTrafficSeconds / 3600;
       const trafficSpeed = trafficHours > 0 ? distanceKm / trafficHours : freeFlowSpeed;
 
-      // ClasificaciÃ³n por velocidad con trÃ¡fico aplicado
+      // Clasificación por velocidad con tráfico aplicado
       // Solo si el step es largo (>100m) para ignorar mini-steps de giros
       let trafficLevel = 'free';
       
       if (distanceMeters > 100) {
         if (trafficSpeed < 10) {
-          trafficLevel = 'heavy';     // ðŸ”´ Parado/Muy lento
+          trafficLevel = 'heavy';     // 🔴 Parado/Muy lento
         } else if (trafficSpeed < 25) {
-          trafficLevel = 'slow';      // ðŸ”´ Lento  
+          trafficLevel = 'slow';      // 🔴 Lento  
         } else if (trafficSpeed < 45) {
-          trafficLevel = 'moderate';   // ðŸŸ  TrÃ¡fico moderado
+          trafficLevel = 'moderate';   // 🟠 Tráfico moderado
         }
       }
 
@@ -1016,14 +1016,14 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
     }
   }
 
-  console.log('[GOOGLE] ðŸ“‹ Steps generados:', steps.length);
+  console.log('[GOOGLE] 📋 Steps generados:', steps.length);
   
   if (steps.length > 0) {
-    console.log('[GOOGLE] ðŸ“ Primera instrucciÃ³n:', steps[0].text);
-    console.log('[GOOGLE] ðŸ“ Ãšltima instrucciÃ³n:', steps[steps.length - 1].text);
+    console.log('[GOOGLE] 📍 Primera instrucción:', steps[0].text);
+    console.log('[GOOGLE] 📍 Última instrucción:', steps[steps.length - 1].text);
   }
 
-  // DuraciÃ³n y distancia total de TODOS los legs
+  // Duración y distancia total de TODOS los legs
   let totalDurationSeconds = 0;
   let totalDistanceMeters = 0;
   let hasTrafficData = false;
@@ -1045,11 +1045,11 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
     ? (totalDurationSeconds - totalFreeFlowSeconds) / 60 
     : 0;
 
-  console.log('[GOOGLE] ðŸ“Š Distancia total:', (totalDistanceMeters / 1000).toFixed(1), 'km');
-  console.log('[GOOGLE] â±ï¸  DuraciÃ³n con trÃ¡fico:', Math.round(totalDurationSeconds / 60), 'min');
-  console.log('[GOOGLE] ðŸš¦ Datos de trÃ¡fico:', hasTrafficData ? 'SÃ' : 'NO');
+  console.log('[GOOGLE] 📊 Distancia total:', (totalDistanceMeters / 1000).toFixed(1), 'km');
+  console.log('[GOOGLE] ⏱️  Duración con tráfico:', Math.round(totalDurationSeconds / 60), 'min');
+  console.log('[GOOGLE] 🚦 Datos de tráfico:', hasTrafficData ? 'SÍ' : 'NO');
   if (hasTrafficData) {
-    console.log('[GOOGLE] â³ Retraso por trÃ¡fico:', delayMinutes.toFixed(1), 'min');
+    console.log('[GOOGLE] ⏳ Retraso por tráfico:', delayMinutes.toFixed(1), 'min');
   }
 
   return {
@@ -1069,7 +1069,7 @@ async function calculateRouteGoogle(origin, destination, waypoints = null, vehic
 }
 
 // ============================================================
-// ðŸ†• NUEVA FUNCIÃ“N HELPER: Encontrar punto mÃ¡s cercano
+// 🆕 NUEVA FUNCIÓN HELPER: Encontrar punto más cercano
 // ============================================================
 function findClosestPointIndex(points, targetLat, targetLng) {
   let minDist = Infinity;
@@ -1080,7 +1080,7 @@ function findClosestPointIndex(points, targetLat, targetLng) {
     const lat = point.lat;
     const lon = point.lon || point.lng;
     
-    // Distancia simple (PitÃ¡goras - suficiente para distancias cortas)
+    // Distancia simple (Pitágoras - suficiente para distancias cortas)
     const dist = Math.sqrt(
       Math.pow(lat - targetLat, 2) + 
       Math.pow(lon - targetLng, 2)
@@ -1097,7 +1097,7 @@ function findClosestPointIndex(points, targetLat, targetLng) {
 
 
 /**
- * Sistema de cachÃ© de rutas
+ * Sistema de caché de rutas
  */
 const routeCache = new Map();
 const ROUTE_CACHE_TTL = 60 * 60 * 1000; // 60 minutos
@@ -1136,7 +1136,7 @@ function getCachedRoute(origin, destination, waypoints, vehicleId, passengers, w
   const cached = routeCache.get(key);
   
   if (cached && Date.now() - cached.timestamp < ROUTE_CACHE_TTL) {
-    console.log('[CACHE] âš¡ Cache HIT:', key);
+    console.log('[CACHE] ⚡ Cache HIT:', key);
     return cached.data;
   }
   
@@ -1149,10 +1149,10 @@ function setCachedRoute(origin, destination, waypoints, vehicleId, passengers, d
     data,
     timestamp: Date.now()
   });
-  console.log('[CACHE] ðŸ’¾ Ruta guardada en cachÃ©:', key);
+  console.log('[CACHE] 💾 Ruta guardada en caché:', key);
 }
 
-// Limpiar cachÃ© cada hora
+// Limpiar caché cada hora
 setInterval(() => {
   const now = Date.now();
   let cleaned = 0;
@@ -1163,7 +1163,7 @@ setInterval(() => {
     }
   }
   if (cleaned > 0) {
-    console.log(`[CACHE] ðŸ§¹ Limpiados ${cleaned} rutas expiradas`);
+    console.log(`[CACHE] 🧹 Limpiados ${cleaned} rutas expiradas`);
   }
 }, 60 * 60 * 1000);
 
@@ -1179,16 +1179,16 @@ console.log('[ENV] GOOGLE_MAPS_API_KEY len =', (GOOGLE_MAPS_API_KEY || '').lengt
 const TRAFFIC_TTL_MS   = Number(process.env.TRAFFIC_TTL_MS || 60_000);
 const OCM_API_KEY      = process.env.OCM_API_KEY      || '';
 const EV_COUNTRY_CODE  = process.env.EV_COUNTRY_CODE  || 'CO';
-const OCM_ASSUME_CCS2  = String(process.env.OCM_ASSUME_CCS2 || '') === '1'; // âš™ï¸ heurÃ­stica DCâ†’CCS2
+const OCM_ASSUME_CCS2  = String(process.env.OCM_ASSUME_CCS2 || '') === '1'; // ⚙️ heurística DC→CCS2
 
 console.log('[ENV] HERE_API_KEY len =', (HERE_API_KEY || '').length);
 console.log('[ENV] MAPTILER_KEY len =', (MAPTILER_KEY || '').length);
 console.log('[ENV] OCM_API_KEY set =', !!OCM_API_KEY);
 console.log('[ENV] OCM_ASSUME_CCS2 =', OCM_ASSUME_CCS2);
-if (!MAPTILER_KEY) console.warn('âš ï¸  Falta MAPTILER_KEY (MapTiler geocoding)');
-if (!HERE_API_KEY) console.warn('âš ï¸  Falta HERE_API_KEY (autosuggest/revgeocode/rutas/trÃ¡fico)');
+if (!MAPTILER_KEY) console.warn('⚠️  Falta MAPTILER_KEY (MapTiler geocoding)');
+if (!HERE_API_KEY) console.warn('⚠️  Falta HERE_API_KEY (autosuggest/revgeocode/rutas/tráfico)');
 
-// Puerto libre automÃ¡tico
+// Puerto libre automático
 const tried = new Set();
 const pickPort = async () => {
   const http = require('http');
@@ -1214,7 +1214,7 @@ function parseBBox(bboxStr) {
   const [w,s,e,n] = p; return { w,s,e,n };
 }
 
-// Componer "Calle â€¦ # â€¦"
+// Componer "Calle … # …"
 function composeAddressName({ street, house, fullLabel }) {
   const clean = s => String(s || '').trim();
   street = clean(street); house = clean(house); fullLabel = clean(fullLabel);
@@ -1227,7 +1227,7 @@ function composeAddressName({ street, house, fullLabel }) {
   return fullLabel || street || house || '';
 }
 
-// Extraer vÃ­a principal
+// Extraer vía principal
 function extractRoadFromLabel(label='') {
   const m = String(label).match(/\b(Calle|Carrera|Cra\.?|KR|Av(?:enida)?|Diagonal|Transversal|Tv|Trv)\s*[^,]*/i);
   return m ? m[0].replace(/\s+/g,' ').trim() : '';
@@ -1271,11 +1271,11 @@ const bboxAround = (lat,lon,km=12) => {
   return `${w.toFixed(5)},${s.toFixed(5)},${e.toFixed(5)},${n.toFixed(5)}`;
 };
 
-// --- NormalizaciÃ³n de conectores (Colombia) ---
+// --- Normalización de conectores (Colombia) ---
 function classifyConnectorName(name='') {
   const s = String(name).toLowerCase().replace(/\s+/g,' ').trim();
   const has = (rx) => rx.test(s);
-  const isDC = has(/\bdc\b|carga\s*rÃ¡pida|carga\s*rapida|rÃ¡pida|rapida/);
+  const isDC = has(/\bdc\b|carga\s*rápida|carga\s*rapida|rápida|rapida/);
 
   if (has(/\b(j1772|type\s*1|tipo\s*1|yazaki)\b/)) return { code:'type1', label:'Tipo 1 (J1772)', kind:'ac' };
   if (has(/\b(ccs\s*1|combo\s*1|sae\s*combo|ccs1)\b/))   return { code:'ccs1',  label:'CCS1', kind:'dc' };
@@ -1302,7 +1302,7 @@ function normalizeChargerConnectors(ch) {
     const quantity = Number(c.quantity ?? c.count ?? 1) || 1;
     const current  = (c.current || (kind === 'dc' ? 'DC' : 'AC') || '').toUpperCase();
 
-    // --- precio por kWh a nivel de conector (acepta nÃºmero o string) ---
+    // --- precio por kWh a nivel de conector (acepta número o string) ---
     let priceKwh = null;
     if (c.price_kwh_cop !== undefined && c.price_kwh_cop !== null) {
       const p = Number(c.price_kwh_cop);
@@ -1329,7 +1329,7 @@ function normalizeChargerConnectors(ch) {
 
   const codes = [...new Set(mapped.map(m => m.code).filter(Boolean))];
 
-  // Potencia mÃ¡xima global del sitio
+  // Potencia máxima global del sitio
   let maxKw = Number.isFinite(Number(ch.power_kw)) ? Number(ch.power_kw) : null;
   for (const m of mapped) {
     if (Number.isFinite(m.power_kw)) {
@@ -1337,17 +1337,17 @@ function normalizeChargerConnectors(ch) {
     }
   }
 
-  // --- rango min/mÃ¡x de precios del sitio (acepta nÃºmero o string) ---
+  // --- rango min/máx de precios del sitio (acepta número o string) ---
   const rawMin =
     ch.min_price_kwh_cop ??
     ch.precio_min_kwh_cop ??
-    ch['precio_mÃ­n_kwh_cop'] ??
+    ch['precio_mín_kwh_cop'] ??
     null;
 
   const rawMax =
     ch.max_price_kwh_cop ??
     ch.precio_max_kwh_cop ??
-    ch['precio_mÃ¡x_kwh_cop'] ??
+    ch['precio_máx_kwh_cop'] ??
     null;
 
   let minPrice = null;
@@ -1371,7 +1371,7 @@ function normalizeChargerConnectors(ch) {
     }
   }
 
-  // ðŸ‘‡ DEBUG AGREGADO AQUÃ
+  // 👇 DEBUG AGREGADO AQUÍ
   console.log('[NORMALIZE]', ch.name, {
     min: minPrice,
     max: maxPrice,
@@ -1392,7 +1392,7 @@ function normalizeChargerConnectors(ch) {
   };
 }
 
-// HeurÃ­sticas para inferir conectores desconocidos
+// Heurísticas para inferir conectores desconocidos
 function inferUnknownConnectors(ch) {
   const conns = Array.isArray(ch.connectors) ? ch.connectors.slice() : [];
   for (const c of conns) {
@@ -1400,12 +1400,12 @@ function inferUnknownConnectors(ch) {
     const curr = String(c.current||'').toUpperCase();
     const kw   = Number(c.power_kw || ch.power_kw || 0);
 
-    // DC desconocido â†’ CCS2 (si activas la flag)
+    // DC desconocido → CCS2 (si activas la flag)
     if ((code === 'dc_unknown' || /desconocid/i.test(c.type)) && curr === 'DC' && OCM_ASSUME_CCS2) {
       c.code = 'ccs2'; c.type = 'CCS2'; c.current = 'DC'; continue;
     }
 
-    // AC desconocido: â‰¥ 7kW â†’ Type 2; â‰¤ 3.7kW â†’ Schuko/NEMA
+    // AC desconocido: ≥ 7kW → Type 2; ≤ 3.7kW → Schuko/NEMA
     if ((code === 'ac_unknown' || /desconocid/i.test(c.type)) && curr === 'AC') {
       if (kw >= 7)      { c.code = 'type2';  c.type = 'Tipo 2 (Mennekes)'; c.current = 'AC'; continue; }
       if (kw > 0 && kw <= 3.7) { c.code = 'schuko'; c.type = 'Schuko/NEMA'; c.current = 'AC'; continue; }
@@ -1431,12 +1431,12 @@ function _readLocalEv() {
     const parsed = JSON.parse(raw);
     const base = Array.isArray(parsed) ? parsed : (parsed.items || []);
     
-    // ðŸ‘‡ BUSCA COGUA ESPECÃFICAMENTE
+    // 👇 BUSCA COGUA ESPECÍFICAMENTE
     const cogua = base.find(x => x.name && x.name.includes('Cogua'));
     if (cogua) {
       console.log('[DEBUG COGUA RAW]', JSON.stringify(cogua, null, 2));
     } else {
-      console.log('[DEBUG] NO SE ENCONTRÃ“ COGUA EN EL JSON');
+      console.log('[DEBUG] NO SE ENCONTRÓ COGUA EN EL JSON');
     }
     
     return base.map(normalizeChargerConnectors);
@@ -1527,7 +1527,7 @@ function _mergeLocalWithOcm(localArr, ocmArr) {
     return R*2*Math.atan2(Math.sqrt(A),Math.sqrt(1-A));
   };
 
-  const THRESHOLD_M = 200; // empareja si estÃ¡n a < 200 m
+  const THRESHOLD_M = 200; // empareja si están a < 200 m
 
   return localArr.map(m => {
     const localHasKnown =
@@ -1537,7 +1537,7 @@ function _mergeLocalWithOcm(localArr, ocmArr) {
 
     if (localHasKnown) return m; // ya conocidos, no tocamos
 
-    // busca el OCM mÃ¡s cercano dentro del umbral
+    // busca el OCM más cercano dentro del umbral
     let best = null, bestD = Infinity;
     for (const o of ocmArr) {
       const d = distM({lat:m.lat,lon:m.lon},{lat:o.lat,lon:o.lon});
@@ -1611,7 +1611,7 @@ async function handleEvChargers(req, res) {
 
     const arr = _parseBbox(bboxStr);
     if (!arr) {
-      console.warn('[EV] /ev/chargers sin bbox o bbox invÃ¡lido:', bboxStr);
+      console.warn('[EV] /ev/chargers sin bbox o bbox inválido:', bboxStr);
       return res.status(400).json({ error: 'Missing or invalid bbox' });
     }
 
@@ -1619,7 +1619,7 @@ async function handleEvChargers(req, res) {
     const limit = Number(req.query.limit || 500);
 
     // 2) cargamos TODOS los cargadores locales (ya normalizados)
-    const local = _getEvItems(); // funciÃ³n que ya tienes arriba
+    const local = _getEvItems(); // función que ya tienes arriba
 
     // 3) filtramos por bbox
     const items = local.filter((p) => {
@@ -1666,13 +1666,13 @@ const commentsCache = new Map();
 // Estructura: siteId -> array de fotos (base64 o URLs)
 const photosCache = new Map();
 
-// ConfiguraciÃ³n
+// Configuración
 const COMMENTS_CONFIG = {
-  MAX_LENGTH: 500,                    // MÃ¡ximo caracteres por comentario
-  MAX_PER_USER_PER_SITE: 3,          // MÃ¡ximo 3 comentarios por usuario por sitio
+  MAX_LENGTH: 500,                    // Máximo caracteres por comentario
+  MAX_PER_USER_PER_SITE: 3,          // Máximo 3 comentarios por usuario por sitio
   COOLDOWN: 2 * 60 * 1000,           // 2 minutos entre comentarios
-  MAX_PHOTOS_PER_COMMENT: 3,         // MÃ¡ximo 3 fotos por comentario
-  PHOTO_MAX_SIZE_MB: 5,              // MÃ¡ximo 5MB por foto
+  MAX_PHOTOS_PER_COMMENT: 3,         // Máximo 3 fotos por comentario
+  PHOTO_MAX_SIZE_MB: 5,              // Máximo 5MB por foto
 };
 
 // ===== SISTEMA ANTI-SPAM =====
@@ -1686,7 +1686,7 @@ const SPAM_CONFIG = {
 
 const AVAIL_TTL_MS = 2 * 60 * 60 * 1000; // 2 horas
 
-// Limpieza periÃ³dica de datos expirados
+// Limpieza periódica de datos expirados
 setInterval(() => {
   const now = Date.now();
   for (const [key, data] of availabilityCache.entries()) {
@@ -1715,8 +1715,8 @@ app.post('/ev/availability', (req, res) => {
     
     const userSites = userUpdateCache.get(userIP);
 
-    // ðŸ”§ FIX: Rate limit por siteId+connectorKey, no solo por siteId
-    // AsÃ­ un usuario puede reportar diferentes cargadores del mismo sitio
+    // 🔧 FIX: Rate limit por siteId+connectorKey, no solo por siteId
+    // Así un usuario puede reportar diferentes cargadores del mismo sitio
     const connectorKey = `${siteId}|${connectorType}|${connectorCurrent}|${connectorKw}`;
     
     // Verificar rate limits
@@ -1724,7 +1724,7 @@ app.post('/ev/availability', (req, res) => {
       const siteHistory = userSites.get(connectorKey);
       const lastUpdate = siteHistory.lastUpdate;
       
-      // REGLA 1: Cooldown por conector especÃ­fico
+      // REGLA 1: Cooldown por conector específico
       if (now - lastUpdate < SPAM_CONFIG.COOLDOWN_BETWEEN_UPDATES) {
         const waitTime = Math.ceil((SPAM_CONFIG.COOLDOWN_BETWEEN_UPDATES - (now - lastUpdate)) / 1000);
         console.log(`[SPAM] Usuario debe esperar ${waitTime}s`);
@@ -1735,15 +1735,15 @@ app.post('/ev/availability', (req, res) => {
         });
       }
       
-      // REGLA 2: LÃ­mite en ventana por conector
+      // REGLA 2: Límite en ventana por conector
       const windowStart = now - SPAM_CONFIG.TIME_WINDOW;
       const recentUpdates = siteHistory.updates.filter(t => t > windowStart);
       
       if (recentUpdates.length >= SPAM_CONFIG.MAX_UPDATES_PER_SITE) {
-        console.log(`[SPAM] Usuario excediÃ³ lÃ­mite`);
+        console.log(`[SPAM] Usuario excedió límite`);
         return res.status(429).json({ 
           error: 'spam_detected',
-          message: 'Has alcanzado el lÃ­mite de actualizaciones para este cargador. Intenta mÃ¡s tarde.',
+          message: 'Has alcanzado el límite de actualizaciones para este cargador. Intenta más tarde.',
         });
       }
       
@@ -1758,14 +1758,14 @@ app.post('/ev/availability', (req, res) => {
       });
     }
     
-    // Guardar con votaciÃ³n
+    // Guardar con votación
     const key = connectorKey;
     const autoExpire = available < 2 ? now + AVAIL_TTL_MS : null;
     
     const prevData = availabilityCache.get(key) || {};
     const votes = prevData.votes || [];
     
-    // ðŸ”§ FIX: Reemplazar voto anterior del mismo usuario si existe
+    // 🔧 FIX: Reemplazar voto anterior del mismo usuario si existe
     const filteredVotes = votes.filter(v => v.userIP !== userIP);
     filteredVotes.push({
       value: available,
@@ -1775,7 +1775,7 @@ app.post('/ev/availability', (req, res) => {
     
     const recentVotes = filteredVotes.filter(v => now - v.timestamp < 10 * 60 * 1000);
 
-    // ðŸ”§ FIX: Usar el valor mÃ­nimo reportado (mÃ¡s conservador para disponibilidad)
+    // 🔧 FIX: Usar el valor mínimo reportado (más conservador para disponibilidad)
     // Si alguien reporta 3 disponibles, mostrar 3, no el promedio con el valor original
     const minAvail = Math.min(...recentVotes.map(v => v.value));
     
@@ -1787,9 +1787,9 @@ app.post('/ev/availability', (req, res) => {
       voteCount: recentVotes.length
     });
 
-    console.log(`[AVAIL] Updated ${key} â†’ ${minAvail} (${recentVotes.length} votos)${autoExpire ? ' (expira en 2h)' : ''}`);
+    console.log(`[AVAIL] Updated ${key} → ${minAvail} (${recentVotes.length} votos)${autoExpire ? ' (expira en 2h)' : ''}`);
 
-    // ðŸ”§ FIX: Emitir el valor mÃ­nimo inmediatamente a todos los clientes
+    // 🔧 FIX: Emitir el valor mínimo inmediatamente a todos los clientes
     io.emit('availability:updated', {
       siteId: siteId,
       connectorType: connectorType,
@@ -1848,12 +1848,12 @@ app.post('/ev/comments', (req, res) => {
       });
     }
 
-    // Anti-spam: mÃ¡ximo de comentarios por usuario
+    // Anti-spam: máximo de comentarios por usuario
     const userComments = siteComments.filter(c => c.userIP === userIP);
     if (userComments.length >= COMMENTS_CONFIG.MAX_PER_USER_PER_SITE) {
       return res.status(429).json({
         error: 'max_comments',
-        message: 'Has alcanzado el lÃ­mite de comentarios para este cargador'
+        message: 'Has alcanzado el límite de comentarios para este cargador'
       });
     }
 
@@ -1914,7 +1914,7 @@ app.get('/ev/comments', (req, res) => {
 
     const comments = commentsCache.get(siteId) || [];
 
-    // Ordenar por mÃ¡s reciente primero
+    // Ordenar por más reciente primero
     const sorted = comments
       .sort((a, b) => b.timestamp - a.timestamp)
       .map(c => ({
@@ -1938,10 +1938,10 @@ app.get('/ev/comments', (req, res) => {
 });
 
 
-// ===== REPORTE DE ESTADO DE ESTACIÃ“N (Comunidad) =====
+// ===== REPORTE DE ESTADO DE ESTACIÓN (Comunidad) =====
 const stationStatusCache = new Map(); // siteId -> { reports: [], summary: {} }
 const STATUS_OPTIONS = ['funcionando', 'parcial', 'fuera_de_servicio', 'cola', 'cerrado'];
-const STATUS_TTL = 4 * 60 * 60 * 1000; // Reportes vÃ¡lidos por 4 horas
+const STATUS_TTL = 4 * 60 * 60 * 1000; // Reportes válidos por 4 horas
 const QUEUE_TTL = 30 * 60 * 1000; // Reportes de COLA expiran en 30 min
 const STATUS_COOLDOWN = 5 * 60 * 1000; // 5 min entre reportes del mismo usuario
 const statusUserCache = new Map(); // userIP -> { siteId -> lastReport }
@@ -1961,7 +1961,7 @@ app.post('/ev/station-status', (req, res) => {
     const userIP = req.ip || req.connection.remoteAddress || 'unknown';
     const now = Date.now();
     
-    // Anti-spam: cooldown por usuario por estaciÃ³n
+    // Anti-spam: cooldown por usuario por estación
     if (!statusUserCache.has(userIP)) statusUserCache.set(userIP, new Map());
     const userSites = statusUserCache.get(userIP);
     
@@ -1971,7 +1971,7 @@ app.post('/ev/station-status', (req, res) => {
         const wait = Math.ceil((STATUS_COOLDOWN - (now - lastReport)) / 1000);
         return res.status(429).json({
           error: 'cooldown',
-          message: `Espera ${wait}s antes de reportar esta estaciÃ³n de nuevo`,
+          message: `Espera ${wait}s antes de reportar esta estación de nuevo`,
           waitSeconds: wait
         });
       }
@@ -1982,7 +1982,7 @@ app.post('/ev/station-status', (req, res) => {
     if (!stationStatusCache.has(siteId)) stationStatusCache.set(siteId, { reports: [] });
     const stationData = stationStatusCache.get(siteId);
     
-    // Limpiar reportes expirados â€” cola expira en 30min, otros en 4h
+    // Limpiar reportes expirados — cola expira en 30min, otros en 4h
     stationData.reports = stationData.reports.filter(r => {
       const ttl = r.status === 'cola' ? QUEUE_TTL : STATUS_TTL;
       return now - r.timestamp < ttl;
@@ -1996,7 +1996,7 @@ app.post('/ev/station-status', (req, res) => {
       userIP
     });
     
-    // Calcular resumen (estado mÃ¡s reportado)
+    // Calcular resumen (estado más reportado)
     const statusCounts = {};
     stationData.reports.forEach(r => {
       statusCounts[r.status] = (statusCounts[r.status] || 0) + 1;
@@ -2014,9 +2014,9 @@ app.post('/ev/station-status', (req, res) => {
       statusBreakdown: statusCounts
     };
     
-    console.log(`[STATUS] ðŸ“Š ${siteId}: ${status} (${stationData.reports.length} reportes, top=${topStatus[0]})`);
+    console.log(`[STATUS] 📊 ${siteId}: ${status} (${stationData.reports.length} reportes, top=${topStatus[0]})`);
     
-    // Enviar email de notificaciÃ³n
+    // Enviar email de notificación
     sendReportEmail({ siteId, siteName, status, queueVehicles, details, userIP, lat, lon });
     
     // Emitir a todos los clientes
@@ -2033,7 +2033,7 @@ app.post('/ev/station-status', (req, res) => {
   }
 });
 
-// GET: obtener estado de una estaciÃ³n
+// GET: obtener estado de una estación
 app.get('/ev/station-status', (req, res) => {
   try {
     const { siteId } = req.query;
@@ -2046,7 +2046,7 @@ app.get('/ev/station-status', (req, res) => {
       return res.json({ siteId, summary: null, reports: [] });
     }
     
-    // Limpiar expirados â€” cola 30min, otros 4h
+    // Limpiar expirados — cola 30min, otros 4h
     stationData.reports = stationData.reports.filter(r => {
       const ttl = r.status === 'cola' ? QUEUE_TTL : STATUS_TTL;
       return now - r.timestamp < ttl;
@@ -2088,10 +2088,10 @@ app.get('/ev/availability', (req, res) => {
     const now = Date.now();
 
     if (!siteId) {
-      // Devolver todo el cachÃ© (filtrado por expiraciÃ³n)
+      // Devolver todo el caché (filtrado por expiración)
       const all = {};
       for (const [key, data] of availabilityCache.entries()) {
-        // Verificar si expirÃ³
+        // Verificar si expiró
         if (data.autoExpire && now > data.autoExpire) {
           availabilityCache.delete(key); // Eliminar expirado
           console.log(`[AVAIL] Auto-expirado: ${key}`);
@@ -2106,7 +2106,7 @@ app.get('/ev/availability', (req, res) => {
     const filtered = {};
     for (const [key, data] of availabilityCache.entries()) {
       if (key.startsWith(siteId + '|')) {
-        // Verificar si expirÃ³
+        // Verificar si expiró
         if (data.autoExpire && now > data.autoExpire) {
           availabilityCache.delete(key);
           console.log(`[AVAIL] Auto-expirado: ${key}`);
@@ -2160,7 +2160,7 @@ app.get('/debug/keys', (_req, res) => {
 });
 
 /* ==================== PLACES ==================== */
-// ===== ENDPOINT RÃPIDO DE BÃšSQUEDA (solo HERE Autosuggest) =====
+// ===== ENDPOINT RÁPIDO DE BÚSQUEDA (solo HERE Autosuggest) =====
 app.get('/places-fast', async (req, res) => {
   try {
     const { q, at, lang, limit } = req.query;
@@ -2169,14 +2169,14 @@ app.get('/places-fast', async (req, res) => {
     if (!q || q.trim().length === 0) {
       return res.json({
         items: [
-          { name: 'Centro Comercial Unicentro', lat: 4.6704, lon: -74.0565, address: 'Calle 127 #15A-24, BogotÃ¡' },
-          { name: 'Aeropuerto El Dorado', lat: 4.7016, lon: -74.1469, address: 'Av. El Dorado #103-8, BogotÃ¡' },
-          { name: 'Centro Andino', lat: 4.6649, lon: -74.0542, address: 'Carrera 11 #82-71, BogotÃ¡' },
-          { name: 'Parque de la 93', lat: 4.6762, lon: -74.0485, address: 'Calle 93A, BogotÃ¡' },
-          { name: 'UsaquÃ©n', lat: 4.7026, lon: -74.0309, address: 'Localidad de UsaquÃ©n' },
-          { name: 'Plaza de BolÃ­var', lat: 4.5981, lon: -74.0758, address: 'Carrera 7 #11-10, BogotÃ¡' },
-          { name: 'Salitre Plaza', lat: 4.6541, lon: -74.1036, address: 'Carrera 68C #24B-60, BogotÃ¡' },
-          { name: 'Centro Comercial TitÃ¡n Plaza', lat: 4.6956, lon: -74.0871, address: 'Calle 80 #69A-50, BogotÃ¡' },
+          { name: 'Centro Comercial Unicentro', lat: 4.6704, lon: -74.0565, address: 'Calle 127 #15A-24, Bogotá' },
+          { name: 'Aeropuerto El Dorado', lat: 4.7016, lon: -74.1469, address: 'Av. El Dorado #103-8, Bogotá' },
+          { name: 'Centro Andino', lat: 4.6649, lon: -74.0542, address: 'Carrera 11 #82-71, Bogotá' },
+          { name: 'Parque de la 93', lat: 4.6762, lon: -74.0485, address: 'Calle 93A, Bogotá' },
+          { name: 'Usaquén', lat: 4.7026, lon: -74.0309, address: 'Localidad de Usaquén' },
+          { name: 'Plaza de Bolívar', lat: 4.5981, lon: -74.0758, address: 'Carrera 7 #11-10, Bogotá' },
+          { name: 'Salitre Plaza', lat: 4.6541, lon: -74.1036, address: 'Carrera 68C #24B-60, Bogotá' },
+          { name: 'Centro Comercial Titán Plaza', lat: 4.6956, lon: -74.0871, address: 'Calle 80 #69A-50, Bogotá' },
         ]
       });
     }
@@ -2189,30 +2189,30 @@ app.get('/places-fast', async (req, res) => {
       return res.json({ items: [], provider: 'min_length' });
     }
     
-    // Verificar cachÃ©
+    // Verificar caché
     const cached = searchCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < SEARCH_CACHE_TTL) {
-      console.log(`[SEARCH-FAST] âš¡ Cache HIT: "${query}"`);
+      console.log(`[SEARCH-FAST] ⚡ Cache HIT: "${query}"`);
       return res.json(cached.data);
     }
     
-    console.log(`[SEARCH-FAST] ðŸ” Buscando con Google: "${query}"`);
+    console.log(`[SEARCH-FAST] 🔍 Buscando con Google: "${query}"`);
     const startTime = Date.now();
     
     if (!GOOGLE_MAPS_API_KEY) {
-      console.warn('[SEARCH-FAST] âš ï¸ GOOGLE_MAPS_API_KEY no configurada');
+      console.warn('[SEARCH-FAST] ⚠️ GOOGLE_MAPS_API_KEY no configurada');
       return res.json({ items: [] });
     }
     
     const atParts = (at || '4.60971,-74.08175').split(',').map(Number);
     let items = [];
     
-    // Detectar si es direcciÃ³n colombiana (contiene # o patrones como "calle XX", "cra XX")
+    // Detectar si es dirección colombiana (contiene # o patrones como "calle XX", "cra XX")
     const looksLikeAddress = /#/.test(query) || 
       /\b(calle|cll|carrera|cra|kr|diagonal|diag|transversal|tv|avenida|av)\s*\d+\s+\d/i.test(query);
     
     if (looksLikeAddress) {
-      // Google Geocoding API â€” mejor para direcciones exactas
+      // Google Geocoding API — mejor para direcciones exactas
       const response = await axios.get(
         'https://maps.googleapis.com/maps/api/geocode/json',
         {
@@ -2237,7 +2237,7 @@ app.get('/places-fast', async (req, res) => {
         }))
         .slice(0, parseInt(limit) || 10);
     } else {
-      // Google Places Text Search (New API) â€” cobra solo por campos solicitados
+      // Google Places Text Search (New API) — cobra solo por campos solicitados
       const response = await axios.post(
         'https://places.googleapis.com/v1/places:searchText',
         {
@@ -2283,17 +2283,17 @@ app.get('/places-fast', async (req, res) => {
     markSearchDirty();
     
     const elapsed = Date.now() - searchStart;
-    console.log(`[SEARCH] âœ… ${items.length} resultados en ${elapsed}ms para "${rawQ}"`);
+    console.log(`[SEARCH] ✅ ${items.length} resultados en ${elapsed}ms para "${rawQ}"`);
 
     return res.json(result);
     
   } catch (error) {
-    console.error('[SEARCH-FAST] âŒ Error:', error.message);
+    console.error('[SEARCH-FAST] ❌ Error:', error.message);
     return res.json({ items: [] });
   }
 });
 
-// ðŸ” Google Places Autocomplete - bÃºsqueda rÃ¡pida con Google
+// 🔍 Google Places Autocomplete - búsqueda rápida con Google
 app.get('/places-google', async (req, res) => {
   try {
     const q = String(req.query.q || '').trim();
@@ -2305,14 +2305,14 @@ app.get('/places-google', async (req, res) => {
     const at = String(req.query.at || '4.6097,-74.0817');
     const [lat, lon] = at.split(',').map(Number);
     
-    // ðŸ†• CACHE: redondear coords a ~1km para mayor hit rate
+    // 🆕 CACHE: redondear coords a ~1km para mayor hit rate
     const atKey = (Number.isFinite(lat) && Number.isFinite(lon)) 
       ? `${lat.toFixed(2)},${lon.toFixed(2)}` 
       : 'no-loc';
     const cacheKey = `google_${sKey(q)}_${sLoc(at)}`;
     const cached = searchCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < SEARCH_CACHE_TTL) {
-      console.log(`[SEARCH-GOOGLE] âš¡ Cache HIT: "${q}"`);
+      console.log(`[SEARCH-GOOGLE] ⚡ Cache HIT: "${q}"`);
       return res.json(cached.data);
     }
     
@@ -2365,11 +2365,11 @@ app.get('/places-google', async (req, res) => {
     }));
     
     const result = { items, provider: 'google' };
-    // ðŸ†• Guardar en cache
+    // 🆕 Guardar en cache
     searchCache.set(cacheKey, { data: result, timestamp: Date.now() });
     markSearchDirty();
     
-    console.log(`[SEARCH-GOOGLE] ðŸ” "${q}" â†’ ${items.length} resultados (cached)`);
+    console.log(`[SEARCH-GOOGLE] 🔍 "${q}" → ${items.length} resultados (cached)`);
     res.json(result);
   } catch (e) {
     console.error('[SEARCH-GOOGLE] Error:', e.message, e.response?.data);
@@ -2407,24 +2407,24 @@ app.get('/places', async (req, res) => {
 
     const rawQ = String(req.query.q || '').trim();
     
-    // Si no hay query, devolver lugares populares de BogotÃ¡
+    // Si no hay query, devolver lugares populares de Bogotá
     if (!rawQ) {
       return res.json({
         items: [
-          { name: 'Centro Comercial Unicentro', lat: 4.7009, lon: -74.0431, address: 'Carrera 15 #124-30, BogotÃ¡' },
-          { name: 'Aeropuerto El Dorado', lat: 4.7016, lon: -74.1469, address: 'Av. El Dorado #103-8, BogotÃ¡' },
-          { name: 'Centro Andino', lat: 4.6668, lon: -74.0530, address: 'Carrera 11 #82-71, BogotÃ¡' },
-          { name: 'Parque de la 93', lat: 4.6762, lon: -74.0485, address: 'Calle 93A, BogotÃ¡' },
-          { name: 'UsaquÃ©n', lat: 4.6948, lon: -74.0311, address: 'Localidad de UsaquÃ©n' },
-          { name: 'Salitre Plaza', lat: 4.6541, lon: -74.1036, address: 'Carrera 68C #24B-60, BogotÃ¡' },
-          { name: 'Centro Comercial TitÃ¡n Plaza', lat: 4.6956, lon: -74.0871, address: 'Calle 80 #69A-50, BogotÃ¡' },
+          { name: 'Centro Comercial Unicentro', lat: 4.7009, lon: -74.0431, address: 'Carrera 15 #124-30, Bogotá' },
+          { name: 'Aeropuerto El Dorado', lat: 4.7016, lon: -74.1469, address: 'Av. El Dorado #103-8, Bogotá' },
+          { name: 'Centro Andino', lat: 4.6668, lon: -74.0530, address: 'Carrera 11 #82-71, Bogotá' },
+          { name: 'Parque de la 93', lat: 4.6762, lon: -74.0485, address: 'Calle 93A, Bogotá' },
+          { name: 'Usaquén', lat: 4.6948, lon: -74.0311, address: 'Localidad de Usaquén' },
+          { name: 'Salitre Plaza', lat: 4.6541, lon: -74.1036, address: 'Carrera 68C #24B-60, Bogotá' },
+          { name: 'Centro Comercial Titán Plaza', lat: 4.6956, lon: -74.0871, address: 'Calle 80 #69A-50, Bogotá' },
         ],
         provider: 'suggestions'
       });
     }
-    // âš¡ FILTRO DE LONGITUD MÃNIMA (reducciÃ³n de costos Google API)
+    // ⚡ FILTRO DE LONGITUD MÍNIMA (reducción de costos Google API)
     if (rawQ.length < 4) {
-      console.log(`[SEARCH] â­ï¸  Query muy corta ignorada: "${rawQ}"`);
+      console.log(`[SEARCH] ⏭️  Query muy corta ignorada: "${rawQ}"`);
       return res.json({ items: [], provider: 'min_length' });
     }
     const atStr = String(req.query.at || '').trim(); // "lat,lon"
@@ -2432,15 +2432,15 @@ app.get('/places', async (req, res) => {
     let limit   = Number(req.query.limit || 8);
     if (!Number.isFinite(limit) || limit<=0) limit = 8; if (limit>12) limit=12;
     
-    // VERIFICAR CACHÃ‰ ANTES DE BUSCAR
+    // VERIFICAR CACHÉ ANTES DE BUSCAR
     const cacheKey = `${sKey(rawQ)}_${sLoc(atStr)}_${lang}_${limit}`;
     const cached = searchCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < SEARCH_CACHE_TTL) {
-      console.log(`[SEARCH] âš¡ Cache HIT: "${rawQ}" (${cached.data.items?.length || 0} resultados)`);
+      console.log(`[SEARCH] ⚡ Cache HIT: "${rawQ}" (${cached.data.items?.length || 0} resultados)`);
       return res.json(cached.data);
     }
     
-    console.log(`[SEARCH] ðŸ” Buscando: "${rawQ}"`);
+    console.log(`[SEARCH] 🔍 Buscando: "${rawQ}"`);
     const searchStart = Date.now();
 
     let atLat=null, atLon=null;
@@ -2451,7 +2451,7 @@ app.get('/places', async (req, res) => {
 
     const norm = s => s
       .replace(/[.,]/g,' ')
-      .replace(/\s+N[ÂºÂ°o\.]?\s*/ig,' # ')
+      .replace(/\s+N[º°o\.]?\s*/ig,' # ')
       .replace(/\s*#\s*/g,' # ')
       .replace(/\s+/g,' ')
       .trim();
@@ -2476,9 +2476,9 @@ app.get('/places', async (req, res) => {
     const results = [];
 
     /* ---------- MapTiler ---------- */
-    // ðŸ”§ Desactivado: devolvÃ­a calles cercanas al usuario en vez del destino
-    // buscado (ver "mesitas del colegio", "silvania"), y hacÃ­a 4 consultas por
-    // bÃºsqueda. Google Places + Geocoding cubren los mismos casos mejor.
+    // 🔧 Desactivado: devolvía calles cercanas al usuario en vez del destino
+    // buscado (ver "mesitas del colegio", "silvania"), y hacía 4 consultas por
+    // búsqueda. Google Places + Geocoding cubren los mismos casos mejor.
     if (false && ok(MAPTILER_KEY)) {
       const mtVariants = queries.slice(0, 4);
       for (const mtQ of mtVariants) {
@@ -2557,23 +2557,23 @@ app.get('/places', async (req, res) => {
             geocodeItems.push(item);
           }
         });
-        console.log(`[SEARCH] ðŸ” Google Geocoding: ${geocodeItems.length} resultados`);
+        console.log(`[SEARCH] 🔍 Google Geocoding: ${geocodeItems.length} resultados`);
         
-        // ðŸ”§ FIX: Si es direcciÃ³n exacta con #, devolver SOLO geocode results inmediatamente
+        // 🔧 FIX: Si es dirección exacta con #, devolver SOLO geocode results inmediatamente
         if (hasExactAddress && geocodeItems.length > 0) {
           const result = { items: geocodeItems.slice(0, limit), provider: 'google-geocode' };
           searchCache.set(cacheKey, { data: result, timestamp: Date.now() });
           markSearchDirty();
           const elapsed = Date.now() - searchStart;
-          console.log(`[SEARCH] âœ… ${geocodeItems.length} resultados geocode directo en ${elapsed}ms para "${rawQ}"`);
+          console.log(`[SEARCH] ✅ ${geocodeItems.length} resultados geocode directo en ${elapsed}ms para "${rawQ}"`);
           return res.json(result);
         }
       } catch (e) {
-        console.error('[SEARCH] âš ï¸ Google Geocoding error:', e.message);
+        console.error('[SEARCH] ⚠️ Google Geocoding error:', e.message);
       }
     }
 
-    /* ---------- Google Places (Text Search classic) â€” skip for addresses with # ---------- */
+    /* ---------- Google Places (Text Search classic) — skip for addresses with # ---------- */
     if (ok(GOOGLE_MAPS_API_KEY) && !/#/.test(q)) {
       try {
         const params = {
@@ -2626,15 +2626,15 @@ app.get('/places', async (req, res) => {
             results.push({ type: mappedType, name, address: addr, lat, lon, provider: 'google', road, locality });
           }
         });
-        console.log(`[SEARCH] ðŸ” Google Places: ${places.length} resultados`);
+        console.log(`[SEARCH] 🔍 Google Places: ${places.length} resultados`);
       } catch (e) {
-        console.error('[SEARCH] âš ï¸ Google Places error:', e.message);
+        console.error('[SEARCH] ⚠️ Google Places error:', e.message);
       }
     }
 
         /* ---------- Geocoding de respaldo: Places no indexa municipios ----------
-       "mesitas del colegio", "la vega", "carmen de apicalÃ¡" no son POIs, asÃ­ que
-       Places devuelve 0. Geocoding sÃ­ los resuelve y cuesta menos. */
+       "mesitas del colegio", "la vega", "carmen de apicalá" no son POIs, así que
+       Places devuelve 0. Geocoding sí los resuelve y cuesta menos. */
     const googleResults = results.filter(r => r.provider === 'google').length;
     // Municipios del DANE: resolver gratis antes de pedir Geocoding
     let localMuni = 0;
@@ -2675,9 +2675,9 @@ app.get('/places', async (req, res) => {
             added++;
           }
         });
-        console.log(`[SEARCH] ðŸ” Geocoding respaldo: ${added} resultados`);
+        console.log(`[SEARCH] 🔍 Geocoding respaldo: ${added} resultados`);
       } catch (e) {
-        console.error('[SEARCH] âš ï¸ Geocoding respaldo error:', e.message);
+        console.error('[SEARCH] ⚠️ Geocoding respaldo error:', e.message);
       }
     }
 
@@ -2690,9 +2690,9 @@ app.get('/places', async (req, res) => {
           q: qv, format: 'jsonv2', addressdetails: 1,
           limit: Math.min(limit, 10), 'accept-language': lang, countrycodes: 'co'
         };
-        // ðŸ”§ Sin bounded: el viewbox queda como preferencia, no como filtro duro.
-        // Antes, un municipio a 50km (Silvania) caÃ­a fuera de la caja de 18km y
-        // Nominatim solo devolvÃ­a tramos de vÃ­a cercanos.
+        // 🔧 Sin bounded: el viewbox queda como preferencia, no como filtro duro.
+        // Antes, un municipio a 50km (Silvania) caía fuera de la caja de 18km y
+        // Nominatim solo devolvía tramos de vía cercanos.
         if (atLat!=null && atLon!=null) { params.viewbox = bboxAround(atLat,atLon,18); }
         const r = await axios.get('https://nominatim.openstreetmap.org/search', {
           params, headers: { 'User-Agent': 'ev-backend/1.0 (places)' }, timeout: 9000
@@ -2757,7 +2757,7 @@ app.get('/places', async (req, res) => {
         score += Math.max(0, 30 - Math.min(30, km));
       }
 
-      // ðŸ”§ FIX: Google Geocode results go to TOP for address queries with #
+      // 🔧 FIX: Google Geocode results go to TOP for address queries with #
       if (/google-geocode/.test(it.provider) && looksLikeAddress) score += 200;
       if (/conjunto|residencial|torre|edificio|bloque/i.test(it.name)) score += 6;
 
@@ -2780,13 +2780,13 @@ app.get('/places', async (req, res) => {
 
     items = items.slice(0, limit);
     
-    // ðŸ”§ FIX: For address queries, force Google Geocode results to top
+    // 🔧 FIX: For address queries, force Google Geocode results to top
     if (looksLikeAddress) {
       const geocodeResults = items.filter(it => it.provider === 'google-geocode');
       const otherResults = items.filter(it => it.provider !== 'google-geocode');
-      console.log(`[SEARCH] ðŸ“Š looksLikeAddress=true, geocode=${geocodeResults.length}, other=${otherResults.length}`);
+      console.log(`[SEARCH] 📊 looksLikeAddress=true, geocode=${geocodeResults.length}, other=${otherResults.length}`);
       if (geocodeResults.length > 0) {
-        console.log(`[SEARCH] ðŸ“Š Geocode top: ${geocodeResults[0].name} (score: ${geocodeResults[0]._score})`);
+        console.log(`[SEARCH] 📊 Geocode top: ${geocodeResults[0].name} (score: ${geocodeResults[0]._score})`);
       }
       items = [...geocodeResults, ...otherResults].slice(0, limit);
     }
@@ -2807,7 +2807,7 @@ app.get('/places', async (req, res) => {
         // Cache key: coords redondeadas a ~10m
         const cacheKey = `${it.lat.toFixed(4)},${it.lon.toFixed(4)}`;
         const cached = reverseGeocodeCache.get(cacheKey);
-        // ðŸ’° Sin TTL: la direcciÃ³n de una coordenada NO cambia
+        // 💰 Sin TTL: la dirección de una coordenada NO cambia
         if (cached) {
           it.road = it.road || cached.road;
           it.locality = it.locality || cached.locality;
@@ -2849,7 +2849,7 @@ app.get('/places', async (req, res) => {
     markSearchDirty();
     
     const elapsed = Date.now() - searchStart;
-    console.log(`[SEARCH] âœ… ${items.length} resultados en ${elapsed}ms para "${rawQ}"`);
+    console.log(`[SEARCH] ✅ ${items.length} resultados en ${elapsed}ms para "${rawQ}"`);
 
     return res.json(result);
   } catch (err) {
@@ -2863,11 +2863,11 @@ app.get('/places', async (req, res) => {
 const trafficCache = new Map(); // key -> { ts, payload }
 const inflight     = new Map(); // key -> Promise
 
-// ==================== TRÃFICO EN TIEMPO REAL ====================
+// ==================== TRÁFICO EN TIEMPO REAL ====================
 
 /**
- * Obtener datos de flujo de trÃ¡fico (Traffic Flow) usando HERE Traffic API v7
- * Devuelve lÃ­neas de trÃ¡fico coloreadas segÃºn velocidad (estilo Waze)
+ * Obtener datos de flujo de tráfico (Traffic Flow) usando HERE Traffic API v7
+ * Devuelve líneas de tráfico coloreadas según velocidad (estilo Waze)
  * Query params:
  *   - lat: Latitud central
  *   - lng: Longitud central
@@ -2875,30 +2875,30 @@ const inflight     = new Map(); // key -> Promise
  */
 app.get('/traffic-flow', async (req, res) => {
   // TEMPORALMENTE DESHABILITADO - Traffic API da 401
-  // Retornar datos vacÃ­os para que la app no crashee
-  console.log('[TRAFFIC-FLOW] âš ï¸  Temporalmente deshabilitado - retornando datos vacÃ­os');
+  // Retornar datos vacíos para que la app no crashee
+  console.log('[TRAFFIC-FLOW] ⚠️  Temporalmente deshabilitado - retornando datos vacíos');
   return res.json({ segments: [] });
   
-  /* CÃ“DIGO ORIGINAL COMENTADO TEMPORALMENTE
+  /* CÓDIGO ORIGINAL COMENTADO TEMPORALMENTE
   try {
     const lat = parseFloat(req.query.lat);
     const lng = parseFloat(req.query.lng);
     const radius = parseFloat(req.query.radius || 10); // km - reducido para mejor rendimiento
     
     if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
-      console.log('[TRAFFIC-FLOW] âŒ ParÃ¡metros invÃ¡lidos:', { lat, lng });
+      console.log('[TRAFFIC-FLOW] ❌ Parámetros inválidos:', { lat, lng });
       return res.status(400).json({
         error: 'invalid_params',
-        detail: 'Se requieren lat y lng vÃ¡lidos'
+        detail: 'Se requieren lat y lng válidos'
       });
     }
     
     if (!HERE_API_KEY) {
-      console.log('[TRAFFIC-FLOW] âŒ HERE_API_KEY no configurada');
+      console.log('[TRAFFIC-FLOW] ❌ HERE_API_KEY no configurada');
       return res.status(500).json({ error: 'api_key_missing', detail: 'HERE_API_KEY no configurada' });
     }
     
-    console.log(`[TRAFFIC-FLOW] ðŸš¦ Consultando flujo en (${lat}, ${lng}) radio ${radius}km`);
+    console.log(`[TRAFFIC-FLOW] 🚦 Consultando flujo en (${lat}, ${lng}) radio ${radius}km`);
     
     // Calcular bbox
     const latDelta = radius / 111;
@@ -2909,7 +2909,7 @@ app.get('/traffic-flow', async (req, res) => {
     const west = lng - lngDelta;
     const east = lng + lngDelta;
     
-    console.log(`[TRAFFIC-FLOW] ðŸ“ BBOX: [${west.toFixed(3)}, ${south.toFixed(3)}, ${east.toFixed(3)}, ${north.toFixed(3)}]`);
+    console.log(`[TRAFFIC-FLOW] 📍 BBOX: [${west.toFixed(3)}, ${south.toFixed(3)}, ${east.toFixed(3)}, ${north.toFixed(3)}]`);
     
     // HERE Traffic Flow API v7
     const url = 'https://data.traffic.hereapi.com/v7/flow';
@@ -2919,7 +2919,7 @@ app.get('/traffic-flow', async (req, res) => {
       apiKey: HERE_API_KEY
     };
     
-    console.log(`[TRAFFIC-FLOW] ðŸŒ Llamando HERE Flow API...`);
+    console.log(`[TRAFFIC-FLOW] 🌐 Llamando HERE Flow API...`);
     
     let response;
     try {
@@ -2928,9 +2928,9 @@ app.get('/traffic-flow', async (req, res) => {
         timeout: 15000 
       });
     } catch (axiosError) {
-      console.log(`[TRAFFIC-FLOW] âŒ Error de Axios:`, axiosError.message);
+      console.log(`[TRAFFIC-FLOW] ❌ Error de Axios:`, axiosError.message);
       if (axiosError.response) {
-        console.log(`[TRAFFIC-FLOW] âŒ HERE respondiÃ³: ${axiosError.response.status}`);
+        console.log(`[TRAFFIC-FLOW] ❌ HERE respondió: ${axiosError.response.status}`);
         return res.status(axiosError.response.status).json({ 
           error: 'traffic_api_failed', 
           detail: `HERE API: ${axiosError.response.status}`
@@ -2945,7 +2945,7 @@ app.get('/traffic-flow', async (req, res) => {
     const data = response.data;
     const results = data.results || [];
     
-    console.log(`[TRAFFIC-FLOW] âœ… Segmentos recibidos: ${results.length}`);
+    console.log(`[TRAFFIC-FLOW] ✅ Segmentos recibidos: ${results.length}`);
     
     // Transformar a formato simplificado para el mapa
     const segments = results.map(item => {
@@ -2970,7 +2970,7 @@ app.get('/traffic-flow', async (req, res) => {
       const jamFactor = currentFlow.jamFactor || 0; // 0-10 (0=libre, 10=atasco total)
       const confidence = currentFlow.confidence || 0.5;
       
-      // Clasificar trÃ¡fico segÃºn jamFactor
+      // Clasificar tráfico según jamFactor
       // Solo mostrar amarillo (medio) y rojo (denso)
       // Omitir verde (fluido) para no saturar el mapa
       let trafficLevel = null;
@@ -2983,7 +2983,7 @@ app.get('/traffic-flow', async (req, res) => {
         trafficLevel = 'moderate';
         color = '#FFA500'; // Naranja/Amarillo
       } else {
-        // TrÃ¡fico fluido - no mostrar
+        // Tráfico fluido - no mostrar
         return null;
       }
       
@@ -3004,16 +3004,16 @@ app.get('/traffic-flow', async (req, res) => {
       };
     }).filter(s => s !== null);
     
-    console.log(`[TRAFFIC-FLOW] ðŸ“‹ Segmentos procesados: ${segments.length}`);
+    console.log(`[TRAFFIC-FLOW] 📋 Segmentos procesados: ${segments.length}`);
     
-    // EstadÃ­sticas (solo medio y denso)
+    // Estadísticas (solo medio y denso)
     const stats = {
       total: segments.length,
       moderate: segments.filter(s => s.properties.trafficLevel === 'moderate').length,
       heavy: segments.filter(s => s.properties.trafficLevel === 'heavy').length
     };
     
-    console.log(`[TRAFFIC-FLOW] ðŸ“Š Stats: Medio=${stats.moderate}, Denso=${stats.heavy}`);
+    console.log(`[TRAFFIC-FLOW] 📊 Stats: Medio=${stats.moderate}, Denso=${stats.heavy}`);
     
     res.json({
       type: 'FeatureCollection',
@@ -3024,18 +3024,18 @@ app.get('/traffic-flow', async (req, res) => {
     });
     
   } catch (error) {
-    console.error('[TRAFFIC-FLOW] âŒ Error inesperado:', error);
-    console.error('[TRAFFIC-FLOW] âŒ Stack:', error.stack);
+    console.error('[TRAFFIC-FLOW] ❌ Error inesperado:', error);
+    console.error('[TRAFFIC-FLOW] ❌ Stack:', error.stack);
     res.status(500).json({ 
       error: 'traffic_failed', 
       detail: error.message 
     });
   }
-  */ // FIN CÃ“DIGO COMENTADO TEMPORALMENTE
+  */ // FIN CÓDIGO COMENTADO TEMPORALMENTE
 });
 
 /**
- * Obtener incidentes de trÃ¡fico usando HERE Traffic API v7
+ * Obtener incidentes de tráfico usando HERE Traffic API v7
  * Query params:
  *   - lat: Latitud central
  *   - lng: Longitud central
@@ -3048,23 +3048,23 @@ app.get('/traffic-reports', async (req, res) => {
     const radius = parseFloat(req.query.radius || 50); // km
     
     if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
-      console.log('[TRAFFIC] âŒ ParÃ¡metros invÃ¡lidos:', { lat, lng });
+      console.log('[TRAFFIC] ❌ Parámetros inválidos:', { lat, lng });
       return res.status(400).json({
         error: 'invalid_params',
-        detail: 'Se requieren lat y lng vÃ¡lidos'
+        detail: 'Se requieren lat y lng válidos'
       });
     }
     
     if (!HERE_API_KEY) {
-      console.log('[TRAFFIC] âŒ HERE_API_KEY no configurada');
+      console.log('[TRAFFIC] ❌ HERE_API_KEY no configurada');
       return res.status(500).json({ error: 'api_key_missing', detail: 'HERE_API_KEY no configurada' });
     }
     
-    console.log(`[TRAFFIC] ðŸš¦ Consultando incidentes en (${lat}, ${lng}) radio ${radius}km`);
+    console.log(`[TRAFFIC] 🚦 Consultando incidentes en (${lat}, ${lng}) radio ${radius}km`);
     
     // Calcular bbox aproximado desde el punto central
-    // 1 grado de latitud â‰ˆ 111 km
-    // 1 grado de longitud â‰ˆ 111 km * cos(lat)
+    // 1 grado de latitud ≈ 111 km
+    // 1 grado de longitud ≈ 111 km * cos(lat)
     const latDelta = radius / 111;
     const lngDelta = radius / (111 * Math.cos(lat * Math.PI / 180));
     
@@ -3073,19 +3073,19 @@ app.get('/traffic-reports', async (req, res) => {
     const west = lng - lngDelta;
     const east = lng + lngDelta;
     
-    console.log(`[TRAFFIC] ðŸ“ BBOX calculado: [${west.toFixed(3)}, ${south.toFixed(3)}, ${east.toFixed(3)}, ${north.toFixed(3)}]`);
+    console.log(`[TRAFFIC] 📍 BBOX calculado: [${west.toFixed(3)}, ${south.toFixed(3)}, ${east.toFixed(3)}, ${north.toFixed(3)}]`);
     
     // HERE Traffic Incidents API v7
     const url = 'https://data.traffic.hereapi.com/v7/incidents';
     const params = {
       in: `bbox:${west},${south},${east},${north}`,
       locationReferencing: 'shape',
-      lang: 'es-CO', // EspaÃ±ol Colombia (BCP47)
+      lang: 'es-CO', // Español Colombia (BCP47)
       apiKey: HERE_API_KEY
     };
     
-    console.log(`[TRAFFIC] ðŸŒ URL: ${url}`);
-    console.log(`[TRAFFIC] ðŸ“‹ Params:`, JSON.stringify(params, null, 2));
+    console.log(`[TRAFFIC] 🌐 URL: ${url}`);
+    console.log(`[TRAFFIC] 📋 Params:`, JSON.stringify(params, null, 2));
     
     let response;
     try {
@@ -3094,12 +3094,12 @@ app.get('/traffic-reports', async (req, res) => {
         timeout: 10000 
       });
     } catch (axiosError) {
-      console.log(`[TRAFFIC] âŒ Error de Axios:`, axiosError.message);
+      console.log(`[TRAFFIC] ❌ Error de Axios:`, axiosError.message);
       if (axiosError.response) {
-        console.log(`[TRAFFIC] âŒ HERE respondiÃ³: ${axiosError.response.status}`);
-        console.log(`[TRAFFIC] âŒ Datos:`, JSON.stringify(axiosError.response.data, null, 2));
+        console.log(`[TRAFFIC] ❌ HERE respondió: ${axiosError.response.status}`);
+        console.log(`[TRAFFIC] ❌ Datos:`, JSON.stringify(axiosError.response.data, null, 2));
         
-        // Si HERE devuelve 401, probablemente la key es invÃ¡lida o no tiene permisos
+        // Si HERE devuelve 401, probablemente la key es inválida o no tiene permisos
         if (axiosError.response.status === 401) {
           return res.status(500).json({ 
             error: 'traffic_api_unauthorized', 
@@ -3115,7 +3115,7 @@ app.get('/traffic-reports', async (req, res) => {
       }
       
       // Error de red o timeout
-      console.log(`[TRAFFIC] âŒ Error de red/timeout:`, axiosError.code);
+      console.log(`[TRAFFIC] ❌ Error de red/timeout:`, axiosError.code);
       return res.status(503).json({ 
         error: 'traffic_api_unavailable', 
         detail: 'No se pudo conectar con HERE Traffic API',
@@ -3126,8 +3126,8 @@ app.get('/traffic-reports', async (req, res) => {
     const data = response.data;
     const incidents = data.results || [];
     
-    console.log(`[TRAFFIC] âœ… Respuesta exitosa de HERE`);
-    console.log(`[TRAFFIC] ðŸ“Š Incidentes recibidos: ${incidents.length}`);
+    console.log(`[TRAFFIC] ✅ Respuesta exitosa de HERE`);
+    console.log(`[TRAFFIC] 📊 Incidentes recibidos: ${incidents.length}`);
     
     // Transformar incidentes de HERE al formato de la app
     const reports = incidents.map(incident => {
@@ -3135,7 +3135,7 @@ app.get('/traffic-reports', async (req, res) => {
       const coords = location?.points?.[0];
       
       if (!coords) {
-        console.log('[TRAFFIC] âš ï¸  Incidente sin coordenadas, saltando...');
+        console.log('[TRAFFIC] ⚠️  Incidente sin coordenadas, saltando...');
         return null;
       }
       
@@ -3149,9 +3149,9 @@ app.get('/traffic-reports', async (req, res) => {
       else if (incidentType.includes('road_closure') || incidentType.includes('closure')) type = 'hazard';
       else if (incidentType.includes('weather')) type = 'hazard';
       
-      console.log(`[TRAFFIC] ðŸ“ Incidente: ${incident.incidentDetails?.type} -> ${type} en (${coords.lat}, ${coords.lng})`);
+      console.log(`[TRAFFIC] 📍 Incidente: ${incident.incidentDetails?.type} -> ${type} en (${coords.lat}, ${coords.lng})`);
       
-      // Calcular tiempo de expiraciÃ³n (default 2 horas si no viene)
+      // Calcular tiempo de expiración (default 2 horas si no viene)
       const now = new Date();
       const endTime = incident.incidentDetails?.endTime 
         ? new Date(incident.incidentDetails.endTime)
@@ -3170,7 +3170,7 @@ app.get('/traffic-reports', async (req, res) => {
       };
     }).filter(r => r !== null);
     
-    console.log(`[TRAFFIC] ðŸ“‹ Reportes transformados: ${reports.length}`);
+    console.log(`[TRAFFIC] 📋 Reportes transformados: ${reports.length}`);
     
     res.json({
       reports: reports,
@@ -3180,8 +3180,8 @@ app.get('/traffic-reports', async (req, res) => {
     });
     
   } catch (error) {
-    console.error('[TRAFFIC] âŒ Error inesperado:', error);
-    console.error('[TRAFFIC] âŒ Stack:', error.stack);
+    console.error('[TRAFFIC] ❌ Error inesperado:', error);
+    console.error('[TRAFFIC] ❌ Stack:', error.stack);
     res.status(500).json({ 
       error: 'traffic_failed', 
       detail: error.message 
@@ -3226,7 +3226,7 @@ app.get('/traffic', async (req, res) => {
 
 /* ====================== ROUTE (HERE v8) ====================== */
 
-// ===== FUNCIONES DE ELEVACIÃ“N =====
+// ===== FUNCIONES DE ELEVACIÓN =====
 
 // Samplear puntos de una ruta cada X metros
 function sampleRoutePoints(coordinates, intervalMeters = 5000) {
@@ -3246,12 +3246,12 @@ function sampleRoutePoints(coordinates, intervalMeters = 5000) {
     sampled.push(coordinates[i]);
   }
   
-  // Siempre incluir el Ãºltimo
+  // Siempre incluir el último
   if (coordinates.length > 1) {
     sampled.push(coordinates[coordinates.length - 1]);
   }
   
-  console.log(`[ELEVATION] ðŸŽ¯ Sampleo: ${sampled.length} puntos de ${coordinates.length} (cada ${step} puntos)`);
+  console.log(`[ELEVATION] 🎯 Sampleo: ${sampled.length} puntos de ${coordinates.length} (cada ${step} puntos)`);
   
   return sampled;
 }
@@ -3304,7 +3304,7 @@ async function getElevationProfile(coordinates) {
   return elevations;
 }
 
-// Calcular impacto de elevaciÃ³n en el consumo
+// Calcular impacto de elevación en el consumo
 function calculateElevationImpact(elevations) {
   if (!elevations || elevations.length < 2) {
     return { totalClimb: 0, totalDescent: 0, batteryImpact: 0 };
@@ -3323,9 +3323,9 @@ function calculateElevationImpact(elevations) {
     }
   }
   
-  // FÃ³rmula de impacto en baterÃ­a:
-  // Basado en datos reales de EVs en Colombia (Melgar-BogotÃ¡, etc)
-  // - Subida: 1.8% de baterÃ­a por cada 100 metros (0.018% por metro)
+  // Fórmula de impacto en batería:
+  // Basado en datos reales de EVs en Colombia (Melgar-Bogotá, etc)
+  // - Subida: 1.8% de batería por cada 100 metros (0.018% por metro)
   // - Bajada: 1.2% recuperado por cada 100 metros con regenerativo (0.012% por metro)
   const climbPenalty = totalClimb * 0.018;  // 1.8% por cada 100m de subida
   const descentBonus = totalDescent * 0.012; // 1.2% recuperado por cada 100m de bajada
@@ -3486,7 +3486,7 @@ function fixTunnelProfile(elevations, coords) {
     }
     used.push(c);
     fixedCount++;
-    console.log(`[ELEVATION] ðŸš‡ TÃºnel detectado: km ${d[c.i].toFixed(0)}-${d[c.j].toFixed(0)} (${along.toFixed(1)} km), terreno +${c.maxEx.toFixed(0)} m sobre la via -> corregido`);
+    console.log(`[ELEVATION] 🚇 Túnel detectado: km ${d[c.i].toFixed(0)}-${d[c.j].toFixed(0)} (${along.toFixed(1)} km), terreno +${c.maxEx.toFixed(0)} m sobre la via -> corregido`);
   }
   return { elevations: e, fixedCount };
 }
@@ -3500,7 +3500,7 @@ function applyTunnelFix(ed) {
     const df = r.elevations[i] - r.elevations[i - 1];
     if (df > 0) gain += df; else loss -= df;
   }
-  console.log(`[ELEVATION] ðŸš‡ Perfil corregido: +${Math.round(gain)}m / -${Math.round(loss)}m (antes +${ed.gain_m}m / -${ed.loss_m}m)`);
+  console.log(`[ELEVATION] 🚇 Perfil corregido: +${Math.round(gain)}m / -${Math.round(loss)}m (antes +${ed.gain_m}m / -${ed.loss_m}m)`);
   return { ...ed, elevations: r.elevations, gain_m: Math.round(gain), loss_m: Math.round(loss), tunnels_fixed: r.fixedCount };
 }
 
@@ -3511,7 +3511,7 @@ app.get('/route', async (req, res) => {
     const waypoints = req.query.waypoints ? String(req.query.waypoints) : null;
     const waypointsStrict = req.query.waypoints_strict === 'true' || req.query.waypoints_strict === '1';
     const vehicleId = String(req.query.vehicle_id || 'generic');
-    const passengers = parseInt(req.query.passengers) || 1; // ðŸ†• NÃºmero de pasajeros (1-5)
+    const passengers = parseInt(req.query.passengers) || 1; // 🆕 Número de pasajeros (1-5)
     // Premium: velocidad de crucero elegida (km/h)
     const cruiseRaw = parseInt(req.query.cruise);
     const isPrem = req.query.premium === '1';
@@ -3520,12 +3520,12 @@ app.get('/route', async (req, res) => {
     const lang = String(req.query.lang || 'es-ES');
     const debug = req.query.debug != null;
     const provider = String(req.query.provider || 'auto'); // 'google', 'here', 'auto'
-    // âš¡ LITE: verificaciones del planner â€” solo distancia/duraciÃ³n,
-    // sin polyline/elevaciÃ³n/clima/consumo. La ruta FINAL del usuario
+    // ⚡ LITE: verificaciones del planner — solo distancia/duración,
+    // sin polyline/elevación/clima/consumo. La ruta FINAL del usuario
     // siempre va por el camino completo (sin lite).
     const lite = req.query.lite === '1' || req.query.lite === 'true';
 
-    console.log('[ROUTE] ðŸš— Calculando ruta:');
+    console.log('[ROUTE] 🚗 Calculando ruta:');
     console.log('[ROUTE]   Origen:', origin);
     console.log('[ROUTE]   Destino:', destination);
     console.log('[ROUTE]   Waypoints:', waypoints || 'ninguno');
@@ -3538,18 +3538,18 @@ app.get('/route', async (req, res) => {
       });
     }
 
-    // Verificar cachÃ©
+    // Verificar caché
     const cached = getCachedRoute(origin, destination, waypoints, vehicleId + (req.query.recalc === '1' ? '__recalc' : ''), cachePax, waypointsStrict);
     if (cached) {
-      console.log('[ROUTE] âš¡ Usando ruta cacheada');
+      console.log('[ROUTE] ⚡ Usando ruta cacheada');
       return res.json(cached);
     }
 
-    // âš¡ LITE: cache propio (clave separada para nunca mezclar con respuestas completas)
+    // ⚡ LITE: cache propio (clave separada para nunca mezclar con respuestas completas)
     if (lite) {
       const cachedLite = getCachedRoute(origin, destination, waypoints, vehicleId + '__lite', cachePax, waypointsStrict);
       if (cachedLite) {
-        console.log('[ROUTE] âš¡ Usando ruta LITE cacheada');
+        console.log('[ROUTE] ⚡ Usando ruta LITE cacheada');
         return res.json(cachedLite);
       }
     }
@@ -3563,9 +3563,9 @@ app.get('/route', async (req, res) => {
         try {
           routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId, waypointsStrict, lite || !(typeof req !== 'undefined' && req.query && req.query.premium === '1'));
           usedProvider = 'google';
-          console.log('[ROUTE] âœ… Usando Google Maps');
+          console.log('[ROUTE] ✅ Usando Google Maps');
         } catch (error) {
-          console.error('[ROUTE] âš ï¸ Google Maps fallÃ³:', error.message);
+          console.error('[ROUTE] ⚠️ Google Maps falló:', error.message);
           if (provider === 'google') {
             return res.status(500).json({ 
               error: 'google_failed', 
@@ -3575,20 +3575,20 @@ app.get('/route', async (req, res) => {
           // Continuar a HERE si provider='auto'
         }
       } else {
-        console.log('[ROUTE] âš ï¸ GOOGLE_MAPS_API_KEY no configurada');
+        console.log('[ROUTE] ⚠️ GOOGLE_MAPS_API_KEY no configurada');
       }
     }
 
-    // Fallback a HERE si Google fallÃ³ o no estÃ¡ disponible
+    // Fallback a HERE si Google falló o no está disponible
     if (!routeData && (provider === 'auto' || provider === 'here')) {
       if (!HERE_API_KEY) {
         return res.status(500).json({ 
           error: 'no_provider', 
-          detail: 'Ni Google Maps ni HERE API estÃ¡n configurados' 
+          detail: 'Ni Google Maps ni HERE API están configurados' 
         });
       }
 
-      console.log('[ROUTE] ðŸ”„ Usando HERE como fallback');
+      console.log('[ROUTE] 🔄 Usando HERE como fallback');
       
       try {
         const url = 'https://router.hereapi.com/v8/routes';
@@ -3612,32 +3612,32 @@ app.get('/route', async (req, res) => {
             const trimmed = wp.trim();
             return `&via=${trimmed}`;
           }).join('');
-          console.log('[ROUTE] ðŸ“ Waypoints agregados:', waypointsList.length);
-          console.log('[ROUTE] ðŸ“ Waypoints coords:', waypointsList.map(wp => wp.trim()));
+          console.log('[ROUTE] 📍 Waypoints agregados:', waypointsList.length);
+          console.log('[ROUTE] 📍 Waypoints coords:', waypointsList.map(wp => wp.trim()));
         }
 
         const queryString = new URLSearchParams(params).toString();
         const fullUrl = `${url}?${queryString}${viaString}`;
-        console.log('[ROUTE] ðŸ”— HERE URL (sin apiKey):', fullUrl.replace(HERE_API_KEY, '***'));
+        console.log('[ROUTE] 🔗 HERE URL (sin apiKey):', fullUrl.replace(HERE_API_KEY, '***'));
 
         const r = await axios.get(fullUrl, { timeout: 30000 });
         const route = r.data?.routes?.[0];
         const sections = route?.sections || [];
         const sectionDistances = sections.map(s => (s.summary?.length/1000).toFixed(1) + 'km');
         const sectionTotal = sections.reduce((sum, s) => sum + (s.summary?.length || 0), 0);
-        console.log('[ROUTE] ðŸ“¦ HERE secciones:', sections.length, 'distancias:', sectionDistances, 'total:', (sectionTotal/1000).toFixed(1) + 'km');
+        console.log('[ROUTE] 📦 HERE secciones:', sections.length, 'distancias:', sectionDistances, 'total:', (sectionTotal/1000).toFixed(1) + 'km');
         
-        // Log de departure/arrival de cada secciÃ³n para debug
+        // Log de departure/arrival de cada sección para debug
         sections.forEach((s, i) => {
           const dep = s.departure?.place?.location || {};
           const arr = s.arrival?.place?.location || {};
-          console.log(`[ROUTE]   SecciÃ³n ${i}: ${dep.lat?.toFixed(3)},${dep.lng?.toFixed(3)} â†’ ${arr.lat?.toFixed(3)},${arr.lng?.toFixed(3)} = ${((s.summary?.length||0)/1000).toFixed(1)}km`);
+          console.log(`[ROUTE]   Sección ${i}: ${dep.lat?.toFixed(3)},${dep.lng?.toFixed(3)} → ${arr.lat?.toFixed(3)},${arr.lng?.toFixed(3)} = ${((s.summary?.length||0)/1000).toFixed(1)}km`);
         });
 
         if (sections.length === 0) {
           return res.status(502).json({ 
             error: 'NoRoute', 
-            detail: 'HERE no devolviÃ³ secciones' 
+            detail: 'HERE no devolvió secciones' 
           });
         }
 
@@ -3658,7 +3658,7 @@ app.get('/route', async (req, res) => {
               }
               allPoints = allPoints.concat(sectionPoints);
             } catch (e) {
-              console.log('[ROUTE] âš ï¸ Error decodificando polyline de secciÃ³n', i);
+              console.log('[ROUTE] ⚠️ Error decodificando polyline de sección', i);
             }
           }
 
@@ -3669,7 +3669,7 @@ app.get('/route', async (req, res) => {
 
         // Densificar
         const points = densifyRoute(allPoints, 40);
-        console.log('[ROUTE] ðŸ”¢ Puntos originales:', allPoints.length, 'â†’ Densificados:', points.length);
+        console.log('[ROUTE] 🔢 Puntos originales:', allPoints.length, '→ Densificados:', points.length);
 
         // Procesar steps
         const steps = [];
@@ -3692,9 +3692,9 @@ app.get('/route', async (req, res) => {
                 'arrive': 'Llegaste a tu destino',
                 'turn': action.direction ? `Gira a la ${action.direction}` : 'Gira',
                 'fork': `Toma la ${action.direction === 'left' ? 'izquierda' : 'derecha'}`,
-                'merge': 'IncorpÃ³rate',
+                'merge': 'Incorpórate',
                 'roundabout': 'Toma la rotonda',
-                'continue': 'ContinÃºa'
+                'continue': 'Continúa'
               };
               text = actionMap[action.action] || action.action;
             }
@@ -3711,7 +3711,7 @@ app.get('/route', async (req, res) => {
           }
         }
 
-        console.log('[ROUTE] ðŸ“‹ Steps generados:', steps.length);
+        console.log('[ROUTE] 📋 Steps generados:', steps.length);
 
         routeData = {
           points,
@@ -3723,7 +3723,7 @@ app.get('/route', async (req, res) => {
         usedProvider = 'here';
 
       } catch (error) {
-        console.error('[ROUTE] âŒ HERE tambiÃ©n fallÃ³:', error.message);
+        console.error('[ROUTE] ❌ HERE también falló:', error.message);
         return res.status(500).json({ 
           error: 'all_providers_failed', 
           detail: 'Google y HERE fallaron' 
@@ -3738,8 +3738,8 @@ app.get('/route', async (req, res) => {
       });
     }
 
-    // âš¡ LITE: responder aquÃ­ con solo distancia/duraciÃ³n. Se salta
-    // elevaciÃ³n, clima, consumo y la polyline de ~28k puntos que el
+    // ⚡ LITE: responder aquí con solo distancia/duración. Se salta
+    // elevación, clima, consumo y la polyline de ~28k puntos que el
     // planner descarta de todas formas.
     if (lite) {
       const liteDistanceKm = routeData.distanceMeters / 1000;
@@ -3753,45 +3753,45 @@ app.get('/route', async (req, res) => {
         waypoints_applied: !!waypoints,
       };
       setCachedRoute(origin, destination, waypoints, vehicleId + '__lite', cachePax, liteResponse, waypointsStrict);
-      console.log(`[ROUTE] âš¡ LITE: ${liteDistanceKm.toFixed(1)} km (sin elevaciÃ³n/clima/consumo)`);
+      console.log(`[ROUTE] ⚡ LITE: ${liteDistanceKm.toFixed(1)} km (sin elevación/clima/consumo)`);
       return res.json(liteResponse);
     }
 
-    // Obtener perfil de elevaciÃ³n (Google Elevation API)
+    // Obtener perfil de elevación (Google Elevation API)
     let elevationData = null;
     
-    // En recÃ¡lculos el app descarta el consumo: no pedir elevaciÃ³n
+    // En recálculos el app descarta el consumo: no pedir elevación
     if (routeData.points.length > 0 && GOOGLE_MAPS_API_KEY && req.query.recalc !== '1') {
       try {
-                // ðŸ’° La altimetrÃ­a no depende del vehÃ­culo, y el GPS exacto casi no se repite:
-        // redondeando a 3 decimales (~100 m) y sin vehicleId el cache sÃ­ pega.
+                // 💰 La altimetría no depende del vehículo, y el GPS exacto casi no se repite:
+        // redondeando a 3 decimales (~100 m) y sin vehicleId el cache sí pega.
         const r3 = (s) => String(s || '').split('|').map(p => p.split(',').map(n => Number(n).toFixed(2)).join(',')).join('|');
         const cacheKey = `elev_${r3(origin)}_${r3(destination)}_${waypoints ? r3(waypoints) : 'direct'}`;
         const cached = elevationCache.get(cacheKey);
 
-        // ðŸ’° Sin TTL: la altimetrÃ­a de una ruta NO cambia nunca â€” antes se
+        // 💰 Sin TTL: la altimetría de una ruta NO cambia nunca — antes se
         // recompraba a Google cada 24h aunque la instancia siguiera viva.
         if (cached) {
-          console.log(`[ELEVATION] âš¡ Cache HIT: ${origin} â†’ ${destination}`);
+          console.log(`[ELEVATION] ⚡ Cache HIT: ${origin} → ${destination}`);
           elevationData = { ...cached.data }; // copia: no pisar el consumo de otros usuarios
           elevationData = applyTunnelFix(elevationData);
         } else {
-          console.log(`[ELEVATION] ðŸ”ï¸  Obteniendo perfil con Google: ${origin} â†’ ${destination}`);
+          console.log(`[ELEVATION] 🏔️  Obteniendo perfil con Google: ${origin} → ${destination}`);
           const startTime = Date.now();
 
           const coordinates = routeData.points.map(p => ({ lat: p.lat, lon: p.lng || p.lon }));
-          console.log('[ELEVATION] ðŸ“ Puntos totales de ruta para elevaciÃ³n:', coordinates.length, 'Primer punto:', JSON.stringify(coordinates[0]), 'Ãšltimo:', JSON.stringify(coordinates[coordinates.length-1]));
+          console.log('[ELEVATION] 📐 Puntos totales de ruta para elevación:', coordinates.length, 'Primer punto:', JSON.stringify(coordinates[0]), 'Último:', JSON.stringify(coordinates[coordinates.length-1]));
           
-          // Samplear puntos (mÃ¡ximo 512 para Google Elevation, usar ~200 para eficiencia)
+          // Samplear puntos (máximo 512 para Google Elevation, usar ~200 para eficiencia)
           let sampledCoords = coordinates;
           if (coordinates.length > 200) {
             const step = Math.ceil(coordinates.length / 200);
             sampledCoords = coordinates.filter((_, i) => i % step === 0);
-            // Siempre incluir el Ãºltimo punto
+            // Siempre incluir el último punto
             if (sampledCoords[sampledCoords.length - 1] !== coordinates[coordinates.length - 1]) {
               sampledCoords.push(coordinates[coordinates.length - 1]);
             }
-            console.log(`[ELEVATION] ðŸŽ¯ Sampleo: ${sampledCoords.length} puntos de ${coordinates.length}`);
+            console.log(`[ELEVATION] 🎯 Sampleo: ${sampledCoords.length} puntos de ${coordinates.length}`);
           }
 
           // Google Elevation acepta hasta 512 puntos por request
@@ -3818,7 +3818,7 @@ app.get('/route', async (req, res) => {
                 allElevations.push(result.elevation || 0);
               }
             } else {
-              console.error('[ELEVATION] âŒ Google Elevation API error:', elevResponse.data.status);
+              console.error('[ELEVATION] ❌ Google Elevation API error:', elevResponse.data.status);
               break;
             }
           }
@@ -3856,20 +3856,20 @@ app.get('/route', async (req, res) => {
             }); 
             markElevDirty();
 
-            console.log(`[ELEVATION] âœ… Perfil obtenido en ${Date.now() - startTime}ms`);
-            console.log(`[ELEVATION]   Inicio: ${startElev.toFixed(0)}m â†’ Fin: ${endElev.toFixed(0)}m`);
+            console.log(`[ELEVATION] ✅ Perfil obtenido en ${Date.now() - startTime}ms`);
+            console.log(`[ELEVATION]   Inicio: ${startElev.toFixed(0)}m → Fin: ${endElev.toFixed(0)}m`);
             console.log(`[ELEVATION]   Ascenso: +${totalElevGain.toFixed(0)}m, Descenso: -${totalElevLoss.toFixed(0)}m`);
             console.log(`[ELEVATION]   Cambio neto: ${(endElev - startElev).toFixed(0)}m`);
           }
         }
       } catch (error) {
-        console.error('[ELEVATION] âŒ Error:', error.message);
+        console.error('[ELEVATION] ❌ Error:', error.message);
       }
     } else {
-      console.log('[ELEVATION] âš ï¸ Sin GOOGLE_MAPS_API_KEY - sin cÃ¡lculo de elevaciÃ³n');
+      console.log('[ELEVATION] ⚠️ Sin GOOGLE_MAPS_API_KEY - sin cálculo de elevación');
     }
 
-    // Calcular consumo estimado con altimetrÃ­a real
+    // Calcular consumo estimado con altimetría real
     const profile = VEHICLE_PROFILES[vehicleId] || VEHICLE_PROFILES['generic'];
     const batteryKwh = profile.batteryKwh || 60;
     const baseConsumptionRate = profile.consumptionRate || 0.28;
@@ -3883,7 +3883,7 @@ app.get('/route', async (req, res) => {
     } else if (avgSpeedKmh < 30) adjustedConsumption *= 1.1;
     else if (avgSpeedKmh > 80) adjustedConsumption *= 1.15;
 
-    // ðŸŒ¤ï¸ AJUSTE POR CLIMA â€” consultar OpenWeatherMap
+    // 🌤️ AJUSTE POR CLIMA — consultar OpenWeatherMap
     let weatherInfo = null;
     try {
       const [oLat, oLon] = origin.split(',').map(Number);
@@ -3905,24 +3905,24 @@ app.get('/route', async (req, res) => {
         factor: wf.factor,
         factor_details: wf.details,
       };
-      console.log(`[WEATHER] ðŸŒ¤ï¸ Clima: ${weather?.temp_c}Â°C, ${weather?.description} | Factor: ${wf.factor}x (${wf.details})`);
+      console.log(`[WEATHER] 🌤️ Clima: ${weather?.temp_c}°C, ${weather?.description} | Factor: ${wf.factor}x (${wf.details})`);
     } catch (weatherErr) {
-      console.error('[WEATHER] âš ï¸ No se pudo obtener clima:', weatherErr.message);
+      console.error('[WEATHER] ⚠️ No se pudo obtener clima:', weatherErr.message);
     }
     
     let totalConsumptionPercent;
     
     if (elevationData && (elevationData.gain_m > 0 || elevationData.loss_m > 0)) {
-      // ðŸ”ï¸ CÃLCULO CON FÃSICA REAL DE ALTIMETRÃA
+      // 🏔️ CÁLCULO CON FÍSICA REAL DE ALTIMETRÍA
       const gainM = elevationData.gain_m || 0;
       const lossM = elevationData.loss_m || 0;
       const netChange = elevationData.net_change || 0;
       const totalVertical = gainM + lossM;
       
       if (totalVertical > 50) {
-        // ====== MODELO FÃSICO BASADO EN ENERGÃA ======
+        // ====== MODELO FÍSICO BASADO EN ENERGÍA ======
         const vehicleBaseWeightKg = profile.weightKg || 1700;
-        // ðŸ†• Sumar peso de pasajeros (75kg promedio por persona)
+        // 🆕 Sumar peso de pasajeros (75kg promedio por persona)
         const passengerWeightKg = passengers * 75;
         const vehicleWeightKg = vehicleBaseWeightKg + passengerWeightKg;
         const gravity = 9.81;
@@ -3931,17 +3931,17 @@ app.get('/route', async (req, res) => {
         
         // 1. DETECTAR TIPO DE VIAJE
         const isDownhillTrip = lossM > (gainM * 1.5); // Bajada neta significativa
-        const isExtremeDownhill = lossM > (gainM * 2.5); // Bajada extrema (ej: BogotÃ¡â†’Girardot, -2300m)
+        const isExtremeDownhill = lossM > (gainM * 2.5); // Bajada extrema (ej: Bogotá→Girardot, -2300m)
         const isUphillTrip = gainM > (lossM * 1.5); // Subida neta significativa
-        const isExtremeUphill = gainM > (lossM * 2.5); // Subida extrema (ej: Girardotâ†’BogotÃ¡, +2300m)
+        const isExtremeUphill = gainM > (lossM * 2.5); // Subida extrema (ej: Girardot→Bogotá, +2300m)
         
-        // 2. ENERGÃA POR RODAMIENTO (Consumo base en plano, incluye factor clima)
+        // 2. ENERGÍA POR RODAMIENTO (Consumo base en plano, incluye factor clima)
         const consumptionWhPerKm = (baseConsumptionRate / 100) * batteryKwh * 1000;
         
         // Rolling factor calibrado con datos reales MG4:
-        // BAJADA: BogotÃ¡â†’Girardot (5-12% real) â†’ RF 0.75
-        // SUBIDA: Girardotâ†’BogotÃ¡ (57% real con 5 pax) â†’ RF 0.70
-        // MIXTO MONTAÃ‘A: velocidad promedio baja (50-60km/h) â†’ menos consumo aerodinÃ¡mico
+        // BAJADA: Bogotá→Girardot (5-12% real) → RF 0.75
+        // SUBIDA: Girardot→Bogotá (57% real con 5 pax) → RF 0.70
+        // MIXTO MONTAÑA: velocidad promedio baja (50-60km/h) → menos consumo aerodinámico
         const isMountainMixed = totalVertical > 2000 && !isExtremeDownhill && !isExtremeUphill;
         
         let rollingFactor = 1.0;
@@ -3950,97 +3950,97 @@ app.get('/route', async (req, res) => {
         } else if (isExtremeUphill) {
           rollingFactor = 0.70;
         } else if (isDownhillTrip) {
-          // ðŸ”§ CAL: el descuento por bajada depende de quÃ© tan pronunciada sea.
-          // Melgar (26 m/km de bajada) â†’ 0.85 funciona. MonterÃ­a (3 m/km en 449km)
-          // es casi plano y a 90-100 km/h el arrastre manda â†’ cerca de 1.0.
+          // 🔧 CAL: el descuento por bajada depende de qué tan pronunciada sea.
+          // Melgar (26 m/km de bajada) → 0.85 funciona. Montería (3 m/km en 449km)
+          // es casi plano y a 90-100 km/h el arrastre manda → cerca de 1.0.
           const dropPerKm = Math.abs(netChange) / Math.max(distanceKm, 1);
           if (dropPerKm >= 20) {
             rollingFactor = 0.85;
           } else if (dropPerKm <= 5) {
             rollingFactor = 1.0;
           } else {
-            // interpolaciÃ³n lineal entre 5 y 20 m/km
+            // interpolación lineal entre 5 y 20 m/km
             rollingFactor = 1.0 - ((dropPerKm - 5) / 15) * 0.15;
           }
         } else if (isUphillTrip) {
-          rollingFactor = 1.05; // ðŸ”§ CAL: subida Anapoimaâ†’Bog real 30% predicho 26%
+          rollingFactor = 1.05; // 🔧 CAL: subida Anapoima→Bog real 30% predicho 26%
         } else if (isMountainMixed) {
-          // ðŸ”§ CAL conservadora: era 0.80 (asumÃ­a 50-60km/h). A 80-97km/h
-          // sostenidos el arrastre aerodinÃ¡mico es mayor â†’ sesgo a zona segura.
+          // 🔧 CAL conservadora: era 0.80 (asumía 50-60km/h). A 80-97km/h
+          // sostenidos el arrastre aerodinámico es mayor → sesgo a zona segura.
           rollingFactor = 0.86;
         }
         
-        // ðŸ†• Factor de peso en consumo plano (mÃ¡s peso = mÃ¡s resistencia rodadura)
-        // Referencia: peso base del vehÃ­culo. Cada 100kg extra = +3% consumo plano
+        // 🆕 Factor de peso en consumo plano (más peso = más resistencia rodadura)
+        // Referencia: peso base del vehículo. Cada 100kg extra = +3% consumo plano
         const weightFactor = 1.0 + ((vehicleWeightKg - vehicleBaseWeightKg) / 100) * 0.03;
         
         const speedF = cruiseKmh ? cruiseSpeedFactor(routeData.steps, cruiseKmh) : 1;
         if (cruiseKmh) console.log(`[CONSUMPTION]   Velocidad crucero ${cruiseKmh} km/h -> factor plano x${speedF.toFixed(2)}`);
         const energyFlatWh = distanceKm * consumptionWhPerKm * rollingFactor * weightFactor * speedF;
         
-        // 3. ENERGÃA PARA SUBIR (eficiencia motor 82% - calibrado con Girâ†’Bog real: 57% en 116km)
+        // 3. ENERGÍA PARA SUBIR (eficiencia motor 82% - calibrado con Gir→Bog real: 57% en 116km)
         let energyToClimbWh = (vehicleWeightKg * gravity * gainM) / 3600 / 0.82;
         
-        // 4. ENERGÃA RECUPERADA AL BAJAR (regeneraciÃ³n 92% - calibrado con Bogâ†’Gir real: 5% en 119km)
+        // 4. ENERGÍA RECUPERADA AL BAJAR (regeneración 92% - calibrado con Bog→Gir real: 5% en 119km)
         const regenEfficiency = 0.92;
         const energyRegenWh = (vehicleWeightKg * gravity * lossM) / 3600 * regenEfficiency;
         
-        // 5. ENERGÃA TOTAL (sin efecto montaÃ±a rusa - calibraciÃ³n real lo cubre)
+        // 5. ENERGÍA TOTAL (sin efecto montaña rusa - calibración real lo cubre)
         let totalEnergyWh = energyFlatWh + energyToClimbWh - energyRegenWh;
         
-        // 7. MÃNIMO FÃSICO: luces, AC, pantalla, etc. (~20 Wh/km)
+        // 7. MÍNIMO FÍSICO: luces, AC, pantalla, etc. (~20 Wh/km)
         const minEnergyWh = distanceKm * 20;
         if (totalEnergyWh < minEnergyWh) totalEnergyWh = minEnergyWh;
         
-        // 8. CONVERTIR A % DE BATERÃA
+        // 8. CONVERTIR A % DE BATERÍA
         totalConsumptionPercent = (totalEnergyWh / 1000) / batteryKwh * 100;
         
-        console.log(`[CONSUMPTION] ðŸ”ï¸ CÃ¡lculo FÃSICO con altimetrÃ­a:`);
+        console.log(`[CONSUMPTION] 🏔️ Cálculo FÍSICO con altimetría:`);
         console.log(`[CONSUMPTION]   Tipo: ${isDownhillTrip ? 'BAJADA NETA' : 'MIXTO/SUBIDA'}`);
         console.log(`[CONSUMPTION]   Ascenso: +${gainM}m | Descenso: -${lossM}m | Neto: ${netChange}m`);
-        console.log(`[CONSUMPTION]   EnergÃ­a plano: ${(energyFlatWh/1000).toFixed(1)} kWh`);
-        console.log(`[CONSUMPTION]   EnergÃ­a subida: +${(energyToClimbWh/1000).toFixed(1)} kWh ${isDownhillTrip ? '(reducida 30% montaÃ±a rusa)' : ''}`);
-        console.log(`[CONSUMPTION]   RegeneraciÃ³n: -${(energyRegenWh/1000).toFixed(1)} kWh (92% eficiencia)`);
-        console.log(`[CONSUMPTION]   EnergÃ­a total: ${(totalEnergyWh/1000).toFixed(1)} kWh`);
-        console.log(`[CONSUMPTION]   Consumo: ${totalConsumptionPercent.toFixed(1)}% (baterÃ­a ${batteryKwh} kWh)`);
+        console.log(`[CONSUMPTION]   Energía plano: ${(energyFlatWh/1000).toFixed(1)} kWh`);
+        console.log(`[CONSUMPTION]   Energía subida: +${(energyToClimbWh/1000).toFixed(1)} kWh ${isDownhillTrip ? '(reducida 30% montaña rusa)' : ''}`);
+        console.log(`[CONSUMPTION]   Regeneración: -${(energyRegenWh/1000).toFixed(1)} kWh (92% eficiencia)`);
+        console.log(`[CONSUMPTION]   Energía total: ${(totalEnergyWh/1000).toFixed(1)} kWh`);
+        console.log(`[CONSUMPTION]   Consumo: ${totalConsumptionPercent.toFixed(1)}% (batería ${batteryKwh} kWh)`);
         console.log(`[CONSUMPTION]   vs plano: ${(distanceKm * adjustedConsumption).toFixed(1)}%`);
       } else {
         totalConsumptionPercent = distanceKm * adjustedConsumption;
-        console.log(`[CONSUMPTION] âž¡ï¸ Ruta plana (${totalVertical}m cambio), consumo: ${totalConsumptionPercent.toFixed(1)}%`);
+        console.log(`[CONSUMPTION] ➡️ Ruta plana (${totalVertical}m cambio), consumo: ${totalConsumptionPercent.toFixed(1)}%`);
       }
     } else {
       totalConsumptionPercent = distanceKm * adjustedConsumption;
-      console.log(`[CONSUMPTION] âš ï¸ Sin altimetrÃ­a, consumo plano: ${totalConsumptionPercent.toFixed(1)}%`);
+      console.log(`[CONSUMPTION] ⚠️ Sin altimetría, consumo plano: ${totalConsumptionPercent.toFixed(1)}%`);
     }
     
-    // ðŸ”§ FIX: Agregar estimatedConsumption dentro de elevationData para que el frontend lo lea
+    // 🔧 FIX: Agregar estimatedConsumption dentro de elevationData para que el frontend lo lea
     if (elevationData) {
       elevationData.estimatedConsumption = totalConsumptionPercent;
     }
 
-    console.log('[ROUTE] âœ… Ruta calculada con', usedProvider.toUpperCase());
+    console.log('[ROUTE] ✅ Ruta calculada con', usedProvider.toUpperCase());
     console.log('[ROUTE]   Distancia:', distanceKm.toFixed(1), 'km');
-    console.log('[ROUTE]   DuraciÃ³n:', Math.round(routeData.durationSeconds / 60), 'min');
+    console.log('[ROUTE]   Duración:', Math.round(routeData.durationSeconds / 60), 'min');
     console.log('[ROUTE]   Puntos:', routeData.points.length);
     console.log('[ROUTE]   Steps:', routeData.steps.length);
     console.log('[ROUTE]   Consumo:', totalConsumptionPercent.toFixed(1), '%');
-    console.log('[ROUTE]   Waypoints:', waypoints ? 'SÃ' : 'NO');
+    console.log('[ROUTE]   Waypoints:', waypoints ? 'SÍ' : 'NO');
 
     const pointsArray = routeData.points.map(p => ({ lat: p.lat, lon: p.lon }));
     
     const response = {
       polyline: pointsArray,  // Nombre nuevo
-      points: pointsArray,    // ðŸ”§ FIX: Compatibilidad con Flutter (espera 'points')
+      points: pointsArray,    // 🔧 FIX: Compatibilidad con Flutter (espera 'points')
       distance_km: distanceKm,
       duration_sec: routeData.durationSeconds,
-      duration_min: routeData.durationSeconds / 60,  // ðŸ”§ FIX: Compatibilidad con Flutter
-      durationSeconds: routeData.durationSeconds,    // ðŸ”§ FIX: Compatibilidad adicional
+      duration_min: routeData.durationSeconds / 60,  // 🔧 FIX: Compatibilidad con Flutter
+      durationSeconds: routeData.durationSeconds,    // 🔧 FIX: Compatibilidad adicional
       steps: routeData.steps,
       elevation: elevationData,
       consumption_percent: totalConsumptionPercent,
-      weather: weatherInfo, // ðŸŒ¤ï¸ Info de clima aplicada
+      weather: weatherInfo, // 🌤️ Info de clima aplicada
       provider: usedProvider,
-      waypoints_applied: !!waypoints,  // ðŸ†• Flag para que el frontend sepa
+      waypoints_applied: !!waypoints,  // 🆕 Flag para que el frontend sepa
       vehicle: {
         id: vehicleId,
         battery_kwh: batteryKwh,
@@ -4048,13 +4048,13 @@ app.get('/route', async (req, res) => {
       }
     };
 
-    // Guardar en cachÃ©
+    // Guardar en caché
     setCachedRoute(origin, destination, waypoints, vehicleId + (req.query.recalc === '1' ? '__recalc' : ''), cachePax, response, waypointsStrict);
 
     return res.json(response);
 
   } catch (error) {
-    console.error('[ROUTE] âŒ Error general:', error);
+    console.error('[ROUTE] ❌ Error general:', error);
     return res.status(500).json({ 
       error: 'route_failed', 
       detail: error.message 
@@ -4062,7 +4062,7 @@ app.get('/route', async (req, res) => {
   }
 });
 
-// ===== ENDPOINT: Rutas alternativas con comparaciÃ³n =====
+// ===== ENDPOINT: Rutas alternativas con comparación =====
 app.get('/route-alternatives', async (req, res) => {
   try {
     const origin = String(req.query.from || req.query.origin || '');
@@ -4073,31 +4073,31 @@ app.get('/route-alternatives', async (req, res) => {
     if (!origin || !destination) {
       return res.status(400).json({ error: 'BadRequest', detail: 'from y to requeridos' });
     }
-    // ðŸ†• Verificar cache primero
+    // 🆕 Verificar cache primero
     const waypoints = String(req.query.waypoints || '');
     const cacheKey = `${origin}_${destination}_${waypoints}_${vehicleId}_${passengers}`;
     const cached = altRoutesCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < ALT_ROUTES_CACHE_TTL) {
-      console.log('[ALT-ROUTES] âš¡ Cache HIT:', cacheKey);
+      console.log('[ALT-ROUTES] ⚡ Cache HIT:', cacheKey);
       return res.json(cached.data);
     }
 
-    console.log('[ALT-ROUTES] ðŸ”€ Calculando alternativas:', origin, 'â†’', destination);
+    console.log('[ALT-ROUTES] 🔀 Calculando alternativas:', origin, '→', destination);
 
     // Pedir alternativas a Google
     const params = {
       origin, destination,
-      // TrÃ¡fico en vivo solo para premium (SKU Advanced cuesta el doble)
+      // Tráfico en vivo solo para premium (SKU Advanced cuesta el doble)
       ...((typeof req !== 'undefined' && req.query && req.query.premium === '1') ? { departure_time: 'now', traffic_model: 'best_guess' } : {}),
-      alternatives: true,  // ðŸ”§ Desactivado para reducir costos - solo ruta principal
+      alternatives: true,  // 🔧 Desactivado para reducir costos - solo ruta principal
       language: 'es',
       units: 'metric',
       key: GOOGLE_MAPS_API_KEY
     };
-    // ðŸ†• Agregar waypoints si el usuario los pasÃ³ (paradas intermedias)
+    // 🆕 Agregar waypoints si el usuario los pasó (paradas intermedias)
     if (waypoints) {
       params.waypoints = capWaypoints(waypoints);
-      console.log('[ALT-ROUTES] ðŸ“ Waypoints agregados:', waypoints.split('|').length);
+      console.log('[ALT-ROUTES] 📍 Waypoints agregados:', waypoints.split('|').length);
     }
 
     let response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
@@ -4107,7 +4107,7 @@ app.get('/route-alternatives', async (req, res) => {
     if (response.data.status !== 'OK') {
       // Reintentar sin departure_time si la ruta es muy larga
       if (response.data.status === 'MAX_ROUTE_LENGTH_EXCEEDED') {
-        console.log('[ALT-ROUTES] âš ï¸ Ruta muy larga, reintentando sin departure_time...');
+        console.log('[ALT-ROUTES] ⚠️ Ruta muy larga, reintentando sin departure_time...');
         const retryParams = { ...params };
         delete retryParams.departure_time;
         delete retryParams.traffic_model;
@@ -4125,12 +4125,12 @@ app.get('/route-alternatives', async (req, res) => {
     }
 
     const routes = response.data.routes;
-    console.log(`[ALT-ROUTES] ðŸ“Š Google devolviÃ³ ${routes.length} rutas`);
+    console.log(`[ALT-ROUTES] 📊 Google devolvió ${routes.length} rutas`);
 
     // Ya no necesitamos forzar tercera alternativa - la ruta EV optimizada
-    // se agrega en el frontend como primera opciÃ³n "Recomendada"
+    // se agrega en el frontend como primera opción "Recomendada"
 
-    // Perfil del vehÃ­culo
+    // Perfil del vehículo
     const profile = VEHICLE_PROFILES[vehicleId] || VEHICLE_PROFILES['generic'];
     const batteryKwh = profile.batteryKwh || 60;
     const baseRate = profile.consumptionRate || 0.28;
@@ -4143,7 +4143,7 @@ app.get('/route-alternatives', async (req, res) => {
 
     for (let i = 0; i < Math.min(routes.length, 3); i++) {
       const route = routes[i];
-      // ðŸ†• Sumar TODOS los legs (importante cuando hay waypoints)
+      // 🆕 Sumar TODOS los legs (importante cuando hay waypoints)
       const legs = route.legs || [];
       let distanceM = 0;
       let durationSec = 0;
@@ -4157,7 +4157,7 @@ app.get('/route-alternatives', async (req, res) => {
       // Decodificar polyline para buscar peajes cercanos
       const points = decodeGooglePolyline(route.overview_polyline.points);
 
-      // Consumo estimado (simplificado â€” sin elevaciÃ³n para rapidez)
+      // Consumo estimado (simplificado — sin elevación para rapidez)
       const consumptionPercent = distanceKm * baseRate * weightFactor;
 
       // Buscar peajes en la ruta (proximidad 800m)
@@ -4194,25 +4194,25 @@ app.get('/route-alternatives', async (req, res) => {
       
       if (i === 0) {
         label = 'Recomendada';
-        tag = 'âš¡';
+        tag = '⚡';
       } else if (consumptionPercent < alternatives[0]?.consumption_percent * 0.9) {
-        label = 'MÃ¡s eficiente';
-        tag = 'ðŸ”‹';
+        label = 'Más eficiente';
+        tag = '🔋';
       } else if (refTolls > 0 && totalTolls < refTolls * 0.7) {
         label = 'Menos peajes';
-        tag = 'ðŸ’°';
+        tag = '💰';
       } else if (durationMin < refDuration * 0.95) {
-        label = 'MÃ¡s rÃ¡pida';
-        tag = 'âš¡';
+        label = 'Más rápida';
+        tag = '⚡';
       } else if (distanceKm < refDistance * 0.95) {
-        label = 'MÃ¡s corta';
-        tag = 'ðŸ“';
+        label = 'Más corta';
+        tag = '📏';
       } else {
         label = route.summary || `Ruta ${i + 1}`;
-        tag = 'ðŸ”€';
+        tag = '🔀';
       }
 
-      // ðŸ†• Calcular ratio de trÃ¡fico SUMANDO todos los legs (importante con waypoints)
+      // 🆕 Calcular ratio de tráfico SUMANDO todos los legs (importante con waypoints)
       let totalFreeFlow = 0;
       let totalWithTraffic = 0;
       for (const lg of legs) {
@@ -4221,8 +4221,8 @@ app.get('/route-alternatives', async (req, res) => {
         totalWithTraffic += (lg.duration_in_traffic?.value || ff);
       }
       const trafficRatio = totalFreeFlow > 0 ? totalWithTraffic / totalFreeFlow : 1.0;
-      console.log(`[ALT-ROUTES] ðŸš¦ Ruta ${i} traffic ratio: ${trafficRatio.toFixed(2)} (${Math.round(totalFreeFlow/60)}min free â†’ ${Math.round(totalWithTraffic/60)}min traffic)`);
-      // ðŸ†• Extraer steps de TODOS los legs (concat) para soportar waypoints
+      console.log(`[ALT-ROUTES] 🚦 Ruta ${i} traffic ratio: ${trafficRatio.toFixed(2)} (${Math.round(totalFreeFlow/60)}min free → ${Math.round(totalWithTraffic/60)}min traffic)`);
+      // 🆕 Extraer steps de TODOS los legs (concat) para soportar waypoints
       const allSteps = legs.flatMap(lg => lg.steps || []);
       const steps = allSteps.map(s => {
         const distanceM = s.distance?.value || 0;
@@ -4266,14 +4266,14 @@ app.get('/route-alternatives', async (req, res) => {
         cumOffset += st.length_m;
       }
 
-        // ðŸ†• Generar polyline detallada uniendo TODOS los steps de TODOS los legs
+        // 🆕 Generar polyline detallada uniendo TODOS los steps de TODOS los legs
         // (importante con waypoints: cada leg trae sus propios steps)
         let detailedPoints = [];
         for (const lg of legs) {
           for (const s of (lg.steps || [])) {
             if (s.polyline?.points) {
               const stepPts = decodeGooglePolyline(s.polyline.points);
-              // Evitar duplicar el Ãºltimo punto del step anterior con el primero del siguiente
+              // Evitar duplicar el último punto del step anterior con el primero del siguiente
               if (detailedPoints.length > 0 && stepPts.length > 0) {
                 detailedPoints = detailedPoints.concat(stepPts.slice(1));
               } else {
@@ -4315,13 +4315,13 @@ app.get('/route-alternatives', async (req, res) => {
       count: alternatives.length,
       alternatives
     };
-    // ðŸ†• Guardar en cache
+    // 🆕 Guardar en cache
     altRoutesCache.set(cacheKey, { data: result, timestamp: Date.now() });
-    console.log(`[ALT-ROUTES] ðŸ’¾ Guardado en cache (size: ${altRoutesCache.size})`);
+    console.log(`[ALT-ROUTES] 💾 Guardado en cache (size: ${altRoutesCache.size})`);
     return res.json(result);
 
   } catch (error) {
-    console.error('[ALT-ROUTES] âŒ Error:', error.message);
+    console.error('[ALT-ROUTES] ❌ Error:', error.message);
     return res.status(500).json({ error: 'alternatives_failed', detail: error.message });
   }
 });
@@ -4355,7 +4355,7 @@ app.get('/tolls-in-route', async (req, res) => {
     }
 
     const route = gResp.data.routes[0];
-    // Usar polylines detalladas de cada step (mÃ¡s preciso que overview_polyline)
+    // Usar polylines detalladas de cada step (más preciso que overview_polyline)
     let routePoints = [];
     for (const leg of route.legs) {
       for (const step of leg.steps) {
@@ -4411,16 +4411,16 @@ app.get('/tolls-in-route', async (req, res) => {
 
     tollsOnRoute.sort((a, b) => a.distanceFromOrigin - b.distanceFromOrigin);
     
-    // ðŸ”§ FIX: Deduplicar peajes del mismo nombre en sentidos opuestos
-    // Si dos peajes tienen nombres similares y estÃ¡n a menos de 30km entre sÃ­,
-    // solo quedarse con el mÃ¡s cercano a la ruta (menor minDist)
+    // 🔧 FIX: Deduplicar peajes del mismo nombre en sentidos opuestos
+    // Si dos peajes tienen nombres similares y están a menos de 30km entre sí,
+    // solo quedarse con el más cercano a la ruta (menor minDist)
     const dedupedTolls = [];
     for (const toll of tollsOnRoute) {
-      const baseName = toll.nombre.replace(/\s*(TOLIMA|QUIND[IÃ]O|NORTE|SUR|ESTE|OESTE|SENTIDO\s+\w+|IDA|VUELTA|RETORNO)\s*/gi, '').trim().toUpperCase();
+      const baseName = toll.nombre.replace(/\s*(TOLIMA|QUIND[IÍ]O|NORTE|SUR|ESTE|OESTE|SENTIDO\s+\w+|IDA|VUELTA|RETORNO)\s*/gi, '').trim().toUpperCase();
       const duplicate = dedupedTolls.find(t => {
-        const tBaseName = t.nombre.replace(/\s*(TOLIMA|QUIND[IÃ]O|NORTE|SUR|ESTE|OESTE|SENTIDO\s+\w+|IDA|VUELTA|RETORNO)\s*/gi, '').trim().toUpperCase();
+        const tBaseName = t.nombre.replace(/\s*(TOLIMA|QUIND[IÍ]O|NORTE|SUR|ESTE|OESTE|SENTIDO\s+\w+|IDA|VUELTA|RETORNO)\s*/gi, '').trim().toUpperCase();
         if (tBaseName !== baseName) return false;
-        // EstÃ¡n a menos de 30km de distancia en la ruta
+        // Están a menos de 30km de distancia en la ruta
         const distDiff = Math.abs(t.distanceFromOrigin - toll.distanceFromOrigin);
         return distDiff < 30000; // 30km
       });
@@ -4428,7 +4428,7 @@ app.get('/tolls-in-route', async (req, res) => {
       if (!duplicate) {
         dedupedTolls.push(toll);
       } else {
-        console.log(`[PEAJES] ðŸ”„ Deduplicado: "${toll.nombre}" (duplicado de "${duplicate.nombre}", diff: ${Math.abs(toll.distanceFromOrigin - duplicate.distanceFromOrigin)/1000}km)`);
+        console.log(`[PEAJES] 🔄 Deduplicado: "${toll.nombre}" (duplicado de "${duplicate.nombre}", diff: ${Math.abs(toll.distanceFromOrigin - duplicate.distanceFromOrigin)/1000}km)`);
       }
     }
     
@@ -4443,7 +4443,7 @@ app.get('/tolls-in-route', async (req, res) => {
   }
 });
 
-// ðŸš§ Buscar peajes sobre una polyline dada (sin recalcular ruta)
+// 🚧 Buscar peajes sobre una polyline dada (sin recalcular ruta)
 app.post('/tolls-on-polyline', (req, res) => {
   try {
     const { points } = req.body; // [{lat, lon}, ...]
@@ -4486,7 +4486,7 @@ app.post('/tolls-on-polyline', (req, res) => {
 
     tollsOnRoute.sort((a, b) => a.distanceFromOrigin - b.distanceFromOrigin);
     // Deduplicar el mismo peaje registrado en ambos sentidos (< 30 km, mismo nombre base)
-    const baseName = (n) => String(n || '').replace(/\s*(TOLIMA|QUIND[IÃ]O|NORTE|SUR|ESTE|OESTE|SENTIDO\s+\w+|IDA|VUELTA|RETORNO)\s*/gi, '').trim().toUpperCase();
+    const baseName = (n) => String(n || '').replace(/\s*(TOLIMA|QUIND[IÍ]O|NORTE|SUR|ESTE|OESTE|SENTIDO\s+\w+|IDA|VUELTA|RETORNO)\s*/gi, '').trim().toUpperCase();
     for (let i = tollsOnRoute.length - 1; i > 0; i--) {
       for (let j = 0; j < i; j++) {
         if (baseName(tollsOnRoute[j].nombre) === baseName(tollsOnRoute[i].nombre) &&
@@ -4531,8 +4531,8 @@ app.post('/tolls-on-polyline', (req, res) => {
 });
 
 // ==================== EV ROUTING (HERE EV API) ====================
-// Endpoint para calcular rutas optimizadas para vehÃ­culos elÃ©ctricos
-// Usa HERE Routing API v8 con parÃ¡metros EV para calcular paradas de carga automÃ¡ticas
+// Endpoint para calcular rutas optimizadas para vehículos eléctricos
+// Usa HERE Routing API v8 con parámetros EV para calcular paradas de carga automáticas
 
 app.get('/ev-route', async (req, res) => {
   try {
@@ -4541,12 +4541,12 @@ app.get('/ev-route', async (req, res) => {
     const lang = String(req.query.lang || 'es-ES');
     const debug = req.query.debug != null;
 
-    // ParÃ¡metros del vehÃ­culo elÃ©ctrico
+    // Parámetros del vehículo eléctrico
     const initialCharge = Number(req.query.initialCharge) || 80; // kWh de carga inicial
-    const maxCharge = Number(req.query.maxCharge) || 100; // Capacidad mÃ¡xima en kWh
+    const maxCharge = Number(req.query.maxCharge) || 100; // Capacidad máxima en kWh
     const connectorType = String(req.query.connectorType || 'iec62196Type2Combo'); // CCS2 por defecto
     
-    // Consumo del vehÃ­culo (kWh/km a diferentes velocidades)
+    // Consumo del vehículo (kWh/km a diferentes velocidades)
     // Formato: velocidad1,consumo1,velocidad2,consumo2,...
     const freeFlowSpeedTable = String(req.query.freeFlowSpeedTable || 
       '0,0.168,27,0.168,45,0.183,60,0.196,75,0.207,90,0.238,100,0.26,110,0.296,120,0.337,130,0.38');
@@ -4558,7 +4558,7 @@ app.get('/ev-route', async (req, res) => {
     // Consumo auxiliar (clima, etc) en kW
     let auxiliaryConsumption = Number(req.query.auxiliaryConsumption) || 1.5;
 
-    // ðŸŒ¤ï¸ Ajustar auxiliar por clima real
+    // 🌤️ Ajustar auxiliar por clima real
     let evWeatherInfo = null;
     try {
       const [oLat, oLon] = origin.split(',').map(Number);
@@ -4568,12 +4568,12 @@ app.get('/ev-route', async (req, res) => {
       const weather = await getWeatherAt(midLat, midLon);
       if (weather) {
         const temp = weather.temp_c;
-        // A/C o calefacciÃ³n incrementan consumo auxiliar
-        if (temp < 10) auxiliaryConsumption = 3.0; // CalefacciÃ³n
+        // A/C o calefacción incrementan consumo auxiliar
+        if (temp < 10) auxiliaryConsumption = 3.0; // Calefacción
         else if (temp < 18) auxiliaryConsumption = 2.0;
         else if (temp > 32) auxiliaryConsumption = 3.0; // A/C fuerte
         else if (temp > 28) auxiliaryConsumption = 2.5; // A/C moderado
-        // 18-28Â°C = 1.5 kW (default, ventilaciÃ³n bÃ¡sica)
+        // 18-28°C = 1.5 kW (default, ventilación básica)
         
         evWeatherInfo = {
           temperature: weather.temp_c,
@@ -4582,17 +4582,17 @@ app.get('/ev-route', async (req, res) => {
           icon: weather.icon,
           auxiliaryConsumption,
         };
-        console.log(`[EV-ROUTE] ðŸŒ¤ï¸ Clima: ${temp}Â°C â†’ auxiliar: ${auxiliaryConsumption} kW`);
+        console.log(`[EV-ROUTE] 🌤️ Clima: ${temp}°C → auxiliar: ${auxiliaryConsumption} kW`);
       }
     } catch (e) {
-      console.error('[EV-ROUTE] âš ï¸ Clima no disponible:', e.message);
+      console.error('[EV-ROUTE] ⚠️ Clima no disponible:', e.message);
     }
     
-    // Consumo por elevaciÃ³n (Wh/m)
+    // Consumo por elevación (Wh/m)
     const ascent = Number(req.query.ascent) || 9;
     const descent = Number(req.query.descent) || 4.3;
     
-    // LÃ­mites de carga (como porcentaje de maxCharge, no valores absolutos)
+    // Límites de carga (como porcentaje de maxCharge, no valores absolutos)
     // HERE espera estos valores en la misma unidad que maxCharge
     const maxChargeAfterChargingStation = Math.min(
       Number(req.query.maxChargeAfterStation) || Math.round(maxCharge * 0.8), 
@@ -4607,7 +4607,7 @@ app.get('/ev-route', async (req, res) => {
       maxCharge
     );
 
-    console.log('[EV-ROUTE] âš¡ Calculando ruta EV:');
+    console.log('[EV-ROUTE] ⚡ Calculando ruta EV:');
     console.log('[EV-ROUTE]   Origen:', origin);
     console.log('[EV-ROUTE]   Destino:', destination);
     console.log('[EV-ROUTE]   Carga inicial:', initialCharge, 'kWh');
@@ -4638,7 +4638,7 @@ app.get('/ev-route', async (req, res) => {
       lang,
       apiKey: HERE_API_KEY,
       
-      // âš¡ ParÃ¡metros EV
+      // ⚡ Parámetros EV
       'ev[makeReachable]': 'true',
       'ev[initialCharge]': initialCharge,
       'ev[maxCharge]': maxCharge,
@@ -4653,30 +4653,30 @@ app.get('/ev-route', async (req, res) => {
       'ev[minChargeAtDestination]': minChargeAtDestination
     };
 
-    console.log('[EV-ROUTE] ðŸ“¡ Llamando a HERE EV Routing API...');
+    console.log('[EV-ROUTE] 📡 Llamando a HERE EV Routing API...');
     const startTime = Date.now();
     
     const r = await axios.get(url, { params, timeout: 30000 });
     
     const elapsed = Date.now() - startTime;
-    console.log(`[EV-ROUTE] â±ï¸  Respuesta en ${elapsed}ms`);
+    console.log(`[EV-ROUTE] ⏱️  Respuesta en ${elapsed}ms`);
     
     // Log de la respuesta de HERE
-    console.log('[EV-ROUTE] ðŸ“¦ Respuesta HERE routes:', r.data?.routes?.length || 0);
+    console.log('[EV-ROUTE] 📦 Respuesta HERE routes:', r.data?.routes?.length || 0);
     
     if (debug) return res.json(r.data);
 
     const route = r.data?.routes?.[0];
     if (!route) {
-      console.log('[EV-ROUTE] âŒ HERE no devolviÃ³ rutas. Data:', JSON.stringify(r.data).substring(0, 500));
+      console.log('[EV-ROUTE] ❌ HERE no devolvió rutas. Data:', JSON.stringify(r.data).substring(0, 500));
       return res.status(502).json({ 
         error: 'NoRoute', 
-        detail: 'HERE no devolviÃ³ rutas para vehÃ­culos elÃ©ctricos. Puede que no haya cargadores disponibles en la ruta.',
+        detail: 'HERE no devolvió rutas para vehículos eléctricos. Puede que no haya cargadores disponibles en la ruta.',
         hereResponse: r.data
       });
     }
     
-    console.log('[EV-ROUTE] âœ… Ruta encontrada con', route.sections?.length || 0, 'secciones');
+    console.log('[EV-ROUTE] ✅ Ruta encontrada con', route.sections?.length || 0, 'secciones');
 
     // Procesar secciones
     const sections = route.sections || [];
@@ -4685,7 +4685,7 @@ app.get('/ev-route', async (req, res) => {
     let totalDuration = 0;
     const chargingStops = [];
 
-    console.log(`[EV-ROUTE] ðŸ“ Procesando ${sections.length} secciones...`);
+    console.log(`[EV-ROUTE] 📍 Procesando ${sections.length} secciones...`);
 
     for (let i = 0; i < sections.length; i++) {
       const section = sections[i];
@@ -4723,7 +4723,7 @@ app.get('/ev-route', async (req, res) => {
           index: chargingStops.length + 1,
           lat: location.lat,
           lon: location.lng,
-          name: chargingStation.name || place.name || 'EstaciÃ³n de carga',
+          name: chargingStation.name || place.name || 'Estación de carga',
           address: place.address?.label || '',
           operator: chargingStation.operator?.name || chargingStation.brand?.name || '',
           arrivalCharge: chargingAction.arrivalCharge,
@@ -4740,8 +4740,8 @@ app.get('/ev-route', async (req, res) => {
           chargeTimeMin: Math.round((chargingAction.duration || 0) / 60)
         });
         
-        console.log(`[EV-ROUTE]   âš¡ Cargador ${chargingStops.length}: ${chargingStation.name || 'N/A'}`);
-        console.log(`[EV-ROUTE]      ${chargingAction.arrivalCharge}â†’${chargingAction.targetCharge} kWh, ${Math.round((chargingAction.duration || 0) / 60)} min`);
+        console.log(`[EV-ROUTE]   ⚡ Cargador ${chargingStops.length}: ${chargingStation.name || 'N/A'}`);
+        console.log(`[EV-ROUTE]      ${chargingAction.arrivalCharge}→${chargingAction.targetCharge} kWh, ${Math.round((chargingAction.duration || 0) / 60)} min`);
       }
     }
 
@@ -4749,9 +4749,9 @@ app.get('/ev-route', async (req, res) => {
     const finalSoc = finalCharge && maxCharge > 0 ? Math.round((finalCharge / maxCharge) * 100) : null;
     const totalChargingTime = chargingStops.reduce((sum, stop) => sum + (stop.chargingTime || 0), 0);
 
-    console.log('[EV-ROUTE] âœ… Ruta EV calculada:');
+    console.log('[EV-ROUTE] ✅ Ruta EV calculada:');
     console.log('[EV-ROUTE]   Distancia:', (totalDistance / 1000).toFixed(1), 'km');
-    console.log('[EV-ROUTE]   DuraciÃ³n:', Math.round(totalDuration / 60), 'min');
+    console.log('[EV-ROUTE]   Duración:', Math.round(totalDuration / 60), 'min');
     console.log('[EV-ROUTE]   Paradas:', chargingStops.length);
     console.log('[EV-ROUTE]   SOC final:', finalSoc, '%');
 
@@ -4770,16 +4770,16 @@ app.get('/ev-route', async (req, res) => {
         finalSoc: finalSoc || 0,
         maxCharge
       },
-      weather: evWeatherInfo, // ðŸŒ¤ï¸ Clima aplicado
+      weather: evWeatherInfo, // 🌤️ Clima aplicado
       chargingStops,
       totalChargingStops: chargingStops.length,
       totalChargingTimeMinutes: Math.round(totalChargingTime / 60)
     });
 
   } catch (err) {
-    console.error('[EV-ROUTE] âŒ Error:', err.message);
-    console.error('[EV-ROUTE] âŒ Response data:', JSON.stringify(err?.response?.data, null, 2));
-    console.error('[EV-ROUTE] âŒ Status:', err?.response?.status);
+    console.error('[EV-ROUTE] ❌ Error:', err.message);
+    console.error('[EV-ROUTE] ❌ Response data:', JSON.stringify(err?.response?.data, null, 2));
+    console.error('[EV-ROUTE] ❌ Status:', err?.response?.status);
     
     const status = Number(err?.response?.status) || 500;
     const hereError = err?.response?.data;
@@ -4790,7 +4790,7 @@ app.get('/ev-route', async (req, res) => {
     if (hereError) {
       if (hereError.title === 'Route not found' || hereError.cause === 'No route found') {
         errorCode = 'no_route';
-        detail = 'No se encontrÃ³ una ruta viable con los cargadores disponibles.';
+        detail = 'No se encontró una ruta viable con los cargadores disponibles.';
       } else {
         detail = hereError.title || hereError.message || JSON.stringify(hereError);
       }
@@ -4826,7 +4826,7 @@ app.post('/community/route-reports', (req, res) => {
     existing.unshift(report);
     if (existing.length > 100) existing.length = 100;
     routeReportsCache.set(routeKey, existing);
-    console.log(`[COMMUNITY] ðŸ“ Reporte: ${originName} â†’ ${destName} | ${vehicle} | â­${rating}`);
+    console.log(`[COMMUNITY] 📝 Reporte: ${originName} → ${destName} | ${vehicle} | ⭐${rating}`);
     io.emit('route-report:added', { routeKey, report: { ...report, userIP: undefined } });
     res.json({ ok: true, report: { ...report, userIP: undefined } });
   } catch (e) {
@@ -4901,7 +4901,7 @@ app.post('/community/pois', (req, res) => {
       timestamp: Date.now(), userIP: req.ip||'unknown', verified: false,
     };
     evPoisCache.set(poi.id, poi);
-    console.log(`[COMMUNITY] ðŸ“ POI: ${name} (${category})`);
+    console.log(`[COMMUNITY] 📍 POI: ${name} (${category})`);
     res.json({ ok: true, poi: { ...poi, userIP: undefined } });
   } catch (e) {
     res.status(500).json({ error: 'Error interno' });
@@ -4947,21 +4947,21 @@ app.post('/community/pois/:id/review', (req, res) => {
     poi.reviews.push(review);
     const ratings = poi.reviews.map(r => r.rating);
     poi.rating = Math.round(ratings.reduce((a,b)=>a+b,0)/ratings.length*10)/10;
-    console.log(`[COMMUNITY] âœï¸ Review en ${poi.name}: â­${rating}`);
+    console.log(`[COMMUNITY] ✍️ Review en ${poi.name}: ⭐${rating}`);
     res.json({ ok: true, review, avgRating: poi.rating });
   } catch (e) {
     res.status(500).json({ error: 'Error interno' });
   }
 });
 
-// ==================== CALIBRACIÃ“N COLABORATIVA ====================
+// ==================== CALIBRACIÓN COLABORATIVA ====================
 
 // Endpoint para recibir reportes de viajes reales
 app.post('/api/calibration-report', (req, res) => {
   try {
     const report = req.body;
     
-    // Validar datos bÃ¡sicos
+    // Validar datos básicos
     if (!report.vehicle_id || !report.battery || !report.route) {
       return res.status(400).json({ 
         error: 'Datos incompletos', 
@@ -4988,28 +4988,28 @@ app.post('/api/calibration-report', (req, res) => {
     
     // Logs detallados
     console.log('\n========================================');
-    console.log('[CALIBRATION] ðŸ“Š NUEVO REPORTE RECIBIDO');
+    console.log('[CALIBRATION] 📊 NUEVO REPORTE RECIBIDO');
     console.log('========================================');
-    console.log(`ðŸš— VehÃ­culo: ${report.vehicle_id}`);
-    console.log(`ðŸ“ Ruta: ${report.route.origin || 'N/A'} â†’ ${report.route.destination || 'N/A'}`);
-    console.log(`ðŸ“ Distancia: ${distanceKm.toFixed(1)} km`);
-    console.log(`ðŸ”‹ BaterÃ­a: ${report.battery.initial_percent}% â†’ ${report.battery.final_percent}%`);
-    console.log(`ðŸ“‰ Consumo: ${consumed.toFixed(1)}%`);
-    console.log(`ðŸŽ¯ Consumo real: ${realConsumptionRate.toFixed(4)}%/km`);
-    console.log(`ðŸ“ˆ PredicciÃ³n app: ${report.prediction?.estimated_arrival || 'N/A'}%`);
-    console.log(`âš–ï¸  Error: ${report.prediction?.error_percent?.toFixed(1) || 'N/A'}%`);
-    console.log(`ðŸ“Š Total reportes: ${calibrationReports.length}`);
+    console.log(`🚗 Vehículo: ${report.vehicle_id}`);
+    console.log(`📍 Ruta: ${report.route.origin || 'N/A'} → ${report.route.destination || 'N/A'}`);
+    console.log(`📏 Distancia: ${distanceKm.toFixed(1)} km`);
+    console.log(`🔋 Batería: ${report.battery.initial_percent}% → ${report.battery.final_percent}%`);
+    console.log(`📉 Consumo: ${consumed.toFixed(1)}%`);
+    console.log(`🎯 Consumo real: ${realConsumptionRate.toFixed(4)}%/km`);
+    console.log(`📈 Predicción app: ${report.prediction?.estimated_arrival || 'N/A'}%`);
+    console.log(`⚖️  Error: ${report.prediction?.error_percent?.toFixed(1) || 'N/A'}%`);
+    console.log(`📊 Total reportes: ${calibrationReports.length}`);
     console.log('========================================\n');
     
     res.json({
       success: true,
-      message: 'Â¡Gracias por ayudar a mejorar WATTGO EV! ðŸ’š',
+      message: '¡Gracias por ayudar a mejorar WATTGO EV! 💚',
       report_id: calibrationData.id,
       total_reports: calibrationReports.length
     });
     
   } catch (error) {
-    console.error('[CALIBRATION] âŒ Error:', error);
+    console.error('[CALIBRATION] ❌ Error:', error);
     res.status(500).json({ 
       error: 'Error al guardar reporte',
       detail: error.message 
@@ -5017,7 +5017,7 @@ app.post('/api/calibration-report', (req, res) => {
   }
 });
 
-// Endpoint para obtener estadÃ­sticas (admin/desarrollo)
+// Endpoint para obtener estadísticas (admin/desarrollo)
 app.get('/api/calibration-stats', (req, res) => {
   try {
     const vehicleId = req.query.vehicle_id;
@@ -5082,9 +5082,9 @@ app.get('/api/calibration-stats', (req, res) => {
       recent_reports: filteredReports.slice(-Math.min(parseInt(req.query.limit) || 50, 100)).reverse().map(r => ({
         id: r.id,
         vehicle: r.vehicle_id,
-        route: `${(r.route && r.route.origin) || 'N/A'} â†’ ${(r.route && r.route.destination) || 'N/A'}`,
+        route: `${(r.route && r.route.origin) || 'N/A'} → ${(r.route && r.route.destination) || 'N/A'}`,
         distance_km: r.route ? r.route.distance_km : null,
-        battery: `${(r.battery && r.battery.initial_percent != null) ? r.battery.initial_percent : 'N/A'}% â†’ ${(r.battery && r.battery.final_percent != null) ? r.battery.final_percent : 'N/A'}%`,
+        battery: `${(r.battery && r.battery.initial_percent != null) ? r.battery.initial_percent : 'N/A'}% → ${(r.battery && r.battery.final_percent != null) ? r.battery.final_percent : 'N/A'}%`,
         initial_percent: r.battery ? r.battery.initial_percent : null,
         final_percent: r.battery ? r.battery.final_percent : null,
         consumed_percent: r.battery ? r.battery.consumed_percent : null,
@@ -5097,21 +5097,21 @@ app.get('/api/calibration-stats', (req, res) => {
     });
 
   } catch (error) {
-    console.error('[CALIBRATION] âŒ Error stats:', error);
+    console.error('[CALIBRATION] ❌ Error stats:', error);
     res.status(500).json({ error: 'Error al obtener estadisticas' });
   }
 });
 
-// ==================== SISTEMA DE REPORTES DE TRÃFICO ====================
+// ==================== SISTEMA DE REPORTES DE TRÁFICO ====================
 
-// Base de datos en memoria para reportes (en producciÃ³n: usar MongoDB/PostgreSQL)
+// Base de datos en memoria para reportes (en producción: usar MongoDB/PostgreSQL)
 let trafficReports = [];
 
 // Endpoint para limpiar todos los reportes (admin)
 app.delete('/api/traffic-reports', (req, res) => {
   const count = trafficReports.length;
   trafficReports = [];
-  console.log(`[TRAFFIC-REPORT] ðŸ—‘ï¸ Limpiados ${count} reportes`);
+  console.log(`[TRAFFIC-REPORT] 🗑️ Limpiados ${count} reportes`);
   res.json({ success: true, deleted: count });
 });
 
@@ -5136,7 +5136,7 @@ app.post('/api/traffic-report', (req, res) => {
       lon: parseFloat(lon),
       description: description || '',
       severity: severity || 'medium', // 'low', 'medium', 'high'
-      votes: 1, // Sistema de votaciÃ³n
+      votes: 1, // Sistema de votación
       timestamp: new Date().toISOString(),
       expiresAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(), // Expira en 2 horas
     };
@@ -5144,24 +5144,24 @@ app.post('/api/traffic-report', (req, res) => {
     trafficReports.push(report);
     
     console.log('\n========================================');
-    console.log('[TRAFFIC-REPORT] ðŸš¨ NUEVO REPORTE');
+    console.log('[TRAFFIC-REPORT] 🚨 NUEVO REPORTE');
     console.log('========================================');
-    console.log(`ðŸ“ Tipo: ${type}`);
-    console.log(`ðŸ“Œ UbicaciÃ³n: ${lat}, ${lon}`);
-    console.log(`âš ï¸  Severidad: ${severity}`);
-    console.log(`ðŸ’¬ DescripciÃ³n: ${description || 'N/A'}`);
-    console.log(`ðŸ“Š Total reportes: ${trafficReports.length}`);
+    console.log(`📍 Tipo: ${type}`);
+    console.log(`📌 Ubicación: ${lat}, ${lon}`);
+    console.log(`⚠️  Severidad: ${severity}`);
+    console.log(`💬 Descripción: ${description || 'N/A'}`);
+    console.log(`📊 Total reportes: ${trafficReports.length}`);
     console.log('========================================\n');
     
     res.json({
       success: true,
-      message: 'Â¡Gracias por tu reporte!',
+      message: '¡Gracias por tu reporte!',
       report_id: report.id,
       total_reports: trafficReports.length
     });
     
   } catch (error) {
-    console.error('[TRAFFIC-REPORT] âŒ Error:', error);
+    console.error('[TRAFFIC-REPORT] ❌ Error:', error);
     res.status(500).json({ 
       error: 'Error al guardar reporte',
       detail: error.message 
@@ -5175,7 +5175,7 @@ app.get('/api/traffic-reports-nearby', (req, res) => {
     const { lat, lon, radius } = req.query;
     
     if (!lat || !lon) {
-      return res.status(400).json({ error: 'Faltan parÃ¡metros: lat, lon' });
+      return res.status(400).json({ error: 'Faltan parámetros: lat, lon' });
     }
     
     const centerLat = parseFloat(lat);
@@ -5185,7 +5185,7 @@ app.get('/api/traffic-reports-nearby', (req, res) => {
     
     // Filtrar reportes: cercanos y no expirados
     const nearbyReports = trafficReports.filter(report => {
-      // Verificar si expirÃ³
+      // Verificar si expiró
       if (new Date(report.expiresAt) < now) {
         return false;
       }
@@ -5211,7 +5211,7 @@ app.get('/api/traffic-reports-nearby', (req, res) => {
     });
     
   } catch (error) {
-    console.error('[TRAFFIC-REPORTS-NEARBY] âŒ Error:', error);
+    console.error('[TRAFFIC-REPORTS-NEARBY] ❌ Error:', error);
     res.status(500).json({ error: 'Error al consultar reportes' });
   }
 });
@@ -5232,7 +5232,7 @@ app.post('/api/traffic-report-vote', (req, res) => {
     if (report.votes <= -3) {
       const index = trafficReports.indexOf(report);
       trafficReports.splice(index, 1);
-      console.log(`[TRAFFIC-REPORT] ðŸ—‘ï¸  Reporte ${report_id} eliminado por votos negativos`);
+      console.log(`[TRAFFIC-REPORT] 🗑️  Reporte ${report_id} eliminado por votos negativos`);
     }
     
     res.json({
@@ -5241,7 +5241,7 @@ app.post('/api/traffic-report-vote', (req, res) => {
     });
     
   } catch (error) {
-    console.error('[TRAFFIC-REPORT-VOTE] âŒ Error:', error);
+    console.error('[TRAFFIC-REPORT-VOTE] ❌ Error:', error);
     res.status(500).json({ error: 'Error al votar' });
   }
 });
@@ -5260,7 +5260,7 @@ setInterval(() => {
   
   const after = trafficReports.length;
   if (before !== after) {
-    console.log(`[TRAFFIC-REPORTS] ðŸ—‘ï¸  Limpiados ${before - after} reportes expirados. Quedan: ${after}`);
+    console.log(`[TRAFFIC-REPORTS] 🗑️  Limpiados ${before - after} reportes expirados. Quedan: ${after}`);
   }
 }, 60 * 60 * 1000); // Cada hora
 
@@ -5289,11 +5289,11 @@ app.post('/traffic-reports', (req, res) => {
     };
     
     trafficReports.push(report);
-    console.log(`[TRAFFIC-REPORTS] âœ… Nuevo: ${type} en ${latitude},${longitude} (Total: ${trafficReports.length})`);
+    console.log(`[TRAFFIC-REPORTS] ✅ Nuevo: ${type} en ${latitude},${longitude} (Total: ${trafficReports.length})`);
     
     res.status(201).json({ success: true, report });
   } catch (error) {
-    console.error('[TRAFFIC-REPORTS] âŒ', error);
+    console.error('[TRAFFIC-REPORTS] ❌', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -5304,7 +5304,7 @@ app.get('/traffic-reports', (req, res) => {
     let activeReports = trafficReports.filter(r => new Date(r.expiresAt) > now);
     res.json({ success: true, reports: activeReports, total: activeReports.length });
     
-    // Ordenar por timestamp DESC (mÃ¡s recientes primero)
+    // Ordenar por timestamp DESC (más recientes primero)
     activeReports.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     
     // Limitar a 100 reportes
@@ -5319,11 +5319,11 @@ app.post('/api/premium-notify', async (req, res) => {
   try {
     const { email } = req.body;
     if (!email || !email.includes('@')) {
-      return res.status(400).json({ error: 'Email invÃ¡lido' });
+      return res.status(400).json({ error: 'Email inválido' });
     }
     const fecha = new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' });
     const html = `
-      <h2>âš¡ Nuevo interesado en WATTGO EV Premium</h2>
+      <h2>⚡ Nuevo interesado en WATTGO EV Premium</h2>
       <table style="border-collapse:collapse;font-family:sans-serif">
         <tr><td style="padding:6px 12px;font-weight:bold">Email</td><td style="padding:6px 12px">${email}</td></tr>
         <tr><td style="padding:6px 12px;font-weight:bold">Fecha</td><td style="padding:6px 12px">${fecha}</td></tr>
@@ -5335,10 +5335,10 @@ app.post('/api/premium-notify', async (req, res) => {
       subject: `[WATTGO EV] Interesado Premium: ${email}`,
       html,
     });
-    console.log(`[PREMIUM] âœ… NotificaciÃ³n enviada: ${email}`);
+    console.log(`[PREMIUM] ✅ Notificación enviada: ${email}`);
     res.json({ success: true });
   } catch (err) {
-    console.error('[PREMIUM] âŒ Error:', err.message);
+    console.error('[PREMIUM] ❌ Error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -5352,21 +5352,21 @@ process.on('unhandledRejection', e => console.error('UNHANDLED', e));
   try {
     PORT = await pickPort();
     trafficReports = trafficReports.filter(r => r.lat != null && r.lon != null);
-console.log(`[STARTUP] ðŸ—‘ï¸ Reportes sin coordenadas eliminados. Quedan: ${trafficReports.length}`);
+console.log(`[STARTUP] 🗑️ Reportes sin coordenadas eliminados. Quedan: ${trafficReports.length}`);
     httpServer.listen(PORT, '0.0.0.0', () => {
       const ifaces = Object.values(os.networkInterfaces()).flat().filter(Boolean);
       const wifi = ifaces.find(i => i.family === 'IPv4' && !i.internal);
       console.log('EV backend listening:');
-      console.log(' â€¢ Local (PC):   http://127.0.0.1:' + PORT);
-      console.log(' â€¢ Emulador AVD: http://10.0.2.2:'   + PORT);
-      if (wifi) console.log(' â€¢ LAN (Wi-Fi): http://' + wifi.address + ':' + PORT);
+      console.log(' • Local (PC):   http://127.0.0.1:' + PORT);
+      console.log(' • Emulador AVD: http://10.0.2.2:'   + PORT);
+      if (wifi) console.log(' • LAN (Wi-Fi): http://' + wifi.address + ':' + PORT);
       console.log('Providers: routing=HERE, places=Google+MapTiler+Nominatim+Overpass, traffic=HERE');
       console.log('[WS] WebSocket server ready for real-time updates');
     });
   } catch (e) { console.error('Error arrancando el server:', e); }
 })();
 
-// ===== LIMPIEZA AUTOMÃTICA DE DATOS EXPIRADOS =====
+// ===== LIMPIEZA AUTOMÁTICA DE DATOS EXPIRADOS =====
 // ===== LIMPIEZA DE CACHE DE USUARIOS =====
 setInterval(() => {
   const now = Date.now();
@@ -5387,7 +5387,7 @@ setInterval(() => {
   }
   
   if (cleaned > 0) {
-    console.log(`[SPAM] âœ… Limpiados ${cleaned} registros de usuarios antiguos`);
+    console.log(`[SPAM] ✅ Limpiados ${cleaned} registros de usuarios antiguos`);
   }
 }, 60 * 60 * 1000);
 
@@ -5412,7 +5412,7 @@ app.post('/report-charger', async (req, res) => {
       fecha_reporte,
     } = req.body;
 
-    // ValidaciÃ³n bÃ¡sica
+    // Validación básica
     if (!nombre || latitud == null || longitud == null) {
       return res.status(400).json({
         error: 'Faltan datos requeridos (nombre, latitud, longitud)'
@@ -5426,60 +5426,60 @@ app.post('/report-charger', async (req, res) => {
 
     const html = `
       <div style="font-family:sans-serif;max-width:600px">
-        <h2 style="color:#FF6F00">âš¡ Nuevo cargador reportado</h2>
+        <h2 style="color:#FF6F00">⚡ Nuevo cargador reportado</h2>
         <table style="border-collapse:collapse;width:100%;border:1px solid #ddd">
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5;width:35%">ðŸ“ Nombre</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5;width:35%">📍 Nombre</td>
             <td style="padding:8px 12px">${nombre}</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸ  DirecciÃ³n</td>
-            <td style="padding:8px 12px">${direccion || 'Sin direcciÃ³n'}</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🏠 Dirección</td>
+            <td style="padding:8px 12px">${direccion || 'Sin dirección'}</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸŒ Coordenadas</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🌐 Coordenadas</td>
             <td style="padding:8px 12px">${latitud}, ${longitud}</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸ—ºï¸ Mapa</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🗺️ Mapa</td>
             <td style="padding:8px 12px">
               <a href="${mapsUrl}" style="color:#1976D2">Ver en Google Maps</a>
             </td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">âš¡ Tipo corriente</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">⚡ Tipo corriente</td>
             <td style="padding:8px 12px">${tipo_corriente || 'No especificado'}</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸ”‹ Potencia</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🔋 Potencia</td>
             <td style="padding:8px 12px">${potencia_kw || 'N/A'} kW</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸ”Œ Conectores</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🔌 Conectores</td>
             <td style="padding:8px 12px">${cantidad_conectores || 'N/A'} (${Array.isArray(tipos_conector) ? tipos_conector.join(', ') : (tipos_conector || 'N/A')})</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:${es_publico === false ? '#FFEBEE' : '#f5f5f5'}">ðŸŒ Acceso</td>
-            <td style="padding:8px 12px;${es_publico === false ? 'color:#C62828;font-weight:bold' : ''}">${es_publico === false ? 'âš ï¸ PRIVADO / Conjunto cerrado' : 'âœ… PÃºblico'}</td>
+            <td style="padding:8px 12px;font-weight:bold;background:${es_publico === false ? '#FFEBEE' : '#f5f5f5'}">🌐 Acceso</td>
+            <td style="padding:8px 12px;${es_publico === false ? 'color:#C62828;font-weight:bold' : ''}">${es_publico === false ? '⚠️ PRIVADO / Conjunto cerrado' : '✅ Público'}</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸ¢ Operador</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">🏢 Operador</td>
             <td style="padding:8px 12px">${operador || 'No especificado'}</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸ’³ MÃ©todo de carga</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">💳 Método de carga</td>
             <td style="padding:8px 12px">${Array.isArray(metodos_carga) && metodos_carga.length ? metodos_carga.join(', ') : 'No especificado'}</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸ’° Precio kWh</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">💰 Precio kWh</td>
             <td style="padding:8px 12px">${precio_kwh_cop ? '$' + precio_kwh_cop + ' COP' : 'No especificado'}</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸ“ Notas</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">📝 Notas</td>
             <td style="padding:8px 12px">${notas || 'Sin notas'}</td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">ðŸ“… Fecha</td>
+            <td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">📅 Fecha</td>
             <td style="padding:8px 12px">${fecha}</td>
           </tr>
         </table>
@@ -5498,30 +5498,30 @@ app.post('/report-charger', async (req, res) => {
       }] : [],
     });
 
-    console.log(`[REPORT-CHARGER] âœ… Reporte recibido: ${nombre} (${latitud}, ${longitud})`);
+    console.log(`[REPORT-CHARGER] ✅ Reporte recibido: ${nombre} (${latitud}, ${longitud})`);
     res.json({ success: true, message: 'Reporte enviado correctamente' });
   } catch (err) {
-    console.error('[REPORT-CHARGER] âŒ Error:', err.message);
+    console.error('[REPORT-CHARGER] ❌ Error:', err.message);
     res.status(500).json({ error: 'Error al procesar el reporte' });
   }
 });
-// ðŸ†• Endpoint para limpiar cache de elevaciÃ³n (Ãºtil para desarrollo)
+// 🆕 Endpoint para limpiar cache de elevación (útil para desarrollo)
 app.post("/admin/clear-elevation-cache", (req, res) => {
   const size = elevationCache.size;
   elevationCache.clear();
-  console.log(`[ADMIN] ðŸ—‘ï¸  Cache de elevaciÃ³n limpiado (${size} entradas)`);
+  console.log(`[ADMIN] 🗑️  Cache de elevación limpiado (${size} entradas)`);
   res.json({ cleared: size, message: "Cache limpiado exitosamente" });
 });
 
 app.post("/admin/clear-search-cache", (req, res) => {
   const size = searchCache.size;
   searchCache.clear();
-  console.log(`[ADMIN] ðŸ—‘ï¸  Cache de bÃºsqueda limpiado (${size} entradas)`);
+  console.log(`[ADMIN] 🗑️  Cache de búsqueda limpiado (${size} entradas)`);
   res.json({ cleared: size, message: "Search cache limpiado" });
 });
 
 
-// ðŸ†• ENDPOINT DELETE - Limpiar reportes corruptos
+// 🆕 ENDPOINT DELETE - Limpiar reportes corruptos
 app.delete('/traffic-reports', (req, res) => {
   try {
     const { invalidOnly } = req.query;
@@ -5534,16 +5534,16 @@ app.delete('/traffic-reports', (req, res) => {
         }
       }
       const deleted = before - trafficReports.length;
-      console.log(`[DELETE] ðŸ—‘ï¸  Eliminados ${deleted} reportes sin coordenadas`);
+      console.log(`[DELETE] 🗑️  Eliminados ${deleted} reportes sin coordenadas`);
       return res.json({ success: true, deleted, remaining: trafficReports.length });
     } else {
       const deleted = trafficReports.length;
       trafficReports.length = 0;
-      console.log(`[DELETE] ðŸ—‘ï¸  Eliminados TODOS (${deleted})`);
+      console.log(`[DELETE] 🗑️  Eliminados TODOS (${deleted})`);
       return res.json({ success: true, deleted });
     }
   } catch (error) {
-    console.error('[DELETE] âŒ', error);
+    console.error('[DELETE] ❌', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -5563,7 +5563,7 @@ app.post('/api/charging-price', (req, res) => {
     
     const price = parseFloat(pricePerKwh);
     if (isNaN(price) || price <= 0 || price > 10000) {
-      return res.status(400).json({ error: 'Precio invÃ¡lido' });
+      return res.status(400).json({ error: 'Precio inválido' });
     }
     
     const report = {
@@ -5581,47 +5581,47 @@ app.post('/api/charging-price', (req, res) => {
     
     chargingPrices.push(report);
     
-    // Mantener mÃ¡ximo 1000 reportes
+    // Mantener máximo 1000 reportes
     if (chargingPrices.length > 1000) {
       chargingPrices = chargingPrices.slice(-500);
     }
     
     console.log('========================================');
-    console.log('[CHARGING-PRICE] ðŸ’° NUEVO PRECIO');
+    console.log('[CHARGING-PRICE] 💰 NUEVO PRECIO');
     console.log('========================================');
-    console.log(`ðŸ“ EstaciÃ³n: ${siteName} (${siteId})`);
-    console.log(`ðŸ’µ Precio: $${price} COP/kWh`);
-    console.log(`ðŸ”Œ Conector: ${connectorType}`);
-    console.log(`ðŸ“Š Total reportes: ${chargingPrices.length}`);
+    console.log(`📍 Estación: ${siteName} (${siteId})`);
+    console.log(`💵 Precio: $${price} COP/kWh`);
+    console.log(`🔌 Conector: ${connectorType}`);
+    console.log(`📊 Total reportes: ${chargingPrices.length}`);
     console.log('========================================');
     
     res.json({ success: true, report });
   } catch (error) {
-    console.error('[CHARGING-PRICE] âŒ Error:', error);
+    console.error('[CHARGING-PRICE] ❌ Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Obtener precios de una estaciÃ³n
+// Obtener precios de una estación
 app.get('/api/charging-prices/:siteId', (req, res) => {
   try {
     const { siteId } = req.params;
     const { limit } = req.query;
     const maxResults = parseInt(limit) || 10;
     
-    // Filtrar por estaciÃ³n, ordenar por mÃ¡s reciente
+    // Filtrar por estación, ordenar por más reciente
     const prices = chargingPrices
       .filter(p => p.siteId === siteId)
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
       .slice(0, maxResults);
     
-    // Calcular promedio de los Ãºltimos 5 reportes
+    // Calcular promedio de los últimos 5 reportes
     const recent = prices.slice(0, 5);
     const avgPrice = recent.length > 0 
       ? recent.reduce((sum, p) => sum + p.pricePerKwh, 0) / recent.length 
       : null;
     
-    // Precio mÃ¡s reciente
+    // Precio más reciente
     const latestPrice = prices.length > 0 ? prices[0] : null;
     
     res.json({
@@ -5633,12 +5633,12 @@ app.get('/api/charging-prices/:siteId', (req, res) => {
       prices,
     });
   } catch (error) {
-    console.error('[CHARGING-PRICES] âŒ Error:', error);
+    console.error('[CHARGING-PRICES] ❌ Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Obtener precios de mÃºltiples estaciones (para mostrar en mapa)
+// Obtener precios de múltiples estaciones (para mostrar en mapa)
 app.get('/api/charging-prices', (req, res) => {
   try {
     // Agrupar por siteId, devolver el precio promedio reciente de cada una
@@ -5668,7 +5668,7 @@ app.get('/api/charging-prices', (req, res) => {
     
     res.json({ success: true, stations: summary });
   } catch (error) {
-    console.error('[CHARGING-PRICES] âŒ Error:', error);
+    console.error('[CHARGING-PRICES] ❌ Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -5692,7 +5692,7 @@ app.post('/api/charging-price-vote', (req, res) => {
     
     res.json({ success: true, votes: price.votes, confirmed: price.confirmed });
   } catch (error) {
-    console.error('[CHARGING-PRICE-VOTE] âŒ Error:', error);
+    console.error('[CHARGING-PRICE-VOTE] ❌ Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
