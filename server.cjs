@@ -3426,6 +3426,27 @@ function nearestMunicipio(lat, lon, maxKm = 20) {
   return bd <= maxKm ? best : null;
 }
 
+// Premium: factor de consumo plano segun la velocidad de crucero elegida.
+// Compara la velocidad del usuario con la normal de cada tramo (Google).
+function cruiseSpeedFactor(steps, cruiseKmh, aeroShare = 0.5) {
+  if (!cruiseKmh || !Array.isArray(steps) || !steps.length) return 1;
+  const e = (v) => (1 - aeroShare) + aeroShare * Math.pow(v / 90, 2);
+  // Que tan rapido va el usuario respecto a lo normal: 90 = normal
+  const k = Math.min(1.25, Math.max(0.9, cruiseKmh / 90));
+  let base = 0, mine = 0;
+  for (const s of steps) {
+    const dKm = (s.distance || s.length_m || 0) / 1000;
+    const dur = s.duration || 0;
+    if (dKm <= 0 || dur <= 0) continue;
+    const vNorm = Math.min(130, Math.max(5, dKm / (dur / 3600)));
+    const vUser = Math.min(cruiseKmh, vNorm * k);
+    base += dKm * e(vNorm);
+    mine += dKm * e(vUser);
+  }
+  if (base <= 0) return 1;
+  return Math.min(1.6, Math.max(0.75, mine / base));
+}
+
 function fixTunnelProfile(elevations, coords) {
   const n = Math.min(elevations.length, coords.length);
   const e = elevations.slice();
@@ -3491,6 +3512,11 @@ app.get('/route', async (req, res) => {
     const waypointsStrict = req.query.waypoints_strict === 'true' || req.query.waypoints_strict === '1';
     const vehicleId = String(req.query.vehicle_id || 'generic');
     const passengers = parseInt(req.query.passengers) || 1; // 🆕 Número de pasajeros (1-5)
+    // Premium: velocidad de crucero elegida (km/h)
+    const cruiseRaw = parseInt(req.query.cruise);
+    const isPrem = req.query.premium === '1';
+    const cruiseKmh = (isPrem && cruiseRaw >= 60 && cruiseRaw <= 130) ? cruiseRaw : null;
+    const cachePax = cruiseKmh ? `${passengers}_v${cruiseKmh}` : passengers;
     const lang = String(req.query.lang || 'es-ES');
     const debug = req.query.debug != null;
     const provider = String(req.query.provider || 'auto'); // 'google', 'here', 'auto'
@@ -3513,7 +3539,7 @@ app.get('/route', async (req, res) => {
     }
 
     // Verificar caché
-    const cached = getCachedRoute(origin, destination, waypoints, vehicleId + (req.query.recalc === '1' ? '__recalc' : ''), passengers, waypointsStrict);
+    const cached = getCachedRoute(origin, destination, waypoints, vehicleId + (req.query.recalc === '1' ? '__recalc' : ''), cachePax, waypointsStrict);
     if (cached) {
       console.log('[ROUTE] ⚡ Usando ruta cacheada');
       return res.json(cached);
@@ -3521,7 +3547,7 @@ app.get('/route', async (req, res) => {
 
     // ⚡ LITE: cache propio (clave separada para nunca mezclar con respuestas completas)
     if (lite) {
-      const cachedLite = getCachedRoute(origin, destination, waypoints, vehicleId + '__lite', passengers, waypointsStrict);
+      const cachedLite = getCachedRoute(origin, destination, waypoints, vehicleId + '__lite', cachePax, waypointsStrict);
       if (cachedLite) {
         console.log('[ROUTE] ⚡ Usando ruta LITE cacheada');
         return res.json(cachedLite);
@@ -3726,7 +3752,7 @@ app.get('/route', async (req, res) => {
         provider: usedProvider,
         waypoints_applied: !!waypoints,
       };
-      setCachedRoute(origin, destination, waypoints, vehicleId + '__lite', passengers, liteResponse, waypointsStrict);
+      setCachedRoute(origin, destination, waypoints, vehicleId + '__lite', cachePax, liteResponse, waypointsStrict);
       console.log(`[ROUTE] ⚡ LITE: ${liteDistanceKm.toFixed(1)} km (sin elevación/clima/consumo)`);
       return res.json(liteResponse);
     }
@@ -3852,7 +3878,9 @@ app.get('/route', async (req, res) => {
     const avgSpeedKmh = (distanceKm / (routeData.durationSeconds / 3600));
     
     let adjustedConsumption = baseConsumptionRate;
-    if (avgSpeedKmh < 30) adjustedConsumption *= 1.1;
+    if (cruiseKmh) {
+      adjustedConsumption *= cruiseSpeedFactor(routeData.steps, cruiseKmh);
+    } else if (avgSpeedKmh < 30) adjustedConsumption *= 1.1;
     else if (avgSpeedKmh > 80) adjustedConsumption *= 1.15;
 
     // 🌤️ AJUSTE POR CLIMA — consultar OpenWeatherMap
@@ -3946,7 +3974,9 @@ app.get('/route', async (req, res) => {
         // Referencia: peso base del vehículo. Cada 100kg extra = +3% consumo plano
         const weightFactor = 1.0 + ((vehicleWeightKg - vehicleBaseWeightKg) / 100) * 0.03;
         
-        const energyFlatWh = distanceKm * consumptionWhPerKm * rollingFactor * weightFactor;
+        const speedF = cruiseKmh ? cruiseSpeedFactor(routeData.steps, cruiseKmh) : 1;
+        if (cruiseKmh) console.log(`[CONSUMPTION]   Velocidad crucero ${cruiseKmh} km/h -> factor plano x${speedF.toFixed(2)}`);
+        const energyFlatWh = distanceKm * consumptionWhPerKm * rollingFactor * weightFactor * speedF;
         
         // 3. ENERGÍA PARA SUBIR (eficiencia motor 82% - calibrado con Gir→Bog real: 57% en 116km)
         let energyToClimbWh = (vehicleWeightKg * gravity * gainM) / 3600 / 0.82;
@@ -4019,7 +4049,7 @@ app.get('/route', async (req, res) => {
     };
 
     // Guardar en caché
-    setCachedRoute(origin, destination, waypoints, vehicleId + (req.query.recalc === '1' ? '__recalc' : ''), passengers, response, waypointsStrict);
+    setCachedRoute(origin, destination, waypoints, vehicleId + (req.query.recalc === '1' ? '__recalc' : ''), cachePax, response, waypointsStrict);
 
     return res.json(response);
 
