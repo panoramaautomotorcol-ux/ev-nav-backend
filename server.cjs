@@ -304,7 +304,7 @@ const VEHICLE_PROFILES = {
   'byd_seagull_400_38': { batteryKwh: 38.0, consumptionRate: 0.25 },
   'byd_seagull_300_30': { batteryKwh: 30.0, consumptionRate: 0.33 },
   'byd_dolphin_44': { batteryKwh: 44.9, consumptionRate: 0.25 },
-  'byd_yuan_up_45': { batteryKwh: 45.0, consumptionRate: 0.26 },
+  'byd_yuan_up_45': { batteryKwh: 45.0, consumptionRate: 0.30 }, // WLTP 329 km
   'byd_yuan_plus_60': { batteryKwh: 60.48, consumptionRate: 0.21 },
   'byd_song_plus_71': { batteryKwh: 71.8, consumptionRate: 0.25 },
   'byd_sealion_7_82': { batteryKwh: 82.5, consumptionRate: 0.22 },
