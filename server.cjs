@@ -4978,6 +4978,13 @@ app.post('/api/calibration-report', (req, res) => {
     const calibrationData = {
       ...report,
       calculated_consumption_rate: realConsumptionRate,
+      // Normalizado a 90 km/h (misma curva que cruiseSpeedFactor)
+      consumption_rate_at_90: (() => {
+        const s = Number(report.metadata && report.metadata.avg_moving_kmh);
+        if (!s || s < 20 || s > 140 || !realConsumptionRate) return null;
+        const f = 0.5 + 0.5 * Math.pow(s / 90, 2);
+        return realConsumptionRate / f;
+      })(),
       received_at: new Date().toISOString(),
       id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     };
@@ -4998,6 +5005,7 @@ app.post('/api/calibration-report', (req, res) => {
     console.log(`🎯 Consumo real: ${realConsumptionRate.toFixed(4)}%/km`);
     console.log(`📈 Predicción app: ${report.prediction?.estimated_arrival || 'N/A'}%`);
     console.log(`⚖️  Error: ${report.prediction?.error_percent?.toFixed(1) || 'N/A'}%`);
+    console.log(`🏎️  Vel. mov: ${report.metadata?.avg_moving_kmh?.toFixed(0) || 'N/A'} km/h · >100: ${report.metadata?.pct_over_100?.toFixed(0) ?? 'N/A'}% · a 90: ${calibrationData.consumption_rate_at_90?.toFixed(4) || 'N/A'}%/km`);
     console.log(`📊 Total reportes: ${calibrationReports.length}`);
     console.log('========================================\n');
     
