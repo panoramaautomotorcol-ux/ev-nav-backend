@@ -236,7 +236,7 @@ const VEHICLE_PROFILES = {
   'peugeot_e2008_54': { batteryKwh: 54.0, consumptionRate: 0.25 },
   'deepal_s05_e_max_56': { batteryKwh: 56.0, consumptionRate: 0.22 },
   'deepal_s07_79': { batteryKwh: 79.4, consumptionRate: 0.18 },
-  'gwm_ora_03_gt_63': { batteryKwh: 63.2, consumptionRate: 0.24 },
+  'gwm_ora_03_gt_63': { batteryKwh: 63.2, consumptionRate: 0.24, uphillRF: 0.88 },
   'gwm_ora_03_47': { batteryKwh: 47.8, consumptionRate: 0.32 },
   'mini_contryman_se_64': { batteryKwh: 64.6, consumptionRate: 0.23 },
   'mini_cooper_classic_36': { batteryKwh: 36.6, consumptionRate: 0.33 },
@@ -3948,7 +3948,7 @@ app.get('/route', async (req, res) => {
         if (isExtremeDownhill) {
           rollingFactor = 0.75;
         } else if (isExtremeUphill) {
-          rollingFactor = 0.70;
+          rollingFactor = profile.uphillRF || 0.70; // CAL Ora: 4 subidas Melgar-Bog +10%
         } else if (isDownhillTrip) {
           // 🔧 CAL: el descuento por bajada depende de qué tan pronunciada sea.
           // Melgar (26 m/km de bajada) → 0.85 funciona. Montería (3 m/km en 449km)
