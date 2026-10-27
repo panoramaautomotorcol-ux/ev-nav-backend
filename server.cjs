@@ -3565,7 +3565,8 @@ app.get('/route', async (req, res) => {
     let usedProvider = null;
 
     // Estrategia: Google primero, HERE como fallback
-    const rawKey = [origin, destination, waypoints || '', waypointsStrict ? 1 : 0, vehicleId,
+    const rk3 = (s) => String(s).split(',').map(v => Number(v).toFixed(3)).join(',');
+    const rawKey = [rk3(origin), rk3(destination), waypoints || '', waypointsStrict ? 1 : 0, vehicleId,
       req.query.recalc === '1' ? 'r' : '', isPrem ? 'p' : '', lite ? 'l' : ''].join('|');
     const rawHit = RAW_ROUTE_CACHE.get(rawKey);
     if (rawHit && Date.now() - rawHit.ts < RAW_ROUTE_TTL) {
