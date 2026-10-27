@@ -1102,6 +1102,9 @@ function findClosestPointIndex(points, targetLat, targetLng) {
  * Sistema de caché de rutas
  */
 const routeCache = new Map();
+// Ruta base (sin pasajeros/velocidad/A-C): evita repetir Google al cambiar esos datos
+const RAW_ROUTE_CACHE = new Map();
+const RAW_ROUTE_TTL = 10 * 60 * 1000; // 10 min (trafico fresco)
 const ROUTE_CACHE_TTL = 60 * 60 * 1000; // 60 minutos
 // Cache para alternativas de ruta (mismo TTL que routeCache)
 const altRoutesCache = new Map();
@@ -3562,7 +3565,15 @@ app.get('/route', async (req, res) => {
     let usedProvider = null;
 
     // Estrategia: Google primero, HERE como fallback
-    if (provider === 'auto' || provider === 'google') {
+    const rawKey = [origin, destination, waypoints || '', waypointsStrict ? 1 : 0, vehicleId,
+      req.query.recalc === '1' ? 'r' : '', isPrem ? 'p' : '', lite ? 'l' : ''].join('|');
+    const rawHit = RAW_ROUTE_CACHE.get(rawKey);
+    if (rawHit && Date.now() - rawHit.ts < RAW_ROUTE_TTL) {
+      routeData = structuredClone(rawHit.routeData);
+      usedProvider = rawHit.provider;
+      console.log('[ROUTE] Ruta base reutilizada sin Google (cambio de pasajeros/velocidad/A-C)');
+    }
+    if (!routeData && (provider === 'auto' || provider === 'google')) {
       if (GOOGLE_MAPS_API_KEY) {
         try {
           routeData = await calculateRouteGoogle(origin, destination, waypoints, vehicleId, waypointsStrict, lite || !(typeof req !== 'undefined' && req.query && req.query.premium === '1'));
@@ -3762,6 +3773,10 @@ app.get('/route', async (req, res) => {
     }
 
     // Obtener perfil de elevación (Google Elevation API)
+    if (routeData && !(rawHit && Date.now() - rawHit.ts < RAW_ROUTE_TTL)) {
+      RAW_ROUTE_CACHE.set(rawKey, { routeData: structuredClone(routeData), provider: usedProvider, ts: Date.now() });
+      if (RAW_ROUTE_CACHE.size > 300) RAW_ROUTE_CACHE.delete(RAW_ROUTE_CACHE.keys().next().value);
+    }
     let elevationData = null;
     
     // En recálculos el app descarta el consumo: no pedir elevación
