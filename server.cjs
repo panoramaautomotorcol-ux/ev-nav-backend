@@ -1108,6 +1108,8 @@ const RAW_ROUTE_TTL = 10 * 60 * 1000; // 10 min (trafico fresco)
 const ROUTE_CACHE_TTL = 60 * 60 * 1000; // 60 minutos
 // Cache para alternativas de ruta (mismo TTL que routeCache)
 const altRoutesCache = new Map();
+// Redondea coordenadas de la llave a 3 decimales (~100 m) por jitter del GPS
+const altKey3 = (k) => String(k).replace(/-?\d+\.\d{4,}/g, (m) => Number(m).toFixed(3));
 const ALT_ROUTES_CACHE_TTL = 15 * 60 * 1000; // 15 minutos
 
 function roundCoords(coordStr) {
@@ -4113,7 +4115,7 @@ app.get('/route-alternatives', async (req, res) => {
     // 🆕 Verificar cache primero
     const waypoints = String(req.query.waypoints || '');
     const cacheKey = `${origin}_${destination}_${waypoints}_${vehicleId}_${passengers}`;
-    const cached = altRoutesCache.get(cacheKey);
+    const cached = altRoutesCache.get(altKey3(cacheKey));
     if (cached && (Date.now() - cached.timestamp) < ALT_ROUTES_CACHE_TTL) {
       console.log('[ALT-ROUTES] ⚡ Cache HIT:', cacheKey);
       return res.json(cached.data);
@@ -4353,7 +4355,7 @@ app.get('/route-alternatives', async (req, res) => {
       alternatives
     };
     // 🆕 Guardar en cache
-    altRoutesCache.set(cacheKey, { data: result, timestamp: Date.now() });
+    altRoutesCache.set(altKey3(cacheKey), { data: result, timestamp: Date.now() });
     console.log(`[ALT-ROUTES] 💾 Guardado en cache (size: ${altRoutesCache.size})`);
     return res.json(result);
 
