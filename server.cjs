@@ -181,7 +181,7 @@ async function getWeatherAt(lat, lon) {
  * - Viento fuerte: +3-8%
  * - Humidity + calor: A/C trabaja más duro
  */
-function calculateWeatherFactor(weather) {
+function calculateWeatherFactor(weather, skipTemp = false) {
   if (!weather) return { factor: 1.0, details: 'Sin datos de clima' };
 
   let factor = 1.0;
@@ -189,7 +189,9 @@ function calculateWeatherFactor(weather) {
 
   // 🌡️ Temperatura (factor más importante)
   const temp = weather.temp_c;
-  if (temp < 5) {
+  if (skipTemp) {
+    // premium: el A/C se calcula aparte por tiempo de viaje
+  } else if (temp < 5) {
     factor *= 1.20; // Muy frío: calefacción + batería menos eficiente
     reasons.push(`Frío extremo ${temp}°C (+20%)`);
   } else if (temp < 15) {
@@ -3516,7 +3518,9 @@ app.get('/route', async (req, res) => {
     const cruiseRaw = parseInt(req.query.cruise);
     const isPrem = req.query.premium === '1';
     const cruiseKmh = (isPrem && cruiseRaw >= 60 && cruiseRaw <= 130) ? cruiseRaw : null;
-    const cachePax = cruiseKmh ? `${passengers}_v${cruiseKmh}` : passengers;
+    const acMode = (isPrem && (req.query.ac === 'on' || req.query.ac === 'off')) ? req.query.ac : null;
+    let cachePax = cruiseKmh ? `${passengers}_v${cruiseKmh}` : passengers;
+    if (acMode) cachePax = `${cachePax}_ac${acMode}`;
     const lang = String(req.query.lang || 'es-ES');
     const debug = req.query.debug != null;
     const provider = String(req.query.provider || 'auto'); // 'google', 'here', 'auto'
@@ -3885,6 +3889,7 @@ app.get('/route', async (req, res) => {
 
     // 🌤️ AJUSTE POR CLIMA — consultar OpenWeatherMap
     let weatherInfo = null;
+    let acTempC = null;
     try {
       const [oLat, oLon] = origin.split(',').map(Number);
       const [dLat, dLon] = destination.split(',').map(Number);
@@ -3892,7 +3897,8 @@ app.get('/route', async (req, res) => {
       const midLat = (oLat + dLat) / 2;
       const midLon = (oLon + dLon) / 2;
       const weather = await getWeatherAt(midLat, midLon);
-      const wf = calculateWeatherFactor(weather);
+      const wf = calculateWeatherFactor(weather, !!acMode);
+      acTempC = (weather && weather.temp_c != null) ? weather.temp_c : null;
       adjustedConsumption *= wf.factor;
       weatherInfo = {
         temperature: weather?.temp_c,
@@ -4013,6 +4019,20 @@ app.get('/route', async (req, res) => {
       console.log(`[CONSUMPTION] ⚠️ Sin altimetría, consumo plano: ${totalConsumptionPercent.toFixed(1)}%`);
     }
     
+    // PREMIUM A/C: energia por tiempo de viaje
+    let acInfo = null;
+    if (acMode === 'on') {
+      const tC = acTempC != null ? acTempC : 25;
+      const acKw = tC >= 28 ? 1.4 : (tC >= 22 ? 0.9 : 0.5);
+      const acH = (routeData.durationSeconds || 0) / 3600;
+      const acPct = (acKw * acH) / batteryKwh * 100;
+      totalConsumptionPercent += acPct;
+      acInfo = { mode: 'on', kw: acKw, hours: acH, percent: acPct, temp_c: acTempC };
+      console.log(`[CONSUMPTION] A/C ${acKw} kW x ${acH.toFixed(2)} h = +${acPct.toFixed(1)}%`);
+    } else if (acMode === 'off') {
+      acInfo = { mode: 'off' };
+    }
+
     // 🔧 FIX: Agregar estimatedConsumption dentro de elevationData para que el frontend lo lea
     if (elevationData) {
       elevationData.estimatedConsumption = totalConsumptionPercent;
@@ -4038,6 +4058,7 @@ app.get('/route', async (req, res) => {
       steps: routeData.steps,
       elevation: elevationData,
       consumption_percent: totalConsumptionPercent,
+      ac: acInfo,
       weather: weatherInfo, // 🌤️ Info de clima aplicada
       provider: usedProvider,
       waypoints_applied: !!waypoints,  // 🆕 Flag para que el frontend sepa
