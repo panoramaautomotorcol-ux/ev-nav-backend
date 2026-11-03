@@ -3446,7 +3446,9 @@ function cruiseSpeedFactor(steps, cruiseKmh, aeroShare = 0.5) {
     const dur = s.duration || 0;
     if (dKm <= 0 || dur <= 0) continue;
     const vNorm = Math.min(130, Math.max(5, dKm / (dur / 3600)));
-    const vUser = Math.min(cruiseKmh, vNorm * k);
+    // Solo en tramos rapidos: <50 km/h manda la via (curvas/ciudad), >80 aplica completo
+    const w = Math.min(1, Math.max(0, (vNorm - 50) / 30));
+    const vUser = vNorm + w * (Math.min(cruiseKmh, vNorm * k) - vNorm);
     base += dKm * e(vNorm);
     mine += dKm * e(vUser);
   }
@@ -4041,7 +4043,7 @@ app.get('/route', async (req, res) => {
     let acInfo = null;
     if (acMode === 'on') {
       const tC = acTempC != null ? acTempC : 25;
-      const acKw = tC >= 28 ? 1.4 : (tC >= 22 ? 0.9 : 0.5);
+      const acKw = tC >= 28 ? 1.0 : (tC >= 22 ? 0.7 : 0.4); // CAL: Ricaurte-Bog -8 pts con 1.4
       const acH = (routeData.durationSeconds || 0) / 3600;
       const acPct = (acKw * acH) / batteryKwh * 100;
       totalConsumptionPercent += acPct;
