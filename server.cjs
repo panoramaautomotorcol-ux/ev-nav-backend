@@ -251,7 +251,7 @@ const VEHICLE_PROFILES = {
   'chevrolet_spark_ev_41': { batteryKwh: 41.9, consumptionRate: 0.34 },
   'chevrolet_blazer_ev_85': { batteryKwh: 85.0, consumptionRate: 0.17 },
   'chevrolet_bolt_euv_65': { batteryKwh: 65.0, consumptionRate: 0.24 },
-  'jac_e30x_41': { batteryKwh: 41.0, consumptionRate: 0.25 },
+  'jac_e30x_41': { batteryKwh: 41.0, consumptionRate: 0.34 } /* WLTP 293 km */,
   'jac_e10x_31': { batteryKwh: 31.4, consumptionRate: 0.33 },
   'jac_e40x_55': { batteryKwh: 55.0, consumptionRate: 0.25 },
   'mg_marvel_4x4_72': { batteryKwh: 72.2, consumptionRate: 0.27 },
