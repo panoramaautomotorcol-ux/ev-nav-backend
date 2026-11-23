@@ -1112,6 +1112,21 @@ const altRoutesCache = new Map();
 const altKey3 = (k) => String(k).replace(/-?\d+\.\d{4,}/g, (m) => Number(m).toFixed(3));
 const ALT_ROUTES_CACHE_TTL = 15 * 60 * 1000; // 15 minutos
 
+// --- Control de memoria: limpieza y tope de caches en RAM ---
+function _capMap(m, max) { while (m.size > max) m.delete(m.keys().next().value); }
+setInterval(() => {
+  const now = Date.now();
+  for (const [k, v] of RAW_ROUTE_CACHE) if (now - v.ts > 10 * 60 * 1000) RAW_ROUTE_CACHE.delete(k);
+  for (const [k, v] of altRoutesCache) if (now - v.timestamp > ALT_ROUTES_CACHE_TTL) altRoutesCache.delete(k);
+  for (const [k, v] of weatherCache) if (now - v.timestamp > WEATHER_CACHE_TTL) weatherCache.delete(k);
+  _capMap(RAW_ROUTE_CACHE, 60);
+  _capMap(routeCache, 150);
+  _capMap(altRoutesCache, 100);
+  _capMap(weatherCache, 500);
+  const mu = process.memoryUsage();
+  console.log('[MEM] rss=' + Math.round(mu.rss / 1048576) + 'MB heap=' + Math.round(mu.heapUsed / 1048576) + 'MB route=' + routeCache.size + ' raw=' + RAW_ROUTE_CACHE.size + ' alt=' + altRoutesCache.size + ' wx=' + weatherCache.size);
+}, 60 * 1000);
+
 function roundCoords(coordStr) {
   if (!coordStr || typeof coordStr !== 'string') return coordStr;
   // Si tiene waypoints separados por |, redondear cada uno
@@ -3780,7 +3795,7 @@ app.get('/route', async (req, res) => {
     // Obtener perfil de elevación (Google Elevation API)
     if (routeData && !(rawHit && Date.now() - rawHit.ts < RAW_ROUTE_TTL)) {
       RAW_ROUTE_CACHE.set(rawKey, { routeData: structuredClone(routeData), provider: usedProvider, ts: Date.now() });
-      if (RAW_ROUTE_CACHE.size > 300) RAW_ROUTE_CACHE.delete(RAW_ROUTE_CACHE.keys().next().value);
+      while (RAW_ROUTE_CACHE.size > 60) RAW_ROUTE_CACHE.delete(RAW_ROUTE_CACHE.keys().next().value);
     }
     let elevationData = null;
     
