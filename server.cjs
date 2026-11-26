@@ -372,6 +372,7 @@ const VEHICLE_PROFILES = {
   'xpeng_g9': { batteryKwh: 94.6, consumptionRate: 0.18 },
   'gwm_ora5': { batteryKwh: 58.33, consumptionRate: 0.17 },
   'dayun_yuehu_es3_33': { batteryKwh: 33.0, consumptionRate: 0.42 },
+  'deepal_s05_ultra_69': { batteryKwh: 68.8, consumptionRate: 0.19 }, // WLTP 520 km
   'generic': { batteryKwh: 60, consumptionRate: 0.28 },
 };
 
