@@ -4008,9 +4008,9 @@ app.get('/route', async (req, res) => {
         const isMountainMixed = totalVertical > 2000 && !isExtremeDownhill && !isExtremeUphill;
         
         let rollingFactor = 1.0;
-        if (isExtremeDownhill) {
+        if (isExtremeDownhill && (lossM - gainM) / Math.max(distanceKm, 1) >= 12) { // extrema solo si la pendiente es fuerte (no rutas largas con llano)
           rollingFactor = 0.75;
-        } else if (isExtremeUphill) {
+        } else if (isExtremeUphill && (gainM - lossM) / Math.max(distanceKm, 1) >= 12) {
           rollingFactor = profile.uphillRF || 0.70; // CAL Ora: 4 subidas Melgar-Bog +10%
         } else if (isDownhillTrip) {
           // 🔧 CAL: el descuento por bajada depende de qué tan pronunciada sea.
