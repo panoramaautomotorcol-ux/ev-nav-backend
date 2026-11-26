@@ -2332,6 +2332,8 @@ app.get('/places-google', async (req, res) => {
       ? `${lat.toFixed(2)},${lon.toFixed(2)}` 
       : 'no-loc';
     const cacheKey = `google_${sKey(q)}_${sLoc(at)}`;
+    const _gc = searchCache.get(cacheKey);
+    if (_gc && _gc.data && Array.isArray(_gc.data.items)) fixMuniItems(_gc.data.items);
     const cached = searchCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < SEARCH_CACHE_TTL) {
       console.log(`[SEARCH-GOOGLE] ⚡ Cache HIT: "${q}"`);
@@ -2386,6 +2388,7 @@ app.get('/places-google', async (req, res) => {
       provider: 'google',
     }));
     
+    fixMuniItems(items);
     const result = { items, provider: 'google' };
     // 🆕 Guardar en cache
     searchCache.set(cacheKey, { data: result, timestamp: Date.now() });
@@ -3425,6 +3428,25 @@ function capWaypoints(wpStr, max = 10) {
 }
 
 // Municipios DANE en la busqueda: evitan llamadas a Google Geocoding
+// Corrige municipios que Google ubica en el centro del territorio: usa la cabecera DANE
+function _normTxt(t) { return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim(); }
+function fixMuniItems(items) {
+  if (!municipiosData.length || !Array.isArray(items)) return items;
+  for (const it of items) {
+    const n = _normTxt(it.name);
+    if (!n) continue;
+    const addr = _normTxt(it.address);
+    const m = municipiosData.find(x => _normTxt(x.n) === n && (!addr || addr.includes(_normTxt(x.d))));
+    if (!m) continue;
+    const dKm = Math.hypot((it.lat - m.lat) * 111, (it.lon - m.lon) * 111 * Math.cos(m.lat * Math.PI / 180));
+    if (dKm > 5) {
+      console.log('[SEARCH-GOOGLE] Municipio corregido a cabecera DANE: ' + m.n + ' (' + dKm.toFixed(0) + ' km)');
+      it.lat = m.lat; it.lon = m.lon;
+    }
+  }
+  return items;
+}
+
 function matchMunicipios(q, max = 3) {
   if (!municipiosData.length) return [];
   const k = sKey(q).replace(/,.*$/, '').trim();
@@ -4023,7 +4045,7 @@ app.get('/route', async (req, res) => {
         let energyToClimbWh = (vehicleWeightKg * gravity * gainM) / 3600 / 0.82;
         
         // 4. ENERGÍA RECUPERADA AL BAJAR (regeneración 92% - calibrado con Bog→Gir real: 5% en 119km)
-        const regenEfficiency = 0.92;
+        const regenEfficiency = 0.80; // antes 0.92: optimista en bajadas largas
         const energyRegenWh = (vehicleWeightKg * gravity * lossM) / 3600 * regenEfficiency;
         
         // 5. ENERGÍA TOTAL (sin efecto montaña rusa - calibración real lo cubre)
@@ -4041,7 +4063,7 @@ app.get('/route', async (req, res) => {
         console.log(`[CONSUMPTION]   Ascenso: +${gainM}m | Descenso: -${lossM}m | Neto: ${netChange}m`);
         console.log(`[CONSUMPTION]   Energía plano: ${(energyFlatWh/1000).toFixed(1)} kWh`);
         console.log(`[CONSUMPTION]   Energía subida: +${(energyToClimbWh/1000).toFixed(1)} kWh ${isDownhillTrip ? '(reducida 30% montaña rusa)' : ''}`);
-        console.log(`[CONSUMPTION]   Regeneración: -${(energyRegenWh/1000).toFixed(1)} kWh (92% eficiencia)`);
+        console.log(`[CONSUMPTION]   Regeneración: -${(energyRegenWh/1000).toFixed(1)} kWh (80% eficiencia)`);
         console.log(`[CONSUMPTION]   Energía total: ${(totalEnergyWh/1000).toFixed(1)} kWh`);
         console.log(`[CONSUMPTION]   Consumo: ${totalConsumptionPercent.toFixed(1)}% (batería ${batteryKwh} kWh)`);
         console.log(`[CONSUMPTION]   vs plano: ${(distanceKm * adjustedConsumption).toFixed(1)}%`);
