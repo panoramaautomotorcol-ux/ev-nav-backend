@@ -367,8 +367,8 @@ const VEHICLE_PROFILES = {
   'byd_tang_82': { batteryKwh: 82.0, consumptionRate: 0.24 },
   'dongfeng_friday_49': { batteryKwh: 49.27, consumptionRate: 0.31 },
   'mercedes_eqe_350': { batteryKwh: 96.1, consumptionRate: 0.17 },
-  'xpeng_g6_air': { batteryKwh: 68.02, consumptionRate: 0.15 },
-  'xpeng_g6_pro': { batteryKwh: 80.23, consumptionRate: 0.15 },
+  'xpeng_g6_air': { batteryKwh: 68.02, consumptionRate: 0.22 }, // WLTP 455 km
+  'xpeng_g6_pro': { batteryKwh: 80.23, consumptionRate: 0.19 }, // WLTP 520 km
   'xpeng_g9': { batteryKwh: 94.6, consumptionRate: 0.18 },
   'gwm_ora5': { batteryKwh: 58.33, consumptionRate: 0.17 },
   'dayun_yuehu_es3_33': { batteryKwh: 33.0, consumptionRate: 0.42 },
