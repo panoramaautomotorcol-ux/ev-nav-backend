@@ -3590,7 +3590,7 @@
     "provider": "ocm"
   },
   {
-    "id": "manual:056",
+    "id": "manual:201",
     "name": "EVINKA shell Aguacatala",
     "address": "10 sur 147 medellin",
     "lat": 6.196889904831437,
@@ -5568,7 +5568,7 @@
     "provider": "WATTGO EV"
   },
   {
-    "id": "manual:112",
+    "id": "manual:202",
     "name": "ESSA EDS SAN RAFAEL ",
     "address": "Carrera 21 con Calle 45, Bucaramanga",
     "lat": 	7.1166813510420015,
@@ -5595,7 +5595,7 @@
     "provider": "WATTGO EV"
   },
   {
-    "id": "manual:112",
+    "id": "manual:203",
     "name": "ESSA CENTRO COMERCIAL CACIQUE ",
     "address": "CENTRO COMERCIAL CACIQUE, Bucaramanga",
     "lat": 	7.099036142861678,
@@ -5700,7 +5700,7 @@
     "provider": "WATTGO EV"
   },
   {
-    "id": "manual:114",
+    "id": "manual:204",
     "name": "ESSA CENTRO COMERCIAL SAN SILVESTRE",
     "address": "CENTRO COMERCIAL SAN SILVESTRE, BARRANCABERMEJA",
     "lat": 	7.066992528640412,
@@ -6286,8 +6286,8 @@
   },
   {
     "id": "manual:133",
-    "name": "gran centro el parque",
-    "address": "carrera 19 entre calle 20 y 19, sincelejo",
+    "name": "Punto de carga Turbaco",
+    "address": "Carrera 23 #13-40, Turbaco, Bolívar",
     "lat": 	10.328566442874772,
     "lon": -75.41696127755014,
     "network": null,
@@ -6488,6 +6488,1744 @@
         "current": "AC",
         "quantity": 1,
         "price_kwh_cop": 1950
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:140",
+    "name": "KIVAYA Centro Comercial El CID Madrid",
+    "address": "CRA 12 # 23-100 , Madrid Cundinamarca",
+    "lat": 4.742316862522851,
+    "lon": -74.26590065916875,
+    "network": "KIVAYA BY INEET",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-26T01:06:24Z",
+    "min_price_kwh_cop": 1960,
+    "max_price_kwh_cop": 1960,
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1960
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:141",
+    "name": "Toma cargador viajero Restaurante El Rancho de Brito",
+    "address": "Autopista Conexión Norte, Zaragoza, Bajo Cauca",
+    "lat": 7.433436546227843,
+    "lon": -74.86077590211627,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-13T13:12:38Z",
+    "min_price_kwh_cop": 1500,
+    "max_price_kwh_cop": 1500,
+    "power_kw": 3.5,
+    "connectors": [
+      {
+        "type": "TOMA 220V",
+        "level": 1,
+        "power_kw": 3.5,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1500
+      }
+    ],
+    "provider": "WATTGO EV",
+    "outlet_only": true
+  },
+  {
+    "id": "manual:142",
+    "name": "iConnex Amsterdam Plaza",
+    "address": "Tv. Superior #5-2 a 5-32, El Poblado, Medellín, Antioquia",
+    "lat": 6.201587,
+    "lon": -75.556318,
+    "network": "iConnex",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-13T00:13:30Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 60.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:143",
+    "name": "iConnex Centro Comercial El Diamante",
+    "address": "sector estadio, medellín",
+    "lat": 6.260632944527312,
+    "lon": -75.58967489537203,
+    "network": "iConnex",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-13T00:11:39Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 60.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:144",
+    "name": "Terpel Voltex EDS La 65",
+    "address": "Carrera 73, La Pilarica, Comuna 7 - Robledo",
+    "lat": 6.27664220322534,
+    "lon": -75.57297618626971,
+    "network": "Terpel",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-09T06:09:15Z",
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:145",
+    "name": "Biomax EDS Villa del Río",
+    "address": "Calle 13, Villa Zulima, Cabecera Municipal Duitama",
+    "lat": 5.807282,
+    "lon": -73.0255156,
+    "network": "Biomax",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-05T20:50:02Z",
+    "min_price_kwh_cop": 2200,
+    "max_price_kwh_cop": 2200,
+    "power_kw": 100.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 100.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2200
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 100.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2200
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:146",
+    "name": "Biomax EDS La Providencia Tinjacá",
+    "address": "Vía Tinjacá-Sutamarchán, Tinjacá, Ricaurte",
+    "lat": 5.5956779,
+    "lon": -73.6384089,
+    "network": "Biomax",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-01T20:48:05Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:147",
+    "name": "EVINKA EDS La Isabel",
+    "address": "Avenida Carrera 86, Álamos Sur, UPZs de Bogotá",
+    "lat": 4.6856541,
+    "lon": -74.1132669,
+    "network": "Evinka",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-29T03:03:18Z",
+    "min_price_kwh_cop": 1900,
+    "max_price_kwh_cop": 1900,
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1900
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:148",
+    "name": "ERGENIA Arkadia Centro Comercial",
+    "address": "Arkadia",
+    "lat": 6.212078964894282,
+    "lon": -75.59469885145053,
+    "network": "Ergenia",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-28T23:11:55Z",
+    "min_price_kwh_cop": 2400,
+    "max_price_kwh_cop": 2400,
+    "power_kw": 58.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 58.0,
+        "current": "DC",
+        "quantity": 4,
+        "price_kwh_cop": 2400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:149",
+    "name": "Restaurante Janipa",
+    "address": "Calle 5 # 10-75, Puerto López, Meta",
+    "lat": 4.0845143810397255,
+    "lon": -72.95738299291287,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-22T21:25:54Z",
+    "min_price_kwh_cop": 2300,
+    "max_price_kwh_cop": 2300,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2300
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2300
+      },
+      {
+        "type": "GBT",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2300
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:150",
+    "name": "Mubon Vatia Bocagrande",
+    "address": "Carrera 4, Bocagrande, Tierra Bomba",
+    "lat": 10.3991201,
+    "lon": -75.5563888,
+    "network": "Mubon",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-17T17:41:08Z",
+    "min_price_kwh_cop": 2500,
+    "max_price_kwh_cop": 2500,
+    "power_kw": 60.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2500
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 60.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 2500
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:151",
+    "name": "Terpel Voltex Palmas de Tumaco",
+    "address": "Avenida 68 #17-11",
+    "lat": 4.640574966042783,
+    "lon": -74.11566927318111,
+    "network": "Terpel",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-17T11:46:38Z",
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
+    "power_kw": 40.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 40.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:152",
+    "name": "ERGENIA Centro Comercial Hayuelos",
+    "address": "av ciudad de cali #18",
+    "lat": 4.663772773817409,
+    "lon": -74.13108816639357,
+    "network": "Ergenia",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-16T14:17:40Z",
+    "min_price_kwh_cop": 2407,
+    "max_price_kwh_cop": 2407,
+    "power_kw": 30.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 30.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2407
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:153",
+    "name": "EPM Centro Comercial Nuestro Urabá",
+    "address": "Centro Comercial Nuestro Urabá",
+    "lat": 7.873897358990717,
+    "lon": -76.63353878080028,
+    "network": "EPM",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-15T23:02:18Z",
+    "min_price_kwh_cop": 1250,
+    "max_price_kwh_cop": 1250,
+    "power_kw": 22.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 22.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1250
+      },
+      {
+        "type": "TIPO 1",
+        "level": 2,
+        "power_kw": 22.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1250
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:154",
+    "name": "EDC Puerto 125",
+    "address": "Chacalacas, Cra125, Calle 16A",
+    "lat": 3.338349466215859,
+    "lon": -76.53490221134996,
+    "network": "Electrolineras de Colombia",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-15T14:02:09Z",
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:155",
+    "name": "Texcharge Los Samanes Mall",
+    "address": "XQV8+4F San Pedro, Valle del Cauca",
+    "lat": 3.9924142633962716,
+    "lon": -76.23344190431614,
+    "network": "Texcharge",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-13T00:53:34Z",
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+    "power_kw": 80.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 80.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2000
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:156",
+    "name": "Mubon Estación Mata de Caña",
+    "address": "La quinta Df Restaurante",
+    "lat": 9.086743114206586,
+    "lon": -75.8204996901701,
+    "network": "Mubon",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-09T02:11:58Z",
+    "min_price_kwh_cop": 1788,
+    "max_price_kwh_cop": 1788,
+    "power_kw": 22.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 22.0,
+        "current": "AC",
+        "quantity": 4,
+        "price_kwh_cop": 1788
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:157",
+    "name": "Bosque lluvioso gastronomía",
+    "address": "29, La Violeta, Alto del Naranjo",
+    "lat": 4.991584057885301,
+    "lon": -75.57773324201153,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-04T20:49:59Z",
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:158",
+    "name": "EV en Heladería Mr Mochi",
+    "address": "Cra 69p# 63a-33",
+    "lat": 4.671530883923138,
+    "lon": -74.09976649794739,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-02T17:24:12Z",
+    "min_price_kwh_cop": 1600,
+    "max_price_kwh_cop": 1600,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1600
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:159",
+    "name": "EnelX L Autos",
+    "address": "AC58-artes electricos e inyeccion, Calle18b con transv q12, Calle 18D",
+    "lat": 4.3346456,
+    "lon": -74.3686035,
+    "network": "Enel X",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-26T22:20:46Z",
+    "min_price_kwh_cop": 2400,
+    "max_price_kwh_cop": 2400,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:160",
+    "name": "Velttio Mall Vegas Plaza",
+    "address": "Calle 78 Sur, Cañaveralejo, Sabaneta",
+    "lat": 6.152069639373281,
+    "lon": -75.62371062547368,
+    "network": "Velttio",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-22T18:24:49Z",
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:161",
+    "name": "Hotel Padua",
+    "address": "Chachagüí, Centro, Nariño",
+    "lat": 1.344134978462309,
+    "lon": -77.28388749091116,
+    "network": "hotel",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-21T03:28:48Z",
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2000
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:162",
+    "name": "Split Power Hotel Poblado Plaza",
+    "address": "Carrera 43 A, Av. El Poblado #4 Sur 75, Medellín",
+    "lat": 6.2530532,
+    "lon": -75.609529,
+    "network": "Split Power",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-20T21:55:35Z",
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+    "power_kw": 7.8,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 7.8,
+        "current": "AC",
+        "quantity": 2,
+        "price_kwh_cop": 2000
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:163",
+    "name": "Hotel chicala",
+    "address": "Calle 13, Urbanización La Esperanza, Puerto Salgar",
+    "lat": 5.463958042802804,
+    "lon": -74.65333971387372,
+    "network": "hotel chicala",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-20T14:53:36Z",
+    "min_price_kwh_cop": 1500,
+    "max_price_kwh_cop": 1500,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1500
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:164",
+    "name": "TANDEM Supermercado Betel Prados del Este",
+    "address": "Supermercado Betel Prados del Este",
+    "lat": 7.911921430863704,
+    "lon": -72.47631689157318,
+    "network": "Tándem",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-16T18:56:19Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:165",
+    "name": "TANDEM La Floresta Centro Comercial",
+    "address": "Juana Paula, Los Patios, Oriental",
+    "lat": 7.8600231353653065,
+    "lon": -72.50085662267425,
+    "network": "Tándem",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-16T18:53:51Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:166",
+    "name": "CONNECT EV LeChamp",
+    "address": "Avenida Tajamares, Ciudad del Mar, Villa Campestre",
+    "lat": 11.018324792743257,
+    "lon": -74.86454263329506,
+    "network": "CONNECT EV",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-14T03:05:39Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 80.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 80.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:167",
+    "name": "Toma cargador viajero Casta de Vikingos Tolú",
+    "address": "Calle 9, Mafufo, Tolú",
+    "lat": 9.519022990593125,
+    "lon": -75.58478012681007,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-14T02:04:33Z",
+    "min_price_kwh_cop": 2500,
+    "max_price_kwh_cop": 2500,
+    "power_kw": 1.8,
+    "connectors": [
+      {
+        "type": "TOMA 110V",
+        "level": 1,
+        "power_kw": 1.8,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2500
+      }
+    ],
+    "provider": "WATTGO EV",
+    "outlet_only": true
+  },
+  {
+    "id": "manual:168",
+    "name": "Estacion De Carga Solar Marbelha Safari Beach",
+    "address": "Segunda Ensenada, Coveñas, Morrosquillo",
+    "lat": 9.421952053810044,
+    "lon": -75.64181093126535,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-14T01:45:52Z",
+    "min_price_kwh_cop": 2380,
+    "max_price_kwh_cop": 2380,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2380
+      },
+      {
+        "type": "GBT",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2380
+      },
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2380
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:169",
+    "name": "EPM La Pintada",
+    "address": "Calle 30A, La Bocana, La Pintada",
+    "lat": 5.741571663620134,
+    "lon": -75.60675666703841,
+    "network": "EPM",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-14T01:18:27Z",
+    "min_price_kwh_cop": 1729,
+    "max_price_kwh_cop": 1729,
+    "power_kw": 40.0,
+    "connectors": [
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 40.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1729
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 22,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1729
+      },
+      {
+        "type": "CHADEMO",
+        "level": 3,
+        "power_kw": 40.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1729
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:170",
+    "name": "EPM EDS Texaco Vegas Envigado",
+    "address": "Avenida Carrera 49, Envigado",
+    "lat": 6.179104355559568,
+    "lon": -75.58767638014648,
+    "network": "EPM",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-08T10:45:57Z",
+    "min_price_kwh_cop": 1300,
+    "max_price_kwh_cop": 1300,
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 22,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1300
+      },
+      {
+        "type": "TIPO 1",
+        "level": 2,
+        "power_kw": 22,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1300
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:171",
+    "name": "EPM Centro Comercial Mayorca",
+    "address": "Avenida Carrera 49, Envigado, Sabaneta",
+    "lat": 6.164021554532301,
+    "lon": -75.60304156879889,
+    "network": "EPM",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-08T10:40:58Z",
+    "min_price_kwh_cop": 1300,
+    "max_price_kwh_cop": 1300,
+    "power_kw": 11.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 11.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1300
+      },
+      {
+        "type": "TIPO 1",
+        "level": 2,
+        "power_kw": 11.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1300
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:172",
+    "name": "Ache Charger Gran Centro El Parque",
+    "address": "carrera 19 entre calle 20 y 19",
+    "lat": 9.30370728199081,
+    "lon": -75.39493398299055,
+    "network": "Ache charger",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-06T02:45:14Z",
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 2000
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:173",
+    "name": "Terpel Voltex Rionegro",
+    "address": "Rionegro, Oriente, Antioquia",
+    "lat": 6.1536821452590456,
+    "lon": -75.39598124946816,
+    "network": "terpel, mubon",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-02T03:50:07Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:174",
+    "name": "EPM Centro Comercial Los Molinos",
+    "address": "calle 30a #82-26",
+    "lat": 6.232561582531217,
+    "lon": -75.6045182272849,
+    "network": "EPM",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-08-06T13:40:51Z",
+    "min_price_kwh_cop": 1222,
+    "max_price_kwh_cop": 1222,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1222
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1222
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:175",
+    "name": "EnelX Centro Comercial Plaza Imperial",
+    "address": "Calle 150A, Bosques de San Jorge, UPZs de Bogotá",
+    "lat": 4.749868662098444,
+    "lon": -74.09582108875556,
+    "network": "Enel X",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-06-08T16:03:28Z",
+    "min_price_kwh_cop": 1200,
+    "max_price_kwh_cop": 1200,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1200
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1200
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:176",
+    "name": "óptica Cio",
+    "address": "Calle 11, La Dorada, Magdalena Caldense",
+    "lat": 5.450690536156838,
+    "lon": -74.66382342547226,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-05-26T15:29:24Z",
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 1
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:177",
+    "name": "hotel living",
+    "address": "Carrera 5, La Dorada, Magdalena Caldense",
+    "lat": 5.4544871,
+    "lon": -74.6653384,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-05-26T14:59:09Z",
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 2
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:178",
+    "name": "dorada plaza",
+    "address": "Flota Magdalena S.A., Carrera 4, La Dorada",
+    "lat": 5.4526006,
+    "lon": -74.6639742,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-05-26T05:26:07Z",
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 2
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:179",
+    "name": "Centro Comercial Fontanar",
+    "address": "Calle 16C, Zentral, UPZs Localidad Fontibón",
+    "lat": 4.8854530086829895,
+    "lon": -74.03494165761394,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-05-18T12:59:12Z",
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 7.0,
+        "current": "DC",
+        "quantity": 1
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:180",
+    "name": "Alkosto Mosquera",
+    "address": "Ciudadela Novaterra, San José, Mosquera",
+    "lat": 4.7132908098465025,
+    "lon": -74.23731218141647,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-05-18T12:19:25Z",
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 2
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:181",
+    "name": "iConnex Centro Comercial Premium Plaza",
+    "address": "Cra. 43A #30-25, Av. El Poblado con Calle 30, Medellín, Antioquia",
+    "lat": 6.228734,
+    "lon": -75.570906,
+    "network": "iConnex",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-26T23:50:00Z",
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 4
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:182",
+    "name": "iConnex Florida Parque Comercial",
+    "address": "Cl. 71 #65-150, El Progreso, Medellín, Antioquia",
+    "lat": 6.271266,
+    "lon": -75.577582,
+    "network": "iConnex",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-26T23:50:00Z",
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 4
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:183",
+    "name": "iConnex Mercado del Río",
+    "address": "Cl. 24 #48-28, Ciudad del Río, Medellín, Antioquia",
+    "lat": 6.225714,
+    "lon": -75.575216,
+    "network": "iConnex",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-26T23:50:00Z",
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:184",
+    "name": "iConnex El Campestre",
+    "address": "Cl. 15c Sur #32B-22 (Smart Fit El Campestre), El Poblado, Medellín, Antioquia",
+    "lat": 6.187137,
+    "lon": -75.568754,
+    "network": "iConnex",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-26T23:50:00Z",
+    "power_kw": 60,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60,
+        "current": "DC",
+        "quantity": 2
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:185",
+    "name": "Toma cargador viajero Hotel Mawill",
+    "address": "Hotel Mawill, Autopista Medellín - Bogotá, Doradal",
+    "lat": 5.8985432,
+    "lon": -74.7364434,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-23T15:43:39Z",
+    "min_price_kwh_cop": 1500,
+    "max_price_kwh_cop": 1500,
+    "power_kw": 3.5,
+    "connectors": [
+      {
+        "type": "TOMA 220V",
+        "level": 1,
+        "power_kw": 3.5,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1500
+      }
+    ],
+    "provider": "WATTGO EV",
+    "outlet_only": true
+  },
+  {
+    "id": "manual:186",
+    "name": "Carga Verde Socorro",
+    "address": "Cra. 13 #45A #790, Socorro, Santander",
+    "lat": 6.4572978001832375,
+    "lon": -73.26539545049366,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-15T22:24:12Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 120,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 120,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 120,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:187",
+    "name": "EVX Magno",
+    "address": "El Gran Duque, Diagonal 15, La Concordia",
+    "lat": 7.110060756012274,
+    "lon": -73.1184586320016,
+    "network": "EVX",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-07T06:09:00Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 100.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 100,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 100,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:188",
+    "name": "Mubon Voltia Ecohub",
+    "address": "La Castellana, Comuna 8, Perímetro Urbano Montería",
+    "lat": 8.77169372123187,
+    "lon": -75.86630686440581,
+    "network": "Mubon",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-11-04T13:52:21Z",
+    "min_price_kwh_cop": 1700,
+    "max_price_kwh_cop": 1700,
+    "power_kw": 60.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 60.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1700
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:189",
+    "name": "casa i-8 san Fernando",
+    "address": "Avenida 11, San Fernando, Los Patios",
+    "lat": 7.8159761,
+    "lon": -72.5182486,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-20T16:44:23Z",
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:190",
+    "name": "Terpel Voltex Plazuela",
+    "address": "Avenida Kevin Ángel #60",
+    "lat": 5.061174020657692,
+    "lon": -75.48495380625961,
+    "network": "Terpel",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-14T23:45:47Z",
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
+    "power_kw": 80.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 80.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 80.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 80.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:191",
+    "name": "EVX Electrofast",
+    "address": "Carrera 16, San Miguel, Comuna 6 - La Concordia",
+    "lat": 7.1137665,
+    "lon": -73.1238873,
+    "network": "EVX",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-12T20:27:53Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 22,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "TIPO 1",
+        "level": 2,
+        "power_kw": 22,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:192",
+    "name": "Verde Café",
+    "address": "Carrera 13 9sur 189 Socorro , Santander",
+    "lat": 6.454891216198543,
+    "lon": -73.26547912973825,
+    "network": null,
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-10T12:21:20Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 100.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 100.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      },
+      {
+        "type": "CCS1",
+        "level": 3,
+        "power_kw": 100.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:193",
+    "name": "EnelX Hub 136 ($12.000 por hora)",
+    "address": "Cl 136 #18-82, Bogotá",
+    "lat": 4.7207085878701145,
+    "lon": -74.04600519278414,
+    "network": "Enel X",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-04T03:22:51Z",
+    "power_kw": 7.0,
+    "connectors": [
+      {
+        "type": "TIPO 1",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1
+      },
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.0,
+        "current": "AC",
+        "quantity": 1
+      }
+    ],
+    "provider": "WATTGO EV",
+    "price_per_hour_cop": 12000
+  },
+  {
+    "id": "manual:194",
+    "name": "EVE Electrolinera",
+    "address": "50 - 15, Avenida Calle 9, San Rafael Industrial",
+    "lat": 4.6264525,
+    "lon": -74.1079598,
+    "network": "EVE",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-30T15:28:27Z",
+    "min_price_kwh_cop": 1400,
+    "max_price_kwh_cop": 1400,
+    "power_kw": 50.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      },
+      {
+        "type": "TIPO 2",
+        "level": 2,
+        "power_kw": 22,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      },
+      {
+        "type": "GBT",
+        "level": 3,
+        "power_kw": 50.0,
+        "current": "DC",
+        "quantity": 1,
+        "price_kwh_cop": 1400
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:195",
+    "name": "EVINKA Primax Muzú",
+    "address": "Av. 27 Sur / Cl. 45a Sur #44-96, Puente Aranda, Bogotá",
+    "lat": 4.594305898646203,
+    "lon": -74.13096514760194,
+    "network": "Evinka",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-24T14:51:58Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 40.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:196",
+    "name": "EVINKA Mestizo Restaurant",
+    "address": "Vía Naranjal Cuenca sector Molleturo",
+    "lat": -2.7582121303699796,
+    "lon": -79.40186885893867,
+    "network": "Evinka",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-21T14:40:45Z",
+    "power_kw": 40.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_usd": 0.28
+      }
+    ],
+    "provider": "WATTGO EV",
+    "min_price_kwh_usd": 0.28,
+    "max_price_kwh_usd": 0.28,
+    "country": "EC"
+  },
+  {
+    "id": "manual:197",
+    "name": "TANDEM Centro Comercial Gran Bulevar",
+    "address": "Avenida 0 con calle 11 esquina",
+    "lat": 7.886222479843379,
+    "lon": -72.49835383764982,
+    "network": "Tándem",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-14T13:41:52Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 7.36,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.36,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:198",
+    "name": "EVINKA Centro Comercial Unicentro",
+    "address": "Centro comercial unicentro",
+    "lat": 4.8096127146867165,
+    "lon": -75.74109900589414,
+    "network": "Evinka",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-08-05T05:48:02Z",
+    "min_price_kwh_cop": 1800,
+    "max_price_kwh_cop": 1800,
+    "power_kw": 22.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 22.0,
+        "current": "DC",
+        "quantity": 3,
+        "price_kwh_cop": 1800
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:199",
+    "name": "TANDEM Supermercado Betel Boconó",
+    "address": "Avenida Boconó, Antigua vía a San Antonio",
+    "lat": 7.853307725010282,
+    "lon": -72.4663888678239,
+    "network": "Tándem",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-09-14T13:44:23Z",
+    "min_price_kwh_cop": 1750,
+    "max_price_kwh_cop": 1750,
+    "power_kw": 7.36,
+    "connectors": [
+      {
+        "type": "TIPO 2",
+        "level": 1,
+        "power_kw": 7.36,
+        "current": "AC",
+        "quantity": 1,
+        "price_kwh_cop": 1750
+      }
+    ],
+    "provider": "WATTGO EV"
+  },
+  {
+    "id": "manual:200",
+    "name": "go energy Estación de Servicio Av. 6W Neiva",
+    "address": "Av. 6W, Neiva, Huila",
+    "lat": 2.9447786673012315,
+    "lon": -75.30255641377396,
+    "network": "go energy",
+    "status": "Operational",
+    "is_operational": true,
+    "last_updated": "2026-10-09T04:09:57Z",
+    "min_price_kwh_cop": 2000,
+    "max_price_kwh_cop": 2000,
+    "power_kw": 40.0,
+    "connectors": [
+      {
+        "type": "CCS2",
+        "level": 3,
+        "power_kw": 40.0,
+        "current": "DC",
+        "quantity": 2,
+        "price_kwh_cop": 2000
       }
     ],
     "provider": "WATTGO EV"
